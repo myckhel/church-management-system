@@ -14,7 +14,8 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
+        $user = \Auth::user();
+        $events = Event::where('branch_id',$user->branchcode)->get();
         return view('calendar.index', compact('events'));
     }
 
@@ -52,7 +53,7 @@ class EventController extends Controller
             'location' => $request->get('location'),
             'time' => $request->get('time'),
             'by_who' => $request->get('by_who'),
-            'branch_id' => $request->get('branch_id'),
+            'branch_id' => $user = \Auth::user()->branchcode,
 
             // convert date to acceptable mysql format
             'date' => date('Y-m-d',strtotime($request->get('date'))),

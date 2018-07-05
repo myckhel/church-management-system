@@ -64,67 +64,18 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($users as $user)
                         <tr>
                             <td><span class="flag-icon flag-icon-ng"></span> </td>
-                            <td>Tiger Nixon</td>
+                            <td>{{$user->branchname}}</td>
                             <td>System Architect</td>
-                            <td>Edinburgh</td>
+                            <td>{{$user->branchcode}}</td>
                             <td>61</td>
                             <td>2011/04/25</td>
                             <td>$320,800</td>
                             <td>Mathew Ashimolowo</td>
                         </tr>
-                        <tr>
-                        <td><span class="flag-icon flag-icon-gb"></span> </td>
-                            <td>Lael Greer</td>
-                            <td>Systems Administrator</td>
-                            <td>London</td>
-                            <td>21</td>
-                            <td>2009/02/27</td>
-                            <td>$103,500</td>
-
-                            <td>Adedayo Aloa</td>
-                        </tr>
-                        <tr>
-                        <td><span class="flag-icon flag-icon-ng"></span> </td>
-                            <td>Jonas Alexander</td>
-                            <td>Developer</td>
-                            <td>San Francisco</td>
-                            <td>30</td>
-                            <td>2010/07/14</td>
-                            <td>$86,500</td>
-                            <td>Mathew Ashimolowo</td>
-                        </tr>
-                        <tr>
-                            <td><span class="flag-icon flag-icon-us"></span> </td>
-                            <td>Shad Decker</td>
-                            <td>Regional Director</td>
-                            <td>Edinburgh</td>
-                            <td>51</td>
-                            <td>2008/11/13</td>
-                            <td>$183,000</td>
-                            <td>Tayo Akinsola</td>
-                        </tr>
-                        <tr>
-                            <td><span class="flag-icon flag-icon-ng"></span> </td>
-                            <td>Michael Bruce</td>
-                            <td>Javascript Developer</td>
-                            <td>Singapore</td>
-                            <td>29</td>
-                            <td>2011/06/27</td>
-                            <td>$183,000</td>
-                            <td>Mathew Ashimolowo</td>
-                        </tr>
-                        <tr>
-                            <td><span class="flag-icon flag-icon-ng"></span> </td>
-                            <td>Donna Snider</td>
-                            <td>Customer Support</td>
-                            <td>New York</td>
-                            <td>27</td>
-                            <td>2011/01/25</td>
-                            <td>$112,000</td>
-                            <td>Grace Adedoyin</td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

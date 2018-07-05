@@ -603,8 +603,8 @@
 											<span class="pull-right dropdown-toggle">
 												<i class="dropdown-caret"></i>
 											</span>
-											<p class="mnp-name"><span class="flag-icon flag-icon-ng"></span> WINNERS CHAPEL - OTAA</p>
-											<p class="mnp-desc">BRANCH001</p>
+											<p class="mnp-name"><span class="flag-icon flag-icon-ng"></span> {{\Auth::user()->branchname}}</p>
+											<p class="mnp-desc">{{\Auth::user()->branchcode}}</p>
 										</a>
 									</div>
 
@@ -801,6 +801,7 @@
 
 										</ul>-->
 									</li>
+									@if (\Auth::user()->isAdmin())
 									<li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
 										<a href="{{ route('branches') }}">
 											<i class="fa fa-building-o"></i>
@@ -808,6 +809,7 @@
 											<!--<i class="arrow"></i>-->
 										</a>
 									</li>
+									@endif
 									<li class="{{Route::currentRouteName() === 'calendar' ? 'active-sub' : ''}}">
 										<a href="{{ route('calendar') }}">
 											<i class="fa fa-building-o"></i>

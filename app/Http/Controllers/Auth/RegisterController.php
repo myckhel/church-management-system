@@ -70,6 +70,7 @@ class RegisterController extends Controller
             'branchcode' => $data['branchcode'],
             'address' => $data['address'],
             'email' => $data['email'],
+            'isadmin' => 'true',
             'password' => Hash::make($data['password']),
         ]);
     }

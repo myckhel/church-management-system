@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Branch;
+use App\User;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
+    private $user;
+
+    public function __construct()
+    {
+        $this->user = \Auth::user();
+
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,10 @@ class BranchController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+
+        return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard') : view('branch.all',compact('users'));
+        
     }
 
     /**

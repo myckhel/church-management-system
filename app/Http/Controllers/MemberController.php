@@ -8,14 +8,15 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
-        /**
+    private $user;
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->user = \Auth::user();
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +25,9 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Member::all();
+        $user = \Auth::user();
+        $members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branchcode)->get();
+        //$members = Member::all();
         return view('members.all', compact('members'));
     }
 
@@ -35,8 +38,7 @@ class MemberController extends Controller
      */
     public function create()
     {
-        //$classes = TheClass::all();
-        //$sections = Section::all();
+
         return view('members.register', compact('classes', 'sections'));
     }
 
@@ -48,6 +50,8 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+        $user = \Auth::user();
+
         $relatives = null;
 
         // filter $_POST data for keys starting with 'relative'
@@ -95,7 +99,7 @@ class MemberController extends Controller
         }
 
         $member = new Member(array(
-            'branch_id' => 03,
+            'branch_id' => $user->branchcode,
             'title' => $request->get('title'),
             'firstname' => $request->get('firstname'),
             'lastname' => $request->get('lastname'),

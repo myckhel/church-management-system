@@ -84,7 +84,7 @@
 
         <!-- Basic Data Tables -->
         <!--===================================================-->
-        <div class="panel">
+        <div class="panel" style="display:none">
             <div class="panel-heading">
                 <h3 class="panel-title">List of Members in province004</h3>
             </div>

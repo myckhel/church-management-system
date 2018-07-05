@@ -35,6 +35,7 @@ class CollectionController extends Controller
      */
     public function store(Request $request)
     {
+        
         $this->validate($request, [
             'branch_id' => 'required|string|min:0',
             'amount' => 'required|numeric|min:0',
@@ -47,7 +48,7 @@ class CollectionController extends Controller
 
         // register collection
         $collection = new Collection(array(
-            'branch_id' => $request->get('branch_id'),
+            'branch_id' => $user = \Auth::user()->branchcode,
             'amount' => $request->get('amount'),
             'date_collected' => date('Y-m-d',strtotime($request->get('date'))),
             'type' => $request->get('type'),
@@ -110,7 +111,7 @@ class CollectionController extends Controller
     public function report()
     {
 
-        $sql = 'SELECT SUM(amount) AS amount, MONTH(date_collected) AS month, count(*) AS entries FROM `collections` GROUP BY month';
+        $sql = 'SELECT SUM(amount) AS amount, MONTH(date_collected) AS month, count(*) AS entries FROM `collections` WHERE branch_id = '.\Auth::user()->branchcode.' GROUP BY month';
         $collections = \DB::select($sql);
 
         

@@ -16,7 +16,8 @@ class AttendanceController extends Controller
      */
     public function index(Request $request)
     {
-        $members = \App\Member::all();
+        $user = \Auth::user();
+        //$members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branchcode)->get();
         $date = $request->date;
         return view('attendance.mark', compact('members', 'date'));
     }
@@ -39,6 +40,7 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
+        $user = \Auth::user();
 
         $this->validate($request, [
             'branch_id' => 'required|string|min:0',
@@ -50,7 +52,7 @@ class AttendanceController extends Controller
         ]);
 
         // check if attendnace has already been marked for that date
-        $attendance = Attendance::where('attendance_date', date('Y-m-d',strtotime($request->get('date'))) )->get(['id'])->count();
+        $attendance = Attendance::where('attendance_date', date('Y-m-d',strtotime($request->get('date'))) )->where('branch_id',$user->branchcode )->get(['id'])->count();
         if ($attendance > 0){
             return redirect()->route('attendance')->with('status', "**Attendance for {$this->get_date_in_words($request->get('date'))} has been saved for  before!");
         }
@@ -59,7 +61,7 @@ class AttendanceController extends Controller
 
         // register attendance
         $attendance = new Attendance(array(
-            'branch_id' => $request->get('branch_id'),
+            'branch_id' => $user->branchcode,
             'male' => $request->get('male'),
             'female' => $request->get('female'),
             'children' => $request->get('children'),
@@ -86,7 +88,8 @@ class AttendanceController extends Controller
      */
     public function show(Attendance $attendance, Request $request)
     {
-        $attendance = Attendance::where('attendance_date', date('Y-m-d',strtotime($request->get('date'))) )->first();
+        $user = \Auth::user();
+        $attendance = Attendance::where('attendance_date', date('Y-m-d',strtotime($request->get('date'))) )->where('branch_id',$user->branchcode )->first();
         if ($attendance)
         {
             $addedVariables = ['formatted_date'=>$request->get('date'), 'date_in_words'=>"{$this->get_date_in_words($attendance->attendance_date)}",'request_date'=>$request->date];

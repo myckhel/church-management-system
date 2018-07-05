@@ -26,9 +26,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/member/register', 'MemberController@store')->name('member.register');
     Route::get('/members/all', 'MemberController@index')->name('members.all');
     Route::get('/member/profile/{id}', 'MemberController@show')->name('member.profile');
-    Route::get('/branches', function () {
-        return view('branch.all');
-    })->name('branches');
+    Route::get('/branches', 'BranchController@index')->name('branches');
     Route::get('/attendance', function(){
         return view('attendance.mark');
     })->name('attendance');

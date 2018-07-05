@@ -75,9 +75,9 @@
 
 						<!--Static-->
 						<div class="form-group">
-							<label class="col-md-3 control-label" for="demo-readonly-input">Province</label>
+							<label class="col-md-3 control-label" for="demo-readonly-input">Branch Code</label>
 							<div class="col-md-9">
-								<input type="text" id="demo-readonly-input" value="Province003" class="form-control" placeholder="Readonly input here..." readonly>
+								<input type="text" id="demo-readonly-input" value="{{\Auth::user()->branchcode}}" class="form-control" placeholder="Readonly input here..." readonly>
 							</div>
 						</div>
 						<!--Text Input-->
