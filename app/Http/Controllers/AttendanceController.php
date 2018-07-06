@@ -136,4 +136,17 @@ class AttendanceController extends Controller
     {
         //
     }
+
+
+    public function analysis(){
+
+        $user = \Auth::user();
+
+        $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, MONTH(attendance_date) AS month FROM `attendances` WHERE branch_id = '.$user->branchcode.' GROUP BY month';
+        $attendances = \DB::select($sql);
+        $sql = 'SELECT SUM(male + female + children) AS total, MONTH(attendance_date) AS month FROM `attendances` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
+        $attendances2 = \DB::select($sql);
+
+        return view('attendance.analysis', compact('attendances','attendances2'));
+    }
 }

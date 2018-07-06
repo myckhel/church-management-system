@@ -71,6 +71,12 @@
                                                 </p>
                                                 <p>
                                                         <i class="demo-pli-old-telephone icon-lg icon-fw"></i>{{$member->phone}}</p>
+                                                        <p>
+                                                        <i class="demo-pli-old-telephon icon-lg icon-fw"></i>{{$member->address}}</p>
+                                                        <p>
+                                                        <i class="demo-pli-old-house icon-lg icon-fw"></i>{{$member->state}}</p>
+                                                        <p>
+                                                        <i class="demo-pli-old-teleph icon-lg icon-fw"></i>{{$member->country}}</p>
                                                 <p class="text-sm text-center">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore
                                                         magna aliquam erat volutpat.</p>
 

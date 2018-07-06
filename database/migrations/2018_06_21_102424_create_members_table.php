@@ -25,6 +25,9 @@ class CreateMembersTable extends Migration
             $table->string('occupation')->nullable();
             $table->enum('position',['senior pastor','pastor', 'elder','usher','member', 'chorister','technician','instrumentalist'])->default('member');
             $table->string('address')->nullable();
+            $table->string('address2')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
             $table->enum('sex', ['male', 'female']);
             $table->enum('marital_status', ['married', 'single'])->nullable();
             $table->string('member_since')->nullable();

@@ -24,7 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $events = Event::all();
+        $user = \Auth::user();
+        $events = $user->isAdmin() ? Event::all() : Event::where('branch_id', $user->branchcode)->get();
+        //$events = Event::all();
         return view('dashboard.index', compact('events'));
     }
 }

@@ -33,9 +33,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/attendance', 'AttendanceController@store')->name('attendance.selectDate');
     Route::post('/attendance/submit', 'AttendanceController@store')->name('attendance.submit');
     //Route::post('/attendance/mark/submit', 'AttendanceController@store')->name('attendance.mark.submit');
-    Route::get('/attendance/analysis', function () {
-        return view('attendance.analysis');
-    })->name('attendance.analysis');
+    Route::get('/attendance/analysis', 'AttendanceController@analysis')->name('attendance.analysis');
     Route::get('/attendance/view', function () {
         return view('attendance.view');
     })->name('attendance.view.form');

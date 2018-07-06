@@ -104,32 +104,33 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="demo-text-input">Firstname</label>
 							<div class="col-md-9">
-								<input type="text" id="demo-text-input" name="firstname" value="{{old('firstname')}}" class="form-control" placeholder="Text">
+								<input type="text" id="demo-text-input" name="firstname" value="{{old('firstname')}}" class="form-control" placeholder="Firstname" required>
+								
+							</div>
+						</div>
+												<!--Text Input-->
+												<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Lastname</label>
+							<div class="col-md-9">
+								<input type="text" id="demo-text-input" name="lastname" class="form-control" placeholder="Lastname" required>
 								
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="demo-text-input">Date Of Birth</label>
 							<div class="col-md-9">
-							<input  type="text" placeholder="Date of Birth" name="dob" class="datepicker form-control"/>
+							<input  type="text" placeholder="Date of Birth" name="dob" class="datepicker form-control" required/>
 								
 							</div>
 						</div>
 						
-						<!--Text Input-->
-						<div class="form-group">
-							<label class="col-md-3 control-label" for="demo-text-input">Lastname</label>
-							<div class="col-md-9">
-								<input type="text" id="demo-text-input" name="lastname" class="form-control" placeholder="Text">
-								
-							</div>
-						</div>
+
 
 						<!--Email Input-->
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="demo-email-input">Email</label>
 							<div class="col-md-9">
-								<input type="email" id="demo-email-input" class="form-control" name="email" placeholder="Enter your email">
+								<input type="email" id="demo-email-input" class="form-control" name="email" placeholder="Enter your email" required>
 								<small class="help-block">Please enter your email</small>
 							</div>
 						</div>
@@ -175,9 +176,27 @@
 
 						<!--Textarea-->
 						<div class="form-group">
-							<label class="col-md-3 control-label" for="demo-textarea-input">Address</label>
+							<label class="col-md-3 control-label" for="demo-textarea-input">Address I</label>
 							<div class="col-md-9">
-								<textarea id="demo-textarea-input" name="address" rows="9" class="form-control" placeholder="Your content here.."></textarea>
+								<textarea id="demo-textarea-input" name="address" rows="5" class="form-control" placeholder="Address I"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-textarea-input">Address II</label>
+							<div class="col-md-9">
+								<textarea id="demo-textarea-input" name="address2" rows="5" class="form-control" placeholder="Address II"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-textarea-input">State</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="state" placeholder="Enter memeber state">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-textarea-input">Country</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="country" placeholder="Enter member country">	
 							</div>
 						</div>
 

@@ -139,7 +139,7 @@
 					<a href="index.html" class="navbar-brand">
 						<img src="{{ URL::asset('img/logo.png') }}" alt="Nifty Logo" class="brand-icon">
 						<div class="brand-title">
-							<span class="brand-text">{{config('app.name')}}</span>
+							<span class="brand-text">{{strtoupper(\Auth::user()->branchname)}}</span>
 						</div>
 					</a>
 				</div>
@@ -206,24 +206,6 @@
 
 							<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right panel-default">
 								<ul class="head-list">
-									<li>
-										<a href="forms-general.html#">
-											<i class="demo-pli-male icon-lg icon-fw"></i> Profile</a>
-									</li>
-									<li>
-										<a href="forms-general.html#">
-											<span class="badge badge-danger pull-right">9</span>
-											<i class="demo-pli-mail icon-lg icon-fw"></i> Messages</a>
-									</li>
-									<li>
-										<a href="forms-general.html#">
-											<span class="label label-success pull-right">New</span>
-											<i class="demo-pli-gear icon-lg icon-fw"></i> Settings</a>
-									</li>
-									<li>
-										<a href="forms-general.html#">
-											<i class="demo-pli-computer-secure icon-lg icon-fw"></i> Lock screen</a>
-									</li>
 									<li>
 										
                                         <form method="POST" action="{{route('logout')}}">
@@ -1579,10 +1561,10 @@ $('#demo-calendar').fullCalendar({
             content: 'x: %x, y: %y'
         }
     });
-                </script>
-                @endif
-                @if (Route::currentRouteName() == ('attendance.analysis'))
-                <script>
+	</script>
+	@endif
+	@if (Route::currentRouteName() == ('attendance.analysis'))
+	<script>
 
     // FLOT LINE CHART
     // =================================================================
@@ -1591,14 +1573,44 @@ $('#demo-calendar').fullCalendar({
     // http://www.flotcharts.org/
     // =================================================================
 
-    var pageviews = [ [1, 1436], [2, 1395], [3, 1479], [4, 1595], [5, 1509], [6, 1550], [7, 1480], [8, 1390], [9, 1550], [10, 1400], [11, 1590], [12, 1436]],
-                visitor = [ [1, 1124], [2, 1183], [3, 1126], [4, 887], [5, 754], [6, 865], [7, 889], [8, 854], [9, 958], [10, 925], [11, 1056], [12, 984]],
-                women = [ [1, 1024], [2, 1283], [3, 1126], [4, 487], [5, 754], [6, 565], [7, 889], [8, 814], [9, 918], [10, 825], [11, 456], [12, 1084]];;
+    /*var menn = [ [1, 1436], [2, 1395], [3, 1479], [4, 1595], [5, 1509], [6, 1550], [7, 1480], [8, 1390], [9, 1550], [10, 1400], [11, 1590], [12, 1436]],
+                visitorr = [ [1, 1124], [2, 1183], [3, 1126], [4, 887], [5, 754], [6, 865], [7, 889], [8, 854], [9, 958], [10, 925], [11, 1056], [12, 984]],
+                womenr = [ [1, 1024], [2, 1283], [3, 1126], [4, 487], [5, 754], [6, 565], [7, 889], [8, 814], [9, 918], [10, 825], [11, 456], [12, 1084]];;*/
 
+
+	<?php $months = ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Now','Dec']; ?>
+	<?php $members = ['male','female','children']; ?>
+	<?php
+
+		foreach ($members as $member){
+			echo "var $member = [";
+
+			foreach ($months as $k => $month){
+				$month_num = $k+1;
+				$found = false;
+				foreach($attendances as $attendance){
+
+					if ($attendance->month == ($k+1) ){
+						$found = true;
+						echo'['.$month_num.','.$attendance->$member.' ],';
+					}
+				}
+
+				if (!$found){
+
+						echo "[$month_num,0],";
+
+				}
+			}
+			echo "]\n";
+		}
+
+	?>
+		
     var plot = $.plot('#demo-flot-line', [
         {
             label: 'Men',
-            data: pageviews,
+            data: male,
             lines: {
                 show: true,
                 lineWidth: 1,
@@ -1611,7 +1623,7 @@ $('#demo-calendar').fullCalendar({
             },
         {
             label: 'Women',
-            data: women,
+            data: female,
             lines: {
                 show: true,
                 lineWidth: 1,
@@ -1624,7 +1636,7 @@ $('#demo-calendar').fullCalendar({
                         },
                         {
             label: 'Children',
-            data: visitor,
+            data: children,
             lines: {
                 show: true,
                 lineWidth: 1,
@@ -1669,10 +1681,83 @@ $('#demo-calendar').fullCalendar({
             content: 'x: %x, y: %y'
         }
     });
-                </script>
-                @endif
-                @if (Route::currentRouteName() == 'attendance.analysis' || Route::currentRouteName() ==  'member.profile'))
-                <script>
+
+
+	// FLOT BAR CHART
+    // =================================================================
+    // Require Flot Charts
+    // -----------------------------------------------------------------
+    // http://www.flotcharts.org/
+    // =================================================================
+    var data = [[1, 10], [2, 8], [3, 4], [4, 13], [5, 17], [6, 9], [7, 12], [8, 15], [9, 9], [10, 15]];
+	var data = [
+
+	<?php $months = ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Now','Dec']; ?>
+	<?php
+	foreach ($months as $k => $month){
+		$month_num = $k+1;
+		$found = false;
+		foreach($attendances2 as $attendance){
+
+			if ($attendance->month == ($k+1) ){
+				$found = true;
+				echo"[$month_num,$attendance->total ],";
+			}
+		}
+
+		if (!$found){
+
+				echo "[$month_num,0],";
+
+		}
+	}
+
+	?>
+	];
+
+    $.plot('#demo-flot-bar', [data], {
+        series: {
+            bars: {
+                show: true,
+                barWidth: 0.6,
+                fill: true,
+                fillColor: {
+                    colors: [{
+                        opacity: 0.9
+                    }, {
+                        opacity: 0.9
+                    }]
+                }
+            }
+        },
+        colors: ['#9B59B6'],
+        yaxis: {
+            ticks: 5,
+            tickColor: 'rgba(0,0,0,.1)'
+        },
+        xaxis: {
+            ticks: 7,
+            tickColor: 'transparent'
+        },
+        grid: {
+            hoverable: true,
+            clickable: true,
+            tickColor: '#eeeeee',
+            borderWidth: 0
+        },
+        legend: {
+            show: true,
+            position: 'nw'
+        },
+        tooltip: {
+            show: true,
+            content: 'x: %x, y: %y'
+        }
+    });
+	</script>
+	@endif
+	@if ( Route::currentRouteName() ==  'member.profile'))
+	<script>
 
 
 		   // FLOT BAR CHART

@@ -109,6 +109,9 @@ class MemberController extends Controller
             'occupation' => $request->get('occupation'),
             'position' => $request->get('position'),
             'address' => $request->get('address'),
+            'address2' => $request->get('address2'),
+            'state' => $request->get('state'),
+            'country' => $request->get('country'),
             'sex' => $request->get('sex'),
             'marital_status' => $request->get('marital_status'),
             'member_since' => $request->get('member_since'),
@@ -231,7 +234,9 @@ class MemberController extends Controller
 
     public function getRelative(Request $request, $search_term){
 
-        $sql = 'SELECT * from members WHERE MATCH (firstname,lastname)
+        $user = \Auth::user();
+
+        $sql = 'SELECT * from members WHERE branch_id = '.$user->branchcode.' AND  MATCH (firstname,lastname)
         AGAINST (\''.$search_term.'\')';
         $members = \DB::select($sql);
 

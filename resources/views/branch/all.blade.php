@@ -55,10 +55,8 @@
                         <tr>
                             <th>Country</th>
                             <th>Branch Name</th>
-                            <th>Province</th>
+                            <th>Address</th>
                             <th class="min-tablet">Branch Code</th>
-                            <th class="min-tablet">State</th>
-                            <th class="min-desktop">City</th>
                             <th class="min-desktop">Country</th>
                             <th class="min-desktop">Pastor in Charge</th>
                         </tr>
@@ -68,11 +66,9 @@
                         <tr>
                             <td><span class="flag-icon flag-icon-ng"></span> </td>
                             <td>{{$user->branchname}}</td>
-                            <td>System Architect</td>
+                            <td>{{$user->address}}</td>
                             <td>{{$user->branchcode}}</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
+                            <td><?php echo $user->isAdmin() ? '<strong>HeadQuaters</strong>' : 'Branch Church'; ?></td>
                             <td>Mathew Ashimolowo</td>
                         </tr>
                         @endforeach
