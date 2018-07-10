@@ -50,11 +50,17 @@ class AttendanceController extends Controller
             'date' => 'required|date ',
 
         ]);
+        
+        $split_date_array = explode("-",$request->get('date'));
+        if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
+        {
+            return redirect()->back()->with('status', "**You can't save attendance for a future date!");
+        }
 
         // check if attendnace has already been marked for that date
         $attendance = Attendance::where('attendance_date', date('Y-m-d',strtotime($request->get('date'))) )->where('branch_id',$user->branchcode )->get(['id'])->count();
         if ($attendance > 0){
-            return redirect()->route('attendance')->with('status', "**Attendance for {$this->get_date_in_words($request->get('date'))} has been saved for  before!");
+            return redirect()->route('attendance')->with('status', "**Attendance for {$this->get_date_in_words($request->get('date'))} has been saved before!");
         }
 
 
@@ -71,7 +77,7 @@ class AttendanceController extends Controller
         ));
         $attendance->save();
 
-        return redirect()->route('attendance')->with('status', 'Attendance successfully saved');
+        return redirect()->route('attendance.view.form')->with('status', 'Attendance successfully saved');
     }
     private function get_date_in_words($date)
     {

@@ -19,8 +19,7 @@ class CreateCollectionsTable extends Migration
             //$table->integer('member_id')->index('member_id_index');
             $table->bigInteger('amount');
             $table->string('date');
-            $table->enum('type',['offering', 'donation','tithe', 'special','other']);
-            $table->timestamps();
+            $table->enum('type',['offering', 'donation','tithe', 'special','first fruit', 'covenant seed','love seed','sacrifice','thanksgiving','other']);
         });
     }
 

@@ -87,6 +87,7 @@
 								<select name="title" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-4" style="padding-left:0px !important" data-style="btn-primary">
 									<option value="Mr">Mr</option>
 									<option value="Mrs">Mrs</option>
+									<option value="Miss">Miss</option>
 									<option value="Dr">Dr</option>
 									<option value="Dr (Mrs)">Dr (Mrs)</option>
 									<option value="Chief">Chief</option>
@@ -95,7 +96,7 @@
 									<option value="Elder">Elder</option>
 									<option value="Surveyor"> Surveyor</option>
 									<option value="Oba">Oba</option>
-									<option value="Olori">Olori</option>
+									<option value="Olori">Olori</option> 
 								</select>
 							</div>
 						</div>
@@ -137,14 +138,14 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="demo-email-input">Phone Number</label>
 							<div class="col-md-9">
-								<input type="number" class="form-control" name="phone" placeholder="Enter your phone number">
+								<input type="number" class="form-control" name="phone" placeholder="Enter your phone number" required>
 							</div>
 						</div>
 						<!--Text Input-->
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="demo-text-input">Occupation</label>
 							<div class="col-md-9">
-								<select name="occupation" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-4" data-style="btn-success">
+								<select name="occupation" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-4" data-style="btn-success" required>
 									<option value="Doctor">Doctor</option>
 									<option value="Engineer">Engineer</option>
 									<option value="Surveyor">Surveyor</option>
@@ -169,6 +170,11 @@
 									<option value="elder">Elder</option>
 									<option value="technician">Technician</option>
 									<option value="insrumentalist">Instrumentalist</option>
+									<option value="deacon">Deacon</option>
+									<option value="deaconess">Deaconess</option>
+									<option value="evangelist">Evangelist</option>
+									<option value="minister">Minister</option>
+									<option value="protocol">Protocol</option>
 								</select>
 							</div>
 						</div>
@@ -178,7 +184,7 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="demo-textarea-input">Address I</label>
 							<div class="col-md-9">
-								<textarea id="demo-textarea-input" name="address" rows="5" class="form-control" placeholder="Address I"></textarea>
+								<textarea id="demo-textarea-input" name="address" rows="5" class="form-control" placeholder="Address I" required></textarea>
 							</div>
 						</div>
 						<div class="form-group">
@@ -190,13 +196,13 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="demo-textarea-input">State</label>
 							<div class="col-md-9">
-								<input type="text" class="form-control" name="state" placeholder="Enter memeber state">
+								<input type="text" class="form-control" name="state" placeholder="Enter memeber state" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="demo-textarea-input">Country</label>
 							<div class="col-md-9">
-								<input type="text" class="form-control" name="country" placeholder="Enter member country">	
+								<input type="text" class="form-control" name="country" placeholder="Enter member country" required>	
 							</div>
 						</div>
 
@@ -238,9 +244,9 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-3 control-label" for="demo-text-input">Memebr Since</label>
+							<label class="col-md-3 control-label" for="demo-text-input">Member Since</label>
 							<div class="col-md-9">
-							<input  type="text" placeholder="Date of Birth" name="member_since" class="datepicker form-control"/>
+							<input  type="text" placeholder="Member Since" name="member_since" class="datepicker form-control" required/>
 								
 							</div>
 						</div>

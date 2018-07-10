@@ -16,14 +16,14 @@ class CreateMembersTable extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('branch_id')->index('branch_id_index');
-            $table->enum('title', ['Mr', 'Mrs', 'Dr (Mrs)', 'Dr', 'Prof', 'Chief', 'Chief (Mrs)', 'Engr', 'Surveyor', 'HRH']);
+            $table->enum('title', ['Mr', 'Mrs', 'Miss','Dr (Mrs)', 'Dr', 'Prof', 'Chief', 'Chief (Mrs)', 'Engr', 'Surveyor', 'HRH','Elder','Oba','Olori']);
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
             $table->string('email', 30)->unique();
             $table->string('dob')->nullable();
             $table->string('phone')->nullable();
             $table->string('occupation')->nullable();
-            $table->enum('position',['senior pastor','pastor', 'elder','usher','member', 'chorister','technician','instrumentalist'])->default('member');
+            $table->enum('position',['senior pastor','pastor', 'elder','usher','member', 'chorister','technician','instrumentalist', 'deacon','deaconess','evangelist','minister','protocol'])->default('member');
             $table->string('address')->nullable();
             $table->string('address2')->nullable();
             $table->string('state')->nullable();

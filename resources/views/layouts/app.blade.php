@@ -1840,7 +1840,7 @@ function add_relative(id, name) {
 				<div class="col-md-9">
                                 <input  value="${name}" readonly>
                                 <input name="relative_${id}" value="${id}" hidden=hidden>
-				<select name="relationship_${id}" class="selectpicker" style="border:1px solid #ccc;display:inline !important;outline:none" data-style="btn-success">
+				<select name="relationship_${id}" class="selectpicker" style="border:1px solid #ccc;display:inline !important;outline:none" data-style="btn-success" required>
 				<option value="relative">Relationship</option>
 					<option value="husband">Husband</option>
 					<option value="wife">Wife</option>
@@ -1848,6 +1848,8 @@ function add_relative(id, name) {
 					<option value="sister">Sister</option>
 					<option value="father">Father</option>
 					<option value="mother">Mother</option>
+					<option value="son">Son</option>
+					<option value="daughter">Daughter</option>
 				</select>
 				<button  class="btn btn-xs btn-danger"type="button" onClick="remove_relative(${id})">Remove Relative</button>
 				</div>
