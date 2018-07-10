@@ -69,30 +69,32 @@
                         <input name="branch_id" value="3" type="text" hidden="hidden"/>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label class="control-label">Male</label>
-                                        <input type="number" name="male" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="control-label">Female</label>
-                                        <input type="number" name="female" class="form-control">
+                                        <label class="control-label">Date</label>
+                                        <input type="date" name="date" class="form-control">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="control-label">Children</label>
-                                        <input type="number" name="children" class="form-control">
+                                        <label class="control-label">Male</label>
+                                        <input type="number" min=0 name="male" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="control-label">Date</label>
-                                        <input type="date" name="date" class="form-control">
+                                        <label class="control-label">Female</label>
+                                        <input type="number" min=0 name="female" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-offset-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Children</label>
+                                        <input type="number" min=0 name="children" class="form-control">
                                     </div>
                                 </div>
                             </div>

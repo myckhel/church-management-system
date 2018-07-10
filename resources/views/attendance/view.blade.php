@@ -67,7 +67,7 @@ if (isset($addedVariables)) extract($addedVariables);
             ?>px">
                 <div class="panel">
                     <div class="panel-heading">
-                        <h3 class="panel-title">View Attendnace for Province 003</h3>
+                        <h3 class="panel-title">View Attendance for Province 003</h3>
                     </div>
         
                     <!--Block Styled Form -->
@@ -105,7 +105,7 @@ if (isset($addedVariables)) extract($addedVariables);
                             <div class="text-lg">
                                 <p class="text-5x text-thin text-main">{{$attendance->getTotal()}}</p>
                             </div>
-                            <p class="text-sm text-bold text-uppercase">Total Attendnace</p>
+                            <p class="text-sm text-bold text-uppercase">Total Attendance</p>
                         </div>
                         <div class="col-sm-8">
                             <!--<button class="btn btn-pink mar-ver">View Details</button>

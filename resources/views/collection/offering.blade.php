@@ -110,6 +110,11 @@
 									<option value="donation">Donation</option>
 									<option value="tithe">Tithe</option>
                                     <option value="special">Special Offering</option>
+                                    <option value="first fruit">First Fruit</option>
+                                    <option value="covenant seed">Covenant Seed</option>
+                                    <option value="love seed">Love Seed</option>
+                                    <option value="sacrifice">Sacrifice</option>
+                                    <option value="thanksgiving seed">Thanksgiving Seed</option>
 									<option value="other">Other</option>
 								</select>
 							</div>
