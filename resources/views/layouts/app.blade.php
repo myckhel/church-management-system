@@ -783,6 +783,13 @@
 
 										</ul>-->
 									</li>
+									<li class="{{Route::currentRouteName() === 'groups' ? 'active-sub' : ''}}">
+										<a href="{{ route('groups') }}">
+											<i class="fa fa-users"></i>
+											<span class="menu-title">Small Groups</span>
+											<!--<i class="arrow"></i>-->
+										</a>
+									</li>
 									@if (\Auth::user()->isAdmin())
 									<li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
 										<a href="{{ route('branches') }}">
@@ -794,7 +801,7 @@
 									@endif
 									<li class="{{Route::currentRouteName() === 'calendar' ? 'active-sub' : ''}}">
 										<a href="{{ route('calendar') }}">
-											<i class="fa fa-building-o"></i>
+											<i class="fa fa-calendar"></i>
 											<span class="menu-title">Calendar & Events</span>
 											<!--<i class="arrow"></i>-->
 										</a>

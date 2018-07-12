@@ -46,6 +46,14 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/calendar', 'EventController@index')->name('calendar');
     Route::post('/calendar', 'EventController@store')->name('calendar.update');
     Route::get('/get-relative/{search_term}', 'MemberController@getRelative')->name('relative');
+
+
+    Route::get('/groups', 'GroupController@index')->name('groups');
+    Route::post('/group/create', 'GroupController@store')->name('group.create');
+    Route::get('/group/{id}', 'GroupController@show')->name('group.view');
+    Route::post('group/{id}/add', 'GroupController@add_member')->name('group.add.member');
+    Route::get('group/{id}/delete', 'GroupController@destroy')->name('group.delete');
+    Route::get('group/{id}/{group_id}/remove', 'GroupController@remove_member')->name('group.remove.member');
 });
 
 Route::get('/admin/login', function () {
