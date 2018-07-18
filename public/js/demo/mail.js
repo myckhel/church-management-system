@@ -77,6 +77,11 @@ $(document).on('nifty.ready', function() {
         return;
     }
 
+    $('textarea').attr('name','message')
+    $('.note-editable.panel-body').on('keyup', function(){
+        console.log(this.html())
+    })
+
 
 
 

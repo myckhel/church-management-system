@@ -33,6 +33,10 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css" rel="stylesheet">
         @endif
 	<!--=================================================-->
+	@if (Route::currentRouteName() == ('email'))
+	    <!--Summernote [ OPTIONAL ]-->
+		<link href="{{ URL::asset('plugins/summernote/summernote.min.css')}}" rel="stylesheet">
+		@endif
 
 
 
@@ -787,8 +791,24 @@
 										<a href="{{ route('groups') }}">
 											<i class="fa fa-users"></i>
 											<span class="menu-title">Small Groups</span>
-											<!--<i class="arrow"></i>-->
+											
 										</a>
+									</li>
+									<li class="{{Route::currentRouteName() === 'messaging' ? 'active-sub' : ''}}">
+										<a href="#">
+											<i class="fa fa-envelope"></i>
+											<span class="menu-title">Messaging</span>
+											<i class="arrow"></i>
+										</a>
+										<ul class="collapse">
+											<li>
+												<a href="{{route('email')}}">Email</a>
+											</li>
+											<li>
+												<a href="{{route('attendance')}}">Bulk SMS</a>
+											</li>
+
+										</ul>
 									</li>
 									@if (\Auth::user()->isAdmin())
 									<li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
@@ -1896,6 +1916,35 @@ e">Select Relative</button></div>
 	})
 })
 </script>
+	@if (Route::currentRouteName() == ('email'))
+    <!--Summernote [ OPTIONAL ]-->
+    <script src="{{ URL::asset('plugins/summernote/summernote.min.js')}}"></script>
+
+
+    <!--Mail [ SAMPLE ]-->
+    <script src="{{ URL::asset('js/demo/mail.js')}}"></script>
+
+	<script>
+	let shouldSubmit = false;
+
+	$('#send-mail-form').on('submit', function(e){
+
+		if (!shouldSubmit) e.preventDefault();
+		if (shouldSubmit) return;
+
+		let message = $('.note-editable.panel-body').html();
+
+		$('#message-textarea').html(message);
+
+		shouldSubmit = true;
+
+		$('#send-mail-form').trigger('submit');
+
+	})
+										
+	</script>
+					
+@endif
 
 
 </body>

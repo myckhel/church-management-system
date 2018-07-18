@@ -58,6 +58,7 @@
                                                                 <a href="app-profile.html#" class="btn btn-icon demo-pli-instagram icon-lg add-tooltip" data-original-title="Instagram" data-container="body"></a>
                                                         </div>
                                                         <a href="tel:{{$member->phone}}" class="btn  btn-success btn-md">Call</a>
+                                                        <a href="{{route('email')}}?mail={{$member->email}}" class="btn  btn-primary btn-md">Email</a>
                                                 </div>
                                                 <hr>
 

@@ -54,6 +54,12 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('group/{id}/add', 'GroupController@add_member')->name('group.add.member');
     Route::get('group/{id}/delete', 'GroupController@destroy')->name('group.delete');
     Route::get('group/{id}/{group_id}/remove', 'GroupController@remove_member')->name('group.remove.member');
+
+
+    Route::get('/messaging/email', 'MessagingController@indexEmail')->name('email');
+    Route::get('/messaging/sms', 'MessagingController@indexSMS')->name('sms');
+    Route::post('/messaging/email/send', 'MessagingController@sendEmail')->name('sendMail');
+    Route::post('/messaging/sms/send', 'MessagingController@sendSMS')->name('sendSMS');
 });
 
 Route::get('/admin/login', function () {
