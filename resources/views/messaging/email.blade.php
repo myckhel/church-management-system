@@ -145,7 +145,7 @@
 
 					                            <label class="col-lg-1 control-label text-left"  for="inputEmail">To</label>
 					                            <div class="col-lg-11">
-					                                <input type="email" id="inputEmail" name="to" value="<?= $_GET['mail']; ?> " class="form-control">
+					                                <input type="email" id="inputEmail" name="to" value="<?php echo isset($_GET['mail']) ? $_GET['mail'] : "" ; ?> " class="form-control">
 					                            </div>
 					                        </div>
 					                        <div id="demo-cc-input" class="hide form-group">
