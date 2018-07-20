@@ -84,7 +84,7 @@ class MemberController extends Controller
 
 
         ]);
-        $image_name = 'profile.png';
+        $image_name = 'profile.png'; // default profile image
         if ($request->hasFile('photo'))
         {
             $image = $request->file('photo');
@@ -115,6 +115,7 @@ class MemberController extends Controller
             'sex' => $request->get('sex'),
             'marital_status' => $request->get('marital_status'),
             'member_since' => $request->get('member_since'),
+            'wedding_anniversary' => $request->get('wedding_anniversary'),
             'photo' => $image_name,
             'relative' => $relatives
         ));

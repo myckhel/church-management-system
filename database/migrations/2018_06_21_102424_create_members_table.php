@@ -31,6 +31,7 @@ class CreateMembersTable extends Migration
             $table->enum('sex', ['male', 'female']);
             $table->enum('marital_status', ['married', 'single'])->nullable();
             $table->string('member_since')->nullable();
+            $table->string('wedding_anniversary')->nullable();
             $table->string('photo');
             $table->string('relative')->nullable();
             $table->timestamps();

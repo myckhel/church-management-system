@@ -38,6 +38,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
         return view('attendance.view');
     })->name('attendance.view.form');
     Route::post('/attendance/view', 'AttendanceController@show')->name('attendance.view');
+    Route::get('/attendance/view/{date}', 'AttendanceController@show')->name('attendance.view.custom');
     Route::get('/collection/offering', function () {
         return view('collection.offering');
     })->name('collection.offering');

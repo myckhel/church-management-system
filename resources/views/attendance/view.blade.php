@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') All Members @endsection
+@section('title') {{\Auth::user()->branchname}}{{\Auth::user()->branchcode}}: Attendance Report @endsection
 
 @section('content')
 <?php
@@ -67,7 +67,7 @@ if (isset($addedVariables)) extract($addedVariables);
             ?>px">
                 <div class="panel">
                     <div class="panel-heading">
-                        <h3 class="panel-title">View Attendance for Province 003</h3>
+                        <h3 class="panel-title">View Attendance for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
                     </div>
         
                     <!--Block Styled Form -->
@@ -98,7 +98,7 @@ if (isset($addedVariables)) extract($addedVariables);
             <div class="col-md-offset-3 col-md-6" style="margin-bottom:350px">
                 <div class="panel">
                 <div class="panel-heading">
-                        <h3 class="panel-title">Province002 Attendance Report for {{$date_in_words}}</h3>
+                        <h3 class="panel-title"><strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong>: Attendance Report for {{$date_in_words}}</h3>
                     </div>
                     <div class="panel-body text-center clearfix">
                         <div class="col-sm-4 pad-top">

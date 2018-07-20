@@ -19,6 +19,8 @@ class CreateAttendancesTable extends Migration
             $table->bigInteger('male');
             $table->bigInteger('female');
             $table->bigInteger('children');
+            $table->enum('type',['sunday service', 'wednessday service', 'thursday service']);
+            $table->string('custom_type')->nullable();
             $table->string('attendance_date');
             $table->timestamps();
         });

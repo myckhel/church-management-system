@@ -169,12 +169,13 @@
 									<option value="chorister">Chorister</option>
 									<option value="elder">Elder</option>
 									<option value="technician">Technician</option>
-									<option value="insrumentalist">Instrumentalist</option>
+									<option value="instrumentalist">Instrumentalist</option>
 									<option value="deacon">Deacon</option>
 									<option value="deaconess">Deaconess</option>
 									<option value="evangelist">Evangelist</option>
 									<option value="minister">Minister</option>
 									<option value="protocol">Protocol</option>
+									<option value="hod">HOD</option>
 								</select>
 							</div>
 						</div>
@@ -247,6 +248,13 @@
 							<label class="col-md-3 control-label" for="demo-text-input">Member Since</label>
 							<div class="col-md-9">
 							<input  type="text" placeholder="Member Since" name="member_since" class="datepicker form-control" required/>
+								
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="demo-text-input">Wedding Aniversary</label>
+							<div class="col-md-9">
+							<input  type="text" placeholder="Wedding Anniversary" name="wedding_anniversary" class="datepicker form-control" required/>
 								
 							</div>
 						</div>

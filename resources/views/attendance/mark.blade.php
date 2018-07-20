@@ -59,7 +59,7 @@
             <div class="col-sm-6 col-sm-offset-3" style="margin-bottom:420px">
                 <div class="panel">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Attendnace for Province 003</h3>
+                        <h3 class="panel-title">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
                     </div>
         
                     <!--Block Styled Form -->
@@ -91,10 +91,30 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6 col-sm-offset-3">
+                                <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Children</label>
                                         <input type="number" min=0 name="children" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Attendance Type</label>
+                                    
+                                        <select name="type" class="selectpicker" data-style="btn-success">
+                                            <option value="sunday service" selected>Sunday Service</option>
+                                            <option value="wednessday service">Wednessday Service</option>
+                                            <option value="thursday service">Thursday Service</option>
+                                        </select>
+                                    
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Other Attendance Type</label>
+                                        <input type="text" name="custom_type" class="form-control">
                                     </div>
                                 </div>
                             </div>

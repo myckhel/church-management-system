@@ -64,25 +64,44 @@ class AttendanceController extends Controller
         }
 
 
-
+        // convert date to acceptable mysql format
+        $dateToSave = date('Y-m-d',strtotime($request->get('date')));
         // register attendance
         $attendance = new Attendance(array(
             'branch_id' => $user->branchcode,
             'male' => $request->get('male'),
             'female' => $request->get('female'),
             'children' => $request->get('children'),
+            'type' => $request->get('type'),
+            'custom_type' => $request->get('custom_type'),
 
-            // convert date to acceptable mysql format
-            'attendance_date' => date('Y-m-d',strtotime($request->get('date'))),
+            
+            'attendance_date' => $dateToSave,
         ));
         $attendance->save();
 
-        return redirect()->route('attendance.view.form')->with('status', 'Attendance successfully saved');
+        return redirect()->route('attendance.view.custom', $dateToSave )->with('status', 'Attendance successfully saved');
     }
     private function get_date_in_words($date)
     {
         $split_date_array = explode("-",$date);
         return Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->format('l, jS \\of F Y');
+
+    }
+
+    public function showByDate($date){
+
+        $user = \Auth::user();
+        $attendance = Attendance::where('attendance_date', $date )->where('branch_id',$user->branchcode )->first();
+        if ($attendance)
+        {
+            $addedVariables = ['formatted_date'=>$request->get('date'), 'date_in_words'=>"{$this->get_date_in_words($attendance->attendance_date)}",'request_date'=>$request->date];
+            return view('attendance.view', compact('attendance','addedVariables' ) );
+        }
+        else
+        {
+            return redirect()->route('attendance.view.form')->with('status',"{$date} No attendance for {$date}");
+        }
 
     }
 
@@ -92,18 +111,20 @@ class AttendanceController extends Controller
      * @param  \App\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function show(Attendance $attendance, Request $request)
+    public function show(Attendance $attendance, Request $request, $date="")
     {
         $user = \Auth::user();
-        $attendance = Attendance::where('attendance_date', date('Y-m-d',strtotime($request->get('date'))) )->where('branch_id',$user->branchcode )->first();
+        $convertedDate = date('Y-m-d',strtotime($request->get('date')));
+        $thedate = (!empty($date) && strlen($date) > 2) ? $date : $convertedDate;
+        $attendance = Attendance::where('attendance_date', $thedate )->where('branch_id',$user->branchcode )->first();
         if ($attendance)
         {
-            $addedVariables = ['formatted_date'=>$request->get('date'), 'date_in_words'=>"{$this->get_date_in_words($attendance->attendance_date)}",'request_date'=>$request->date];
+            $addedVariables = ['formatted_date'=>$thedate, 'date_in_words'=>"{$this->get_date_in_words($attendance->attendance_date)}",'request_date'=>$request->date];
             return view('attendance.view', compact('attendance','addedVariables' ) );
         }
         else
         {
-            return redirect()->route('attendance.view.form')->with('status',"No attendance for {$this->get_date_in_words($request->get('date'))}");
+            return redirect()->route('attendance.view.form')->with('status',"{$thedate} No attendance for {$this->get_date_in_words($request->get('date'))}");
         }
 
 
