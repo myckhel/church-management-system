@@ -169,18 +169,37 @@ class AttendanceController extends Controller
 
         $user = \Auth::user();
 
-        $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, MONTH(attendance_date) AS month FROM `attendances` WHERE branch_id = '.$user->branchcode.' GROUP BY month';
+        /*$sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, MONTH(attendance_date) AS month FROM `attendances` WHERE branch_id = '.$user->branchcode.' GROUP BY month';
         $attendances = \DB::select($sql);
         $sql = 'SELECT SUM(male + female + children) AS total, MONTH(attendance_date) AS month FROM `attendances` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
         $attendances2 = \DB::select($sql);
         $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, WEEK(attendance_date) AS week FROM `attendances` WHERE branch_id = '.$user->branchcode.' GROUP BY week';
         $attendances3 = \DB::select($sql);
         $sql = 'SELECT SUM(male + female + children) AS total, MONTH(attendance_date) AS month FROM `attendances` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
+        $attendances4 = \DB::select($sql);*/
+        //month
+        $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
+        MONTH(attendance_date) AS month FROM `attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND branch_id = '.$user->branchcode.' GROUP BY month';
+        $attendances = \DB::select($sql);
+        //day
+        $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
+        DAYOFWEEK(attendance_date) AS day FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 7 DAY) AND branch_id = '.$user->branchcode.' GROUP BY day';
+        $attendances2 = \DB::select($sql);
+
+        //Week
+        $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
+        WEEK(attendance_date) AS week FROM `attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND attendance_date >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = '.$user->branchcode.' GROUP BY week';
+        $attendances3 = \DB::select($sql);
+
+        //Year
+        $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
+        YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '.$user->branchcode.' GROUP BY year';
         $attendances4 = \DB::select($sql);
 
-        return view('attendance.analysis', compact('attendances','attendances2','attendances3','attendances4'));
+        return view('attendance.analysis', compact('attendances', 'attendances2', 'attendances3', 'attendances4'));
     }
-
+//WEEK(attendance_date) = (WEEK(attendance_date, 3) -
+//WEEK(attendance_date - INTERVAL DAY(attendance_date)-1 DAY, 3) + 1)  YEAR(attendance_date) = YEAR(CURDATE())
     //form view
     public function view(){
       $user = \Auth::user();

@@ -103,7 +103,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Attendance Type</label>
 
-                                        <select name="type" class="selectpicker" data-style="btn-success">
+                                        <select id="mark-select" name="type" class="selectpicker" data-style="btn-success">
                                             <option value="sunday service" selected>Sunday Service</option>
                                             <option value="wednessday service">Wednessday Service</option>
                                             <option value="thursday service">Thursday Service</option>

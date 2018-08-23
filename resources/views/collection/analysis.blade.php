@@ -42,11 +42,11 @@
     <div id="page-content">
     <div class="row">
 
-					        <div class="col-md-6">
+					        <!--div class="col-md-6">
 
 					            <!-- Line Chart -->
 					            <!---------------------------------->
-					            <div class="panel">
+					            <!--div class="panel">
 					                <div class="panel-heading">
 					                    <h3 class="panel-title">Attendance by Month</h3>
 					                </div>
@@ -57,12 +57,12 @@
 					            <!---------------------------------->
 
 
-                            </div>
-                            <div class="col-md-6">
+                    <!--/div-->
+                            <!--div class="col-md-6">
 
                     <!-- Bar Chart -->
                     <!---------------------------------->
-                    <div class="panel">
+                    <!--div class="panel">
                         <div class="panel-heading">
                             <h3 class="panel-title">Total Monthly Attendance</h3>
                         </div>
@@ -73,17 +73,17 @@
                     <!---------------------------------->
 
 
-                </div>
+                <!--/div-->
 
-					    </div>
+					    <!--/div-->
 
-              <div class="row">
+              <!--div class="row">
 
           					        <div class="col-md-6">
 
           					            <!-- Line Chart -->
           					            <!---------------------------------->
-          					            <div class="panel">
+          					            <!--div class="panel">
           					                <div class="panel-heading">
           					                    <h3 class="panel-title">Attendance by week</h3>
           					                </div>
@@ -94,12 +94,12 @@
           					            <!---------------------------------->
 
 
-                                      </div>
-                                      <div class="col-md-6">
+                              <!--/div-->
+                                      <!--div class="col-md-6">
 
                               <!-- Bar Chart -->
                               <!---------------------------------->
-                              <div class="panel">
+                              <!--div class="panel">
                                   <div class="panel-heading">
                                       <h3 class="panel-title">Total Weekly Attendance</h3>
                                   </div>
@@ -110,41 +110,68 @@
                               <!---------------------------------->
 
 
-                          </div>
-
+                          <!--/div-->
                           <div class="col-md-6">
 
-                  <!-- Bar Chart -->
-                  <!---------------------------------->
-                  <div class="panel">
-                      <div class="panel-heading">
-                          <h3 class="panel-title">Total Weekly Attendance bar</h3>
-                      </div>
-                      <div class="panel-body">
-                          <div id="demo-morris-bar9" style="height: 250px"></div>
-                      </div>
-                  </div>
-                  <!---------------------------------->
+                              <!-- Line Chart -->
+                              <!---------------------------------->
+                              <div class="panel">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">Attendance by Month</h3>
+                                  </div>
+                                  <div class="pad-all">
+                                      <div id="demo-morris-bar-month" class="legendInline" style="height:250px"></div>
+                                  </div>
+                              </div>
+                              <!---------------------------------->
+                            </div>
+                            <!-- week -->
+                            <div class="col-md-6">
 
+                                <!-- Line Chart -->
+                                <!---------------------------------->
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Attendance by Last 10 Weeks</h3>
+                                    </div>
+                                    <div class="pad-all">
+                                        <div id="demo-morris-bar-week" class="legendInline" style="height:250px"></div>
+                                    </div>
+                                </div>
+                                <!---------------------------------->
+                              </div>
 
-              </div>
+                              <!-- day -->
+                              <div class="col-md-6">
 
-              <div class="col-md-6">
+                                  <!-- Line Chart -->
+                                  <!---------------------------------->
+                                  <div class="panel">
+                                      <div class="panel-heading">
+                                          <h3 class="panel-title">Attendance by Day</h3>
+                                      </div>
+                                      <div class="pad-all">
+                                          <div id="demo-morris-bar-day" class="legendInline" style="height:250px"></div>
+                                      </div>
+                                  </div>
+                                  <!---------------------------------->
+                                </div>
 
-      <!-- Bar Chart -->
-      <!---------------------------------->
-      <div class="panel">
-          <div class="panel-heading">
-              <h3 class="panel-title">Total Weekly Attendance bar</h3>
-          </div>
-          <div class="panel-body">
-              <div id="demo-morris-bar95" style="height: 250px"></div>
-          </div>
-      </div>
-      <!---------------------------------->
+                                <!-- year -->
+                                <div class="col-md-6">
 
-
-  </div>
+                                    <!-- Line Chart -->
+                                    <!---------------------------------->
+                                    <div class="panel">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Attendance by Year</h3>
+                                        </div>
+                                        <div class="pad-all">
+                                            <div id="demo-morris-bar-year" class="legendInline" style="height:250px"></div>
+                                        </div>
+                                    </div>
+                                    <!---------------------------------->
+                                  </div>
 
           					    </div>
 
