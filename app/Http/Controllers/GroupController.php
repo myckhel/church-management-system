@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\GroupMember;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -14,9 +15,11 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $groups = Group::all();
+      $user = \Auth::user();
+      //$members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branchcode)->get();
+      $groups = Group::where('branch_id', $user->branchcode)->get();//all();
 
-        return view('groups.all', compact('groups'));
+          return view('groups.all', compact('groups'));
     }
 
     /**
@@ -46,7 +49,7 @@ class GroupController extends Controller
 
         $group->save();
         return redirect()->back()->with('status','Group created Successfully!');
-        
+
     }
 
     /**
@@ -58,11 +61,11 @@ class GroupController extends Controller
     public function show($id)
     {
         $user = \Auth::user();
-        $members_in_branch = \App\Member::where('branch_id', $user->id)->get();
+        $members_in_branch = \App\Member::where('branch_id', $user->branchcode)->get();
 
         $members_in_group = [];
         $group = Group::find($id);
-        $member_ids = \App\GroupMember::where('group_id', $id)->get();
+        $member_ids = \App\GroupMember::where('group_id', $id)->where('for_branch',$user->branchcode)->get();
         //print_r($member_ids);exit();
 
         foreach($member_ids as $member_id){
@@ -72,7 +75,7 @@ class GroupController extends Controller
             if ($member) array_push($members_in_group, $member);
 
         }
-        
+
         return view('groups.view', compact('members_in_group','members_in_branch', 'group'));
     }
 
@@ -108,6 +111,17 @@ class GroupController extends Controller
     public function destroy($id)
     {
         $group = Group::find($id);
+
+        //for each member in the group
+        //delete them
+        $members = GroupMember::where('group_id', $group)->get();
+        foreach ($members as $group_member) {
+          // delete group member
+          //GroupMember::where('member_id',$member->member_id)
+          $group_member->get()->delete();
+        }
+
+        //then delete group
         $group->delete();
 
         return redirect()->back()->with('status','Group Successfully deleted');
@@ -119,8 +133,9 @@ class GroupController extends Controller
 
         $group_members = new \App\GroupMember([
 
-            'group_id' => $request->group_id,
-            'member_id' => $id
+            'group_id' => $id,//$request->group_id,
+            'member_id' => $request->member_id,//$id
+            'for_branch' => $request->branch_id
         ]);
 
         $group_members->save();

@@ -47,14 +47,14 @@
 
 	<!--Demo [ DEMONSTRATION ]-->
 	<link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet">
-	
+
 	<!--Font Awesome [ OPTIONAL ]-->
 	<link href="{{ URL::asset('plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
 
 
     <!--Bootstrap Timepicker [ OPTIONAL ]-->
     <link href="{{ URL::asset('plugins/bootstrap-timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet">
-    
+
 
     @if (Route::currentRouteName() == ('member.register' || 'attendance.mark' || 'collection.offering' || 'calendar'))
 	<!--Bootstrap Datepicker [ OPTIONAL ]-->
@@ -77,8 +77,11 @@
 
 	    <!--Morris.js [ OPTIONAL ]-->
 		<link href="{{ URL::asset('plugins/morris-js/morris.min.css') }}" rel="stylesheet">
-	
-	
+
+	@if (Route::currentRouteName() == 'branch.ho')
+	<!--link href="{{ URL::asset('css/bootstrap-editable.css') }}" rel="stylesheet">
+    <script src="{{ URL::asset('js/bootstrap-editable.min.js') }}"></script-->
+	@endif
 
 	<!--<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet">-->
@@ -92,7 +95,7 @@
 	    <!--Ion Icons [ OPTIONAL ]-->
 		<link href="{{ URL::asset('plugins/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
 
-	
+
 
 
 
@@ -140,7 +143,7 @@
 				<!--Brand logo & name-->
 				<!--================================-->
 				<div class="navbar-header">
-					<a href="index.html" class="navbar-brand">
+					<a href="{{url('/dashboard')}}" class="navbar-brand">
 						<img src="{{ URL::asset('img/logo.png') }}" alt="Nifty Logo" class="brand-icon">
 						<div class="brand-title">
 							<span class="brand-text">{{strtoupper(\Auth::user()->branchname)}}</span>
@@ -199,7 +202,7 @@
 									<!--You can use an image instead of an icon.-->
 									<!--<img class="img-circle img-user media-object" src="img/profile-photos/1.png" alt="Profile Picture">-->
 									<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-									<i class="demo-pli-male"></i>
+									<i class="demo-pli-male"> Hello {{\Auth::user()->branchname}}</i>
 								</span>
 								<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 								<!--You can also display a user name in the navbar.-->
@@ -211,12 +214,11 @@
 							<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right panel-default">
 								<ul class="head-list">
 									<li>
-										
-                                        <form method="POST" action="{{route('logout')}}">
-                                        @csrf
-                                        <button type="submit"><i class="demo-pli-unlock icon-lg icon-fw"></i> Logout</button>
-                                        </form>
-                                        
+
+	                  <form method="POST" action="{{route('logout')}}">
+	                  @csrf
+	                  <button type="submit"><i class="demo-pli-unlock icon-lg icon-fw"></i> Logout</button>
+	                  </form>
 									</li>
 								</ul>
 							</div>
@@ -243,12 +245,12 @@
 
 			<!--CONTENT CONTAINER-->
 			<!--===================================================-->
-			
-                
-            
+
+
+
             @yield('content')
 
-			
+
 			<!--===================================================-->
 			<!--END CONTENT CONTAINER-->
 
@@ -665,7 +667,7 @@
 						                    <li><a href="index.html">Dashboard 1</a></li>
 											<li><a href="dashboard-2.html">Dashboard 2</a></li>
 											<li class="active-link"><a href="dashboard-3.html">Dashboard 3</a></li>
-											
+
 						                </ul>-->
 									</li>
 
@@ -676,8 +678,8 @@
 						                    <span class="menu-title">Layouts</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="layouts-collapsed-navigation.html">Collapsed Navigation</a></li>
 											<li><a href="layouts-offcanvas-navigation.html">Off-Canvas Navigation</a></li>
@@ -690,7 +692,7 @@
 											<li class="list-divider"></li>
 											<li><a href="layouts-fixed-navbar.html">Fixed Navbar</a></li>
 											<li><a href="layouts-fixed-footer.html">Fixed Footer</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -712,7 +714,7 @@
 
 									<!--Menu list item-->
                                     <li class="{{ Route::currentRouteName() === 'members.all' || Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : ''}}
-                                    
+
                                     {{Route::currentRouteName() === 'member.profile' ? 'active-sub' : ''}}">
 										<a href="{{route('members.all')}}">
 											<i class="demo-pli-boot-2"></i>
@@ -728,7 +730,7 @@
 											<li class="{{ Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : '' }}">
 												<a href="{{route('member.register.form')}}">Registration</a>
                                             </li>
-                                            
+
 											<!--<li><a href="ui-modals.html">Modals</a></li>
 											<li><a href="ui-progress-bars.html">Progress bars</a></li>
 											<li><a href="ui-components.html">Components</a></li>
@@ -754,8 +756,8 @@
 											<li class="{{ Route::currentRouteName() === 'attendance' ? 'active-sub active' : '' }}">
 												<a href="{{route('attendance')}}">Mark Attendance</a>
 											</li>
-                                                                                        <li class="{{ Route::currentRouteName() === 'attendance.view.form' ? 'active-sub active' : '' }}">
-                                                                                                <a href="{{route('attendance.view.form')}}">View Attendance</a>
+                      <li class="{{ Route::currentRouteName() === 'attendance.view.form' ? 'active-sub active' : '' }}">
+                              <a href="{{route('attendance.view.form')}}">View Attendance</a>
 											</li>
 											<li class="{{ Route::currentRouteName() === 'attendance.analysis' ? 'active-sub active' : '' }}">
 												<a href="{{route('attendance.analysis')}}">Attendance Analysis</a>
@@ -770,12 +772,23 @@
 
 									<!--Menu list item-->
 									<li>
-										<a href="{{route('collection.offering')}}">
+										<a href="#">
 											<i class="demo-pli-receipt-4"></i>
 											<span class="menu-title">Collection</span>
 											<i class="arrow"></i>
 										</a>
+										<ul class="collapse">
+											<li>
+												<a href="{{route('collection.offering')}}">Save Collection</a>
+											</li>
+											<li>
+												<a href="{{route('collection.report')}}">Collection Report</a>
+											</li>
+											<li>
+												<a href="{{route('collection.analysis')}}">Collection Analysis</a>
+											</li>
 
+										</ul>
 
 										<!--<ul class="collapse">
 											<li>
@@ -791,7 +804,7 @@
 										<a href="{{ route('groups') }}">
 											<i class="fa fa-users"></i>
 											<span class="menu-title">Small Groups</span>
-											
+
 										</a>
 									</li>
 									<li class="{{Route::currentRouteName() === 'messaging' ? 'active-sub' : ''}}">
@@ -805,18 +818,33 @@
 												<a href="{{route('email')}}">Email</a>
 											</li>
 											<li>
-												<a href="{{route('attendance')}}">Bulk SMS</a>
+												<a href="{{route('sms')}}">Bulk SMS</a>
 											</li>
 
 										</ul>
 									</li>
 									@if (\Auth::user()->isAdmin())
 									<li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
-										<a href="{{ route('branches') }}">
+										<a href="#">
 											<i class="fa fa-building-o"></i>
-											<span class="menu-title">Branches</span>
-											<!--<i class="arrow"></i>-->
+											<span class="menu-title">Admin Tools</span>
+											<i class="arrow"></i>
 										</a>
+										<ul class="collapse">
+											<li>
+												<a href="{{route('branches')}}">Branches</a>
+											</li>
+											<li>
+												<a href="{{route('branch.register')}}">Add New Branch</a>
+											</li>
+											<li>
+												<a href="{{route('branch.ho')}}">Head Office Options</a>
+											</li>
+											<!--li>
+												<a href="{{route('branches')}}">Coming Soon</a>
+											</li-->
+
+										</ul>
 									</li>
 									@endif
 									<li class="{{Route::currentRouteName() === 'calendar' ? 'active-sub' : ''}}">
@@ -839,7 +867,7 @@
 											<li><a href="charts-flot-charts.html">Flot Charts</a></li>
 											<li><a href="charts-easy-pie-charts.html">Easy Pie Charts</a></li>
 											<li><a href="charts-sparklines.html">Sparklines</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -850,8 +878,8 @@
 						                    <span class="menu-title">Miscellaneous</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="misc-timeline.html">Timeline</a></li>
 											<li><a href="misc-maps.html">Google Maps</a></li>
@@ -863,7 +891,7 @@
 											<li><a href="misc-tree-view.html">Tree View</a></li>
 											<li><a href="misc-clipboard.html">Clipboard</a></li>
 											<li><a href="misc-x-editable.html">X-Editable</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -874,14 +902,14 @@
 						                    <span class="menu-title">Grid System</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="grid-bootstrap.html">Bootstrap Grid</a></li>
 											<li><a href="grid-liquid-fixed.html">Liquid Fixed</a></li>
 											<li><a href="grid-match-height.html">Match Height</a></li>
 											<li><a href="grid-masonry.html">Masonry</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -897,8 +925,8 @@
 						                    <span class="menu-title">App Views</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="app-file-manager.html">File Manager</a></li>
 											<li><a href="app-users.html">Users</a></li>
@@ -908,7 +936,7 @@
 											<li><a href="app-taskboard.html">Taskboard</a></li>
 											<li><a href="app-chat.html">Chat</a></li>
 											<li><a href="app-contact-us.html">Contact Us</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -919,8 +947,8 @@
 						                    <span class="menu-title">Blog Apps</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="blog.html">Blog</a></li>
 											<li><a href="blog-list.html">Blog List</a></li>
@@ -929,7 +957,7 @@
 											<li class="list-divider"></li>
 											<li><a href="blog-manage-posts.html">Manage Posts</a></li>
 											<li><a href="blog-add-edit-post.html">Add Edit Post</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -940,14 +968,14 @@
 						                    <span class="menu-title">Email</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="mailbox.html">Inbox</a></li>
 											<li><a href="mailbox-message.html">View Message</a></li>
 											<li><a href="mailbox-compose.html">Compose Message</a></li>
 											<li><a href="mailbox-templates.html">Email Templates</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -958,8 +986,8 @@
 						                    <span class="menu-title">Other Pages</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="pages-blank.html">Blank Page</a></li>
 											<li><a href="pages-invoice.html">Invoice</a></li>
@@ -977,7 +1005,7 @@
 											<li><a href="pages-register.html">Register</a></li>
 											<li><a href="pages-password-reminder.html">Password Reminder</a></li>
 											<li><a href="pages-lock-screen.html">Lock Screen</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -988,8 +1016,8 @@
 						                    <span class="menu-title">Gallery</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="gallery-columns.html">Columns</a></li>
 											<li><a href="gallery-justified.html">Justified</a></li>
@@ -1001,7 +1029,7 @@
 											<li><a href="gallery-default-theme.html">Default Theme</a></li>
 											<li><a href="gallery-compact-theme.html">Compact Theme</a></li>
 											<li><a href="gallery-grid-theme.html">Grid Theme</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1014,7 +1042,7 @@
                                             <i class="arrow"></i>
                                         </a>
 
-                                        
+
                                         <ul class="collapse">
                                             <li><a href="dashboard">Second Level Item</a></li>
                                             <li><a href="dashboard">Second Level Item</a></li>
@@ -1023,7 +1051,7 @@
                                             <li>
                                                 <a href="dashboard">Third Level<i class="arrow"></i></a>
 
-                                                
+
                                                 <ul class="collapse">
                                                     <li><a href="dashboard">Third Level Item</a></li>
                                                     <li><a href="dashboard">Third Level Item</a></li>
@@ -1034,7 +1062,7 @@
                                             <li>
                                                 <a href="dashboard">Third Level<i class="arrow"></i></a>
 
-                                                
+
                                                 <ul class="collapse">
                                                     <li><a href="dashboard">Third Level Item</a></li>
                                                     <li><a href="dashboard">Third Level Item</a></li>
@@ -1059,15 +1087,15 @@
 						                    <span class="menu-title">Icons Pack</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="icons-ionicons.html">Ion Icons</a></li>
 											<li><a href="icons-themify.html">Themify</a></li>
 											<li><a href="icons-font-awesome.html">Font Awesome</a></li>
 											<li><a href="icons-flagicons.html">Flag Icon CSS</a></li>
 											<li><a href="icons-weather-icons.html">Weather Icons</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1080,12 +1108,12 @@
 												<span class="label label-danger pull-right">BEST</span>
 											</span>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="premium-line-icons.html">Line Icons Pack</a></li>
 											<li><a href="premium-solid-icons.html">Solid Icons Pack</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1132,8 +1160,7 @@
 			<!-- Visible when footer positions are static -->
 			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 			<div class="hide-fixed pull-right pad-rgt">
-				14GB of
-				<strong>512GB</strong> Free.
+			Powered By <a href="https://hoffenheimtechnologies.com" style="color:#274868;font-weight:bolder">Hoffenheim Technologies </a>
 			</div>
 
 
@@ -1202,17 +1229,17 @@
 
 	<!--Demo script [ DEMONSTRATION ]-->
     <!--<script src="{{ URL::asset('js/demo/nifty-demo.min.js') }}"></script>-->
-    
+
 
     @if (Route::currentRouteName() == 'members.all' || Route::currentRouteName() == 'branches' || 'collection.report')
     <!--DataTables [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
 	<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
     <!--<script src="{{ URL::asset('plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>-->
-    
+
     <!--DataTables Sample [ SAMPLE ]-->
 	<!--<script src="{{ URL::asset('js/demo/tables-datatables.js') }}"></script>-->
-	
+
 	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.semanticui.min.js"></script>
 
 	<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
@@ -1256,8 +1283,8 @@
 		});
 	</script>
 	@endif
-	
-	
+
+
 
 
         @if (Route::currentRouteName() == ('member.profile' || 'attendance.analysis' || 'collection.offering'))
@@ -1383,10 +1410,10 @@ $('#demo-calendar').fullCalendar({
 	    <!--Icons [ SAMPLE ]-->
 		<script src="{{ URL::asset('js/demo/icons.js') }}"></script>
 
-		    
+
     <!--Icons [ SAMPLE ]-->
 	<script >
-	
+
 		// MORRIS BAR CHART
 		// =================================================================
 		// Require MorrisJS Chart
@@ -1421,7 +1448,85 @@ $('#demo-calendar').fullCalendar({
 			hideHover: 'auto'
 		});
                 </script>
+								@if(Route::currentRouteName() == 'collection.analysis')
+<!-- for demo -->
+								<script >
+									<?php $months =  ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Now','Dec']; ?>
+									// MORRIS BAR CHART
+									// =================================================================
+									// Require MorrisJS Chart
+									// -----------------------------------------------------------------
+									// http://morrisjs.github.io/morris.js/
+									// =================================================================
+									Morris.Bar({
+										element: 'demo-morris-bar9',
+										data: [
+											<?php
+											foreach ($months as $key => $value) {
+												// code...
+												$month = $key+1;
+												$found = false;
+												foreach ($attendances3 as $collection) {
+													// code...
+													if($key+1 == $collection->month && $collection->so != NULL){
+														$found = true;
+														echo "{y: '" .$value. "', a: " .$collection->so.", b: ".$collection->sdo.", c: ".$collection->o."},";
+													}
+												}
+												if(!$found){
+													echo "{y: '" .$value. "', a: 0, b: 0, c: 0},";
+												}
 
+											} ?>
+										],
+										xkey: 'y',
+										ykeys: ['a', 'b', 'c'],
+										labels: ['special offering', 'seed Offering', 'Offering'],
+										gridEnabled: true,
+										gridLineColor: 'rgba(0,0,0,.1)',
+										gridTextColor: '#8f9ea6',
+										gridTextSize: '11px',
+										barColors: ['red', 'green', 'yellow'],
+										resize:true,
+										hideHover: 'auto'
+									});
+
+									//for week
+									<?php $days =  ['Mon', 'Tue', 'Wed','Thur','Fri','Sat','Sun']; ?>
+									Morris.Bar({
+										element: 'demo-morris-bar95',
+										data: [
+											<?php
+											foreach ($days as $key => $value) {
+												// code...
+												$day = $key+1;
+												$found = false;
+												foreach ($attendances4 as $collection) {
+													// code...
+													if($key+1 == $collection->day && $collection->so != NULL){
+														$found = true;
+														echo "{y: '" .$value. "', a: " .$collection->so.", b: ".$collection->sdo.", c: ".$collection->o."},";
+													}
+												}
+												if(!$found){
+													echo "{y: '" .$value. "', a: 0, b: 0, c: 0},";
+												}
+
+											} ?>
+										],
+										xkey: 'y',
+										ykeys: ['a', 'b', 'c'],
+										labels: ['special offering', 'seed Offering', 'Offering'],
+										gridEnabled: true,
+										gridLineColor: 'rgba(0,0,0,.1)',
+										gridTextColor: '#8f9ea6',
+										gridTextSize: '11px',
+										barColors: ['red', 'green', 'yellow'],
+										resize:true,
+										hideHover: 'auto'
+									});
+							                </script>
+@endif
 
 @if (Route::currentRouteName() == 'collection.report'))
                 <script>
@@ -1433,11 +1538,11 @@ $('#demo-calendar').fullCalendar({
     // -----------------------------------------------------------------
     // http://www.flotcharts.org/
     // =================================================================
-    var data = [
+    /*var data = [
 
-		<?php $months = ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Now','Dec']; ?>
+		<?php /*$months = ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Now','Dec']; ?>
 		<?php
-		foreach ($months as $k => $month){
+		/*foreach ($months as $k => $month){
 			$month_num = $k+1;
 			$found = false;
 			foreach($collections as $collection){
@@ -1455,7 +1560,7 @@ $('#demo-calendar').fullCalendar({
 			}
 		}
 
-        ?>
+        */?>
 	];
 
     $.plot('#demo-flot-bar', [data], {
@@ -1496,7 +1601,7 @@ $('#demo-calendar').fullCalendar({
             show: true,
             content: 'x: %x, y: %y'
         }
-    });
+    });*/
 	</script>
         @endif
 
@@ -1633,7 +1738,7 @@ $('#demo-calendar').fullCalendar({
 		}
 
 	?>
-		
+
     var plot = $.plot('#demo-flot-line', [
         {
             label: 'Men',
@@ -1709,6 +1814,126 @@ $('#demo-calendar').fullCalendar({
         }
     });
 
+		// FLOT LINE CHART
+		// =================================================================
+		// Require Flot Charts
+		// -----------------------------------------------------------------
+		// http://www.flotcharts.org/
+		// =================================================================
+
+		/*var menn = [ [1, 1436], [2, 1395], [3, 1479], [4, 1595], [5, 1509], [6, 1550], [7, 1480], [8, 1390], [9, 1550], [10, 1400], [11, 1590], [12, 1436]],
+								visitorr = [ [1, 1124], [2, 1183], [3, 1126], [4, 887], [5, 754], [6, 865], [7, 889], [8, 854], [9, 958], [10, 925], [11, 1056], [12, 984]],
+								womenr = [ [1, 1024], [2, 1283], [3, 1126], [4, 487], [5, 754], [6, 565], [7, 889], [8, 814], [9, 918], [10, 825], [11, 456], [12, 1084]];;*/
+
+
+		<?php //$weeks = ['Mon', 'Tue', 'Wed','Thur','Fri','Sat','Sun', 'anum']; ?>
+		<?php $weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+          18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+          35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
+          52,]; ?>
+		<?php $members = ['male','female','children']; ?>
+		<?php
+
+		foreach ($members as $member){
+			echo "var $member = [";
+
+			foreach ($weeks as $k => $week){
+				$week_num = $k+1;
+				$found = false;
+				foreach($attendances3 as $attendance){
+
+					if ($attendance->week == ($k+1) ){
+						$found = true;
+						echo'['.$week_num.','.$attendance->$member.' ],';
+					}
+				}
+
+				if (!$found){
+
+						echo "[$week_num,0],";
+
+				}
+			}
+			echo "]\n";
+		}
+
+		?>
+
+		var plot = $.plot('#demo-flot-line2', [
+				{
+						label: 'Men',
+						data: male,
+						lines: {
+								show: true,
+								lineWidth: 1,
+								fill: false
+						},
+						points: {
+								show: true,
+								radius: 2
+						}
+						},
+				{
+						label: 'Women',
+						data: female,
+						lines: {
+								show: true,
+								lineWidth: 1,
+								fill: false
+						},
+						points: {
+								show: true,
+								radius: 2
+						}
+												},
+												{
+						label: 'Children',
+						data: children,
+						lines: {
+								show: true,
+								lineWidth: 1,
+								fill: false
+						},
+						points: {
+								show: true,
+								radius: 2
+						}
+						}
+				], {
+				series: {
+						lines: {
+								show: true
+						},
+						points: {
+								show: true
+						},
+						shadowSize: 0 // Drawing is faster without shadows
+				},
+				colors: ['#b5bfc5', 'red','#177bbb'],
+				legend: {
+						show: true,
+						position: 'nw',
+						margin: [15, 0]
+				},
+				grid: {
+						borderWidth: 0,
+						hoverable: true,
+						clickable: true
+				},
+				yaxis: {
+						ticks: 5,
+						tickColor: 'rgba(0,0,0,.1)'
+				},
+				xaxis: {
+						ticks: 7,
+						tickColor: 'transparent'
+				},
+				tooltip: {
+						show: true,
+						content: 'x: %x, y: %y'
+				}
+		});
+
 
 	// FLOT BAR CHART
     // =================================================================
@@ -1781,8 +2006,468 @@ $('#demo-calendar').fullCalendar({
             content: 'x: %x, y: %y'
         }
     });
-	</script>
+
+		// FLOT BAR CHART
+			// =================================================================
+			// Require Flot Charts
+			// -----------------------------------------------------------------
+			// http://www.flotcharts.org/
+			// =================================================================
+			var data = [1, 2, 3, 4, 5, 6, 7];
+		var data = [
+
+		<?php $weeks = [[1,'Mon'], [2,'Tue'], [3,'Wed'],[4,'Thur'],[5,'Fri'],[6,'Sat'],[7,'Sun']]; ?>
+		<?php
+		foreach ($weeks as $k => $week){
+			$week_num = $k+1;
+			$found = false;
+			foreach($attendances4 as $attendance){
+
+				if ($attendance->month == ($k+1) ){
+					$found = true;
+					echo"[$week_num,$attendance->total ],";
+				}
+			}
+
+			if (!$found){
+
+					echo "[$week_num,0],";
+
+			}
+		}
+
+		?>
+		];
+
+			$.plot('#demo-flot-bar2', [data], {
+					series: {
+							bars: {
+									show: true,
+									barWidth: 0.6,
+									fill: true,
+									fillColor: {
+											colors: [{
+													opacity: 0.9
+											}, {
+													opacity: 0.9
+											}]
+									}
+							}
+					},
+					colors: ['#9B59B6'],
+					yaxis: {
+							ticks: 5,
+							tickColor: 'rgba(0,0,0,.1)'
+					},
+					xaxis: {
+							ticks: 7,
+							tickColor: 'transparent'
+					},
+					grid: {
+							hoverable: true,
+							clickable: true,
+							tickColor: '#eeeeee',
+							borderWidth: 0
+					},
+					legend: {
+							show: true,
+							position: 'nw'
+					},
+					tooltip: {
+							show: true,
+							content: 'x: %x, y: %y'
+					}
+			});
+		</script>
 	@endif
+
+
+<!-- FOR COLLECTION REPORT -->
+
+@if (Route::currentRouteName() == ('collection.analysis'))
+<script>
+
+	// FLOT LINE CHART
+	// =================================================================
+	// Require Flot Charts
+	// -----------------------------------------------------------------
+	// http://www.flotcharts.org/
+	// =================================================================
+
+	/*var menn = [ [1, 1436], [2, 1395], [3, 1479], [4, 1595], [5, 1509], [6, 1550], [7, 1480], [8, 1390], [9, 1550], [10, 1400], [11, 1590], [12, 1436]],
+							visitorr = [ [1, 1124], [2, 1183], [3, 1126], [4, 887], [5, 754], [6, 865], [7, 889], [8, 854], [9, 958], [10, 925], [11, 1056], [12, 984]],
+							womenr = [ [1, 1024], [2, 1283], [3, 1126], [4, 487], [5, 754], [6, 565], [7, 889], [8, 814], [9, 918], [10, 825], [11, 456], [12, 1084]];;*/
+
+
+<?php $months = ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Now','Dec']; ?>
+<?php $members = ['so','sdo','o'];//,'d', 't', 'ff']; ?>
+<?php
+
+	foreach ($members as $member){
+		echo "var $member = [";
+
+		foreach ($months as $k => $month){
+			$month_num = $k+1;
+			$found = false;
+			foreach($attendances as $attendance){
+
+				if ($attendance->month == ($k+1) ){
+					$found = true;
+					echo'['.$month_num.','.$attendance->$member.' ],';
+				}
+			}
+
+			if (!$found){
+
+					echo "[$month_num,0],";
+
+			}
+		}
+		echo "]\n";
+	}
+
+?>
+
+	var plot = $.plot('#demo-flot-line', [
+			{
+					label: 'Special Offering',
+					data: so,
+					lines: {
+							show: true,
+							lineWidth: 1,
+							fill: false
+					},
+					points: {
+							show: true,
+							radius: 2
+					}
+					},
+			{
+					label: 'Seed Offering',
+					data: sdo,
+					lines: {
+							show: true,
+							lineWidth: 1,
+							fill: false
+					},
+					points: {
+							show: true,
+							radius: 2
+					}
+											},
+											{
+					label: 'Offering',
+					data: o,
+					lines: {
+							show: true,
+							lineWidth: 1,
+							fill: false
+					},
+					points: {
+							show: true,
+							radius: 2
+					}
+					}
+			], {
+			series: {
+					lines: {
+							show: true
+					},
+					points: {
+							show: true
+					},
+					shadowSize: 0 // Drawing is faster without shadows
+			},
+			colors: ['#b5bfc5', 'red','#177bbb'],
+			legend: {
+					show: true,
+					position: 'nw',
+					margin: [15, 0]
+			},
+			grid: {
+					borderWidth: 0,
+					hoverable: true,
+					clickable: true
+			},
+			yaxis: {
+					ticks: 5,
+					tickColor: 'rgba(0,0,0,.1)'
+			},
+			xaxis: {
+					ticks: 7,
+					tickColor: 'transparent'
+			},
+			tooltip: {
+					show: true,
+					content: 'x: %x, y: %y'
+			}
+	});
+
+	// FLOT LINE CHART
+	// =================================================================
+	// Require Flot Charts
+	// -----------------------------------------------------------------
+	// http://www.flotcharts.org/
+	// =================================================================
+
+	/*var menn = [ [1, 1436], [2, 1395], [3, 1479], [4, 1595], [5, 1509], [6, 1550], [7, 1480], [8, 1390], [9, 1550], [10, 1400], [11, 1590], [12, 1436]],
+							visitorr = [ [1, 1124], [2, 1183], [3, 1126], [4, 887], [5, 754], [6, 865], [7, 889], [8, 854], [9, 958], [10, 925], [11, 1056], [12, 984]],
+							womenr = [ [1, 1024], [2, 1283], [3, 1126], [4, 487], [5, 754], [6, 565], [7, 889], [8, 814], [9, 918], [10, 825], [11, 456], [12, 1084]];;*/
+
+							<?php $months = ['Mon', 'Tue', 'Wed','Thur','Fri','Sat','Sun']; ?>
+							<?php $members = ['so','sdo','o'];//,'d', 't', 'ff']; ?>
+							<?php
+
+								foreach ($members as $member){
+									echo "var $member = [";
+
+									foreach ($months as $k => $month){
+										$month_num = $k+1;
+										$found = false;
+										foreach($attendances3 as $attendance){
+
+											if ($attendance->month == ($k+1) ){
+												$found = true;
+												echo'['.$month_num.','.$attendance->$member.' ],';
+											}
+										}
+
+										if (!$found){
+
+												echo "[$month_num,0],";
+
+										}
+									}
+									echo "]\n";
+								}
+
+							?>
+
+								var plot = $.plot('#demo-flot-line2', [
+										{
+												label: 'Special Offering',
+												data: so,
+												lines: {
+														show: true,
+														lineWidth: 1,
+														fill: false
+												},
+												points: {
+														show: true,
+														radius: 2
+												}
+												},
+										{
+												label: 'Seed Offering',
+												data: sdo,
+												lines: {
+														show: true,
+														lineWidth: 1,
+														fill: false
+												},
+												points: {
+														show: true,
+														radius: 2
+												}
+																		},
+																		{
+												label: 'Offering',
+												data: o,
+												lines: {
+														show: true,
+														lineWidth: 1,
+														fill: false
+												},
+												points: {
+														show: true,
+														radius: 2
+												}
+												}
+										], {
+										series: {
+												lines: {
+														show: true
+												},
+												points: {
+														show: true
+												},
+												shadowSize: 0 // Drawing is faster without shadows
+										},
+										colors: ['#b5bfc5', 'red','#177bbb'],
+										legend: {
+												show: true,
+												position: 'nw',
+												margin: [15, 0]
+										},
+										grid: {
+												borderWidth: 0,
+												hoverable: true,
+												clickable: true
+										},
+										yaxis: {
+												ticks: 5,
+												tickColor: 'rgba(0,0,0,.1)'
+										},
+										xaxis: {
+												ticks: 7,
+												tickColor: 'transparent'
+										},
+										tooltip: {
+												show: true,
+												content: 'x: %x, y: %y'
+										}
+								});
+
+// FLOT BAR CHART
+	// =================================================================
+	// Require Flot Charts
+	// -----------------------------------------------------------------
+	// http://www.flotcharts.org/
+	// =================================================================
+	var data = [[1, 10], [2, 8], [3, 4], [4, 13], [5, 17], [6, 9], [7, 12], [8, 15], [9, 9], [10, 15]];
+var data = [
+
+<?php $months = ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Now','Dec']; ?>
+<?php
+foreach ($months as $k => $month){
+	$month_num = $k+1;
+	$found = false;
+	foreach($attendances2 as $attendance){
+
+		if ($attendance->month == ($k+1) ){
+			$found = true;
+			echo"[$month_num,$attendance->total ],";
+		}
+	}
+
+	if (!$found){
+
+			echo "[$month_num,0],";
+
+	}
+}
+
+?>
+];
+
+	$.plot('#demo-flot-bar', [data], {
+			series: {
+					bars: {
+							show: true,
+							barWidth: 0.6,
+							fill: true,
+							fillColor: {
+									colors: [{
+											opacity: 0.9
+									}, {
+											opacity: 0.9
+									}]
+							}
+					}
+			},
+			colors: ['#9B59B6'],
+			yaxis: {
+					ticks: 5,
+					tickColor: 'rgba(0,0,0,.1)'
+			},
+			xaxis: {
+					ticks: 7,
+					tickColor: 'transparent'
+			},
+			grid: {
+					hoverable: true,
+					clickable: true,
+					tickColor: '#eeeeee',
+					borderWidth: 0
+			},
+			legend: {
+					show: true,
+					position: 'nw'
+			},
+			tooltip: {
+					show: true,
+					content: 'x: %x, y: %y'
+			}
+	});
+
+	// FLOT BAR CHART
+		// =================================================================
+		// Require Flot Charts
+		// -----------------------------------------------------------------
+		// http://www.flotcharts.org/
+		// =================================================================
+		/*var data = [1, 2, 3, 4, 5, 6, 7];
+	var data = [
+
+	<?php// $weeks = ['Mon', 'Tue', 'Wed','Thur','Fri','Sat','Sun']; ?>
+	<?php/*
+	foreach ($weeks as $k => $week){
+		$week_num = $k+1;
+		$found = false;
+		foreach($attendances4 as $attendance){
+
+			if ($attendance->month == ($k+1) ){
+				$found = true;
+				echo"[$week_num,$attendance->total ],";
+			}
+		}
+
+		if (!$found){
+
+				echo "[$week_num,0],";
+
+		}
+	}
+
+	*/?>
+	];
+
+		$.plot('#demo-flot-bar2', [data], {
+				series: {
+						bars: {
+								show: true,
+								barWidth: 0.6,
+								fill: true,
+								fillColor: {
+										colors: [{
+												opacity: 0.9
+										}, {
+												opacity: 0.9
+										}]
+								}
+						}
+				},
+				colors: ['#9B59B6'],
+				yaxis: {
+						ticks: 5,
+						tickColor: 'rgba(0,0,0,.1)'
+				},
+				xaxis: {
+						ticks: 7,
+						tickColor: 'transparent'
+				},
+				grid: {
+						hoverable: true,
+						clickable: true,
+						tickColor: '#eeeeee',
+						borderWidth: 0
+				},
+				legend: {
+						show: true,
+						position: 'nw'
+				},
+				tooltip: {
+						show: true,
+						content: 'x: %x, y: %y'
+				}
+		});*/
+	</script>
+@endif
+
+
+<! END COLLECTION REPORT -->
+
+
 	@if ( Route::currentRouteName() ==  'member.profile'))
 	<script>
 
@@ -1941,12 +2626,241 @@ e">Select Relative</button></div>
 		$('#send-mail-form').trigger('submit');
 
 	})
-										
+
 	</script>
-					
+
 @endif
+<!-- branch delete -->
+@if (Route::currentRouteName() == ('branches'))
+<script>
+    function del(d){
+        var confirmed = confirm('confirm to delete');
+        console.log(confirmed);
+        console.log(d);
+        if(confirmed){
+            var id = $(d).attr('id');
+            console.log(id);
+            $.ajax({
+                url: id,
+            }).done(function(){
+                location.reload();
+            });
+        }//{{route("branch.destroy",' + id + ')}}
+    }
+</script>
+@endif
+<!-- end branch delete -->
+<!-- Head Office -->
+@if (Route::currentRouteName() == ('branch.ho'))
+<script>
+    $(document).ready(function() {
+			//head office module
+			$('#save-ho').click(function (){
+				$('#mod').hide();
+				$('#def').show();
+				$('#save-ho').hide();
+				$('#cancel-ho').hide();
+				$('#edit-ho').show();
+			});
+			$('#edit-ho').click(function (){
+				$('#mod').show();
+				$('#cancel-ho').show();
+				$('#def').hide();
+				$('#edit-ho').hide();
+				$('#save-ho').show();
+			});
+			$('#cancel-ho').click(function (){
+				$('#mod').hide();
+				$('#cancel-ho').hide();
+				$('#def').show();
+				$('#edit-ho').show();
+				$('#save-ho').hide();
+			});
 
+    /*$('.editable').on('click', function() {
+        var that = $(this);
+        if (that.find('input').length > 0) {
+            return;
+        }
+        var currentText = that.text();
 
+        var $input = $('<input>').val(currentText)
+        .css({
+            'position': 'absolute',
+            top: '0px',
+            left: '0px',
+            width: that.width(),
+            height: that.height(),
+            opacity: 0.9,
+            padding: '10px'
+        });
+
+        $(this).append($input);
+
+        // Handle outside click
+        $(document).click(function(event) {
+            if(!$(event.target).closest('.editable').length) {
+                if ($input.val()) {
+                    that.text($input.val());
+                }
+                that.find('input').remove();
+            }
+        });
+    });*/
+
+    // process the form
+    $('#update_hog').submit(function(event) {
+        var confirmed = confirm('confirm to update');
+        // get the form data
+        // there are many ways to get this data using jQuery (you can use the class or id also)
+        /*var value = {
+            'name'              : $('input[name=name]').val(),
+            'email'             : $('input[name=email]').val(),
+            'superheroAlias'    : $('input[name=superheroAlias]').val()
+        };*/
+        var values = {};
+        $.each($('#update_ho').serializeArray(), function(i, field) {
+            values[field.name] = field.value;
+        });
+        // process the form
+        $.ajax({
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : "{{route('branch.ho.up')}}", // the url where we want to POST
+            data        : values, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+                        encode          : true
+        })
+            // using the done promise callback
+            .done(function(data) {
+
+                // log data to the console so we can see
+                console.log(data);
+                location.reload();
+                // here we will handle errors and validation messages
+            });
+
+        // stop the form from submitting the normal way and refreshing the page
+        event.preventDefault();
+    });
+});
+
+function saveHo(){
+
+        //alert('saved');
+    }
+/*function save(d){
+    var confirmed = confirm('confirm to update');
+    if(confirmed){
+        var values = {};
+        $.each($('#update_ho').serializeArray(), function(i, field) {
+            values[field.name] = field.value;
+        });
+        $.ajax({
+            url: {{route('branch.ho.up')}},
+            method: 'post',
+        }).done(function(){
+            location.reload();
+        });
+    }//{{route("branch.destroy",' + id + ')}}
+}*/
+@endif
+</script>
+
+@if (Route::currentRouteName() == ('attendance.view.form') || Route::currentRouteName() == ('attendance.view') )
+<script src="{{URL::asset('js/jquery.redirect.js')}}"></script>
+<script>
+//Attnedance Module
+$('#view-year').click(function (){
+	$('#show-year').show();
+});
+//END Attnedance Module
+function view(d){
+		var confirmed = confirm('confirm to view');
+		console.log(confirmed);
+		console.log(d);
+		if(confirmed){
+				var id = $(d).attr('id');
+				console.log(id);
+				/*$.ajax({
+					type        : 'POST',
+					url: "{{route('attendance.view')}}",
+					data        : id, // our data object
+					dataType    : 'json', // what type of data do we expect back from the server
+					encode          : true
+				}).done(function(){
+						location.reload();
+				});*/
+				$.redirect("{{route('attendance.view')}}", {'date': id, '_token' : '{{ csrf_token() }}'});
+
+		}//{{route("branch.destroy",' + id + ')}}
+}
+</script>
+@endif
+@if(Route::currentRouteName() == "collection.offering")
+<script>
+	//check if js working
+	//alert('ok');
+
+	/*$(':input').keyup(function (){
+		var sum = 0;
+		var rowid = $(this).parent().parent().parent().attr('id');
+		$('#row,1 > :input').each(function(){
+			alert('im inside');
+			sum = parseInt($(this).val()) + sum;
+		});
+		alert(sum);
+	});*/
+
+$(document).ready(function(){
+	$(".saisie").each(function() {
+			 $(this).keyup(function(){calculateTotal($(this).parent().index());
+			 });
+	 });
+});
+
+function calculateTotal(index)
+{
+	var total = 0;
+	 $('table tr td').filter(function(){
+			 if($(this).index()==index)
+			 {
+			 total += parseFloat($(this).find('.saisie').val())||0;
+			 }
+	 }
+	 );
+	 $('table tr td.totalCol:eq('+index+')').html(total);
+	calculateSum();
+	 calculateRowSum();
+}
+function calculateRowSum()
+{
+	 $('table tr:has(td):not(:last)').each(function(){
+			var sum = 0; $(this).find('td').each(function(){
+				 sum += parseFloat($(this).find('.saisie').val()) || 0;
+			 });
+					$(this).find('td:last').html(sum);
+					$(this).find('#hidden-total').val(sum);
+	 });
+}
+function calculateSum() {
+	 var sum = 0;
+	 $("td.totalCol").each(function() {
+					 sum += parseFloat($(this).html())||0;
+	 });
+	 $("#sum").html(sum.toFixed(2));
+}
+</script>
+@endif
+<script>
+  /*alert('ok');
+	$('#in1').keyup(function(){
+		var first = parseInt($('#in1').val());
+		var second = parseInt($('#in2').val());
+		var res = first + second; //$('#in1').value + $('#in2').value;
+		$('#tt').html(res);
+	});*/
+
+</script>
 </body>
 
 </html>

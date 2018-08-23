@@ -37,11 +37,11 @@
     <script src="{{ URL::asset('plugins/pace/pace.min.js') }}"></script>
 
 
-        
+
     <!--Demo [ DEMONSTRATION ]-->
     <link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet">
 
-    
+
     <!--=================================================
 
     REQUIRED
@@ -67,7 +67,11 @@
     Detailed information and more samples can be found in the document.
 
     =================================================-->
-        
+        <style type="text/css"> .cls-container {
+   background-image: url("{{ URL::asset('images/reg_bg.jpg') }}");
+   background-color: #cccccc;
+}
+</style>
 </head>
 
 <!--TIPS-->
@@ -75,8 +79,8 @@
 
 <body>
     <div id="container" class="cls-container">
-            
-            
+
+
     <!-- BACKGROUND IMAGE -->
     <!--===================================================-->
     <div id="bg-overlay"></div>
@@ -85,12 +89,16 @@
     <!-- REGISTRATION FORM -->
     <!--===================================================-->
     <div class="cls-content">
-        <div class="cls-content-lg panel">
+      <div class="title m-b-md">
+          <h1>Contact The Head Office</h1>
+      </div>
+        <!--div class="cls-content-lg panel">
             <div class="panel-body">
                 <div class="mar-ver pad-btm">
                     <h1 class="h3">Create a New Branch Account</h1>
                     <p>Set up account.</p>
                 </div>
+                <?php //print(route('register')); ?>
                 <form action="{{route('register')}}" method="POST">
                 @csrf
                     <div class="row">
@@ -162,7 +170,7 @@
                         <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">
                         <label for="demo-form-checkbox">I agree with the <a href="pages-register.html#" class="btn-link text-bold">Terms and Conditions</a></label>
                     </div>-->
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+                    <!--button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
                 </form>
             </div>
             <div class="pad-all">
@@ -178,7 +186,7 @@
                         Sign Up with
                     </div>
                 </div>-->
-            </div>
+            <!--/div-->
         </div>
     </div>
     <!--===================================================-->
@@ -208,7 +216,7 @@
     <!-- END OF CONTAINER -->
 
 
-        
+
     <!--JAVASCRIPT-->
     <!--=================================================-->
 
@@ -227,7 +235,7 @@
 
 
     <!--=================================================-->
-    
+
     <!--Background Image [ DEMONSTRATION ]-->
     <script src="{{ URL::asset('js/demo/bg-images.js') }}"></script>
 

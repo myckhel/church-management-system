@@ -9,17 +9,23 @@ use Illuminate\Support\Facades\Mail;
 class MessagingController extends Controller
 {
     public function indexEmail(){
-        return view('messaging.email');
+      $user = \Auth::user();
+      $members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branchcode)->get();
+        return view('messaging.email', compact('members'));
     }
     public function indexSMS(){
-        return view('messaging.sms');
+
+      $user = \Auth::user();
+      $members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branchcode)->get();
+        return view('messaging.sms', compact('members'));
     }
     public function sendEmail(Request $request){
-
-        Mail::to($request->to)
-            //->cc($request->cc)
-            //->bcc($request->bcc)
-            ->send(new MailMember($request));
+        foreach ($request->to as $to){
+          Mail::to($to)//$request->to)
+              //->cc($request->cc)
+              //->bcc($request->bcc)
+              ->send(new MailMember($request));
+            }
 
         return redirect()
                 ->back()
@@ -31,13 +37,13 @@ class MessagingController extends Controller
 
         $sender = config('app.name');
 
+        foreach ($request->to as $to){
+          $message = urlencode($request->message);
+          //$to = $request->to;
 
-        $message = urlencode($request->message);
-        $to = $request->to;
-        
-        //$response = $this->curl_get("http://api.smartsmssolutions.com/smsapi.php?username=iamblizzyy@gmail.com&password=revelation1&sender=ASAP&recipient={$to}&message={$message}",[],[]);
-        $response = file_get_contents("http://api.smartsmssolutions.com/smsapi.php?username=iamblizzyy@gmail.com&password=revelation1&sender={$sender}&recipient={$to}&message={$message}");
-        
+          //$response = $this->curl_get("http://api.smartsmssolutions.com/smsapi.php?username=iamblizzyy@gmail.com&password=revelation1&sender=ASAP&recipient={$to}&message={$message}",[],[]);
+          $response = file_get_contents("http://api.smartsmssolutions.com/smsapi.php?username=iamblizzyy@gmail.com&password=revelation1&sender={$sender}&recipient={$to}&message={$message}");
+        }
         if (substr($response,0,2) == "OK")
         {
             return redirect()->back()->with('status','Message Successfullt Sent!');
@@ -47,6 +53,6 @@ class MessagingController extends Controller
             return redirect()->back()->with('status','FAILURE!! Could not Send Message.'.$response);
 
         }
-    
+
     }
 }

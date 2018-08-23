@@ -59,6 +59,7 @@
                             <th class="min-tablet">Branch Code</th>
                             <th class="min-desktop">Country</th>
                             <th class="min-desktop">Pastor in Charge</th>
+                            <th class="min-desktop">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,12 +71,22 @@
                             <td>{{$user->branchcode}}</td>
                             <td><?php echo $user->isAdmin() ? '<strong>HeadQuaters</strong>' : 'Branch Church'; ?></td>
                             <td>Mathew Ashimolowo</td>
+                            <td><a href="#" id="{{route('branch.destroy',$user->id)}}" onclick="del(this);" class="btn btn-danger" /><span>delete<i class="fa fa-trash"></i></span></a</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
+        <script>
+            /*function confirm(obj){
+                var id = obj.value;
+                var confirm = confirm('confirm to delete');
+            }
+            $(document).ready(function(){
+                ;
+            });*/
+        </script>
         <!--===================================================-->
         <!-- End Striped Table -->
 

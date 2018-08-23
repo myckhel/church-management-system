@@ -37,11 +37,11 @@
     <script src="{{ URL::asset('plugins/pace/pace.min.js') }}"></script>
 
 
-        
+
     <!--Demo [ DEMONSTRATION ]-->
     <link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet">
 
-    
+
     <!--=================================================
 
     REQUIRED
@@ -67,7 +67,14 @@
     Detailed information and more samples can be found in the document.
 
     =================================================-->
-        
+    <style type="text/css"> .cls-container {
+   background-image: url("{{ URL::asset('images/Banff2.jpg') }}");
+   background-color: #cccccc;
+        background-size: cover;
+}
+</style>
+
+
 </head>
 
 <!--TIPS-->
@@ -75,12 +82,12 @@
 
 <body>
     <div id="container" class="cls-container">
-        
+
 		<!-- BACKGROUND IMAGE -->
 		<!--===================================================-->
 		<div id="bg-overlay"></div>
-		
-		
+
+
 		<!-- LOGIN FORM -->
 		<!--===================================================-->
 		<div class="cls-content">
@@ -116,11 +123,11 @@
 		                <button class="btn btn-primary btn-lg btn-block" type="submit">Sign In</button>
 		            </form>
 		        </div>
-		
+
 		        <div class="pad-all">
 		            <a href="#" class="btn-link mar-rgt">Forgot password ?</a>
-		            <a href="register" class="btn-link mar-lft">Create a new account</a>
-		
+		            <!--a href="register" class="btn-link mar-lft">Create a new account</a-->
+
 		            <!--<div class="media pad-top bord-top">
 		                <div class="pull-right">
 		                    <a href="pages-login.html#" class="pad-rgt"><i class="demo-psi-facebook icon-lg text-primary"></i></a>
@@ -135,8 +142,8 @@
 		    </div>
 		</div>
 		<!--===================================================-->
-		
-		
+
+
 		<!-- DEMO PURPOSE ONLY -->
 		<!--===================================================-->
 		<!--<div class="demo-bg">
@@ -153,15 +160,15 @@
 		    </div>
 		</div>-->
 		<!--===================================================-->
-		
-		
-		
+
+
+
     </div>
     <!--===================================================-->
     <!-- END OF CONTAINER -->
 
 
-        
+
     <!--JAVASCRIPT-->
     <!--=================================================-->
 
@@ -180,7 +187,7 @@
 
 
     <!--=================================================-->
-    
+
     <!--Background Image [ DEMONSTRATION ]-->
     <script src="{{ URL::asset('js/demo/bg-images.js') }}"></script>
 

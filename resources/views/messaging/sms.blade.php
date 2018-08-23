@@ -42,26 +42,26 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3"  >
                 @if (session('status'))
-                    
+
                     <div class="alert alert-success">
                         {{ session('status') }}
                     </div>
                 @endif
-                @if (count($errors) > 0) 
+                @if (count($errors) > 0)
                     @foreach ($errors->all() as $error)
 
                         <div class="alert alert-danger">{{ $error }}</div>
 
-                    @endforeach 
-                    
-                @endif                                  
-            </div> 
+                    @endforeach
+
+                @endif
+            </div>
             <div class="col-sm-6 col-sm-offset-3" style="margin-bottom:420px">
                 <div class="panel">
                     <div class="panel-heading">
                         <h3 class="panel-title">SMS Messaging</h3>
                     </div>
-        
+
                     <!--Block Styled Form -->
                     <!--===================================================-->
                     <form method="POST" action="{{route('sendSMS')}}">
@@ -72,7 +72,12 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Number</label>
-                                        <input type="text" name="to" class="form-control">
+                                        <!--input type="text" name="to" class="form-control"-->
+                                        <select name="to[]" class="selectpicker" data-live-search="true" data-actions-box="true" data-width="100%" multiple>
+                                          @foreach ($members as $member)
+                                            <option value="{{$member->phone}}">{{ucwords($member->getFullname()) . $member->phone}}</option>
+                                          @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -91,11 +96,11 @@
                     </form>
                     <!--===================================================-->
                     <!--End Block Styled Form -->
-        
+
                 </div>
             </div>
-                                
-                               
+
+
         </div>
     </div>
     <!--===================================================-->

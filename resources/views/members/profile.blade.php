@@ -75,20 +75,21 @@
                                                         <p>
                                                         <i class="demo-pli-old-telephon icon-lg icon-fw"></i>{{$member->address}}</p>
                                                         <p>
+                                                        <i class="demo-pli-old-house icon-lg icon-fw"></i>{{$member->city}}</p>
+                                                        <p>
                                                         <i class="demo-pli-old-house icon-lg icon-fw"></i>{{$member->state}}</p>
                                                         <p>
                                                         <i class="demo-pli-old-teleph icon-lg icon-fw"></i>{{$member->country}}</p>
-                                                <p class="text-sm text-center">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-                                                        magna aliquam erat volutpat.</p>
+                                                <p class="text-sm text-center"></p>
 
 
                                                 <hr>
-                                                <p class="pad-ver text-main text-sm text-uppercase text-bold">Positions</p>
+                                                <p class="pad-ver text-main text-sm text-uppercase text-bold">Position</p>
                                                 <ul class="list-inline">
-                                                        <li class="tag tag-sm">Elder</li>
-                                                        <li class="tag tag-sm">Building Committee</li>
+                                                        <li class="tag tag-sm">{{$member->position}}</li>
+                                                        <!--li class="tag tag-sm">Building Committee</li>
                                                         <li class="tag tag-sm">Usher</li>
-                                                        <li class="tag tag-sm">Evangelism</li>
+                                                        <li class="tag tag-sm">Evangelism</li-->
                                                 </ul>
                                                 <hr>
                                                 <p class="pad-ver text-main text-sm text-uppercase text-bold">Relatives</p>
@@ -107,9 +108,9 @@
 
                                                                 <li class="tag tag-sm"><a href="{{route('member.profile', $rel->id)}}">{{$rel->getFullname()}}</a> - {{$relative->relationship}}</li><br/>
 
-                                                <?
+                                                <?php
                                                         }
-                                                } else echo '<li class="tag tag-sm">No Relatives</li><br/>';
+                                                } else {echo '<li class="tag tag-sm">No Relatives</li><br/>';}
                                                 ?>
                                                 </ol>
 
@@ -148,4 +149,5 @@
 </div>
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
+
 @endsection

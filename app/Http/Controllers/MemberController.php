@@ -50,6 +50,11 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+        $member = Member::where('email', $request->email)->get(['id'])->first();
+        if($member){
+
+            return redirect()->back()->with('status', "The email ($request->email) already exists for a memeber.");
+        }
         $user = \Auth::user();
 
         $relatives = null;
@@ -110,6 +115,8 @@ class MemberController extends Controller
             'position' => $request->get('position'),
             'address' => $request->get('address'),
             'address2' => $request->get('address2'),
+            'postal' => $request->get('postal'),
+            'city' => $request->get('city'),
             'state' => $request->get('state'),
             'country' => $request->get('country'),
             'sex' => $request->get('sex'),

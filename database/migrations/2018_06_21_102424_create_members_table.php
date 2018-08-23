@@ -23,9 +23,11 @@ class CreateMembersTable extends Migration
             $table->string('dob')->nullable();
             $table->string('phone')->nullable();
             $table->string('occupation')->nullable();
-            $table->enum('position',['senior pastor','pastor', 'elder','usher','member', 'chorister','technician','instrumentalist', 'deacon','deaconess','evangelist','minister','protocol'])->default('member');
+            $table->enum('position',['worker','senior pastor','pastor', 'elder','usher','member', 'chorister','technician','instrumentalist', 'deacon','deaconess','evangelist','minister','protocol'])->default('member');
             $table->string('address')->nullable();
             $table->string('address2')->nullable();
+            $table->string('postal')->nullable();
+            $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('country')->nullable();
             $table->enum('sex', ['male', 'female']);

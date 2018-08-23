@@ -26,7 +26,14 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/member/register', 'MemberController@store')->name('member.register');
     Route::get('/members/all', 'MemberController@index')->name('members.all');
     Route::get('/member/profile/{id}', 'MemberController@show')->name('member.profile');
+
     Route::get('/branches', 'BranchController@index')->name('branches');
+    Route::get('/branches/{id}/destroy', 'BranchController@destroy')->name('branch.destroy');
+    Route::get('/branches/register', 'BranchController@registerForm')->name('branch.register');
+    Route::post('/branches/register', 'BranchController@register')->name('branch.register');
+    Route::get('/branches/head_office_options', 'BranchController@ho')->name('branch.ho');
+    Route::post('/branches/head_office_options', 'BranchController@ho_up')->name('branch.ho.up');
+
     Route::get('/attendance', function(){
         return view('attendance.mark');
     })->name('attendance');
@@ -34,16 +41,16 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/attendance/submit', 'AttendanceController@store')->name('attendance.submit');
     //Route::post('/attendance/mark/submit', 'AttendanceController@store')->name('attendance.mark.submit');
     Route::get('/attendance/analysis', 'AttendanceController@analysis')->name('attendance.analysis');
-    Route::get('/attendance/view', function () {
-        return view('attendance.view');
-    })->name('attendance.view.form');
+    Route::get('/attendance/view', 'AttendanceController@view')->name('attendance.view.form');
+    //function () {        return view('attendance.view');});
     Route::post('/attendance/view', 'AttendanceController@show')->name('attendance.view');
     Route::get('/attendance/view/{date}', 'AttendanceController@show')->name('attendance.view.custom');
-    Route::get('/collection/offering', function () {
-        return view('collection.offering');
-    })->name('collection.offering');
+    Route::get('/collection/offering', 'CollectionController@index')->name('collection.offering');
+         //function () { return view('collection.offering');  })->name('collection.offering');
     Route::post('/collection/save', 'CollectionController@store')->name('collection.save');
+    Route::post('/collection/member', 'CollectionController@member')->name('collection.save.member');
     Route::get('/collection/report', 'CollectionController@report')->name('collection.report');
+    Route::get('/collection/analysis', 'CollectionController@analysis')->name('collection.analysis');
     Route::get('/calendar', 'EventController@index')->name('calendar');
     Route::post('/calendar', 'EventController@store')->name('calendar.update');
     Route::get('/get-relative/{search_term}', 'MemberController@getRelative')->name('relative');
@@ -66,6 +73,9 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
 Route::get('/admin/login', function () {
     return view('auth.login');
 });
-Route::get('/registerr', function () {
-    return view('auth.register');
-});
+//Route::get('/registerr', function () {
+    //return view('auth.register');
+//});
+Route::get('/recover', 'RecoverPasswordController@index')->name('recover');
+Route::post('/recover', 'RecoverPasswordController@recover');
+Route::post('/recover/{selector}/{token}', 'RecoverPasswordController@reset')->name('recover.reset');

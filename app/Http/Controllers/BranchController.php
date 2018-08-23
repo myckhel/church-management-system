@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Branch;
 use App\User;
 use Illuminate\Http\Request;
+use DB;
+use App\H_O_Options;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
 
 class BranchController extends Controller
 {
@@ -26,7 +31,7 @@ class BranchController extends Controller
         $users = User::all();
 
         return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard') : view('branch.all',compact('users'));
-        
+
     }
 
     /**
@@ -90,8 +95,141 @@ class BranchController extends Controller
      * @param  \App\Branch  $branch
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Branch $branch)
+    public function destroy(Request $request)
     {
         //
+        $id = $request->id;
+        //DB::delete('delete * from')
+
+        //return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard') :
+            //$branch->delete();
+           // view('branch.all',compact('users'));
+        $user = \Auth::user();
+
+        //$sql = 'DELETE * from users WHERE id = "?"';
+        DB::table('users')->where('id', '=', $id)->delete();
+        //DB::delete($sql,$id);
+
+
+        //return view('branch.all');
+         return response()->json(['success' => true,]);
+    }
+
+    public function registerForm()
+    {
+        //
+        $users = User::all();
+
+        return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard'):
+        view('branch.register');
+    }
+
+
+
+    public function register(Request $request)
+    {
+      $data = [];
+      $data['branchname'] = $request->branchname;
+      $data['branchcode'] = $request->branchcode;
+      $data['address'] = $request->address;
+      $data['email'] = $request->email;
+      $data['password'] = $request->password;
+      $data['password_confirmation'] = $request->password_confirmation;
+      //foreach($request as $key => $value){
+        //$data[$key] = $value;
+      //}
+      //return $data['branchname'];
+        $validate = self::validator($data);
+        if($validate->fails()){
+          return redirect('/branches/register')->withErrors($validate)->withInput();
+        }
+        $creation = self::creator($data);
+        //
+        //$users = User::all();
+
+        $s = 'Success';
+
+        //return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard'):
+        return redirect()->route('branch.register', ['s' => $s]);
+    }
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'branchname' => 'bail|required|string|max:255',
+            'branchcode' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+    }
+
+    protected function creator(array $data)
+    {
+        return User::create([
+            'branchname' => $data['branchname'],
+            'branchcode' => $data['branchcode'],
+            'address' => $data['address'],
+            'email' => $data['email'],
+            'isadmin' => 'false',
+            'password' => Hash::make($data['password']),
+        ]);
+    }
+
+    public function ho(Request $request){
+        $user = \Auth::user();
+
+        //foreach($request as $key => $value){
+
+        //}
+        //$options = DB::table('head_office_options')->get();
+        $options = \App\head_office_options::all();
+        //$op = new H_O_Options();
+        //$options = $op->options();//H_O_Options::options();
+        return view('branch.ho', ['options' => $options]);
+    }
+    public function ho_up(Request $request){
+        $img = file_get_contents(Input::file('img')->getRealPath());//$_FILES['img']['tmp_name']);
+        //$img = base64_encode($data);
+        $user = \Auth::user();
+        $sname = $request->sname;
+        $lname = $request->lname;
+        $addr1 = $request->addr1;
+        $addr2 = $request->addr2;
+        $city = $request->city;
+        $state = $request->state;
+        $postal = $request->postal;
+        $country = $request->country;
+        $phone1 = $request->phone1;
+        $phone2 = $request->phone2;
+        $phone3 = $request->phone3;
+        $phone4 = $request->phone4;
+        $email  = $request->email;
+        //$img = $request->img;
+        $id = $request->id;
+
+        DB::table('head_office_options')->where('HOID', $id)->update(['HOSNAME'=>$sname,
+                                                               'HOLNAME'=>$lname,
+                                                               'HOADDRESS'=>$addr1,
+                                                               'HOADDRESS2'=>$addr2,
+                                                               'HOCITY'=>$city,
+                                                               'HOSTATE'=>$state,
+                                                               'HOPOSTAL_CODE'=>$postal,
+                                                               'HOCOUNTRY'=>$country,
+                                                               'HOPHONE1'=>$phone1,
+                                                               'HOPHONE2'=>$phone2,
+                                                               'HOPHONE3'=>$phone3,
+                                                               'HOPHONE4'=>$phone4,
+                                                               'HOEMAIL'=>$email,
+                                                               'HOLOGO'=>$img,
+                                                               ]);
+
+        //foreach($request as $key => $value){
+
+        //}
+        //$success =
+        //DB::table('head_office_options')->where($options->column, $options->column)->update([$options->column => $options->value]);
+
+        return redirect('/branches/head_office_options');
     }
 }

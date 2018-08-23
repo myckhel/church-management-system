@@ -11,7 +11,7 @@
         <!--Page Title-->
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <div id="page-title">
-            <h1 class="page-header text-overflow">group</h1>
+            <h1 class="page-header text-overflow">Groups</h1>
         </div>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <!--End page title-->
@@ -26,7 +26,7 @@
                 </a>
             </li>
             <li>
-                <a href="forms-general.html#">groups</a>
+                <a href="{{route('groups')}}">groups</a>
             </li>
             <li class="active">All</li>
         </ol>
@@ -34,7 +34,8 @@
         <!--End breadcrumb-->
 
     </div>
-
+    <!-- check if admin -->
+    <?php  $admin = \Auth::user()->isAdmin(); ?>
 
     <!--Page content-->
     <!--===================================================-->
@@ -52,19 +53,19 @@
                         {{ session('status') }}
                     </div>
                 @endif
-                @if (count($errors) > 0) 
+                @if (count($errors) > 0)
                     @foreach ($errors->all() as $error)
 
                         <div class="alert alert-danger">{{ $error }}</div>
 
-                    @endforeach 
-                    
-                @endif 
+                    @endforeach
+
+                @endif
 
                 </div>
             </div>
             <!---------------------------------->
-        @endif 
+        @endif
 
         <!-- Line Chart -->
         <!---------------------------------->
@@ -101,21 +102,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $count=1;?>
+                        <?php $count=1; ?>
                         @foreach($groups as $group)
                         <tr>
                             <th>{{$count}}</th>
                             <td><strong>{{strtoupper($group->name)}}</strong></td>
-                            <td>{{$group->getNumberOfMembers()}}</td>
+                            <td>{{$group->getNumberOfMembers(\Auth::user()->branchcode)}}</td>
                             <td>{{ \Carbon\Carbon::parse(substr($group->created_at, 0, 10))->format('l, jS \\of F Y')}}</td>
                             <td>
                                 <a class="btn btn-success btn-sm" href="{{route('group.view', $group->id)}}">View Group</a>
-                                <a class="btn btn-danger btn-sm" href="{{route('group.delete', $group->id)}}">Delete Group</a>
+                                <a onclick="return confirm('Are you sure you want to delete the group?')" class="btn btn-danger btn-sm" href="{{route('group.delete', $group->id)}}">Delete Group</a>
                             </td>
                         </tr>
                         <?php $count++;?>
                         @endforeach
-                        
+
                     </tbody>
                 </table>
             </div>

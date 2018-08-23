@@ -76,6 +76,8 @@
     Detailed information and more samples can be found in the document.
 
     =================================================-->
+    	<!--Font Awesome [ OPTIONAL ]-->
+	<link href="{{ URL::asset('plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
 
 </head>
 
@@ -93,7 +95,7 @@
                 <!--Brand logo & name-->
                 <!--================================-->
                 <div class="navbar-header">
-                    <a href="index.html" class="navbar-brand">
+                    <a href="{{url('/dashboard')}}" class="navbar-brand">
                         <img src="img/logo.png" alt="Nifty Logo" class="brand-icon">
                         <div class="brand-title">
                             <span class="brand-text">{{strtoupper(\Auth::user()->branchname)}}</span>
@@ -152,7 +154,7 @@
                                 <div class="row">
                                     <div class="col-sm-4 col-md-3">
 
-                                        
+
                                         <ul class="list-unstyled">
                                                                                 <li class="dropdown-header"><i class="demo-pli-file icon-lg icon-fw"></i> Pages</li>
                                                                                 <li><a href="dashboard">Profile</a></li>
@@ -166,7 +168,7 @@
                                     </div>
                                     <div class="col-sm-4 col-md-3">
 
-                                        
+
                                         <ul class="list-unstyled">
                                                                                 <li class="dropdown-header"><i class="demo-pli-mail icon-lg icon-fw"></i> Mailbox</li>
                                                                                 <li><a href="dashboard"><span class="pull-right label label-danger">Hot</span>Indox</a></li>
@@ -178,7 +180,7 @@
                                         <p class="pad-top mar-top bord-top text-sm">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
                                     </div>
                                     <div class="col-sm-4 col-md-3">
-                                        
+
                                         <ul class="list-unstyled">
                                             <li>
                                                 <a href="dashboard" class="media mar-btm">
@@ -268,7 +270,7 @@
                             </a>
 
 
-                            
+
                             <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
                                 <div class="nano scrollable">
                                     <div class="nano-content">
@@ -348,7 +350,7 @@
                                     </div>
                                 </div>
 
-                                
+
                                 <div class="pad-all bord-top">
                                     <a href="dashboard" class="btn-link text-main box-block">
                                         <i class="pci-chevron chevron-right pull-right"></i>Show All Notifications
@@ -370,7 +372,7 @@
                                     <!--You can use an image instead of an icon.-->
                                     <!--<img class="img-circle img-user media-object" src="img/profile-photos/1.png" alt="Profile Picture">-->
                                     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                                    <i class="demo-pli-male"></i>
+                                    <i class="demo-pli-male"> Hello {{\Auth::user()->branchname}}</i>
                                 </span>
                                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                                 <!--You can also display a user name in the navbar.-->
@@ -417,18 +419,14 @@
 
                     <hr class="new-section-sm bord-no">
                     <div class="text-center">
-                        <h3>Welcome back to <strong>{{strtoupper(\Auth::user()->branchname)}}</strong> Dashboard.</h3>
+                        <h3>Welcome to <strong>{{strtoupper(\Auth::user()->branchname)}}</strong> Dashboard.</h3>
                         <!--<p>Check out your past searches and the content you’ve browsed in. <a href="dashboard" class="btn-link">View last results</a></p>-->
                     </div>
                     <hr class="new-section-md bord-no">
                 </div>
-
-
                 <!--Page content-->
                 <!--===================================================-->
                 <div id="page-content">
-
-
                     <!--<div class="row">
                                                 <div class="col-md-2 col-md-offset-3">
                                                     <div class="panel">
@@ -467,7 +465,7 @@
 
                     <hr class="new-section-md bord-no">
                     <div class="row">
-                    <img style="margin-top:-200px" src="./images/church-logo.png" class="center-block img-responsive" />
+                    <img style="margin-top:-200px; max-width: 914px; min-width:500px ; min-height:150px ; max-height: 228px;" src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="center-block img-responsive" /> <!-- ./images/church-logo.png -->
                         <div class="col-md-10 col-md-offset-1">
                             <div clas="row">
                             <div class="col-md-12">
@@ -477,57 +475,157 @@
                                                                 <div class="text-lg">
                                                                     <p class="text-5x text-thin text-main">{{\App\User::all()->count()}}</p>
                                                                 </div>
-                                                                <p class="text-sm text-bold text-uppercase">Total Number of Branches</p>
+                                                                <p class="text-sm text-bold text-uppercase">Total Number of Our Branches</p>
                                                             </div>
                                                             <div class="col-sm-8">
-                                                                <button class="btn btn-pink mar-ver">View Details</button>
-                                                                <p class="text-xs">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
-                                                                <ul class="list-unstyled text-center bord-top pad-top mar-no row">
-                                                                    <li class="col-xs-4">
-                                                                        <span class="text-lg text-semibold text-main">1,345</span>
+                                                              <div class="col-sm-4 pad-top">
+                                                                  <div class="text-lg">
+                                                                      <p class="text-5x text-thin text-main">{{$total['members']}}</p>
+                                                                  </div>
+                                                                  <p class="text-sm text-bold text-uppercase">Total Number of Our Members</p>
+                                                              </div>
+                                                              <div class="col-sm-4 pad-top">
+                                                                  <div class="text-lg">
+                                                                      <p class="text-5x text-thin text-main">{{$total['workers']}}</p>
+                                                                  </div>
+                                                                  <p class="text-sm text-bold text-uppercase">Total Number of  Our Workers</p>
+                                                              </div>
+                                                              <div class="col-sm-4 pad-top">
+                                                                  <div class="text-lg">
+                                                                      <p class="text-5x text-thin text-main">{{$total['pastors']}}</p>
+                                                                  </div>
+                                                                  <p class="text-sm text-bold text-uppercase">Total Number of Our Pastors</p>
+                                                              </div>
+                                                                <!--button class="btn btn-pink mar-ver">View Details</button>
+                                                                <p class="text-xs">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p-->
+                                                                <!--ul style="padding-top:50px;" class="list-unstyled text-center  pad-top mar-no row"> <!--bord-top-->
+                                                                    <!--li class="col-xs-4">
+                                                                        <span class="text-lg text-semibold text-main">{{$total['workers']}}</span>
                                                                         <p class="text-sm text-muted mar-no">Workers</p>
                                                                     </li>
                                                                     <li class="col-xs-4">
-                                                                        <span class="text-lg text-semibold text-main">23K</span>
+                                                                        <span class="text-lg text-semibold text-main">{{$total['members']}}</span>
                                                                         <p class="text-sm text-muted mar-no">Members</p>
                                                                     </li>
                                                                     <li class="col-xs-4">
-                                                                        <span class="text-lg text-semibold text-main">278</span>
+                                                                        <span class="text-lg text-semibold text-main">{{$total['pastors']}}</span>
                                                                         <p class="text-sm text-muted mar-no">Pastors</p>
                                                                     </li>
-                                                                </ul>
+                                                                </ul-->
                                                             </div>
                                                         </div>
                                                     </div>
                             </div>
-                            <div class="col-md-6">
+                                          <div class="col-md-3">
 
-                            
-                                        
                                                 <!--Tile-->
                                                 <!--===================================================-->
-                                                <div class="panel panel-dark panel-colorful" >
-                                                    <div class="panel-body text-center">
-                                                        <i class="demo-pli-coin icon-4x"></i>
+                                                <div class="panel"> <!--panel-dark panel-colorful" -->
+                                                    <div class="panel-heading"> <!--body text-center"-->
+                                                        <h3 class="panel-title"><strong>Upcoming Birthdays For <?php echo date('F Y'); ?></strong> </h3>
+                                                        <!--i class="demo-pli-coin icon-4x"></i-->
                                                     </div>
-                                                    <div class="pad-al text-center">
+                                                    <!-- Striped Table -->
+                                                    <!--===================================================-->
+                                                      <div class="panel-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped">
+                                                                    <thead>
+                                                                        <tr>
+                                                                          <th>Name</th>
+                                                                          <th>Birth Date</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                      @if (count($members) > 0)
+                                                                @foreach ($members as $member)
+                                                                @if (date('F', (strtotime($member->dob))) == date('F') && (int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->dob)), 0,2) )
+                                                                                    <tr>
+                                                                    <td><a href="#" class="btn-link">{{$member->getFullname()}}</a></td>
+                                                                    <td>{{date('jS', strtotime($member->dob))}}</td>
+                                                                                    </tr>
+                                                                @endif
+                                                                @endforeach
+                                                                <?php else: ?>
+                                                                  <tr class="no-data">
+                                                                      <td colspan="4">No Upcoming Birthday</td>
+                                                                  </tr>
+                                                                @endif
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                      </div>
+                                                    <!--===================================================-->
+                                                    <!-- End Striped Table -->
+                                                    <!--div class="pad-al text-center">
                                                         <p class="text-semibold text-lg mar-no">Earning</p>
                                                         <p class="text-1x text-bold mar-no ">$7,428</p>
                                                         <p class="text-overflow pad-top pad-all">
                                                             <span class="label label-dark">22,675</span> Total Earning
                                                         </p>
-                                                    </div>
+                                                    </div-->
                                                 </div>
                                                 <!--===================================================-->
-                                        
-                                            
-                        </div>
-                        <div class="col-sm-6">
+                                              </div>
+
+                                              <div class="col-md-3">
+
+                                                    <!--Tile-->
+                                                    <!--===================================================-->
+                                                    <div class="panel"> <!--panel-dark panel-colorful" -->
+                                                        <div class="panel-heading"> <!--body text-center"-->
+                                                            <h3 class="panel-title"><strong>Upcoming Anniversaries For <?php echo date('F Y'); ?></strong> </h3>
+                                                            <!--i class="demo-pli-coin icon-4x"></i-->
+                                                        </div>
+                                                        <!-- Striped Table -->
+                                                        <!--===================================================-->
+                                                          <div class="panel-body">
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped">
+                                                                        <thead>
+                                                                            <tr>
+                                                                              <th>Name</th>
+                                                                              <th>Anniversary Date</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                          @if (count($members) > 0)
+                                                                    @foreach ($members as $member)
+                                                                    @if (date('F', (strtotime($member->wedding_anniversary))) == date('F')  && (int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->wedding_anniversary)), 0,2))
+                                                                                        <tr>
+                                                                        <td><a href="#" class="btn-link">{{$member->getFullname()}}</a></td>
+                                                                        <td>{{date('jS', strtotime($member->wedding_anniversary))}}</td>
+                                                                                        </tr>
+                                                                    @endif
+                                                                    @endforeach
+                                                                    <?php else: ?>
+                                                                      <tr class="no-data">
+                                                                          <td colspan="4">No Upcoming Anniversary</td>
+                                                                      </tr>
+                                                                      @endif
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                          </div>
+                                                        <!--===================================================-->
+                                                        <!-- End Striped Table -->
+                                                        <!--div class="pad-al text-center">
+                                                            <p class="text-semibold text-lg mar-no">Earning</p>
+                                                            <p class="text-1x text-bold mar-no ">$7,428</p>
+                                                            <p class="text-overflow pad-top pad-all">
+                                                                <span class="label label-dark">22,675</span> Total Earning
+                                                            </p>
+                                                        </div-->
+                                                    </div>
+                                                    <!--===================================================-->
+                                                  </div>
+
+                                              <div class="col-sm-6">
                                                 <div class="panel">
                                                     <div class="panel-heading">
-                                                        <h3 class="panel-title">Upcoming Events for <strong>{{strtoupper(\Auth::user()->branchname)}}</strong></h3>
+                                                        <h3 class="panel-title"><strong>Upcoming Events for {{strtoupper(\Auth::user()->branchname)}}</strong></h3>
                                                     </div>
-                                        
+
                                                     <!-- Striped Table -->
                                                     <!--===================================================-->
                                                     <div class="panel-body">
@@ -543,27 +641,35 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                @foreach ($events as $event)
-                                                                    <tr>
-                                                                        <td><a href="tables-static.html#fakelink" class="btn-link">{{$event->title}}</a></td>
-                                                                        <td>{{$event->location}}</td>
-                                                                        <td>{{$event->time}}</td>
-                                                    <td>{{$event->by_who}}</td>
-                                                    <td>{{$event->date}}</td>
+                                                                  @if (count($events) > 0)
+                                                                  @foreach ($events as $event)
+                                                                  @if ($event->date >= now())
+                                                                  <tr>
+                                                                      <td><a href="#" class="btn-link">{{$event->title}}</a></td>
+                                                                      <td>{{$event->location}}</td>
+                                                                      <td>{{$event->time}}</td>
+                                                                      <td>{{$event->by_who}}</td>
+                                                                      <td>{{$event->date}}</td>
+                                                                  </tr>
+                                                                  @endif
+                                                                  @endforeach
+                                                                  <?php else: ?>
+                                                                    <tr class="no-data">
+                                                                        <td colspan="4">No Upcoming Event</td>
                                                                     </tr>
-                                                @endforeach
+                                                                    @endif
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                     </div>
                                                     <!--===================================================-->
                                                     <!-- End Striped Table -->
-                                        
+
                                                 </div>
                                             </div>
                         </div>
                         </div>
-                        
+
                     </div>
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
@@ -635,7 +741,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                        
+
                                                     </div>-->
 
                             <!--<div class="row">
@@ -718,12 +824,12 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="panel">
-                                        
+
                                                                 <div class="panel">
                                                                     <div class="panel-heading">
                                                                         <h3 class="panel-title">Top User</h3>
                                                 </div>
-                                                
+
 
                                                                     <div class="panel-body">
                                                                         <div class="table-responsive">
@@ -795,13 +901,13 @@
                                                                             </table>
                                                                         </div>
                                                 </div>
-                                                
-                                        
+
+
                                                                 </div>
-                                        
+
                                                             </div>
                                                         </div>
-                                        
+
                                                     </div>-->
                         </div>
                     </div>
@@ -1228,7 +1334,7 @@
 						                    <li><a href="index.html">Dashboard 1</a></li>
 											<li><a href="dashboard-2.html">Dashboard 2</a></li>
 											<li class="active-link"><a href="dashboard-3.html">Dashboard 3</a></li>
-											
+
 						                </ul>-->
 									</li>
 
@@ -1239,8 +1345,8 @@
 						                    <span class="menu-title">Layouts</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="layouts-collapsed-navigation.html">Collapsed Navigation</a></li>
 											<li><a href="layouts-offcanvas-navigation.html">Off-Canvas Navigation</a></li>
@@ -1253,7 +1359,7 @@
 											<li class="list-divider"></li>
 											<li><a href="layouts-fixed-navbar.html">Fixed Navbar</a></li>
 											<li><a href="layouts-fixed-footer.html">Fixed Footer</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1275,7 +1381,7 @@
 
 									<!--Menu list item-->
                                     <li class="{{ Route::currentRouteName() === 'members.all' || Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : ''}}
-                                    
+
                                     {{Route::currentRouteName() === 'member.profile' ? 'active-sub' : ''}}">
 										<a href="{{route('members.all')}}">
 											<i class="demo-pli-boot-2"></i>
@@ -1291,7 +1397,7 @@
 											<li class="{{ Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : '' }}">
 												<a href="{{route('member.register.form')}}">Registration</a>
                                             </li>
-                                            
+
 											<!--<li><a href="ui-modals.html">Modals</a></li>
 											<li><a href="ui-progress-bars.html">Progress bars</a></li>
 											<li><a href="ui-components.html">Components</a></li>
@@ -1350,18 +1456,63 @@
 
 										</ul>-->
 									</li>
+									<li class="{{Route::currentRouteName() === 'groups' ? 'active-sub' : ''}}">
+										<a href="{{ route('groups') }}">
+											<i class="fa fa-users"></i>
+											<span class="menu-title">Small Groups</span>
+
+										</a>
+									</li>
+									<li class="{{Route::currentRouteName() === 'messaging' ? 'active-sub' : ''}}">
+										<a href="#">
+											<i class="fa fa-envelope"></i>
+											<span class="menu-title">Messaging</span>
+											<i class="arrow"></i>
+										</a>
+										<ul class="collapse">
+											<li>
+												<a href="{{route('email')}}">Email</a>
+											</li>
+											<li>
+												<a href="{{route('sms')}}">Bulk SMS</a>
+											</li>
+
+										</ul>
+									</li>
 									@if (\Auth::user()->isAdmin())
-									<li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
+                  <li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
+										<a href="#">
+											<i class="fa fa-building-o"></i>
+											<span class="menu-title">Admin Tools</span>
+											<i class="arrow"></i>
+										</a>
+										<ul class="collapse">
+											<li>
+												<a href="{{route('branches')}}">Branches</a>
+											</li>
+											<li>
+												<a href="{{route('branch.register')}}">Add New Branch</a>
+											</li>
+											<li>
+												<a href="{{route('branch.ho')}}">Head Office Options</a>
+											</li>
+											<li>
+												<a href="{{route('branches')}}">Coming Soon</a>
+											</li>
+
+										</ul>
+									</li>
+									<!--li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
 										<a href="{{ route('branches') }}">
 											<i class="fa fa-building-o"></i>
 											<span class="menu-title">Branches</span>
 											<!--<i class="arrow"></i>-->
-										</a>
-									</li>
+										<!--/a>
+									</li-->
 									@endif
 									<li class="{{Route::currentRouteName() === 'calendar' ? 'active-sub' : ''}}">
 										<a href="{{ route('calendar') }}">
-											<i class="fa fa-building-o"></i>
+											<i class="fa fa-calendar"></i>
 											<span class="menu-title">Calendar & Events</span>
 											<!--<i class="arrow"></i>-->
 										</a>
@@ -1379,7 +1530,7 @@
 											<li><a href="charts-flot-charts.html">Flot Charts</a></li>
 											<li><a href="charts-easy-pie-charts.html">Easy Pie Charts</a></li>
 											<li><a href="charts-sparklines.html">Sparklines</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1390,8 +1541,8 @@
 						                    <span class="menu-title">Miscellaneous</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="misc-timeline.html">Timeline</a></li>
 											<li><a href="misc-maps.html">Google Maps</a></li>
@@ -1403,7 +1554,7 @@
 											<li><a href="misc-tree-view.html">Tree View</a></li>
 											<li><a href="misc-clipboard.html">Clipboard</a></li>
 											<li><a href="misc-x-editable.html">X-Editable</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1414,14 +1565,14 @@
 						                    <span class="menu-title">Grid System</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="grid-bootstrap.html">Bootstrap Grid</a></li>
 											<li><a href="grid-liquid-fixed.html">Liquid Fixed</a></li>
 											<li><a href="grid-match-height.html">Match Height</a></li>
 											<li><a href="grid-masonry.html">Masonry</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1437,8 +1588,8 @@
 						                    <span class="menu-title">App Views</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="app-file-manager.html">File Manager</a></li>
 											<li><a href="app-users.html">Users</a></li>
@@ -1448,7 +1599,7 @@
 											<li><a href="app-taskboard.html">Taskboard</a></li>
 											<li><a href="app-chat.html">Chat</a></li>
 											<li><a href="app-contact-us.html">Contact Us</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1459,8 +1610,8 @@
 						                    <span class="menu-title">Blog Apps</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="blog.html">Blog</a></li>
 											<li><a href="blog-list.html">Blog List</a></li>
@@ -1469,7 +1620,7 @@
 											<li class="list-divider"></li>
 											<li><a href="blog-manage-posts.html">Manage Posts</a></li>
 											<li><a href="blog-add-edit-post.html">Add Edit Post</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1480,14 +1631,14 @@
 						                    <span class="menu-title">Email</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="mailbox.html">Inbox</a></li>
 											<li><a href="mailbox-message.html">View Message</a></li>
 											<li><a href="mailbox-compose.html">Compose Message</a></li>
 											<li><a href="mailbox-templates.html">Email Templates</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1498,8 +1649,8 @@
 						                    <span class="menu-title">Other Pages</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="pages-blank.html">Blank Page</a></li>
 											<li><a href="pages-invoice.html">Invoice</a></li>
@@ -1517,7 +1668,7 @@
 											<li><a href="pages-register.html">Register</a></li>
 											<li><a href="pages-password-reminder.html">Password Reminder</a></li>
 											<li><a href="pages-lock-screen.html">Lock Screen</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1528,8 +1679,8 @@
 						                    <span class="menu-title">Gallery</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="gallery-columns.html">Columns</a></li>
 											<li><a href="gallery-justified.html">Justified</a></li>
@@ -1541,7 +1692,7 @@
 											<li><a href="gallery-default-theme.html">Default Theme</a></li>
 											<li><a href="gallery-compact-theme.html">Compact Theme</a></li>
 											<li><a href="gallery-grid-theme.html">Grid Theme</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1554,7 +1705,7 @@
                                             <i class="arrow"></i>
                                         </a>
 
-                                        
+
                                         <ul class="collapse">
                                             <li><a href="dashboard">Second Level Item</a></li>
                                             <li><a href="dashboard">Second Level Item</a></li>
@@ -1563,7 +1714,7 @@
                                             <li>
                                                 <a href="dashboard">Third Level<i class="arrow"></i></a>
 
-                                                
+
                                                 <ul class="collapse">
                                                     <li><a href="dashboard">Third Level Item</a></li>
                                                     <li><a href="dashboard">Third Level Item</a></li>
@@ -1574,7 +1725,7 @@
                                             <li>
                                                 <a href="dashboard">Third Level<i class="arrow"></i></a>
 
-                                                
+
                                                 <ul class="collapse">
                                                     <li><a href="dashboard">Third Level Item</a></li>
                                                     <li><a href="dashboard">Third Level Item</a></li>
@@ -1599,15 +1750,15 @@
 						                    <span class="menu-title">Icons Pack</span>
 											<i class="arrow"></i>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="icons-ionicons.html">Ion Icons</a></li>
 											<li><a href="icons-themify.html">Themify</a></li>
 											<li><a href="icons-font-awesome.html">Font Awesome</a></li>
 											<li><a href="icons-flagicons.html">Flag Icon CSS</a></li>
 											<li><a href="icons-weather-icons.html">Weather Icons</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1620,12 +1771,12 @@
 												<span class="label label-danger pull-right">BEST</span>
 											</span>
 						                </a>
-						
-						                
+
+
 						                <ul class="collapse">
 						                    <li><a href="premium-line-icons.html">Line Icons Pack</a></li>
 											<li><a href="premium-solid-icons.html">Solid Icons Pack</a></li>
-											
+
 						                </ul>
 						            </li>-->
 
@@ -1673,7 +1824,7 @@
             <!-- Visible when footer positions are static -->
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
             <div class="hide-fixed pull-right pad-rgt">
-                {{strtoupper(\Auth::user()->branchname)}}
+                Powered By <a href="https://hoffenheimtechnologies.com" style="color:#274868;font-weight:bolder">Hoffenheim Technologies </a>
             </div>
 
 

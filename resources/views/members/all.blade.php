@@ -26,7 +26,7 @@
                 </a>
             </li>
             <li>
-                <a href="forms-general.html#">Members</a>
+                <a href="{{route('members.all')}}">Members</a>
             </li>
             <li class="active">All</li>
         </ol>
@@ -46,12 +46,12 @@
         <!--===================================================-->
         <div class="panel">
             <div class="panel-heading">
-                <h3 class="panel-title">List of Members in province004</h3>
+                <h3 class="panel-title">List of Members In {{\Auth::user()->branchname}}</h3>
             </div>
             <div class="panel-body" style="overflow:scroll">
-                <div style="height:100px;border:1px solid green">
+                <!--div style="height:100px;border:1px solid green">
                 Sort by Newest Members, Gender
-                </div>
+              </div-->
                 <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
                     <thead>
                         <tr>
@@ -84,7 +84,7 @@
                         </tr>
                         <?php $count++;?>
                         @endforeach
-                        
+
                     </tbody>
                 </table>
             </div>

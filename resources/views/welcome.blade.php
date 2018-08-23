@@ -63,6 +63,12 @@
                 margin-bottom: 30px;
             }
         </style>
+        <style type="text/css"> body{
+   background-image: url("{{ URL::asset('images/church_bg.jpg') }}");
+   background-color: #cccccc;
+        background-size: cover;
+}
+</style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -72,14 +78,13 @@
                         <a href="{{ url('/dashboard') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
                     @endauth
                 </div>
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    Church Management System
+                    <b>Church Management System</b>
                 </div>
 
                 <!--<div class="links">

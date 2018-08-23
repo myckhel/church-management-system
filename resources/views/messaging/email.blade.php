@@ -9,7 +9,7 @@
                 <div id="page-head">
                                     </div>
 
-                
+
                 <!--Page content-->
                 <!--===================================================-->
                 <div id="page-content">
@@ -26,29 +26,29 @@
 										{{ session('status') }}
 									</div>
 								@endif
-								@if (count($errors) > 0) 
+								@if (count($errors) > 0)
 									@foreach ($errors->all() as $error)
 
 										<div class="alert alert-danger">{{ $error }}</div>
 
-									@endforeach 
-									
-								@endif 
+									@endforeach
+
+								@endif
 
 								</div>
 							</div>
 							<!---------------------------------->
-						@endif 
+						@endif
                         <div class="panel">
 
 					        <div class="panel-body">
 					            <div class="fixed-fluid">
 					                <div class="fixed-sm-200 pull-sm-left fixed-right-border">
-					
-					                    <div class="pad-btm bord-btm">
+
+					                    <!--div class="pad-btm bord-btm">
 					                        <a href="mailbox-compose.html" class="btn btn-block btn-success">Compose Mail</a>
-					                    </div>
-					
+					                    </div-->
+
 					                    <!--<p class="pad-hor mar-top text-main text-bold text-sm text-uppercase">Folders</p>
 					                    <div class="list-group bg-trans pad-btm bord-btm">
 					                        <a href="mailbox-compose.html#" class="list-group-item mail-nav-unread">
@@ -67,15 +67,15 @@
 					                            <i class="demo-pli-trash icon-lg icon-fw"></i> Trash
 					                        </a>
 					                    </div>
-					
+
 					                    <div class="list-group bg-trans">
 					                        <a href="mailbox-compose.html#" class="list-group-item"><i class="demo-pli-male-female icon-lg icon-fw"></i> Address Book</a>
 					                        <a href="mailbox-compose.html#" class="list-group-item"><i class="demo-pli-folder-with-document icon-lg icon-fw"></i> User Folders</a>
 					                    </div>-->
-					
+
 					                    <div style="display:none" class="list-group bg-trans pad-ver bord-ver">
 					                        <p class="pad-hor mar-top text-main text-bold text-sm text-uppercase">Friends</p>
-					
+
 					                        <!-- Menu list item -->
 					                        <a href="mailbox-compose.html#" class="list-group-item list-item-sm">
 					                            <span class="badge badge-purple badge-icon badge-fw pull-left"></span>
@@ -98,7 +98,7 @@
 					                            Susan Sun
 					                        </a>
 					                    </div>
-					
+
 					                    <!--<p class="pad-hor mar-top text-main text-bold text-sm text-uppercase">Labels</p>
 					                    <ul class="list-inline mar-hor">
 					                        <li class="tag tag-xs">
@@ -120,12 +120,12 @@
 					                            <a href="mailbox-compose.html#"><i class="demo-pli-tag"></i> Photography</a>
 					                        </li>
 					                    </ul>-->
-					
+
 					                </div>
 					                <div class="fluid">
 					                    <!-- COMPOSE EMAIL -->
 					                    <!--===================================================-->
-					
+
 					                    <div class="pad-btm clearfix">
 					                        <!--Cc & bcc toggle buttons-->
 					                        <div class="pull-right pad-btm">
@@ -135,17 +135,20 @@
 					                            </div>
 					                        </div>
 					                    </div>
-					
-					
-					
+
 					                    <!--Input form-->
 					                    <form id="send-mail-form" role="form" class="form-horizontal" method=POST action="{{route('sendMail')}}">
 										@csrf
 					                        <div class="form-group">
 
 					                            <label class="col-lg-1 control-label text-left"  for="inputEmail">To</label>
-					                            <div class="col-lg-11">
-					                                <input type="email" id="inputEmail" name="to" value="<?php echo isset($_GET['mail']) ? $_GET['mail'] : "" ; ?> " class="form-control">
+					                            <div class="col-lg-6">
+					                                <!--input type="email" id="inputEmail" name="to" value="<?php echo isset($_GET['mail']) ? $_GET['mail'] : "" ; ?> " class="form-control"-->
+                                        <select data-live-search="true" name="to[]" data-width="100%" data-actions-box="true" class="selectpicker" multiple>
+                                          @foreach ($members as $member)
+                                            <option value="{{$member->email}}">{{ucwords($member->getFullname())}}</option>
+                                          @endforeach
+                                        </select>
 					                            </div>
 					                        </div>
 					                        <div id="demo-cc-input" class="hide form-group">
@@ -162,20 +165,20 @@
 					                        </div>
 					                        <div class="form-group">
 					                            <label class="col-lg-1 control-label text-left" for="inputSubject">Subject</label>
-					                            <div class="col-lg-11">
+					                            <div class="col-lg-6">
 					                                <input type="text" id="inputSubject" name="subject" class="form-control">
 					                            </div>
 					                        </div>
-					                    
+
 											<div class="form-group" style="display:none">
 					                            <label class="col-lg-1 control-label text-left" for="inputSubject">Message</label>
 					                            <div class="col-lg-11">
 					                                <textarea name="message" id="message-textarea"></textarea>
 					                            </div>
 					                        </div>
-					                    
-					
-					
+
+
+
 					                    <!--Attact file button-->
 					<!--                    <div class="media pad-btm">
 					                        <div class="media-left">
@@ -185,23 +188,23 @@
 					                        </div>
 					                        <div id="demo-attach-file" class="media-body"></div>
 					                    </div>-->
-					
-					
+
+
 					                    <!--Wysiwyg editor : Summernote placeholder-->
 					                    <div id="demo-mail-compose"></div>
-					
+
 					                    <div class="pad-ver">
-					
+
 					                        <!--Send button-->
 					                        <button id="mail-send-btn" type="submit" class="btn btn-primary">
 					                            <i class="demo-psi-mail-send icon-lg icon-fw"></i> Send Mail
 					                        </button>
-					
+
 					                        <!--Save draft button-->
 					                        <!--<button id="mail-save-btn" type="button" class="btn btn-default">
 					                            <i class="demo-pli-mail-unread icon-lg icon-fw"></i> Save Draft
 					                        </button>-->
-					
+
 					                        <!--Discard button-->
 					                        <!--<button id="mail-discard-btn" type="button" class="btn btn-default">
 					                            <i class="demo-pli-mail-remove icon-lg icon-fw"></i> Discard
@@ -211,15 +214,15 @@
 										</form>
 
 
-					
+
 					                    <!--===================================================-->
 					                    <!-- END COMPOSE EMAIL -->
 					                </div>
 					            </div>
 					        </div>
 					    </div>
-					
-					    
+
+
                 </div>
                 <!--===================================================-->
                 <!--End page content-->

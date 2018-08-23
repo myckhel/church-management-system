@@ -12,7 +12,7 @@
         <!--Page Title-->
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <div id="page-title">
-            <h1 class="page-header text-overflow">Member</h1>
+            <h1 class="page-header text-overflow">Attendance Analysis</h1>
         </div>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <!--End page title-->
@@ -27,9 +27,9 @@
                 </a>
             </li>
             <li>
-                <a href="forms-general.html#">Members</a>
+                <a href="{{route('attendance')}}">Attendance</a>
             </li>
-            <li class="active">All</li>
+            <li class="active">Analysis</li>
         </ol>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <!--End breadcrumb-->
@@ -41,25 +41,25 @@
     <!--===================================================-->
     <div id="page-content">
     <div class="row">
-					        
+
 					        <div class="col-md-6">
-					
+
 					            <!-- Line Chart -->
 					            <!---------------------------------->
 					            <div class="panel">
 					                <div class="panel-heading">
-					                    <h3 class="panel-title">Attendance by week</h3>
+					                    <h3 class="panel-title">Attendance by Month</h3>
 					                </div>
 					                <div class="pad-all">
 					                    <div id="demo-flot-line" class="legendInline" style="height:250px"></div>
 					                </div>
 					            </div>
 					            <!---------------------------------->
-					
-					
+
+
                             </div>
                             <div class="col-md-6">
-					
+
                     <!-- Bar Chart -->
                     <!---------------------------------->
                     <div class="panel">
@@ -71,13 +71,48 @@
                         </div>
                     </div>
                     <!---------------------------------->
-        
-        
+
+
                 </div>
-                            
+
 					    </div>
-					
-					
+
+              <div class="row">
+
+          					        <div class="col-md-6">
+
+          					            <!-- Line Chart -->
+          					            <!---------------------------------->
+          					            <div class="panel">
+          					                <div class="panel-heading">
+          					                    <h3 class="panel-title">Attendance by week</h3>@foreach($attendances3 as $a) <p>{{$a->week}}</p>@endforeach
+          					                </div>
+          					                <div class="pad-all">
+          					                    <div id="demo-flot-line2" class="legendInline" style="height:250px"></div>
+          					                </div>
+          					            </div>
+          					            <!---------------------------------->
+
+
+                                      </div>
+                                      <div class="col-md-6">
+
+                              <!-- Bar Chart -->
+                              <!---------------------------------->
+                              <div class="panel">
+                                  <div class="panel-heading">
+                                      <h3 class="panel-title">Total Weekly Attendance</h3>
+                                  </div>
+                                  <div class="panel-body">
+                                      <div id="demo-flot-bar2" style="height: 250px"></div>
+                                  </div>
+                              </div>
+                              <!---------------------------------->
+
+
+                          </div>
+
+          					    </div>
 
 
 
@@ -106,7 +141,7 @@
                             </td>
                             <td>
                                 <i class="text-danger ion-close-circled"></i>
-                            
+
                             </td>
                             <td><i class="text-success ion-checkmark-circled"></i></td>
                         </tr>
@@ -134,5 +169,3 @@
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
 @endsection
-
-

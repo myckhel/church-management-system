@@ -50,7 +50,7 @@ class AttendanceController extends Controller
             'date' => 'required|date ',
 
         ]);
-        
+
         $split_date_array = explode("-",$request->get('date'));
         if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
         {
@@ -72,10 +72,10 @@ class AttendanceController extends Controller
             'male' => $request->get('male'),
             'female' => $request->get('female'),
             'children' => $request->get('children'),
-            'type' => $request->get('type'),
-            'custom_type' => $request->get('custom_type'),
+            'service_type' => $request->get('type'),
+            'other' => $request->get('custom_type'),
 
-            
+
             'attendance_date' => $dateToSave,
         ));
         $attendance->save();
@@ -173,7 +173,19 @@ class AttendanceController extends Controller
         $attendances = \DB::select($sql);
         $sql = 'SELECT SUM(male + female + children) AS total, MONTH(attendance_date) AS month FROM `attendances` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
         $attendances2 = \DB::select($sql);
+        $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, WEEK(attendance_date) AS week FROM `attendances` WHERE branch_id = '.$user->branchcode.' GROUP BY week';
+        $attendances3 = \DB::select($sql);
+        $sql = 'SELECT SUM(male + female + children) AS total, MONTH(attendance_date) AS month FROM `attendances` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
+        $attendances4 = \DB::select($sql);
 
-        return view('attendance.analysis', compact('attendances','attendances2'));
+        return view('attendance.analysis', compact('attendances','attendances2','attendances3','attendances4'));
+    }
+
+    //form view
+    public function view(){
+      $user = \Auth::user();
+      $sql = "SELECT * FROM attendances WHERE branch_id = '.$user->branchcode.' "; // ORDER BY attendance_date DESC";
+      $attendance = \DB::select($sql);
+      return view('attendance.view', compact('attendance'));
     }
 }

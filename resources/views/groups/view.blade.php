@@ -11,7 +11,7 @@
         <!--Page Title-->
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <div id="page-title">
-            <h1 class="page-header text-overflow">member</h1>
+            <h1 class="page-header text-overflow">Group Members</h1>
         </div>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <!--End page title-->
@@ -26,15 +26,15 @@
                 </a>
             </li>
             <li>
-                <a href="forms-general.html#">members</a>
+                <a href="#">members</a>
             </li>
-            <li class="active">All</li>
+            <li class="active">All Members</li>
         </ol>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <!--End breadcrumb-->
 
     </div>
- 
+
 
     <!--Page content-->
     <!--===================================================-->
@@ -52,19 +52,19 @@
                         {{ session('status') }}
                     </div>
                 @endif
-                @if (count($errors) > 0) 
+                @if (count($errors) > 0)
                     @foreach ($errors->all() as $error)
 
                         <div class="alert alert-danger">{{ $error }}</div>
 
-                    @endforeach 
-                    
-                @endif 
+                    @endforeach
+
+                @endif
 
                 </div>
             </div>
             <!---------------------------------->
-        @endif 
+        @endif
 
         <!-- Line Chart -->
         <!---------------------------------->
@@ -87,8 +87,9 @@
                         @endif
 
                     @endforeach
-                    
+
                 </select>
+                <input type="hidden" value="{{\Auth::user()->branchcode}}" name="branch_id" />
                 <button type="submit" class="btn btn-success btn-md">Add Member</button>
             </form>
             </div>
@@ -120,7 +121,7 @@
                 <?php $count=1;?>
 
                 @foreach($members_in_group as $member)
-              
+
                 <tr>
                     <th>{{$count}}</th>
                     <th><img src="{{url('/images/')}}/{{$member->photo}}"  class="img-md img-circle" alt="Profile Picture"></th>
@@ -134,12 +135,12 @@
                     <td>
                         <a class="btn btn-success btn-sm" href="{{route('member.profile', $member->id)}}">View Profile</a>
                         <a class="btn btn-danger btn-sm" href="{{route('group.remove.member', [$member->id, $group->id])}}">Remove Member</a>
-                    
+
                     </td>
                 </tr>
                 <?php $count++;?>
                 @endforeach
-                
+
             </tbody>
         </table>
             </div>
