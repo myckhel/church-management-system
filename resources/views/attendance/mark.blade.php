@@ -55,7 +55,7 @@
 
                 @endif
             </div>
-            <div class="col-sm-6 col-sm-offset-3" style="margin-bottom:20px">
+            <div class="col-md-8 col-md-offset-1" style="margin-bottom:20px">
                 <div class="panel">
                     <div class="panel-heading">
                         <h3 class="panel-title">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
@@ -76,29 +76,27 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Male</label>
                                         <input type="number" min=0 name="male" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Female</label>
                                         <input type="number" min=0 name="female" class="form-control">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
+
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Children</label>
                                         <input type="number" min=0 name="children" class="form-control">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
+
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Attendance Type</label>
                                         <select id="mark-select" class="selectpicker" data-style="btn-success">
@@ -108,13 +106,21 @@
                                         </select>
 
                                     </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Other Attendance Type</label>
+                                    <input type="text" name="custom_type" class="form-control">
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="control-label">Other Attendance Type</label>
-                                        <input type="text" name="custom_type" class="form-control">
-                                    </div>
+                            </div>
+                            <div class="row">
+
+                            </div>
+                            <div class="row">
+
                                 </div>
+
                             </div>
                         </div>
                         <div class="panel-footer text-right">
@@ -126,7 +132,7 @@
                     <!--===================================================-->
                     <!--End Block Styled Form -->
 
-            <div class="col-sm-12 col-md-8 col-md-offset-1 col-sm-offset-1" style="margin-bottom:20px">
+            <div class="col-md-8 col-md-offset-1" style="margin-bottom:20px">
                 <div class="panel">
                     <div class="panel-heading">
                         <h3 class="panel-title">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>

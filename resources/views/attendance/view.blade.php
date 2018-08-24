@@ -116,7 +116,7 @@ li {
                         <h3 class="panel-title">View Attendance for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
 
                     </div>
-                    <div class="panel-body">
+                    <!--div class="panel-body">
                       <div class="dropdown">
                         <h3><strong>View</strong> <span>></span>
                           <button class="dropbtn">Sort</button>
@@ -138,7 +138,7 @@ li {
                           <button value="2018" class="btn btn-default">2018</button>
                         </li>
                       </ul>
-                    </div>
+                    </div-->
                     <!--Block Styled Form -->
                     <!--===================================================-->
                     <form method="POST" action="{{route('attendance.view')}}">
@@ -170,7 +170,7 @@ li {
                 <div class="panel-heading">
                         <h3 class="panel-title"><strong> <i></i> </strong>Attendance History</h3>
                 </div>
-                <div class="panel-body text-center clearfix">
+                <div class="panel-body text-center clearfix" style="overflow:scroll">
             <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
                 <thead>
                     <tr>
@@ -254,7 +254,68 @@ li {
             </div>
             <?php } ?>
 
-
+            <!-- MEMBERS ATTENDANCE -->
+            <div class="col-md-offset-1 col-md-10" style="margin-bottom:50px">
+                <div class="panel">
+                <div class="panel-heading">
+                        <h3 class="panel-title"><strong> <i></i> </strong>Members Attendance History</h3>
+                </div>
+                <div class="panel-body text-center clearfix" style="overflow:scroll">
+            <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th class="min-tablet">Title</th>
+                        <th class="min-tablet">First Name</th>
+                        <th class="min-tablet">Last Name</th>
+                        <th class="min-tablet">Attendance</th>
+                        <th class="min-tablet">Service type</th>
+                        <th class="min-tablet">Date</th>
+                        <th class="min-tablet">Day</th>
+                        <th class="min-tablet">Month</th>
+                        <!--th class="min-desktop">Action</th-->
+                    </tr>
+                </thead>
+                <tbody>
+                  <?php $count=1;?>
+                  <h1>Attendance By Members History<h1>
+                    @foreach($attendances as $li)
+                    <?php
+                      $date = $li->attendance_date;
+                      $d = date("F,Y,D", strtotime($date));
+                      $p = explode(',',$d);
+                    ?>
+                    <!--tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td class="bg-warning min-tablet">Date</td>
+                      <td></td>
+                      <td class="bg-warning min-tablet">{{$li->attendance_date}}</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr-->
+                    <tr>
+                        <td><strong>{{$count}}</strong></td>
+                        <td>{{$li->title}}</td>
+                        <td>{{$li->firstname}}</td>
+                        <td>{{$li->lastname}}</td>
+                        <td>{{$li->attendance}}</td>
+                        <td>{{$li->service_type}}</td>
+                        <td >{{$li->attendance_date}}</td>
+                        <td>{{$p[2]}}</td>
+                        <td>{{$p[0]}}</td>
+                        <!--td><button id="{{$li->attendance_date}}" type="submit" class="btn btn-primary" onclick="view(this);">View</button></td-->
+                    </tr>
+                    <?php $count++;?>
+                    @endforeach
+                </tbody>
+            </table>
+          </div>
+          </div>
+        </div>
         </div>
     </div>
     <!--===================================================-->
