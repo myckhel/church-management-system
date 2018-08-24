@@ -134,7 +134,7 @@
 									<label class="col-md-3 control-label" for="demo-email-input">Email</label>
 									<div class="col-md-9">
 										<input type="email" id="demo-email-input" class="form-control" name="email" placeholder="Enter your email" required>
-										<small class="help-block">Please enter your email</small>
+										<!--small class="help-block">Please enter your email</small-->
 									</div>
 								</div>
 								<div class="form-group">
@@ -155,8 +155,10 @@
 											<option value="Lecturer">Lecturer</option>
 											<option value="Professor">Professor</option>
 											<option value="Pharmacist">Pharmacist</option>
+											<option value="Trader">Trader</option>
 											<option value="Civil Servant">Civil Servant</option>
 											<option value="Retired">*Retired</option>
+											<option value="Other">Other</option>
 										</select>
 									</div>
 								</div>
@@ -202,19 +204,19 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="demo-textarea-input">Postal</label>
 									<div class="col-md-9">
-										<input type="text" class="form-control" name="postal" placeholder="Enter memeber Postal/ZIP Code" required>
+										<input type="text" class="form-control" name="postal" placeholder="Enter member Postal/ZIP Code">
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="demo-textarea-input">City</label>
 									<div class="col-md-9">
-										<input type="text" class="form-control" name="city" placeholder="Enter memeber city" required>
+										<input type="text" class="form-control" name="city" placeholder="Enter member city" required>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="demo-textarea-input">State</label>
 									<div class="col-md-9">
-										<input type="text" class="form-control" name="state" placeholder="Enter memeber state" required>
+										<input type="text" class="form-control" name="state" placeholder="Enter member state" required>
 									</div>
 								</div>
 								<div class="form-group">
@@ -515,7 +517,7 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="demo-text-input">Wedding Aniversary</label>
 									<div class="col-md-9">
-									<input  type="text" placeholder="Wedding Anniversary" name="wedding_anniversary" class="datepicker form-control" required/>
+									<input  type="text" placeholder="Wedding Anniversary" name="wedding_anniversary" class="datepicker form-control"/>
 
 									</div>
 								</div>
@@ -535,8 +537,17 @@
 									<button id="add-relative-btn"  class="btn btn-info"type="button">Add Relative</button>
 									</div>
 								</div>
-								<div class="col-md-6" style="padding: 130px 0 0 320px;">
-									<button class="btn btn-info pull-center" type="submit">REGISTER MEMBER</button>
+								<!--div class="row">
+									<div class="col-md-3" style="">
+										<button class="btn btn-info pull-center" type="submit">REGISTER MEMBER</button>
+									</div>
+								</div-->
+								<div class="form-group" style="padding-top:50px">
+									<div class="col-md-9">
+										<span class=" pull-right">
+											<button class="btn btn-info pull-center" type="submit">REGISTER MEMBER</button>
+										</span>
+									</div>
 								</div>
 							</div>
 							</form>
@@ -583,9 +594,6 @@
 					</div>
 					<!--===================================================-->
 					<!--End Default Bootstrap Modal-->
-
-
-
 				</div>
 			</div>
 		</div>

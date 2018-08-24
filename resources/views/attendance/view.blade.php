@@ -168,7 +168,7 @@ li {
             <div class="col-md-offset-1 col-md-10" style="margin-bottom:50px">
                 <div class="panel">
                 <div class="panel-heading">
-                        <h3 class="panel-title"><strong> <i></i> </strong>Attendance History</h3>
+                        <h3 class="panel-title"><strong> <i></i> </strong>Branch Attendance History</h3>
                 </div>
                 <div class="panel-body text-center clearfix" style="overflow:scroll">
             <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
@@ -189,7 +189,7 @@ li {
                 </thead>
                 <tbody>
                   <?php $count=1;?>
-                  <h1>Attendance History<h1>
+                  <h1>Branch Attendance History<h1>
                     @foreach($attendance as $list)
                     <?php
                       $date = $list->attendance_date;
@@ -255,6 +255,7 @@ li {
             <?php } ?>
 
             <!-- MEMBERS ATTENDANCE -->
+            <?php if (!isset($addedVariables)){ ?>
             <div class="col-md-offset-1 col-md-10" style="margin-bottom:50px">
                 <div class="panel">
                 <div class="panel-heading">
@@ -271,8 +272,6 @@ li {
                         <th class="min-tablet">Attendance</th>
                         <th class="min-tablet">Service type</th>
                         <th class="min-tablet">Date</th>
-                        <th class="min-tablet">Day</th>
-                        <th class="min-tablet">Month</th>
                         <!--th class="min-desktop">Action</th-->
                     </tr>
                 </thead>
@@ -305,8 +304,6 @@ li {
                         <td>{{$li->attendance}}</td>
                         <td>{{$li->service_type}}</td>
                         <td >{{$li->attendance_date}}</td>
-                        <td>{{$p[2]}}</td>
-                        <td>{{$p[0]}}</td>
                         <!--td><button id="{{$li->attendance_date}}" type="submit" class="btn btn-primary" onclick="view(this);">View</button></td-->
                     </tr>
                     <?php $count++;?>
@@ -316,6 +313,7 @@ li {
           </div>
           </div>
         </div>
+      <?php }?>
         </div>
     </div>
     <!--===================================================-->

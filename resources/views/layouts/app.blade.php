@@ -854,7 +854,24 @@
 											<!--<i class="arrow"></i>-->
 										</a>
 									</li>
-
+									<li class="{{Route::currentRouteName() === 'report' ? 'active-sub' : ''}}">
+										<a href="#">
+											<i class="fa fa-envelope"></i>
+											<span class="menu-title">Report</span>
+											<i class="arrow"></i>
+										</a>
+										<ul class="collapse">
+											<li>
+												<a href="{{route('email')}}">Membership</a>
+											</li>
+											<li>
+												<a href="#">Collections</a>
+											</li>
+											<li>
+												<a href="#">Attendance</a>
+											</li>
+										</ul>
+									</li>
 									<!--Menu list item-->
 									<!--<li>
 						                <a href="dashboard">
@@ -2024,13 +2041,6 @@ function calculateSum() {
 </script>
 @endif
 <script>
-  /*alert('ok');
-	$('#in1').keyup(function(){
-		var first = parseInt($('#in1').val());
-		var second = parseInt($('#in2').val());
-		var res = first + second; //$('#in1').value + $('#in2').value;
-		$('#tt').html(res);
-	});*/
 	$(":checkbox").change(function() {
 		if($(this).is(':checked')){
 			$(this).next().val('yes');
