@@ -230,14 +230,14 @@ class MemberController extends Controller
      * @param  \App\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Member $member)
+    public function destroy(Member $member, $id)
     {
-        Validator::make(['id'=>$id], [
-            'id' => 'required|integer|max:10',
-        ])->validate();
+        //Validator::make(['id'=>$id], [
+            //'id' => 'required|integer|max:10',
+        //])->validate();
         $member = Member::whereId($id)->firstOrFail();
         $member->delete();
-        return redirect('/Member/search')->with('status', 'Member has been deleted!');
+        return redirect()->back()->with('status', 'Member has been deleted!');
     }
 
     public function getRelative(Request $request, $search_term){
@@ -251,5 +251,11 @@ class MemberController extends Controller
 
         return response()->json(['success' => true, "result"=> sizeof($members) > 0 ? $members : ['message'=>'no result found']]);
 
+    }
+
+    public function modify($id){
+      $user = \Auth::user();
+      $member = Member::whereId($id)->where('branch_id',$user)->first();
+      return view('members.edit', compact('member'));
     }
 }

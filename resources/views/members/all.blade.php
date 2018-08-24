@@ -48,6 +48,22 @@
             <div class="panel-heading">
                 <h3 class="panel-title">List of Members In {{\Auth::user()->branchname}}</h3>
             </div>
+            <div class="col-lg-10 col-lg-offset-2">
+            @if (session('status'))
+
+                          <div class="alert alert-success">
+                              {{ session('status') }}
+                          </div>
+                      @endif
+                      @if (count($errors) > 0)
+                          @foreach ($errors->all() as $error)
+
+                              <div class="alert alert-danger">{{ $error }}</div>
+
+                          @endforeach
+
+                      @endif
+            </div>
             <div class="panel-body" style="overflow:scroll">
                 <!--div style="height:100px;border:1px solid green">
                 Sort by Newest Members, Gender
@@ -80,7 +96,7 @@
                             <td>{{$member->phone}}</td>
                             <td>{{$member->dob}}</td>
                             <td>{{$member->member_since}}</td>
-                            <td><a class="btn btn-success" href="{{route('member.profile', $member->id)}}">View Profile</a></td>
+                            <td><a class="btn btn-success" href="{{route('member.profile', $member->id)}}">View Profile</a><!--a style="margin-left:5px;" class="btn btn-primary" href="{{route('member.edit', $member->id)}}">Edit Profile</a--><a style="margin-left:5px;" class="btn btn-danger" href="{{route('member.delete', $member->id)}}" onclick="return confirm('Are you sure you want to delete the member?')">Delete Member</a></td>
                         </tr>
                         <?php $count++;?>
                         @endforeach

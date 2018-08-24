@@ -2031,7 +2031,13 @@ function calculateSum() {
 		var res = first + second; //$('#in1').value + $('#in2').value;
 		$('#tt').html(res);
 	});*/
-
+	$(":checkbox").change(function() {
+		if($(this).is(':checked')){
+			$(this).next().val('yes');
+		}else{
+			$(this).next().val('no');
+		}
+	});
 </script>
 </body>
 

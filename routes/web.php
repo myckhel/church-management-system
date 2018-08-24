@@ -26,6 +26,8 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/member/register', 'MemberController@store')->name('member.register');
     Route::get('/members/all', 'MemberController@index')->name('members.all');
     Route::get('/member/profile/{id}', 'MemberController@show')->name('member.profile');
+    Route::get('/member/edit/{id}', 'MemberController@modify')->name('member.edit');
+    Route::get('/member/delete/{id}', 'MemberController@destroy')->name('member.delete');
 
     Route::get('/branches', 'BranchController@index')->name('branches');
     Route::get('/branches/{id}/destroy', 'BranchController@destroy')->name('branch.destroy');
@@ -34,9 +36,8 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/branches/head_office_options', 'BranchController@ho')->name('branch.ho');
     Route::post('/branches/head_office_options', 'BranchController@ho_up')->name('branch.ho.up');
 
-    Route::get('/attendance', function(){
-        return view('attendance.mark');
-    })->name('attendance');
+    Route::get('/attendance', 'AttendanceController@mark')->name('attendance');
+    Route::post('/attendance/mark', 'AttendanceController@mark_it')->name('attendance.mark');
     Route::post('/attendance', 'AttendanceController@store')->name('attendance.selectDate');
     Route::post('/attendance/submit', 'AttendanceController@store')->name('attendance.submit');
     //Route::post('/attendance/mark/submit', 'AttendanceController@store')->name('attendance.mark.submit');

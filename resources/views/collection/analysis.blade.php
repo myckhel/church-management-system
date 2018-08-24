@@ -117,7 +117,7 @@
                               <!---------------------------------->
                               <div class="panel">
                                   <div class="panel-heading">
-                                      <h3 class="panel-title">Attendance by Month</h3>
+                                      <h3 class="panel-title">Monthly Collections</h3>
                                   </div>
                                   <div class="pad-all">
                                       <div id="demo-morris-bar-month" class="legendInline" style="height:250px"></div>
@@ -132,7 +132,7 @@
                                 <!---------------------------------->
                                 <div class="panel">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title">Attendance by Last 10 Weeks</h3>
+                                        <h3 class="panel-title">Last 10 Weeks Collections</h3>
                                     </div>
                                     <div class="pad-all">
                                         <div id="demo-morris-bar-week" class="legendInline" style="height:250px"></div>
@@ -148,7 +148,7 @@
                                   <!---------------------------------->
                                   <div class="panel">
                                       <div class="panel-heading">
-                                          <h3 class="panel-title">Attendance by Day</h3>
+                                          <h3 class="panel-title">Daily Collections</h3>
                                       </div>
                                       <div class="pad-all">
                                           <div id="demo-morris-bar-day" class="legendInline" style="height:250px"></div>
@@ -164,7 +164,7 @@
                                     <!---------------------------------->
                                     <div class="panel">
                                         <div class="panel-heading">
-                                            <h3 class="panel-title">Attendance by Year</h3>
+                                            <h3 class="panel-title">Yearly Collections</h3>
                                         </div>
                                         <div class="pad-all">
                                             <div id="demo-morris-bar-year" class="legendInline" style="height:250px"></div>

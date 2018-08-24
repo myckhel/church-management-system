@@ -75,7 +75,7 @@
                                         <!--input type="text" name="to" class="form-control"-->
                                         <select name="to[]" class="selectpicker" data-live-search="true" data-actions-box="true" data-width="100%" multiple>
                                           @foreach ($members as $member)
-                                            <option value="{{$member->phone}}">{{ucwords($member->getFullname()) . $member->phone}}</option>
+                                            <option value="{{$member->phone}}">{{ucwords($member->getFullname()) . ' - ' . $member->phone}}</option>
                                           @endforeach
                                         </select>
                                     </div>

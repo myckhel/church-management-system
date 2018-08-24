@@ -207,4 +207,31 @@ class AttendanceController extends Controller
       $attendance = \DB::select($sql);
       return view('attendance.view', compact('attendance'));
     }
+
+    public function mark(){
+      $user = \Auth::user();
+      $members = \App\Member::where('branch_id', $user->branchcode)->get();
+      return view('attendance.mark', compact('members'));
+    }
+
+    public function mark_it(Request $request){
+      $offer = $request->except(['_token']);
+      for($i = 0; $i < count($offer['member_id']); $i++) {
+        // code...
+        $present = isset($offer['attendance'][$i]) ? $offer['attendance'][$i] : 'no';
+        $value = [
+        'member_id' => $offer['member_id'][$i],
+        'title' => $offer['title'][$i],
+        'firstname' => $offer['fname'][$i],
+        'lastname' => $offer['lname'][$i],
+        'attendance' => $present,
+        'attendance_date' => date('Y-m-d',strtotime($offer['date'])),
+        'branch_id' => $offer['branch_id'][$i],
+        'date_submitted' => now(),
+        'service_type' => $offer['type'],
+        ];
+            \DB::table('members_attendance')->insert($value);
+      }
+      return redirect()->back()->with('status', 'Attendance Marked');
+    }
 }
