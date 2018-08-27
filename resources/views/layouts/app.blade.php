@@ -854,7 +854,7 @@
 											<!--<i class="arrow"></i>-->
 										</a>
 									</li>
-									<li class="{{Route::currentRouteName() === 'report.membership' ? 'active-sub' : ''}}">
+									<li class="{{Route::currentRouteName() === 'report.membership' || Route::currentRouteName() === 'report.collections' || Route::currentRouteName() === 'report.attendance' ? 'active-sub' : ''}}">
 										<a href="#">
 											<i class="fa fa-envelope"></i>
 											<span class="menu-title">Report</span>
@@ -868,7 +868,7 @@
 												<a href="{{route('report.collections')}}">Collections</a>
 											</li>
 											<li>
-												<a href="#">Attendance</a>
+												<a href="{{route('report.attendance')}}">Attendance</a>
 											</li>
 										</ul>
 									</li>

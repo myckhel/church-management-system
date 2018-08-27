@@ -72,6 +72,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
 
     Route::get('/report/membership', 'ReportController@membership')->name('report.membership');
     Route::get('/report/collections', 'ReportController@collections')->name('report.collections');
+    Route::get('/report/attendance', 'ReportController@attendance')->name('report.attendance');
 });
 
 Route::get('/admin/login', function () {
