@@ -71,6 +71,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/messaging/sms/send', 'MessagingController@sendSMS')->name('sendSMS');
 
     Route::get('/report/membership', 'ReportController@membership')->name('report.membership');
+    Route::get('/report/collections', 'ReportController@collections')->name('report.collections');
 });
 
 Route::get('/admin/login', function () {

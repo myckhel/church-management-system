@@ -865,7 +865,7 @@
 												<a href="{{route('report.membership')}}">Membership</a>
 											</li>
 											<li>
-												<a href="#">Collections</a>
+												<a href="{{route('report.collections')}}">Collections</a>
 											</li>
 											<li>
 												<a href="#">Attendance</a>
