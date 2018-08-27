@@ -118,7 +118,7 @@
 		                </div>
 		                <div class="checkbox pad-btm text-left">
 		                    <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }} >
-		                    <label for="demo-form-checkbox">Remember me</label>
+		                    <label class="font-weight-bold" for="demo-form-checkbox" style="">Remember me</label>
 		                </div>
 		                <button class="btn btn-primary btn-lg btn-block" type="submit">Sign In</button>
 		            </form>

@@ -96,7 +96,11 @@
                             <td>{{$member->phone}}</td>
                             <td>{{$member->dob}}</td>
                             <td>{{$member->member_since}}</td>
-                            <td><a class="btn btn-success" href="{{route('member.profile', $member->id)}}">View Profile</a><!--a style="margin-left:5px;" class="btn btn-primary" href="{{route('member.edit', $member->id)}}">Edit Profile</a--><a style="margin-left:5px;" class="btn btn-danger" href="{{route('member.delete', $member->id)}}" onclick="return confirm('Are you sure you want to delete the member?')">Delete Member</a></td>
+                            <td style='white-space: nowrap'>
+                              <div class="btn-group">
+                                <a class="btn btn-success" href="{{route('member.profile', $member->id)}}">View Profile</a><!--a style="margin-left:5px;" class="btn btn-primary" href="{{route('member.edit', $member->id)}}">Edit Profile</a-->
+                                <a style="" class="btn btn-danger" href="{{route('member.delete', $member->id)}}" onclick="return confirm('Are you sure you want to delete the member?')"><i class="fa fa-trash"></i> Delete Member</a></td>
+                              </div>
                         </tr>
                         <?php $count++;?>
                         @endforeach

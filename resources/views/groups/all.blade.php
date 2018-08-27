@@ -110,8 +110,8 @@
                             <td>{{$group->getNumberOfMembers(\Auth::user()->branchcode)}}</td>
                             <td>{{ \Carbon\Carbon::parse(substr($group->created_at, 0, 10))->format('l, jS \\of F Y')}}</td>
                             <td>
-                                <a class="btn btn-success btn-sm" href="{{route('group.view', $group->id)}}">View Group</a>
-                                <a onclick="return confirm('Are you sure you want to delete the group?')" class="btn btn-danger btn-sm" href="{{route('group.delete', $group->id)}}">Delete Group</a>
+                                <a class="btn btn-success btn-sm d-inline" href="{{route('group.view', $group->id)}}">View Group</a>
+                                <a onclick="return confirm('Are you sure you want to delete the group?')" class="btn btn-danger btn-sm d-inline" href="{{route('group.delete', $group->id)}}">Delete Group</a>
                             </td>
                         </tr>
                         <?php $count++;?>

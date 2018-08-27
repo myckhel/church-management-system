@@ -86,7 +86,7 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="demo-text-input">Title</label>
 									<div class="col-md-9">
-										<select name="title" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-4" style="padding-left:0px !important" data-style="btn-primary">
+										<select name="title" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-9" style="padding-left:0px !important" data-style="btn-primary">
 											<option value="Mr">Mr</option>
 											<option value="Mrs">Mrs</option>
 											<option value="Miss">Miss</option>
@@ -147,7 +147,7 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="demo-text-input">Occupation</label>
 									<div class="col-md-9">
-										<select name="occupation" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-4" data-style="btn-success" required>
+										<select name="occupation" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-9" data-style="btn-success" required>
 											<option value="Doctor">Doctor</option>
 											<option value="Engineer">Engineer</option>
 											<option value="Surveyor">Surveyor</option>
@@ -165,7 +165,7 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="demo-text-input">Position</label>
 									<div class="col-md-9">
-										<select name="position" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-4" data-style="btn-success">
+										<select name="position" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-9" data-style="btn-success">
 											<option value="senior pastor">Senior Pastor</option>
 											<option value="pastor">Pastor</option>
 											<option value="member">Member</option>
