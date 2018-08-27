@@ -99,7 +99,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Attendance Type</label>
-                                        <select id="mark-select" class="selectpicker" data-style="btn-success">
+                                        <select name="type" id="mark-select" class="selectpicker" data-style="btn-success">
                                             <option value="sunday service" selected>Sunday Service</option>
                                             <option value="wednessday service">Wednessday Service</option>
                                             <option value="thursday service">Thursday Service</option>

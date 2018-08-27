@@ -78,7 +78,7 @@
             <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total <i>attendance</i> By attendance Type</strong></h3>
+                      <h3 class="panel-title"><strong>Total <i>attendance</i> By attendance Type Till Date</strong></h3>
                   </div>
                 <div class="panel-body">
                   <ul>
@@ -110,7 +110,7 @@
             <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total attendance <i>By</i> Members</strong></h3>
+                      <h3 class="panel-title"><strong>Total attendance <i>By</i> Members Till Date</strong></h3>
                   </div>
                 <div class="panel-body">
                   <ul>
@@ -138,7 +138,7 @@
             <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total Branches <i>By</i> attendance</strong></h3>
+                      <h3 class="panel-title"><strong>Total Branches <i>By</i> attendance Till Date</strong></h3>
                   </div>
                 <div class="panel-body">
                   <ul>

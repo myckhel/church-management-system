@@ -91,7 +91,7 @@
                 <div class="panel">
                     <div class="panel-body demo-nifty-btn" style="overflow:scroll">
                       <form action="{{route('collection.save.member')}}" method="post" >
-                      <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="1600px" >
+                      <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="1800px" >
                           <thead>
                               <tr>
                                   <th>S/N</th>

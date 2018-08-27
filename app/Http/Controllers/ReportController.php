@@ -20,7 +20,8 @@ class ReportController extends Controller
     public function collections(){
       $user = \Auth::user();
 
-      $sql = "SELECT count(id) AS total_collections, count(case when date_collected = date(now()) then 1 end) AS todays_collections,
+      $sql = "SELECT SUM(offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS total_collections,
+      SUM(case when date_collected = date(now()) then (offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) end) AS todays_collections,
       SUM(special_offering) AS so, SUM(seed_offering) AS sdo, SUM(offering) AS o, SUM(donation) AS d, SUM(tithe) AS t, SUM(first_fruit) AS ff,
       SUM(covenant_seed) AS cs, SUM(love_seed) AS ls, SUM(sacrifice) AS s, SUM(thanksgiving) AS tg, SUM(thanksgiving_seed) AS tgs, SUM(other) AS ot, SUM(amount) AS total
       FROM `collections` WHERE branch_id = ".$user->branchcode."";
@@ -43,7 +44,7 @@ class ReportController extends Controller
     public function attendance(){
       $user = \Auth::user();
 
-      $sql = "SELECT count(id) AS total_attendance, count(case when attendance_date = date(now()) then 1 end) AS todays_attendance,
+      $sql = "SELECT count(id) AS total_attendance, SUM(case when attendance_date = date(now()) then (female + male + children) end) AS todays_attendance,
       SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, SUM(children + male + female) AS total
       FROM `attendances` WHERE branch_id = ".$user->branchcode."";
       $reports = \DB::select($sql);

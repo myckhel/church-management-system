@@ -58,17 +58,17 @@
             <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Collections <i>Report Counts</i></strong></h3>
+                      <h3 class="panel-title"><strong>Collections <i>Report Counts</i> For</strong></h3>
                   </div>
                 <div class="panel-body">
                   <ul>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Total No Of All Collections
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->total_collections)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$reports[0]->total_collections or 0}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Total No Of All Today's Collections
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->todays_collections)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$reports[0]->todays_collections or 0}}</span>
                     </li>
                   </ul>
                 </div>
@@ -78,7 +78,7 @@
             <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total <i>Collections</i> By Collections Type</strong></h3>
+                      <h3 class="panel-title"><strong>Total <i>Collections</i> By Collections Type Till Date</strong></h3>
                   </div>
                 <div class="panel-body">
                   <ul>
@@ -146,7 +146,7 @@
             <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total Collections <i>By</i> Members</strong></h3>
+                      <h3 class="panel-title"><strong>Total Collections <i>By</i> Members Till Date</strong></h3>
                   </div>
                 <div class="panel-body">
                   <ul>
@@ -174,7 +174,7 @@
             <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total Branches <i>By</i> Collections</strong></h3>
+                      <h3 class="panel-title"><strong>Total Branches <i>By</i> Collections Till Date</strong></h3>
                   </div>
                 <div class="panel-body">
                   <ul>
