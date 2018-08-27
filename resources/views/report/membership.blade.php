@@ -64,37 +64,37 @@
 
                       @endif
             </div>
-            <div class="panel-body" style="overflow:scroll">
-                <!--div style="height:100px;border:1px solid green">
-                Sort by Newest Members, Gender
-              </div-->
-                <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
-                    <thead>
-                        <tr>
-                            <th>S/N</th>
-                            <th>Total No Of All members</th>
-                            <th>Total No Of All Male Members</th>
-                            <th>Total No Of All Female Members</th>
-                            <th>Total No Of All Single Members</th>
-                            <th>Total No Of All Married Members</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $count=1;?>
-                        @foreach($reports as $report)
-                        <tr>
-                            <th>{{$count}}</th>
-                            <td>{{($report->total_member)}}</td>
-                            <td>{{$report->male}}</td>
-                            <td>{{$report->female}}</td>
-                            <td>{{$report->single}}</td>
-                            <td>{{$report->married}}</td>
-                        </tr>
-                        <?php $count++;?>
-                        @endforeach
-
-                    </tbody>
-                </table>
+            <div class="panel-body">
+                <div class="row">
+                  <div class="col-lg-3">
+                    <ul class="list-group">
+                      <?php $count=1;?>
+                      @foreach($reports as $report)
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Total No Of All members
+                          <span class="badge badge-primary badge-pill">{{($report->total_member)}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Total No Of All Male Members
+                          <span class="badge badge-primary badge-pill">{{$report->male}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Total No Of All Female Members
+                          <span class="badge badge-primary badge-pill">{{$report->female}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Total No Of All Single Members
+                          <span class="badge badge-primary badge-pill">{{$report->single}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Total No Of All Married Members
+                          <span class="badge badge-primary badge-pill">{{$report->married}}</span>
+                        </li>
+                      <?php $count++;?>
+                      @endforeach
+                    </ul>
+                  </div>
+                </div>
             </div>
         </div>
         <!--===================================================-->

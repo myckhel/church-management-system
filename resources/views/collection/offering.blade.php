@@ -58,7 +58,7 @@
                 @endif
             </div>
 
-            <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <!--div class="col-sm-12 col-md-10 col-md-offset-1">
                 <div class="panel">
                     <div class="panel-body demo-nifty-btn">
 
@@ -67,12 +67,12 @@
                         <!--a style="min-width:100px !important" class="btn btn-primary btn-rounded">Offering</a>
                         <a style="min-width:100px !important" class="btn btn-primary btn-rounded">Donation</a>
                         <a style="min-width:100px !important" class="btn btn-primary btn-rounded">Tithe</a-->
-                        <a href="{{route('collection.report')}}" style="min-width:100px !important"  class="btn btn-success btn-rounded">Reports</a>
+                        <!--a href="{{route('collection.report')}}" style="min-width:100px !important"  class="btn btn-success btn-rounded">Reports</a>
                         <!--===================================================-->
 
-                    </div>
+                    <!--/div>
                 </div>
-            </div>
+            </div-->
             <style>
             table td input {
               position: absolute;
@@ -87,11 +87,11 @@
               box-sizing: border-box;
             }
             </style>
-            <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <div class="col-sm-12 col-md-12 col-md-offset-0">
                 <div class="panel">
-                    <div class="panel-body demo-nifty-btn">
+                    <div class="panel-body demo-nifty-btn" style="overflow:scroll">
                       <form action="{{route('collection.save.member')}}" method="post" >
-                      <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
+                      <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="1600px" >
                           <thead>
                               <tr>
                                   <th>S/N</th>
@@ -238,12 +238,12 @@
 
 
 
-            <div class="col-md-10 col-md-offset-1" style="margin-bottom:500px">
+            <div class="col-md-12 col-md-offset-0" style="margin-bottom:500px">
                 <div class="panel">
                     <div class="panel-heading">
                         <h3 class="panel-title">Total Amount</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" style="overflow:scroll">
 
                         <!-- Inline Form  -->
                         <!--===================================================-->
