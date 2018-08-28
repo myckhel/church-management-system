@@ -63,12 +63,12 @@
                 <div class="panel-body">
                   <ul>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Total No Of All Attendance
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->total_attendance)}}</span>
+                      Total No Of All Attendance Till Date
+                      <span class="badge badge-primary badge-pill">{{$reports[0]->total_attendance or 0}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Total No Of All Today's Attendance
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->todays_attendance)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$reports[0]->todays_attendance or 0}}</span>
                     </li>
                   </ul>
                 </div>

@@ -63,12 +63,12 @@
                 <div class="panel-body">
                   <ul>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Total No Of All Collections
-                      <span class="badge badge-primary badge-pill">{{$reports[0]->total_collections or 0}}</span>
+                      Total No Of All Collections Till Date
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->total_collections)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Total No Of All Today's Collections
-                      <span class="badge badge-primary badge-pill">{{$reports[0]->todays_collections or 0}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->todays_collections)}}</span>
                     </li>
                   </ul>
                 </div>
@@ -88,55 +88,55 @@
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Special Offering
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->so)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->so)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Seed Offering
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->sdo)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->sdo)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Offering
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->o)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->o)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Donation
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->d)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->d)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Tithe
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->t)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->t)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       First Fruit
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->ff)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->ff)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Covenant Seed
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->cs)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->cs)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Love Seed
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->ls)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->ls)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Sacrifice
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->s)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->s)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Thanksgiving
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->tg)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->tg)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Thanksgiving Seed
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->tgs)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->tgs)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Other
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->ot)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->ot)}}</span>
                     </li>
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
                       Total
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->total)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->total)}}</span>
                     </li>
                   </ul>
                 </div>
@@ -159,12 +159,12 @@
                     <?php $total += $mc->total; ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       {{$mc->fname}} {{$mc->lname}}
-                      <span class="badge badge-primary badge-pill">{{$mc->total or 0}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($mc->total)}}</span>
                     </li>
                     @endforeach
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
                       Total
-                      <span class="badge badge-primary badge-pill">{{$total}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($total)}}</span>
                     </li>
                   </ul>
                 </div>
@@ -187,12 +187,12 @@
                     <?php $total += ($ar->ctotal + $ar->mtotal); ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       {{$ar->name}}
-                      <span class="badge badge-primary badge-pill">{{($ar->ctotal + $ar->mtotal)}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($ar->ctotal + $ar->mtotal)}}</span>
                     </li>
                     @endforeach
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
                       Total
-                      <span class="badge badge-primary badge-pill">{{$total}}</span>
+                      <span class="badge badge-primary badge-pill">N {{number_format($total)}}</span>
                     </li>
                   </ul>
                 </div>
