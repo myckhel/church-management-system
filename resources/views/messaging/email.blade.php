@@ -144,12 +144,22 @@
 					                            <label class="col-lg-1 control-label text-left"  for="inputEmail">To</label>
 					                            <div class="col-lg-6">
 					                                <!--input type="email" id="inputEmail" name="to" value="<?php echo isset($_GET['mail']) ? $_GET['mail'] : "" ; ?> " class="form-control"-->
-                                        <select data-live-search="true" name="to[]" data-width="100%" data-actions-box="true" class="selectpicker" multiple>
+                                        <select id="num-selector" data-live-search="true" name="to[]" data-width="100%" data-actions-box="true" class="selectpicker" multiple>
                                           @foreach ($members as $member)
                                             <option value="{{$member->email}}">{{ucwords($member->getFullname())}}</option>
                                           @endforeach
                                         </select>
 					                            </div>
+                                      <div class="col-lg-5">
+                                        <div class="col-lg-9">
+                                          <input id="emails" type="email" placeholder="Type in comma seperated emails and click add" class="form-control" aria-label="Recipient's email" aria-describedby="basic-addon2">
+                                        </div>
+                                      <div class="col-lg-3">
+                                        <div class="input-group-append">
+                                          <button id="add-num" type="button" class="btn btn-success form-control input-group-text" id="basic-addon2">Add</button>
+                                        </div>
+                                      </div>
+                                    </div>
 					                        </div>
 					                        <div id="demo-cc-input" class="hide form-group">
 					                            <label class="col-lg-1 control-label text-left" for="inputCc">Cc</label>
@@ -163,12 +173,17 @@
 					                                <input type="text" id="inputBcc" name="bcc" class="form-control">
 					                            </div>
 					                        </div>
-					                        <div class="form-group">
-					                            <label class="col-lg-1 control-label text-left" for="inputSubject">Subject</label>
-					                            <div class="col-lg-6">
-					                                <input type="text" id="inputSubject" name="subject" class="form-control">
-					                            </div>
-					                        </div>
+                                  <div class="row">
+  					                        <div class="form-group">
+  				                            <label class="col-lg-1 control-label text-left" for="inputSubject">Subject</label>
+  				                            <div class="col-lg-6">
+  				                                <input type="text" id="inputSubject" name="subject" class="form-control">
+  				                            </div>
+                                      <div class="col-lg-4">
+                                        <ul id="list" class="list-group">
+                                        </ul>
+                                      </div>
+                                    </div>
 
 											<div class="form-group" style="display:none">
 					                            <label class="col-lg-1 control-label text-left" for="inputSubject">Message</label>

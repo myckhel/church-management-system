@@ -45,6 +45,7 @@
                                 <input type="text" id="event_title" placeholder="Event Title..." name="title" class="form-control" value="" style="margin-bottom:15px">
                                 <input type="text" id="event_title" placeholder="By who" name="by_who" class="form-control" value=""><br/>
                                 <input type="text" id="event_title" placeholder="Location" name="location" class="form-control" value="">
+                                <input type="text" id="event_title" placeholder="details" name="details" class="form-control" value="">
                                 <div class="input-group clockpicker">
                                 <input type="text" class="form-control" value="09:30" name="time">
                                 <span class="input-group-addon">
@@ -52,11 +53,11 @@
                                 </span>
                             </div>
                                 <input style="border:1px solid rgba(0,0,0,0.07);height: 33px;
-    font-size: 13px;
-    border-radius: 3px;display: block;
-    width: 100%;
-     color: #555;
-    background-color: #fff;outline:none; margin-top:15px;padding:2px 10px" type="text" placeholder="Event Date" name="date" class="datepicker"/>
+                                  font-size: 13px;
+                                  border-radius: 3px;display: block;
+                                  width: 100%;
+                                   color: #555;
+                                  background-color: #fff;outline:none; margin-top:15px;padding:2px 10px" type="text" placeholder="Event Date" name="date" class="datepicker"/>
                             </div>
 
                             <button class="btn btn-block btn-purple btn-lg">Add New Event</button>
@@ -96,6 +97,45 @@
                 </div>
             </div>
 
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+              <div class="modal-dialog" style="width: 50%; margin: 0 auto;">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header bg-warning">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="d-inline pull-left"><h1 class="">Event Title: </h1></div>
+                    <div class="d-inline text-center text-white"><h1 id="title"></h1></div>
+                  </div>
+                  <div class="modal-body">
+                    <ul>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        By:
+                        <span class="badge badge-info badge-pill"><p id="by"></p></span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Time:
+                        <span class="badge badge-info badge-pill"><p id="time"></p></span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Location:
+                        <span class="badge badge-info badge-pill"><p id="location"></p></span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Details:
+                        <span class="badge badge-info badge-pill"><p id="details"></p></span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="id" type="button" class="btn btn-danger" value="" data-dismiss="modal" onclick="dele(this.value);">Delete</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
     </div>
     <!--===================================================-->
     <!--End page content-->

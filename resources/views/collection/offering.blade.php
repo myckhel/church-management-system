@@ -358,8 +358,12 @@
 							<div>
 								<select style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
                 <option value="sunday service" selected>Sunday Service</option>
+                <option value="monday service">Monday Service</option>
+                <option value="tuesday service">Tuesday Service</option>
                 <option value="wednessday service">Wednessday Service</option>
                 <option value="thursday service">Thursday Service</option>
+                <option value="friday service">Friday Service</option>
+                <option value="saturday service">Saturday Service</option>
 
                   <!--option value="offering">Offering</option>
 									<option value="donation">Donation</option>

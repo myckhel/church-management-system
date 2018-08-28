@@ -54,6 +54,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/collection/analysis', 'CollectionController@analysis')->name('collection.analysis');
     Route::get('/calendar', 'EventController@index')->name('calendar');
     Route::post('/calendar', 'EventController@store')->name('calendar.update');
+    Route::get('/calendar/{id}/delete', 'EventController@destroy')->name('calendar.delete');
     Route::get('/get-relative/{search_term}', 'MemberController@getRelative')->name('relative');
 
 

@@ -44,7 +44,6 @@ class EventController extends Controller
             'time' => 'required|string|min:0',
             'by_who' => 'required|string|min:0',
             'date' => 'required|date ',
-
         ]);
 
         // register attendance
@@ -53,6 +52,7 @@ class EventController extends Controller
             'location' => $request->get('location'),
             'time' => $request->get('time'),
             'by_who' => $request->get('by_who'),
+            'details' => $request->get('details'),
             'branch_id' => $user = \Auth::user()->branchcode,
 
             // convert date to acceptable mysql format
@@ -103,8 +103,11 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy($id)
     {
         //
-    }
+        $event = Event::find($id);
+        $event->delete();
+        return redirect()->back()->with('status','Event Successfully Deleted');
+      }
 }

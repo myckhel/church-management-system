@@ -55,7 +55,7 @@
 
                 @endif
             </div>
-            <div class="col-md-8 col-md-offset-1" style="margin-bottom:20px">
+            <div class="col-md-12 col-md-offset-0 col-lg-8 col-lg-offset-1" style="margin-bottom:20px">
                 <div class="panel">
                     <div class="panel-heading">
                         <h3 class="panel-title">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
@@ -96,26 +96,29 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Attendance Type</label>
+                                      <label class="control-label">Attendance Type</label>
                                         <select name="type" id="mark-select" class="selectpicker" data-style="btn-success">
                                             <option value="sunday service" selected>Sunday Service</option>
+                                            <option value="monday service">Monday Service</option>
+                                            <option value="tuesday service">Tuesday Service</option>
                                             <option value="wednessday service">Wednessday Service</option>
                                             <option value="thursday service">Thursday Service</option>
+                                            <option value="friday service">Friday Service</option>
+                                            <option value="saturday service">Saturday Service</option>
                                         </select>
-
                                     </div>
                             </div>
+                              <div class="col-sm-2">
+                                  <div class="form-group">
+                                      <label class="control-label" style="font-size:8pt">Other Attendance Type</label>
+                                      <input type="text" name="custom_type" class="form-control">
+                                  </div>
+                              </div>
 
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label class="control-label">Other Attendance Type</label>
-                                    <input type="text" name="custom_type" class="form-control">
-                                </div>
-                            </div>
+
                             <div class="row">
-
                             </div>
                             <div class="row">
 
@@ -132,7 +135,7 @@
                     <!--===================================================-->
                     <!--End Block Styled Form -->
 
-            <div class="col-md-8 col-md-offset-1" style="margin-bottom:20px">
+            <div class="col-md-12 col-md-offset-0 col-lg-8 col-lg-offset-1" style="margin-bottom:20px">
                 <div class="panel">
                     <div class="panel-heading">
                         <h3 class="panel-title">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>

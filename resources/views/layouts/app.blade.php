@@ -1394,8 +1394,13 @@ $('#demo-calendar').fullCalendar({
                 {
                         title: '{{$event->title}}',
                         start: '{{$event->date}}',
-                        className: 'purple'
-                },
+												location: '{{$event->location}}',
+												by: '{{$event->by_who}}',
+												time: '{{$event->time}}',
+												idss: '{{$event->id}}',
+                        className: 'purple',
+												details: '{{$event->details}}'
+								},
                 @endforeach
                 {
                         title: 'Meeting',
@@ -1411,13 +1416,41 @@ $('#demo-calendar').fullCalendar({
                 {
                         title: 'Click for Google',
                         url: 'http://google.com/',
-                        start: '2018-01-28'
+                        start: '2018-08-28'
                 }
-        ]
+        ],
+				eventClick: function(calEvent, jsEvent, view){
+					var title = calEvent.title;
+					var location = calEvent.location;
+					var by = calEvent.by;
+					var idss = calEvent.idss;
+					var time = calEvent.time;
+					var details = calEvent.details;
+					$('#by').text(by);
+					$('#title').text(title);
+					$('#location').text(location);
+					$('#time').text(time);
+					$('#id').val(idss);
+					$('#details').text(details);
+					$('#myModal').modal('show');
+				},
+				eventMouseover: function(calEvent, jsEvent, view){
+				},
+				eventMouseout: function(){
+					//$('#myModal').modal('hide');
+				},
+				dayClick: function(){
+				}
 });
 
 });
-
+function dele(input){
+	var decide = confirm('Are you sure you want to delete this event?');
+	if(decide){
+		var url = "./calendar/"+input+"/delete";
+		window.location.replace(url);
+	}
+}
         </script>
 	@endif
 
@@ -2040,6 +2073,7 @@ function calculateSum() {
 }
 </script>
 @endif
+<!-- mark attendance -->
 <script>
 	$(":checkbox").change(function() {
 		if($(this).is(':checked')){
@@ -2048,6 +2082,35 @@ function calculateSum() {
 			$(this).next().val('no');
 		}
 	});
+</script>
+
+<!-- for email manual number input -->
+<script>
+$(document).ready(function(){
+	$('#add-num').click(function(){
+		alert('add clicked');
+		var items = $('#emails').val().split(',');
+		$.each(items, function (i, item) {
+			$("#list").append('<li class="list-group-item d-flex justify-content-between align-items-center">'+ item +'  <span class="badge badge-danger badge-pill"><i onClick="rm_num(this);" class="btn fa fa-trash"></i></span></li>');
+				$('#num-selector').append($('<option>'
+				, {
+						value: item,
+						text : item,
+						selected: 'selected'
+				}, '</option>'
+				));
+		});
+		var val = $('#num-selector').text().split(',');
+		alert(val);
+		$.each(val, function(i,item){
+		});
+	});
+});
+ //selected="selected" value="' + item +'" >'+ item +'</option>'
+function rm_num(d){
+	var text = $(d).parent().parent().text();
+	var input = $("#num-selector option[value='"+ text +"']").remove();
+}
 </script>
 </body>
 
