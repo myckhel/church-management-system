@@ -129,32 +129,32 @@
                                   <input id="" type="hidden" value="{{$member->lastname}}" name="lname[]" class="" /></td>
                                   <td>
                                     <div id="" class="input-group">
-                                      <input id="" type="number" name="special_offering[]" class="form-control saisie"/>
+                                      <input id="" type="number" value="0" name="special_offering[]" class="form-control saisie"/>
                                     </div>
                                   </td>
                                   <td>
                                     <div id="" class="input-group">
-                                      <input id="" type="number" name="seed_offering[]" class="form-control saisie"/>
+                                      <input id="" type="number" value="0" name="seed_offering[]" class="form-control saisie"/>
                                     </div>
                                   </td>
                                   <td>
                                     <div class="input-group">
-                                      <input id="" type="number" name="tithe[]" class="form-control saisie" />
+                                      <input id="" type="number" value="0" name="tithe[]" class="form-control saisie" />
                                     </div>
                                   </td>
                                   <td>
                                     <div class="input-group">
-                                      <input id="" type="number" name="offering[]" class="form-control saisie" />
+                                      <input id="" type="number" value="0" name="offering[]" class="form-control saisie" />
                                     </div>
                                   </td>
                                   <td>
                                     <div class="input-group">
-                                      <input id="" type="number" name="donation[]" class="form-control saisie" />
+                                      <input id="" type="number" value="0" name="donation[]" class="form-control saisie" />
                                     </div>
                                   </td>
                                   <td>
                                     <div class="input-group">
-                                      <input id="" type="number" name="first_fruit[]" class="form-control saisie" />
+                                      <input id="" type="number" value="0" name="first_fruit[]" class="form-control saisie" />
                                     </div>
                                   </td>
                                     <input id="" type="hidden" value="{{$member->id}}" name="member_id[]" class="" />
@@ -162,32 +162,32 @@
                                     @csrf
                                   <td>
                                     <div class="input-group">
-                                      <input id="" type="number" name="covenant_seed[]" class="form-control saisie" />
+                                      <input id="" type="number" value="0" name="covenant_seed[]" class="form-control saisie" />
                                     </div>
                                   </td>
                                   <td>
                                     <div class="input-group">
-                                      <input id="" type="number" name="love_seed[]" class="form-control saisie" />
+                                      <input id="" type="number" value="0" name="love_seed[]" class="form-control saisie" />
                                     </div>
                                   </td>
                                   <td>
                                     <div class="input-group">
-                                      <input id="" type="number" name="sacrifice[]" class="form-control saisie" />
+                                      <input id="" type="number" value="0" name="sacrifice[]" class="form-control saisie" />
                                     </div>
                                   </td>
                                   <td>
                                     <div class="input-group">
-                                      <input id="" type="number" name="thanksgiving[]" class="form-control saisie" />
+                                      <input id="" type="number" value="0" name="thanksgiving[]" class="form-control saisie" />
                                     </div>
                                   </td>
                                   <td>
                                     <div class="input-group">
-                                      <input type="number" name="thanksgiving_seed[]" class="form-control saisie" />
+                                      <input type="number" value="0" name="thanksgiving_seed[]" class="form-control saisie" />
                                     </div>
                                   </td>
                                   <td>
                                     <div class="input-group">
-                                      <input type="number" name="other[]" class="form-control saisie" />
+                                      <input type="number" value="0" name="other[]" class="form-control saisie" />
                                     </div>
                                   </td>
                                   <!--td>
@@ -271,32 +271,32 @@
                               <tr>
                                 <td>
                                   <div id="" class="input-group">
-                                    <input id="" type="number" name="special_offering" class="form-control saisie"/>
+                                    <input id="" type="number" name="special_offering" value="0" class="form-control saisie"/>
                                   </div>
                                 </td>
                                 <td>
                                   <div id="" class="input-group">
-                                    <input id="" type="number" name="seed_offering" class="form-control saisie"/>
+                                    <input id="" type="number" name="seed_offering" value="0" class="form-control saisie"/>
                                   </div>
                                 </td>
                                 <td>
                                   <div class="input-group">
-                                    <input id="" type="number" name="tithe" class="form-control saisie" />
+                                    <input id="" type="number" name="tithe" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
                                 <td>
                                   <div class="input-group">
-                                    <input id="" type="number" name="offering" class="form-control saisie" />
+                                    <input id="" type="number" name="offering" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
                                 <td>
                                   <div class="input-group">
-                                    <input id="" type="number" name="donation" class="form-control saisie" />
+                                    <input id="" type="number" name="donation" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
                                 <td>
                                   <div class="input-group">
-                                    <input id="" type="number" name="first_fruit" class="form-control saisie" />
+                                    <input id="" type="number" name="first_fruit" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
                                   <input id="" type="hidden" value="{{$member->id}}" name="member_id" class="" />
@@ -304,32 +304,32 @@
                                   @csrf
                                 <td>
                                   <div class="input-group">
-                                    <input id="" type="number" name="covenant_seed" class="form-control saisie" />
+                                    <input id="" type="number" name="covenant_seed" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
                                 <td>
                                   <div class="input-group">
-                                    <input id="" type="number" name="love_seed" class="form-control saisie" />
+                                    <input id="" type="number" name="love_seed" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
                                 <td>
                                   <div class="input-group">
-                                    <input id="" type="number" name="sacrifice" class="form-control saisie" />
+                                    <input id="" type="number" name="sacrifice" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
                                 <td>
                                   <div class="input-group">
-                                    <input id="" type="number" name="thanksgiving" class="form-control saisie" />
+                                    <input id="" type="number" name="thanksgiving" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
                                 <td>
                                   <div class="input-group">
-                                    <input type="number" name="thanksgiving_seed" class="form-control saisie" />
+                                    <input type="number" name="thanksgiving_seed" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
                                 <td>
                                   <div class="input-group">
-                                    <input type="number" name="other" class="form-control saisie" />
+                                    <input type="number" name="other" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
                                 <td style="display:none">

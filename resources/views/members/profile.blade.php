@@ -124,12 +124,12 @@
                                                 <!-- Bar Chart -->
                                                 <!---------------------------------->
 
-                                                <div id="demo-morris-bar" style="height: 250px"></div>
+                                                <div id="demo-morris-bar-month" style="height: 250px"></div>
 
                                                                     <!-- Bar Chart -->
                     <!---------------------------------->
 
-                        <div id="demo-flot-bar" style="height: 250px"></div>
+                        <div id="demo-morris-bar-month-collection" style="height: 250px"></div>
 
                     <!---------------------------------->
 

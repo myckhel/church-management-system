@@ -1499,83 +1499,6 @@ function dele(input){
 		});
                 </script>
 
-@if (Route::currentRouteName() == 'collection.report'))
-                <script>
-
-
-		   // FLOT BAR CHART
-    // =================================================================
-    // Require Flot Charts
-    // -----------------------------------------------------------------
-    // http://www.flotcharts.org/
-    // =================================================================
-    /*var data = [
-
-		<?php //$months = ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Now','Dec']; ?>
-		<?php/*
-		foreach ($months as $k => $month){
-			$month_num = $k+1;
-			$found = false;
-			foreach($collections as $collection){
-
-				if ($collection->month == ($k+1) ){
-					$found = true;
-					echo"[$month_num,$collection->amount ],";
-				}
-			}
-
-			if (!$found){
-
-					echo "[$month_num,0],";
-
-			}
-		}*/
-
-        ?>
-	];
-
-    $.plot('#demo-flot-bar', [data], {
-        series: {
-            bars: {
-                show: true,
-                barWidth: 0.6,
-                fill: true,
-                fillColor: {
-                    colors: [{
-                        opacity: 0.9
-                    }, {
-                        opacity: 0.9
-                    }]
-                }
-            }
-        },
-        colors: ['#9B59B6'],
-        yaxis: {
-            ticks: 5,
-            tickColor: 'rgba(0,0,0,.1)'
-        },
-        xaxis: {
-            ticks: 7,
-            tickColor: 'transparent'
-        },
-        grid: {
-            hoverable: true,
-            clickable: true,
-            tickColor: '#eeeeee',
-            borderWidth: 0
-        },
-        legend: {
-            show: true,
-            position: 'nw'
-        },
-        tooltip: {
-            show: true,
-            content: 'x: %x, y: %y'
-        }
-    });*/
-	</script>
-        @endif
-
 @if (Route::currentRouteName() == ('collection.offering'))
                 <script>
 
@@ -1668,6 +1591,9 @@ function dele(input){
 	@endif
 
 
+@if (Route::currentRouteName() == 'member.profile')
+<?php require_once 'js/views/members/profile.php'; ?>
+@endif
 
 <!-- FOR COLLECTION ANALYSIS -->
 

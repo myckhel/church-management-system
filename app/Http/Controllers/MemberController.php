@@ -138,8 +138,17 @@ class MemberController extends Controller
      */
     public function show(Member $member, $id)
     {
-        $member = Member::find($id);
-        return view('members.profile', compact('member'));
+      $member = Member::find($id);
+      $user = \Auth::user();
+      $sql = 'SELECT COUNT(case when attendance = "yes" then 1 end) AS present, COUNT(case when attendance = "no" then 1 end) AS absent,
+      MONTH(attendance_date) AS month FROM `members_attendance` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND member_id = '.$member->id.' GROUP BY month';
+      $attendances = \DB::select($sql);
+
+      $sql = 'SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
+      MONTH(date_added) AS month FROM `members_collection` WHERE YEAR(date_added) = YEAR(CURDATE()) AND member_id = '.$member->id.' GROUP BY month';
+      $collections = \DB::select($sql);
+
+      return view('members.profile', compact('member', 'attendances', 'collections'));
     }
 
     /**
