@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use DateTime;
+use DateInterval;
 
 class RecoverPasswordController extends Controller
 {
@@ -28,15 +30,15 @@ class RecoverPasswordController extends Controller
         DB::delete('delete * from password_reset where email =?', $email);
 
         // Insert reset token into database
-        $insert = $this->db->insert('password_reset', 
+        $insert = $this->db->insert('password_reset',
             array(
                 'email'     =>  $email,
-                'selector'  =>  $selector, 
+                'selector'  =>  $selector,
                 'token'     =>  hash('sha256', $token),
                 'expires'   =>  $expires->format('U'),
             )
         );
-        
+
         // Send the email
         // Recipient
         $to = $user->email;
@@ -58,14 +60,14 @@ class RecoverPasswordController extends Controller
 
         // Send email
         $sent = mail($to, $subject, $message, $headers);
-        
-        
-        
+
+
+
     	return view('auth.passwords.recover', ['message'=>$message]);
     }
-    
+
     public function reset(Request $request){
-        
+
     }
 }
 ?>

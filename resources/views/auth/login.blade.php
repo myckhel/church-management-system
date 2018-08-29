@@ -125,7 +125,7 @@
 		        </div>
 
 		        <div class="pad-all">
-		            <a href="#" class="btn-link mar-rgt">Forgot password ?</a>
+		            <a href="{{route('recover')}}" class="btn-link mar-rgt">Forgot password ?</a>
 		            <!--a href="register" class="btn-link mar-lft">Create a new account</a-->
 
 		            <!--<div class="media pad-top bord-top">
