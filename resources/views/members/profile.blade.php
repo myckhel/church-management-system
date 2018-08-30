@@ -126,12 +126,12 @@
 
                                                 <div id="demo-morris-bar-month" style="height: 250px"></div>
 
-                                                                    <!-- Bar Chart -->
-                    <!---------------------------------->
+                                                <!-- Bar Chart -->
+                                                <!---------------------------------->
 
-                        <div id="demo-morris-bar-month-collection" style="height: 250px"></div>
+                                                    <div id="demo-morris-bar-month-collection" style="height: 250px"></div>
 
-                    <!---------------------------------->
+                                                <!---------------------------------->
 
                                                 <!---------------------------------->
 
@@ -140,8 +140,6 @@
                                 </div>
                         </div>
                 </div>
-
-
         </div>
         <!--===================================================-->
         <!--End page content-->

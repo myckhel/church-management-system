@@ -82,6 +82,8 @@ Route::get('/admin/login', function () {
 //Route::get('/registerr', function () {
     //return view('auth.register');
 //});
-Route::get('/recover', 'RecoverPasswordController@index')->name('recover');
-Route::post('/recover', 'RecoverPasswordController@recover');
-Route::post('/recover/{selector}/{token}', 'RecoverPasswordController@reset')->name('recover.reset');
+Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
+Route::post('/recover', 'Auth\RecoverPasswordController@recover');
+Route::get('/password/reset/{token}', 'Auth\RecoverPasswordController@reset')->name('password.reset');
+Route::post('/password/reset/{token}', 'Auth\RecoverPasswordController@reset')->name('password.reset');
+Route::post('/recover/{selector}/{token}', 'Auth\RecoverPasswordController@reset')->name('recover.reset');

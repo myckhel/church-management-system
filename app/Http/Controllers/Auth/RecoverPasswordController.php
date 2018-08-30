@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use DateTime;
@@ -19,7 +20,7 @@ class RecoverPasswordController extends Controller
     |
     */
 
-    //use SendsPasswordResetEmails;
+    use SendsPasswordResetEmails;
 
     /**
      * Create a new controller instance.
@@ -36,5 +37,10 @@ class RecoverPasswordController extends Controller
     public function recover(){
     	$token = '5f48ff45rg488g455sd8w8wf';
     	return view('auth.passwords.recover', ['token'=>$token]);
+    }
+
+    public function reset(Request $request){
+      $token = $request->token;
+      return view('auth.passwords.reset', ['token' =>$token]);
     }
 }

@@ -37,11 +37,11 @@
     <script src="{{ URL::asset('plugins/pace/pace.min.js') }}"></script>
 
 
-        
+
     <!--Demo [ DEMONSTRATION ]-->
     <link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet">
 
-    
+
     <!--=================================================
 
     REQUIRED
@@ -67,7 +67,7 @@
     Detailed information and more samples can be found in the document.
 
     =================================================-->
-    <style type="text/css"> 
+    <style type="text/css">
         .cls-container {
            background-image: url("{{ URL::asset('images/reg_bg.jpg') }}");
            background-color: #cccccc;
@@ -83,8 +83,8 @@
 
 <body>
     <div id="container" class="cls-container">
-            
-            
+
+
     <!-- BACKGROUND IMAGE -->
     <!--===================================================-->
     <div id="bg-overlay"></div>
@@ -92,7 +92,7 @@
 
     <!-- REGISTRATION FORM -->
     <!--===================================================-->
-    <div class="cls-content">
+    <!--div class="cls-content">
         <div class="cls-content-lg panel">
             <div class="panel-body">
                 <div class="mar-ver pad-btm">
@@ -111,17 +111,57 @@
                         <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">
                         <label for="demo-form-checkbox">I agree with the <a href="pages-register.html#" class="btn-link text-bold">Terms and Conditions</a></label>
                     </div>-->
-                    <button class="btn btn-primary btn-lg" type="submit">Reset</button>
+                    <!--button class="btn btn-primary btn-lg" type="submit">Send Password Reset Link</button>
                 </form>
             </div>
             <div class="pad-all">
                 Have you remebered your password ? <a href="{{route('login')}}" class="btn-link mar-rgt text-bold">Sign In</a>
             </div>
         </div>
-    </div>
+    </div-->
     <!--===================================================-->
-    
-    
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Reset Password') }}</div>
+
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('password.email') }}" aria-label="{{ __('Reset Password') }}">
+                        @csrf
+
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+
+                                @if ($errors->has('email'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Send Password Reset Link') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- DEMO PURPOSE ONLY -->
     <!--===================================================-->
@@ -147,7 +187,7 @@
     <!-- END OF CONTAINER -->
 
 
-        
+
     <!--JAVASCRIPT-->
     <!--=================================================-->
 
@@ -166,7 +206,7 @@
 
 
     <!--=================================================-->
-    
+
     <!--Background Image [ DEMONSTRATION ]-->
     <script src="{{ URL::asset('js/demo/bg-images.js') }}"></script>
 

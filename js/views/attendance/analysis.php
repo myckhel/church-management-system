@@ -51,7 +51,7 @@ data: [
 		$found = false;
 		foreach ($attendances2 as $attendances) {
 			// code...
-			if($key+1 == $attendances->day && ($attendances->male != NULL && $attendances->female != NULL && $attendances->children != NULL)){
+			if($key+1 == $attendances->day){
 				$found = true;
 				echo "{y: '" .$value. "', a: " .$attendances->male.", b: ".$attendances->female.", c: ".$attendances->children."},";
 			}
