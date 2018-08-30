@@ -183,7 +183,7 @@ class AttendanceController extends Controller
         $attendances = \DB::select($sql);
         //day
         $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-        DAYOFWEEK(attendance_date) AS day FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 7 DAY) AND branch_id = '.$user->branchcode.' GROUP BY day';
+        DAYOFWEEK(attendance_date) AS day FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 7 DAY) AND WEEK(attendance_date) = WEEK(DATE(NOW())) AND branch_id = '.$user->branchcode.' GROUP BY day';
         $attendances2 = \DB::select($sql);
 
         //Week
