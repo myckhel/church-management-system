@@ -152,7 +152,7 @@
 					                            </div>
                                       <div class="col-lg-5">
                                         <div class="col-lg-9">
-                                          <input id="emails" type="email" placeholder="Type in comma seperated emails and click add" class="form-control" aria-label="Recipient's email" aria-describedby="basic-addon2">
+                                          <input id="emails" type="text" placeholder="Type in comma seperated emails and click add" class="form-control" aria-label="Recipient's email" aria-describedby="basic-addon2">
                                         </div>
                                       <div class="col-lg-3">
                                         <div class="input-group-append">

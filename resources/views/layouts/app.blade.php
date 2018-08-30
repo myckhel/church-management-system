@@ -162,7 +162,7 @@
 						<!--Navigation toogle button-->
 						<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 						<li class="tgl-menu-btn">
-							<a class="mainnav-toggle" href="forms-general.html#">
+							<a class="mainnav-toggle" href="#">
 								<i class="demo-pli-list-view"></i>
 							</a>
 						</li>
@@ -196,7 +196,7 @@
 						<!--User dropdown-->
 						<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 						<li id="dropdown-user" class="dropdown">
-							<a href="forms-general.html#" data-toggle="dropdown" class="dropdown-toggle text-right">
+							<a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
 								<span class="ic-user pull-right">
 									<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 									<!--You can use an image instead of an icon.-->
@@ -267,12 +267,12 @@
 							<!--================================-->
 							<ul class="nav nav-tabs nav-justified">
 								<li class="active">
-									<a href="forms-general.html#demo-asd-tab-1" data-toggle="tab">
+									<a href="#demo-asd-tab-1" data-toggle="tab">
 										<i class="demo-pli-speech-bubble-7 icon-lg"></i>
 									</a>
 								</li>
 								<li>
-									<a href="forms-general.html#demo-asd-tab-2" data-toggle="tab">
+									<a href="#demo-asd-tab-2" data-toggle="tab">
 										<i class="demo-pli-information icon-lg icon-fw"></i> Report
 									</a>
 								</li>

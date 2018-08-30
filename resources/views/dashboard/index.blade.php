@@ -8,8 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>Dashboard - {{strtoupper(\Auth::user()->branchname)}} {{config('app.name')}}</title>
-
-
     <!--STYLESHEET-->
     <!--=================================================-->
 
@@ -142,227 +140,8 @@
 
                     </ul>
                     <ul class="nav navbar-top-links">
-
-
-                        <!--Mega dropdown-->
-                        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                        <!--<li class="mega-dropdown">
-                            <a href="dashboard" class="mega-dropdown-toggle">
-                                <i class="demo-pli-layout-grid"></i>
-                            </a>
-                            <div class="dropdown-menu mega-dropdown-menu">
-                                <div class="row">
-                                    <div class="col-sm-4 col-md-3">
-
-
-                                        <ul class="list-unstyled">
-                                                                                <li class="dropdown-header"><i class="demo-pli-file icon-lg icon-fw"></i> Pages</li>
-                                                                                <li><a href="dashboard">Profile</a></li>
-                                                                                <li><a href="dashboard">Search Result</a></li>
-                                                                                <li><a href="dashboard">FAQ</a></li>
-                                                                                <li><a href="dashboard">Sreen Lock</a></li>
-                                                                                <li><a href="dashboard">Maintenance</a></li>
-                                                                                <li><a href="dashboard">Invoice</a></li>
-                                                                                <li><a href="dashboard" class="disabled">Disabled</a></li>                                        </ul>
-
-                                    </div>
-                                    <div class="col-sm-4 col-md-3">
-
-
-                                        <ul class="list-unstyled">
-                                                                                <li class="dropdown-header"><i class="demo-pli-mail icon-lg icon-fw"></i> Mailbox</li>
-                                                                                <li><a href="dashboard"><span class="pull-right label label-danger">Hot</span>Indox</a></li>
-                                                                                <li><a href="dashboard">Read Message</a></li>
-                                                                                <li><a href="dashboard">Compose</a></li>
-                                                                                <li><a href="dashboard">Template</a></li>
-                                        </ul>
-                                        <p class="pad-top text-main text-sm text-uppercase text-bold"><i class="icon-lg demo-pli-calendar-4 icon-fw"></i>News</p>
-                                        <p class="pad-top mar-top bord-top text-sm">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
-                                    </div>
-                                    <div class="col-sm-4 col-md-3">
-
-                                        <ul class="list-unstyled">
-                                            <li>
-                                                <a href="dashboard" class="media mar-btm">
-                                                    <span class="badge badge-success pull-right">90%</span>
-                                                    <div class="media-left">
-                                                        <i class="demo-pli-data-settings icon-2x"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="text-semibold text-main mar-no">Data Backup</p>
-                                                        <small class="text-muted">This is the item description</small>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="dashboard" class="media mar-btm">
-                                                    <div class="media-left">
-                                                        <i class="demo-pli-support icon-2x"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="text-semibold text-main mar-no">Support</p>
-                                                        <small class="text-muted">This is the item description</small>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="dashboard" class="media mar-btm">
-                                                    <div class="media-left">
-                                                        <i class="demo-pli-computer-secure icon-2x"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="text-semibold text-main mar-no">Security</p>
-                                                        <small class="text-muted">This is the item description</small>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="dashboard" class="media mar-btm">
-                                                    <div class="media-left">
-                                                        <i class="demo-pli-map-2 icon-2x"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="text-semibold text-main mar-no">Location</p>
-                                                        <small class="text-muted">This is the item description</small>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-sm-12 col-md-3">
-                                        <p class="dropdown-header"><i class="demo-pli-file-jpg icon-lg icon-fw"></i> Gallery</p>
-                                        <div class="row img-gallery">
-                                            <div class="col-xs-4">
-                                                <img class="img-responsive" src="img/thumbs/img-1.jpg" alt="thumbs">
-                                            </div>
-                                            <div class="col-xs-4">
-                                                <img class="img-responsive" src="img/thumbs/img-3.jpg" alt="thumbs">
-                                            </div>
-                                            <div class="col-xs-4">
-                                                <img class="img-responsive" src="img/thumbs/img-2.jpg" alt="thumbs">
-                                            </div>
-                                            <div class="col-xs-4">
-                                                <img class="img-responsive" src="img/thumbs/img-4.jpg" alt="thumbs">
-                                            </div>
-                                            <div class="col-xs-4">
-                                                <img class="img-responsive" src="img/thumbs/img-6.jpg" alt="thumbs">
-                                            </div>
-                                            <div class="col-xs-4">
-                                                <img class="img-responsive" src="img/thumbs/img-5.jpg" alt="thumbs">
-                                            </div>
-                                        </div>
-                                        <a href="dashboard" class="btn btn-block btn-primary">Browse Gallery</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>-->
-                        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                        <!--End mega dropdown-->
-
-
-
-                        <!--Notification dropdown-->
-                        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                        <!--<li class="dropdown">
-                            <a href="dashboard" data-toggle="dropdown" class="dropdown-toggle">
-                                <i class="demo-pli-bell"></i>
-                                <span class="badge badge-header badge-danger"></span>
-                            </a>
-
-
-
-                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
-                                <div class="nano scrollable">
-                                    <div class="nano-content">
-                                        <ul class="head-list">
-                                            <li>
-                                                <a href="dashboard" class="media add-tooltip" data-title="Used space : 95%" data-container="body" data-placement="bottom">
-                                                    <div class="media-left">
-                                                        <i class="demo-pli-data-settings icon-2x text-main"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="text-nowrap text-main text-semibold">HDD is full</p>
-                                                        <div class="progress progress-sm mar-no">
-                                                            <div style="width: 95%;" class="progress-bar progress-bar-danger">
-                                                                <span class="sr-only">95% Complete</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="media" href="dashboard">
-                                                    <div class="media-left">
-                                                        <i class="demo-pli-file-edit icon-2x"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="mar-no text-nowrap text-main text-semibold">Write a news article</p>
-                                                        <small>Last Update 8 hours ago</small>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="media" href="dashboard">
-                                                    <span class="label label-info pull-right">New</span>
-                                                    <div class="media-left">
-                                                        <i class="demo-pli-speech-bubble-7 icon-2x"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="mar-no text-nowrap text-main text-semibold">Comment Sorting</p>
-                                                        <small>Last Update 8 hours ago</small>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="media" href="dashboard">
-                                                    <div class="media-left">
-                                                        <i class="demo-pli-add-user-star icon-2x"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="mar-no text-nowrap text-main text-semibold">New User Registered</p>
-                                                        <small>4 minutes ago</small>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="media" href="dashboard">
-                                                    <div class="media-left">
-                                                        <img class="img-circle img-sm" alt="Profile Picture" src="img/profile-photos/9.png">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="mar-no text-nowrap text-main text-semibold">Lucy sent you a message</p>
-                                                        <small>30 minutes ago</small>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="media" href="dashboard">
-                                                    <div class="media-left">
-                                                        <img class="img-circle img-sm" alt="Profile Picture" src="img/profile-photos/3.png">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="mar-no text-nowrap text-main text-semibold">Jackson sent you a message</p>
-                                                        <small>40 minutes ago</small>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-
-                                <div class="pad-all bord-top">
-                                    <a href="dashboard" class="btn-link text-main box-block">
-                                        <i class="pci-chevron chevron-right pull-right"></i>Show All Notifications
-                                    </a>
-                                </div>
-                            </div>
-                        </li>-->
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                         <!--End notifications dropdown-->
-
-
-
                         <!--User dropdown-->
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                         <li id="dropdown-user" class="dropdown">
@@ -392,14 +171,6 @@
                                 </ul>
                             </div>
                         </li>
-                        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                        <!--End user dropdown-->
-
-                        <!--<li>
-                            <a href="dashboard" class="aside-toggle">
-                                <i class="demo-pli-dot-vertical"></i>
-                            </a>
-                        </li>-->
                     </ul>
                 </div>
                 <!--================================-->
@@ -427,45 +198,12 @@
                 <!--Page content-->
                 <!--===================================================-->
                 <div id="page-content">
-                    <!--<div class="row">
-                                                <div class="col-md-2 col-md-offset-3">
-                                                    <div class="panel">
-                                                        <div class="panel-body text-center">
-                                                            <div class="pad-ver mar-top text-main"><i class="demo-pli-data-settings icon-4x"></i></div>
-                                                            <p class="text-lg text-semibold mar-no text-main">Storage</p>
-                                                            <p class="text-muted">32TB Total storage</p>
-                                                            <p class="text-sm">The Big Oxmox advised her not to do so, because there were thousands of bad.</p>
-                                                            <button class="btn btn-primary mar-ver">Get it now</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="panel">
-                                                        <div class="panel-body text-center">
-                                                            <div class="pad-ver mar-top text-main"><i class="demo-pli-computer-secure icon-4x"></i></div>
-                                                            <p class="text-lg text-semibold mar-no text-main">Secured</p>
-                                                            <p class="text-muted">Latest Technology</p>
-                                                            <p class="text-sm">The Big Oxmox advised her not to do so, because there were thousands of bad.</p>
-                                                            <button class="btn btn-primary mar-ver">View reports</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="panel">
-                                                        <div class="panel-body text-center">
-                                                            <div class="pad-ver mar-top text-main"><i class="demo-pli-consulting icon-4x"></i></div>
-                                                            <p class="text-lg text-semibold mar-no text-main">Support</p>
-                                                            <p class="text-muted">We are here 24/7</p>
-                                                            <p class="text-sm">The Big Oxmox advised her not to do so, because there were thousands of bad.</p>
-                                                            <button class="btn btn-primary mar-ver">Contact us</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>-->
 
                     <hr class="new-section-md bord-no">
                     <div class="row">
-                    <img style="margin-top:-200px; max-width: 914px; min-width:500px ; min-height:150px ; max-height: 228px;" src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="center-block img-responsive" /> <!-- ./images/church-logo.png -->
+                      <div class="img-responsive">
+                        <img style="margin-top:-200px; max-width: 914px; min-width:500px ; min-height:150px ; max-height: 228px;" src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="center-block img-responsive" /> <!-- ./images/church-logo.png -->
+                      </div>
                         <div class="col-md-10 col-md-offset-1">
                             <div clas="row">
                             <div class="col-md-12">
@@ -496,22 +234,6 @@
                                                                   </div>
                                                                   <p class="text-sm text-bold text-uppercase">Total Number of Our Pastors</p>
                                                               </div>
-                                                                <!--button class="btn btn-pink mar-ver">View Details</button>
-                                                                <p class="text-xs">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p-->
-                                                                <!--ul style="padding-top:50px;" class="list-unstyled text-center  pad-top mar-no row"> <!--bord-top-->
-                                                                    <!--li class="col-xs-4">
-                                                                        <span class="text-lg text-semibold text-main">{{$total['workers']}}</span>
-                                                                        <p class="text-sm text-muted mar-no">Workers</p>
-                                                                    </li>
-                                                                    <li class="col-xs-4">
-                                                                        <span class="text-lg text-semibold text-main">{{$total['members']}}</span>
-                                                                        <p class="text-sm text-muted mar-no">Members</p>
-                                                                    </li>
-                                                                    <li class="col-xs-4">
-                                                                        <span class="text-lg text-semibold text-main">{{$total['pastors']}}</span>
-                                                                        <p class="text-sm text-muted mar-no">Pastors</p>
-                                                                    </li>
-                                                                </ul-->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -555,15 +277,6 @@
                                                                 </table>
                                                             </div>
                                                       </div>
-                                                    <!--===================================================-->
-                                                    <!-- End Striped Table -->
-                                                    <!--div class="pad-al text-center">
-                                                        <p class="text-semibold text-lg mar-no">Earning</p>
-                                                        <p class="text-1x text-bold mar-no ">$7,428</p>
-                                                        <p class="text-overflow pad-top pad-all">
-                                                            <span class="label label-dark">22,675</span> Total Earning
-                                                        </p>
-                                                    </div-->
                                                 </div>
                                                 <!--===================================================-->
                                               </div>
@@ -936,17 +649,17 @@
                                                         <!--================================-->
                                                         <ul class="nav nav-tabs nav-justified">
                                                                 <li class="active">
-                                                                        <a href="forms-general.html#demo-asd-tab-1" data-toggle="tab">
+                                                                        <a href="#" data-toggle="tab">
                                                                                 <i class="demo-pli-speech-bubble-7 icon-lg"></i>
                                                                         </a>
                                                                 </li>
                                                                 <li>
-                                                                        <a href="forms-general.html#demo-asd-tab-2" data-toggle="tab">
+                                                                        <a href="#" data-toggle="tab">
                                                                                 <i class="demo-pli-information icon-lg icon-fw"></i> Report
                                                                         </a>
                                                                 </li>
                                                                 <li>
-                                                                        <a href="forms-general.html#demo-asd-tab-3" data-toggle="tab">
+                                                                        <a href="#" data-toggle="tab">
                                                                                 <i class="demo-pli-wrench icon-lg icon-fw"></i> Settings
                                                                         </a>
                                                                 </li>
@@ -1456,7 +1169,7 @@
 
 										</ul>-->
 									</li>
-									<li class="{{Route::currentRouteName() === 'groups' ? 'active-sub' : ''}}">
+                  <li class="{{Route::currentRouteName() === 'groups' ? 'active-sub' : ''}}">
 										<a href="{{ route('groups') }}">
 											<i class="fa fa-users"></i>
 											<span class="menu-title">Small Groups</span>
@@ -1480,7 +1193,7 @@
 										</ul>
 									</li>
 									@if (\Auth::user()->isAdmin())
-                  <li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
+									<li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
 										<a href="#">
 											<i class="fa fa-building-o"></i>
 											<span class="menu-title">Admin Tools</span>
@@ -1496,19 +1209,12 @@
 											<li>
 												<a href="{{route('branch.ho')}}">Head Office Options</a>
 											</li>
-											<li>
+											<!--li>
 												<a href="{{route('branches')}}">Coming Soon</a>
-											</li>
+											</li-->
 
 										</ul>
 									</li>
-									<!--li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
-										<a href="{{ route('branches') }}">
-											<i class="fa fa-building-o"></i>
-											<span class="menu-title">Branches</span>
-											<!--<i class="arrow"></i>-->
-										<!--/a>
-									</li-->
 									@endif
 									<li class="{{Route::currentRouteName() === 'calendar' ? 'active-sub' : ''}}">
 										<a href="{{ route('calendar') }}">
@@ -1516,6 +1222,24 @@
 											<span class="menu-title">Calendar & Events</span>
 											<!--<i class="arrow"></i>-->
 										</a>
+									</li>
+									<li class="{{Route::currentRouteName() === 'report.membership' || Route::currentRouteName() === 'report.collections' || Route::currentRouteName() === 'report.attendance' ? 'active-sub' : ''}}">
+										<a href="#">
+											<i class="fa fa-envelope"></i>
+											<span class="menu-title">Report</span>
+											<i class="arrow"></i>
+										</a>
+										<ul class="collapse">
+											<li>
+												<a href="{{route('report.membership')}}">Membership</a>
+											</li>
+											<li>
+												<a href="{{route('report.collections')}}">Collections</a>
+											</li>
+											<li>
+												<a href="{{route('report.attendance')}}">Attendance</a>
+											</li>
+										</ul>
 									</li>
 
 									<!--Menu list item-->
