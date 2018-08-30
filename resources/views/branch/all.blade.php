@@ -45,7 +45,7 @@
 
         <!-- Basic Data Tables -->
         <!--===================================================-->
-        <div class="panel">
+        <div class="panel" style="overflow:scroll">
             <div class="panel-heading">
                 <h3 class="panel-title">List of All Branches</h3>
             </div>
@@ -99,5 +99,3 @@
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
 @endsection
-
-
