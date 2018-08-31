@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title') Member Registration @endsection
@@ -201,12 +200,15 @@
 								</div>
 							</div>
 							<div class="col-md-6">
+								<?php $ipInfo = app('App\Http\Controllers\VisitorController')->ip_info(app('App\Http\Controllers\VisitorController')->getUserIP(), "Location"); ?>
+								<?php if($ipInfo['continent'] != 'Africa'){ ?>
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="demo-textarea-input">Postal</label>
 									<div class="col-md-9">
 										<input type="text" class="form-control" name="postal" placeholder="Enter member Postal/ZIP Code">
 									</div>
 								</div>
+							<?php } ?>
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="demo-textarea-input">City</label>
 									<div class="col-md-9">
@@ -476,16 +478,11 @@
 
 											<!-- Radio Buttons -->
 											<div class="radio">
-
 												<input id="demo-form-radio" class="magic-radio" value="male" type="radio" name="sex" checked>
 												<label for="demo-form-radio">Male</label>
 												<input id="demo-form-radio-2" class="magic-radio" value="female" type="radio" name="sex">
 												<label for="demo-form-radio-2">Female</label>
-
 											</div>
-
-
-
 									</div>
 								</div>
 								<div class="form-group pad-ver">
@@ -500,10 +497,6 @@
 
 												<input id="demo-inline-form-radio-2" class="magic-radio" value="married" type="radio" name="marital_status">
 												<label for="demo-inline-form-radio-2">Married</label>
-
-
-
-
 										</div>
 									</div>
 								</div>

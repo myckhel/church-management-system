@@ -38,7 +38,6 @@ class MemberController extends Controller
      */
     public function create()
     {
-
         return view('members.register', compact('classes', 'sections'));
     }
 
@@ -86,8 +85,6 @@ class MemberController extends Controller
             'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'dob' => 'required|string|max:255',
             'email' => 'required|string|max:255',
-
-
         ]);
         $image_name = 'profile.png'; // default profile image
         if ($request->hasFile('photo'))

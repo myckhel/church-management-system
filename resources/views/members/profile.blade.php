@@ -46,7 +46,7 @@
                                                 <!-- Simple profile -->
                                                 <div class="text-center">
                                                         <div class="pad-ver">
-                                                                <img src="{{url('/images/')}}/{{$member->photo}}" class="img-lg img-circle" alt="Profile Picture">
+                                                                <img src="{{url('/public/images/')}}/{{$member->photo}}" class="img-lg img-circle" alt="Profile Picture">
                                                         </div>
                                                         <h4 class="text-lg text-overflow mar-no">{{$member->title}}. {{$member->getFullname()}}</h4>
                                                         <p class="text-sm text-muted">{{$member->occupation}}</p>
