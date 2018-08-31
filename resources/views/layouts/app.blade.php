@@ -670,7 +670,7 @@
 												<a href="{{route('collection.offering')}}">Save Collection</a>
 											</li>
 											<li>
-												<a href="{{route('collection.report')}}">Collection Report</a>
+												<a href="{{route('collection.report')}}">View Collection</a>
 											</li>
 											<li>
 												<a href="{{route('collection.analysis')}}">Collection Analysis</a>
@@ -867,7 +867,7 @@
     <!--<script src="{{ URL::asset('js/demo/nifty-demo.min.js') }}"></script>-->
 
 
-    @if (Route::currentRouteName() == 'members.all' || Route::currentRouteName() == 'branches' || 'collection.report')
+    @if (Route::currentRouteName() == 'members.all' || Route::currentRouteName() == 'branches' || 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form')
     <!--DataTables [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
 	<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
@@ -892,8 +892,6 @@
 
 	<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script>
 
-
-
 	<script>
 		$(document).ready(function () {
 
@@ -908,6 +906,7 @@
 				});*/
 
 				var table = $('.datatable').DataTable({
+					dom: 'Bfrtip',
 					lengthChange: false,
 					buttons: ['copy', 'excel', 'pdf', 'colvis']
 				});
@@ -1674,6 +1673,25 @@ function rm_num(d){
 	var input = $("#num-selector option[value='"+ text +"']").remove();
 	var ll = $('#list ' + d).remove();
 }
+</script>
+@endif
+
+@if(Route::currentRouteName() == "member.register.form")
+<script>
+$(document).ready(function(){
+	$('input:radio[name="marital_status"]').change(
+		function(){
+			if(this.checked && this.value == 'married'){
+				$('#wedding').show();
+				$("#anniversary").prop('required',true);
+			}
+			else{
+							$('#wedding').hide();
+							$("#anniversary").prop('required',false);
+						}
+		});
+});
+
 </script>
 @endif
 </body>

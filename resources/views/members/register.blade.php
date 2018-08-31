@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('title') Member Registration @endsection
@@ -40,9 +41,6 @@
 	<!--Page content-->
 	<!--===================================================-->
 	<div id="page-content">
-
-
-
 		<div class="row">
 			<div class="col-lg-8 col-lg-offset-2">
 				<div class="panel">
@@ -65,8 +63,6 @@
 
                     @endif
 					</div>
-
-
 					<div class="row panel-body">
 						<div class=""  style="border:1pt solid #090c5e; border-radius:25px;">
 							<!-- BASIC FORM ELEMENTS -->
@@ -226,7 +222,7 @@
 									<div class="col-md-9">
 										<!--input type="text" class="form-control" name="country" placeholder="Enter member country" required-->
 										<select class="form-control" name="country" required placeholder="Enter member country">
-                                                               <option selected value="Nigeria">Nigeria</option>
+                                                               <option selected value="{{$ipInfo['country']}}">{{$ipInfo['country']}}</option>
                                                             	 <option value="United States">United States</option>
                                                             	<option value="United Kingdom">United Kingdom</option>
                                                             	<option value="Afghanistan">Afghanistan</option>
@@ -489,8 +485,6 @@
 									<label class="col-md-3 control-label">Marital Status</label>
 									<div class="col-md-9">
 										<div class="radio">
-
-
 												<!-- Inline radio buttons -->
 												<input id="demo-inline-form-radio" class="magic-radio" value="single" type="radio" name="marital_status" checked>
 												<label for="demo-inline-form-radio">Single</label>
@@ -507,10 +501,10 @@
 
 									</div>
 								</div>
-								<div class="form-group">
+								<div id="wedding" class="form-group" style="display:none">
 									<label class="col-md-3 control-label" for="demo-text-input">Wedding Aniversary</label>
 									<div class="col-md-9">
-									<input  type="text" placeholder="Wedding Anniversary" name="wedding_anniversary" class="datepicker form-control"/>
+									<input id="anniversary"  type="text" placeholder="Wedding Anniversary" name="wedding_anniversary" class="datepicker form-control"/>
 
 									</div>
 								</div>

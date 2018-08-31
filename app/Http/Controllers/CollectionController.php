@@ -138,7 +138,10 @@ class CollectionController extends Controller
         $sql = "SELECT * FROM collections WHERE branch_id = " . $code . "";
         $collections = \DB::select($sql);
 
-        return view('collection.report', compact('collections'));
+        $sqll = "SELECT * FROM members_collection WHERE branch_id =" .$code. "";
+        $collectionss = \DB::select($sqll);
+
+        return view('collection.report', compact('collections', 'collectionss'));
     }
 
     public function member(Request $request){

@@ -116,7 +116,7 @@ li {
                         <h3 class="panel-title">View Attendance for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
 
                     </div>
-                    
+
                     <!--Block Styled Form -->
                     <!--===================================================-->
                     <form method="POST" action="{{route('attendance.view')}}">
@@ -145,11 +145,8 @@ li {
             <?php if (!isset($addedVariables)){ ?>
             <div class="col-md-offset-1 col-md-10" style="margin-bottom:50px">
                 <div class="panel">
-                <div class="panel-heading">
-                        <h3 class="panel-title"><strong> <i></i> </strong>Branch Attendance History</h3>
-                </div>
                 <div class="panel-body text-center clearfix" style="overflow:scroll">
-            <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
+                  <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
                 <thead>
                     <tr>
                         <th>S/N</th>
@@ -198,9 +195,6 @@ li {
       <?php }else{ ?>
             <div class="col-md-offset-3 col-md-6" style="margin-bottom:350px">
                 <div class="panel">
-                <div class="panel-heading">
-                        <h3 class="panel-title"><strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong>: Attendance Report for {{$date_in_words}}</h3>
-                    </div>
                     <div class="panel-body text-center clearfix">
                         <div class="col-sm-4 pad-top">
                             <div class="text-lg">
@@ -236,9 +230,6 @@ li {
             <?php if (!isset($addedVariables)){ ?>
             <div class="col-md-offset-1 col-md-10" style="margin-bottom:50px">
                 <div class="panel">
-                <div class="panel-heading">
-                        <h3 class="panel-title"><strong> <i></i> </strong>Members Attendance History</h3>
-                </div>
                 <div class="panel-body text-center clearfix" style="overflow:scroll">
             <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
                 <thead>
@@ -255,25 +246,13 @@ li {
                 </thead>
                 <tbody>
                   <?php $count=1;?>
-                  <h1>Attendance By Members History<h1>
+                  <h1>Members Attendance History<h1>
                     @foreach($attendances as $li)
                     <?php
                       $date = $li->attendance_date;
                       $d = date("F,Y,D", strtotime($date));
                       $p = explode(',',$d);
                     ?>
-                    <!--tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td class="bg-warning min-tablet">Date</td>
-                      <td></td>
-                      <td class="bg-warning min-tablet">{{$li->attendance_date}}</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr-->
                     <tr>
                         <td><strong>{{$count}}</strong></td>
                         <td>{{$li->title}}</td>

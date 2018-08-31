@@ -115,6 +115,7 @@
                               </tr>
                           </thead>
                           <tbody>
+                            <h1>Members Collection</h1>
                             <?php $count = 1; ?>
                             <?php $class = ['normal', 'alt']; $i = 0; $size = sizeof($members); ?>
                             @foreach ($members as $member)
@@ -213,14 +214,8 @@
                     </div>
                 </div>
             </div>
-
-
-
             <div class="col-md-12 col-md-offset-0" style="margin-bottom:500px">
                 <div class="panel">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Total Amount</h3>
-                    </div>
                     <div class="panel-body" style="overflow:scroll">
 
                         <!-- Inline Form  -->
@@ -246,6 +241,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                              <h1 class="text-center">Branch Collection</h1>
                               <tr>
                                 <td>
                                   <div id="" class="input-group">
