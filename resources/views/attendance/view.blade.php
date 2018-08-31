@@ -116,29 +116,7 @@ li {
                         <h3 class="panel-title">View Attendance for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
 
                     </div>
-                    <!--div class="panel-body">
-                      <div class="dropdown">
-                        <h3><strong>View</strong> <span>></span>
-                          <button class="dropbtn">Sort</button>
-                          <div class="dropdown-content">
-                            <a id="view-year" href="#">Year</a>
-                            <a href="#">Month</a>
-                            <a href="#">Week</a>
-                            <a href="#">Day</a>
-                        </div>
-                        </h3>
-                      </div>
-                    </div>
-                    <div class="" style="display:none" id="show-year">
-                      <ul style='list-style-type:none'>
-                        <li>
-                          <button value="2017" class="btn btn-default">2017</button>
-                        </li>
-                        <li>
-                          <button value="2018" class="btn btn-default">2018</button>
-                        </li>
-                      </ul>
-                    </div-->
+                    
                     <!--Block Styled Form -->
                     <!--===================================================-->
                     <form method="POST" action="{{route('attendance.view')}}">

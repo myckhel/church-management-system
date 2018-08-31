@@ -197,28 +197,6 @@
                                   </td-->
                                   <td></td>
                               </tr>
-                              @if ($count == $size )
-                              <!--tr class="totalColumn">
-                                <td></td>
-                                <td>Total</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td class="totalCol">3</td>
-                                <td class="totalCol">4</td>
-                                <td class="totalCol">5</td>
-                                <td class="totalCol">6</td>
-                                <td class="totalCol" id="">7</td>
-                                <td class="totalCol">8</td>
-                                <td class="totalCol">9</td>
-                                <td class="totalCol">10</td>
-                                <td class="totalCol">11</td>
-                                <td class="totalCol">12</td>
-                                <td class="totalCol">13</td>
-                                <td>14</td>
-                                <!--td>15</td-->
-                                <!--td>16</td>
-                              </tr-->
-                              @endif
                               <?php $count++; ?>
                               @endforeach
                                 <div class="" style="width:30%;">

@@ -136,7 +136,7 @@
                     <!--End Block Styled Form -->
 
             <div class="col-md-12 col-md-offset-0 col-lg-8 col-lg-offset-1" style="margin-bottom:20px">
-                <div class="panel">
+                <div class="panel"  style="overflow:scroll">
                     <div class="panel-heading">
                         <h3 class="panel-title">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
                     </div>
