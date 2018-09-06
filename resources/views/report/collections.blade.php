@@ -63,11 +63,11 @@
                 <div class="panel-body">
                   <ul>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Total No Of All Collections Till Date
+                      Total Amount of All Collections Till Date
                       <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->total_collections)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Total No Of All Today's Collections
+                      Total Amount Of Today's Collections
                       <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->todays_collections)}}</span>
                     </li>
                   </ul>
@@ -136,7 +136,7 @@
                     </li>
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
                       Total
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->total)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format(($reports[0]->so + $reports[0]->sdo + $reports[0]->o + $reports[0]->d + $reports[0]->t + $reports[0]->ff + $reports[0]->cs + $reports[0]->ls + $reports[0]->s + $reports[0]->tg + $reports[0]->tgs + $reports[0]->ot))}}</span>
                     </li>
                   </ul>
                 </div>
@@ -184,10 +184,10 @@
                     </li>
                     <?php $total = 0; ?>
                     @foreach ($ad_rep as $ar)
-                    <?php $total += ($ar->ctotal + $ar->mtotal); ?>
+                    <?php $total += ($ar->ctotal); ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       {{$ar->name}}
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($ar->ctotal + $ar->mtotal)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($ar->ctotal)}}</span>
                     </li>
                     @endforeach
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">

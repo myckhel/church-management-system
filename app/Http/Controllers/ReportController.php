@@ -33,10 +33,12 @@ class ReportController extends Controller
       $m_r = \DB::select($sql);
 
       $sql = "SELECT SUM(c.offering + c.tithe + c.special_offering + c.seed_offering + c.donation + c.first_fruit + c.covenant_seed + c.love_seed + c.sacrifice + c.thanksgiving + c.thanksgiving_seed + c.other) as ctotal,
-      SUM(m.offering + m.tithe + m.special_offering + m.seed_offering + m.donation + m.first_fruit + m.covenant_seed + m.love_seed + m.sacrifice + m.thanksgiving + m.thanksgiving_seed + m.other) as mtotal,
       branchname AS name
-      FROM members_collection m, collections c JOIN users u ON branch_id = u.branchcode GROUP BY name";
+      FROM collections c JOIN users u ON branch_id = u.branchcode GROUP BY name";
       $ad_rep= \DB::select($sql);
+
+      //SUM(m.offering + m.tithe + m.special_offering + m.seed_offering + m.donation + m.first_fruit + m.covenant_seed + m.love_seed + m.sacrifice + m.thanksgiving + m.thanksgiving_seed + m.other) as mtotal,
+      //FROM members_collection m, collections c JOIN users u ON branch_id = u.branchcode GROUP BY name";
 
       //year
       $sql = 'SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,

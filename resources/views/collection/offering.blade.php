@@ -57,22 +57,6 @@
 
                 @endif
             </div>
-
-            <!--div class="col-sm-12 col-md-10 col-md-offset-1">
-                <div class="panel">
-                    <div class="panel-body demo-nifty-btn">
-
-                        <!--Rounded Buttons-->
-                        <!--===================================================-->
-                        <!--a style="min-width:100px !important" class="btn btn-primary btn-rounded">Offering</a>
-                        <a style="min-width:100px !important" class="btn btn-primary btn-rounded">Donation</a>
-                        <a style="min-width:100px !important" class="btn btn-primary btn-rounded">Tithe</a-->
-                        <!--a href="{{route('collection.report')}}" style="min-width:100px !important"  class="btn btn-success btn-rounded">Reports</a>
-                        <!--===================================================-->
-
-                    <!--/div>
-                </div>
-            </div-->
             <style>
             table td input {
               position: absolute;
