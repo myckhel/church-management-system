@@ -55,7 +55,7 @@
 
                 @endif
             </div>
-            <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
+            <div class="col-md-5 col-md-offset-0" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>Collections <i>Report Counts</i> For</strong></h3>
@@ -64,18 +64,18 @@
                   <ul>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Total No Of All Collections Till Date
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->total_collections)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->total_collections)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Total No Of All Today's Collections
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->todays_collections)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->todays_collections)}}</span>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
 
-            <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
+            <div class="col-md-5 col-md-offset-0" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>Total <i>Collections</i> By Collections Type Till Date</strong></h3>
@@ -88,62 +88,62 @@
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Special Offering
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->so)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->so)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Seed Offering
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->sdo)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->sdo)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Offering
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->o)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->o)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Donation
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->d)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->d)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Tithe
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->t)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->t)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       First Fruit
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->ff)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->ff)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Covenant Seed
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->cs)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->cs)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Love Seed
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->ls)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->ls)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Sacrifice
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->s)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->s)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Thanksgiving
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->tg)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->tg)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Thanksgiving Seed
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->tgs)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->tgs)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Other
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->ot)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->ot)}}</span>
                     </li>
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
                       Total
-                      <span class="badge badge-primary badge-pill">N {{number_format($reports[0]->total)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->total)}}</span>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
 
-            <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
+            <div class="col-md-5 col-md-offset-0" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>Total Collections <i>By</i> Members Till Date</strong></h3>
@@ -159,19 +159,19 @@
                     <?php $total += $mc->total; ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       {{$mc->fname}} {{$mc->lname}}
-                      <span class="badge badge-primary badge-pill">N {{number_format($mc->total)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($mc->total)}}</span>
                     </li>
                     @endforeach
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
                       Total
-                      <span class="badge badge-primary badge-pill">N {{number_format($total)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($total)}}</span>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
             @if(\Auth::user()->isAdmin())
-            <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
+            <div class="col-md-5 col-md-offset-0" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>Total Branches <i>By</i> Collections Till Date</strong></h3>
@@ -187,18 +187,80 @@
                     <?php $total += ($ar->ctotal + $ar->mtotal); ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       {{$ar->name}}
-                      <span class="badge badge-primary badge-pill">N {{number_format($ar->ctotal + $ar->mtotal)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($ar->ctotal + $ar->mtotal)}}</span>
                     </li>
                     @endforeach
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
                       Total
-                      <span class="badge badge-primary badge-pill">N {{number_format($total)}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($total)}}</span>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
             @endif
+
+            <?php
+            $years = [];
+            $i = 9;
+            while ($i >= 0) {
+
+            $years[$i] = date('Y', strtotime("-$i year")); //1 week ago
+            $i--;
+            }
+            ?>
+
+            <div class="col-md-12 col-md-offset-0" style="margin-bottom:20px">
+              <div class="panel">
+                  <div class="panel-heading">
+                      <h3 class="panel-title"><strong>Last 10 <i>Years</i> Collection</strong> Report</h3>
+                  </div>
+                <div class="panel-body">
+                  <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
+                    <thead class="bg-dark text-white">
+                      <tr>
+                        <th>Type</th>
+                        <?php $totals = []; $type = ['tithe', 'offering', 'other']; foreach ($years as $key => $value) { $totals[$value] = 0; ?>
+                        <th>{{$value}}</th>
+                        <?php } ?>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($type as $t)
+                    <tr>
+                      <th>{{ucwords($t)}}</th>
+                      @foreach($years as $key => $value)
+                      <?php $found = false; ?>
+                        @foreach($c_years as $k => $v)
+                        <?php if($v->year == $value){
+                          $found = true;
+                          if($v->$t){
+                            $totals[$value] += ($v->$t) ? $v->$t : 0;
+                            echo '<td>₦'.number_format($v->$t).'</td>';}else{echo '<td>₦0</td>';
+                            }
+                          } ?>
+                        @endforeach
+                        @if(!$found)
+                        <td>No Record</td>
+                        @endif
+                        @endforeach
+                      </tr>
+                      @endforeach
+                        <!--th scope="row">3</th-->
+                    </tbody>
+                    <tfoot class="bg-success text-white">
+                      <tr>
+                        <th>Total</th>
+                        <?php foreach ($totals as $key => $value) { ?>
+                        <th>{{'₦'.number_format($value)}}</th>
+                        <?php } ?>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+
         </div>
     </div>
     <!--===================================================-->

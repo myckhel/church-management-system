@@ -38,7 +38,12 @@ class ReportController extends Controller
       FROM members_collection m, collections c JOIN users u ON branch_id = u.branchcode GROUP BY name";
       $ad_rep= \DB::select($sql);
 
-      return view('report.collections', compact('reports', 'm_r', 'ad_rep'));
+      //year
+      $sql = 'SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
+      YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '.$user->branchcode.' GROUP BY year';
+      $c_years = \DB::select($sql);
+
+      return view('report.collections', compact('reports', 'm_r', 'ad_rep', 'c_years'));
     }
 
     public function attendance(){
@@ -60,7 +65,12 @@ class ReportController extends Controller
       FROM members_attendance m, attendances a JOIN users u ON branch_id = u.branchcode GROUP BY name";
       $ad_rep= \DB::select($sql);
 
-      return view('report.attendance', compact('reports', 'm_r', 'ad_rep'));
+      //Year
+      $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
+      YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '.$user->branchcode.' GROUP BY year';
+      $a_years = \DB::select($sql);
+
+      return view('report.attendance', compact('reports', 'm_r', 'ad_rep', 'a_years'));
     }
 }
 //count(case when sex = 'male' then 1 end) AS male, count(case when sex = 'female' then 1 end) AS female,

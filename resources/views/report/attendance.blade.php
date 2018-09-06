@@ -55,7 +55,7 @@
 
                 @endif
             </div>
-            <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
+            <div class="col-md-5 col-md-offset-0" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>Attendance <i>Report Counts</i></strong></h3>
@@ -75,7 +75,7 @@
               </div>
             </div>
 
-            <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
+            <div class="col-md-5 col-md-offset-0" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>Total <i>attendance</i> By attendance Type Till Date</strong></h3>
@@ -107,7 +107,7 @@
               </div>
             </div>
 
-            <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
+            <div class="col-md-5 col-md-offset-0" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>Total attendance <i>By</i> Members Till Date</strong></h3>
@@ -135,7 +135,7 @@
               </div>
             </div>
             @if(\Auth::user()->isAdmin())
-            <div class="col-md-6 col-md-offset-2" style="margin-bottom:20px">
+            <div class="col-md-5 col-md-offset-0" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>Total Branches <i>By</i> attendance Till Date</strong></h3>
@@ -163,6 +163,67 @@
               </div>
             </div>
             @endif
+
+            <?php
+            $years = [];
+            $i = 9;
+            while ($i >= 0) {
+
+            $years[$i] = date('Y', strtotime("-$i year")); //1 week ago
+            $i--;
+            }
+            ?>
+
+            <div class="col-md-12 col-md-offset-0" style="margin-bottom:20px">
+              <div class="panel">
+                  <div class="panel-heading">
+                      <h3 class="panel-title"><strong>Last 10 <i>Years</i> Attendance</strong> Report</h3>
+                  </div>
+                <div class="panel-body">
+                  <table class="table" id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
+                    <thead class="bg-dark text-white">
+                      <tr>
+                        <th>Type</th>
+                        <?php $totals = []; $type = ['male', 'female', 'children']; foreach ($years as $key => $value) { $totals[$value] = 0; ?>
+                        <th>{{$value}}</th>
+                        <?php } ?>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($type as $t)
+                    <tr>
+                      <th>{{ucwords($t)}}</th>
+                      @foreach($years as $key => $value)
+                      <?php $found = false; ?>
+                        @foreach($a_years as $k => $v)
+                        <?php if($v->year == $value){
+                          $found = true; if($v->$t){
+                            $totals[$value] += ($v->$t) ? $v->$t : 0;
+                            echo '<td>'.$v->$t.'</td>';}else{echo '<td>0</td>';
+                            }
+                        } ?>
+                        @endforeach
+                        @if(!$found)
+                        <td>No Record</td>
+                        @endif
+                        @endforeach
+                      </tr>
+                      @endforeach
+                        <!--th scope="row">3</th-->
+                    </tbody>
+                    <tfoot class="bg-success text-white">
+                      <tr>
+                        <th>Total</th>
+                        <?php foreach ($totals as $key => $value) { ?>
+                        <th>{{$value}}</th>
+                        <?php } ?>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+
         </div>
     </div>
     <!--===================================================-->

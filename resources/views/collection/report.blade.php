@@ -42,40 +42,6 @@
     <div id="page-content">
         <div class="row">
 
-            <!--div class="col-sm-12 col-md-10 col-md-offset-1">
-                <div class="panel">
-                    <div class="panel-body demo-nifty-btn">
-
-                        <!--Rounded Buttons-->
-                        <!--===================================================-->
-                        <!--a style="min-width:100px !important" class="btn btn-primary btn-rounded">Offering</a>
-                        <a style="min-width:100px !important" class="btn btn-primary btn-rounded">Donation</a>
-                        <a style="min-width:100px !important" class="btn btn-primary btn-rounded">Tithe</a-->
-                        <!--a href="{{route('collection.report')}}" style="min-width:100px !important"  class="btn btn-success btn-rounded">Reports</a>
-                        <!--===================================================-->
-
-                    <!--/div>
-                </div>
-            </div-->
-
-
-        <!--div class="col-md-8 col-md-offset-2">
-
-          <!-- Bar Chart -->
-          <!---------------------------------->
-          <!--div class="panel">
-              <div class="panel-heading">
-                  <h3 class="panel-title">Total Monthly Collection</h3>
-              </div>
-              <div class="panel-body">
-                  <div id="demo-flot-bar" style="height: 250px"></div>
-              </div>
-          </div-->
-          <!---------------------------------->
-
-
-        <!--/div-->
-
             <div class="col-md-12 col-md-offset-0">
         <!-- Basic Data Tables -->
         <!--===================================================-->
