@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') Member @endsection
+@section('title') Member Profile @endsection
 @section('content')
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
@@ -38,6 +38,7 @@
         <!--Page content-->
         <!--===================================================-->
         <div id="page-content">
+          <div class="col-md-12 col-md-offset-0 col-lg-8 col-lg-offset-1">
                 <div class="panel">
                         <div class="panel-body">
                                 <div class="fixed-fluid">
@@ -140,6 +141,7 @@
                                 </div>
                         </div>
                 </div>
+              </div>
         </div>
         <!--===================================================-->
         <!--End page content-->

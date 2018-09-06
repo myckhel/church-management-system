@@ -389,7 +389,7 @@
                             <!-- Line Chart -->
                             <!---------------------------------->
                             @if(\Auth::user()->isAdmin())
-                            <div class="panel">
+                            <!--div class="panel">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Nationwide Offering collection</h3>
                                 </div>
@@ -397,237 +397,11 @@
                                     <div id="demo-morris-line-legend" class="text-center"></div>
                                     <div id="demo-morris-line" style="height:268px"></div>
                                 </div>
-                            </div>
+                            </div-->
                             @endif
                             <!---------------------------------->
-
-                            <!--<div class="row">
-                                                        <div class="col-md-3">
-                                                            <div class="panel panel-warning panel-colorful media middle pad-all">
-                                                                <div class="media-left">
-                                                                    <div class="pad-hor">
-                                                                        <i class="demo-pli-file-word icon-3x"></i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <p class="text-2x mar-no text-semibold">241</p>
-                                                                    <p class="mar-no">Documents</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="panel panel-info panel-colorful media middle pad-all">
-                                                                <div class="media-left">
-                                                                    <div class="pad-hor">
-                                                                        <i class="demo-pli-file-zip icon-3x"></i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <p class="text-2x mar-no text-semibold">241</p>
-                                                                    <p class="mar-no">Zip Files</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="panel panel-mint panel-colorful media middle pad-all">
-                                                                <div class="media-left">
-                                                                    <div class="pad-hor">
-                                                                        <i class="demo-pli-camera-2 icon-3x"></i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <p class="text-2x mar-no text-semibold">241</p>
-                                                                    <p class="mar-no">Photos</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="panel panel-purple panel-colorful media middle pad-all">
-                                                                <div class="media-left">
-                                                                    <div class="pad-hor">
-                                                                        <i class="demo-pli-video icon-3x"></i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <p class="text-2x mar-no text-semibold">241</p>
-                                                                    <p class="mar-no">Videos</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>-->
-
-                            <!--<div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="panel">
-                                                                <div class="panel-heading">
-                                                                    <h3 class="panel-title">Newsfeed</h3>
-                                                                </div>
-                                                                <div class="nano" style="height:360px">
-                                                                    <div class="nano-content">
-                                                                        <div class="panel-body bord-btm">
-                                                                            <p class="text-bold text-main text-sm">#68464</p>
-                                                                            <p class="pad-btm">To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words. </p>
-                                                                            <a href="dashboard" class="task-footer">
-                                                                                <span class="box-inline">
-                                                                                    <label class="label label-warning">Feature Request</label>
-                                                                                    <label class="label label-danger">Bug</label>
-                                                                                </span>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="panel-body bord-btm">
-                                                                            <p class="text-bold text-main text-sm">#45684</p>
-                                                                            <p class="pad-btm">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                                                                            <a href="dashboard" class="task-footer">
-                                                                                <span class="box-inline">
-                                                                                    <span class="pad-rgt"><i class="demo-pli-speech-bubble-7"></i> 45</span>
-                                                                                    <span class="pad-rgt"><i class="demo-pli-like"></i> 45</span>
-                                                                                </span>
-                                                                                <span class="text-sm"><i class="demo-pli-clock icon-fw text-main"></i>9:25</span>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="panel-body bord-btm">
-                                                                             <p class="text-bold text-main text-sm">#84564</p>
-                                                                             <div class="task-img">
-                                                                                 <img class="img-responsive" src="img/shared-img-2.jpg" alt="Image">
-                                                                             </div>
-                                                                             <p class="pad-btm">No one rejects, dislikes, or avoids pleasure itself, because it is pleasure.</p>
-                                                                             <a href="dashboard" class="task-footer">
-                                                                                 <span class="box-inline">
-                                                                                     <span class="pad-rgt"><i class="demo-pli-heart-2"></i> 54K</span>
-                                                                                 </span>
-                                                                                 <span class="text-sm"><i class="demo-pli-clock icon-fw text-main"></i>03:08</span>
-                                                                             </a>
-                                                                         </div>
-                                                                        <div class="panel-body bord-btm">
-                                                                             <p class="text-bold text-main text-sm">#23255</p>
-                                                                             <p class="pad-btm">The new common language will be more simple and regular than the existing European languages.</p>
-                                                                             <a href="dashboard" class="task-footer">
-                                                                                 <span class="box-inline">
-                                                                                     <img class="img-xs img-circle" src="img/profile-photos/8.png" alt="task-user">
-                                                                                     Brenda Fuller
-                                                                                 </span>
-                                                                             </a>
-                                                                         </div>
-                                                                        <div class="panel-body bord-btm">
-                                                                            <p class="text-bold text-main text-sm">#34522</p>
-                                                                            <p class="pad-btm">To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it?</p>
-                                                                            <a href="dashboard" class="task-footer">
-                                                                                <span class="text-sm"><i class="demo-pli-clock icon-fw text-main"></i>9:25</span>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="panel-body bord-btm">
-                                                                            <p class="text-bold text-main text-sm">#45684</p>
-                                                                            <p class="pad-btm">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                                                                            <a href="dashboard" class="task-footer">
-                                                                                <span class="box-inline">
-                                                                                    <span class="pad-rgt"><i class="demo-pli-speech-bubble-7"></i> 45</span>
-                                                                                    <span class="pad-rgt"><i class="demo-pli-like"></i> 45</span>
-                                                                                </span>
-                                                                                <span class="text-sm"><i class="demo-pli-clock icon-fw text-main"></i>9:25</span>
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="panel-footer text-right">
-                                                                    <button class="btn btn-sm btn-Default">Load more</button>
-                                                                    <button class="btn btn-sm btn-primary">View all</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="panel">
-
-                                                                <div class="panel">
-                                                                    <div class="panel-heading">
-                                                                        <h3 class="panel-title">Top User</h3>
-                                                </div>
-
-
-                                                                    <div class="panel-body">
-                                                                        <div class="table-responsive">
-                                                                            <table class="table">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th class="text-center">#</th>
-                                                                                        <th>User</th>
-                                                                                        <th>Order date</th>
-                                                                                        <th>Plan</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td class="text-center">34521</td>
-                                                                                        <td><a href="dashboard" class="btn-link">Scott S. Calabrese</a></td>
-                                                                                        <td><span class="text-muted">Oct 10, 2017</span></td>
-                                                                                        <td><span class="label label-purple">Bussines</span></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-center">23422</td>
-                                                                                        <td><a href="dashboard" class="btn-link">Teresa L. Doe</a></td>
-                                                                                        <td><span class="text-muted">Oct 22, 2017</span></td>
-                                                                                        <td><span class="label label-info">Personal</span></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-center">73455</td>
-                                                                                        <td><a href="dashboard" class="btn-link">Steve N. Horton</a></td>
-                                                                                        <td><span class="text-muted">Oct 22, 2017</span></td>
-                                                                                        <td><span class="label label-warning">Trial</span></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-center">34523</td>
-                                                                                        <td><a href="dashboard" class="btn-link">Charles S Boyle</a></td>
-                                                                                        <td><span class="text-muted">Nov 03, 2017</span></td>
-                                                                                        <td><span class="label label-purple">Bussines</span></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-center">74634</td>
-                                                                                        <td><a href="dashboard" class="btn-link">Lucy Doe</a></td>
-                                                                                        <td><span class="text-muted">Nov 05, 2017</span></td>
-                                                                                        <td><span class="label label-success">Special</span></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-center">23423</td>
-                                                                                        <td><a href="dashboard" class="btn-link">Michael Bunr</a></td>
-                                                                                        <td><span class="text-muted">Nov 07, 2017</span></td>
-                                                                                        <td><span class="label label-info">Personal</span></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-center">23422</td>
-                                                                                        <td><a href="dashboard" class="btn-link">Teresa L. Doe</a></td>
-                                                                                        <td><span class="text-muted">Nov 10, 2017</span></td>
-                                                                                        <td><span class="label label-info">Personal</span></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-center">73455</td>
-                                                                                        <td><a href="dashboard" class="btn-link">Steve N. Horton</a></td>
-                                                                                        <td><span class="text-muted">Nov 10, 2017</span></td>
-                                                                                        <td><span class="label label-danger">VIP</span></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-center">34521</td>
-                                                                                        <td><a href="dashboard" class="btn-link">Scott S. Calabrese</a></td>
-                                                                                        <td><span class="text-muted">Nov 11, 2017</span></td>
-                                                                                        <td><span class="label label-purple">Bussines</span></td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                </div>
-
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>-->
                         </div>
                     </div>
-
-
-
-
                 </div>
                 <!--===================================================-->
                 <!--End page content-->
@@ -635,9 +409,6 @@
             </div>
             <!--===================================================-->
             <!--END CONTENT CONTAINER-->
-
-
-
                         <!--ASIDE-->
                         <!--===================================================-->
                         <aside style="display:none" id="aside-container">
@@ -941,19 +712,6 @@
                         <nav id="mainnav-container">
                                 <div id="mainnav">
 
-
-                                        <!--OPTIONAL : ADD YOUR LOGO TO THE NAVIGATION-->
-                                        <!--It will only appear on small screen devices.-->
-                                        <!--================================
-                    <div class="mainnav-brand">
-                        <a href="index.html" class="brand">
-                            <img src="img/logo.png" alt="Nifty Logo" class="brand-icon">
-                            <span class="brand-text">Nifty</span>
-                        </a>
-                        <a href="#" class="mainnav-toggle"><i class="pci-cross pci-circle icon-lg"></i></a>
-                    </div>
-                    -->
-
 					<!--Menu-->
 					<!--================================-->
 					<div id="mainnav-menu-wrap">
@@ -976,20 +734,6 @@
 										</a>
 									</div>
 
-									<!--<div id="profile-nav" class="collapse list-group bg-trans">
-                                        <a href="dashboard" class="list-group-item">
-                                            <i class="demo-pli-male icon-lg icon-fw"></i> View Profile
-                                        </a>
-                                        <a href="dashboard" class="list-group-item">
-                                            <i class="demo-pli-gear icon-lg icon-fw"></i> Settings
-                                        </a>
-                                        <a href="dashboard" class="list-group-item">
-                                            <i class="demo-pli-information icon-lg icon-fw"></i> Help
-                                        </a>
-                                        <a href="dashboard" class="list-group-item">
-                                            <i class="demo-pli-unlock icon-lg icon-fw"></i> Logout
-                                        </a>
-                                    </div>-->
 								</div>
 
 
@@ -1042,50 +786,7 @@
 											<!--<i class="arrow"></i>-->
 										</a>
 
-
-										<!--<ul class="collapse in">
-						                    <li><a href="index.html">Dashboard 1</a></li>
-											<li><a href="dashboard-2.html">Dashboard 2</a></li>
-											<li class="active-link"><a href="dashboard-3.html">Dashboard 3</a></li>
-
-						                </ul>-->
 									</li>
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="dashboard">
-						                    <i class="demo-pli-split-vertical-2"></i>
-						                    <span class="menu-title">Layouts</span>
-											<i class="arrow"></i>
-						                </a>
-
-
-						                <ul class="collapse">
-						                    <li><a href="layouts-collapsed-navigation.html">Collapsed Navigation</a></li>
-											<li><a href="layouts-offcanvas-navigation.html">Off-Canvas Navigation</a></li>
-											<li><a href="layouts-offcanvas-slide-in-navigation.html">Slide-in Navigation</a></li>
-											<li><a href="layouts-offcanvas-revealing-navigation.html">Revealing Navigation</a></li>
-											<li class="list-divider"></li>
-											<li><a href="layouts-aside-right-side.html">Aside on the right side</a></li>
-											<li><a href="layouts-aside-left-side.html">Aside on the left side</a></li>
-											<li><a href="layouts-aside-dark-theme.html">Dark version of aside</a></li>
-											<li class="list-divider"></li>
-											<li><a href="layouts-fixed-navbar.html">Fixed Navbar</a></li>
-											<li><a href="layouts-fixed-footer.html">Fixed Footer</a></li>
-
-						                </ul>
-						            </li>-->
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="widgets.html">
-						                    <i class="demo-pli-gear"></i>
-						                    <span class="menu-title">
-												Widgets
-												<span class="pull-right badge badge-warning">24</span>
-											</span>
-						                </a>
-						            </li>-->
 
 									<li class="list-divider"></li>
 
@@ -1111,14 +812,6 @@
 												<a href="{{route('member.register.form')}}">Registration</a>
                                             </li>
 
-											<!--<li><a href="ui-modals.html">Modals</a></li>
-											<li><a href="ui-progress-bars.html">Progress bars</a></li>
-											<li><a href="ui-components.html">Components</a></li>
-											<li><a href="ui-typography.html">Typography</a></li>
-											<li><a href="ui-list-group.html">List Group</a></li>
-											<li><a href="ui-tabs-accordions.html">Tabs &amp; Accordions</a></li>
-											<li><a href="ui-alerts-tooltips.html">Alerts &amp; Tooltips</a></li>-->
-
 										</ul>
 									</li>
 
@@ -1142,10 +835,6 @@
 											<li class="{{ Route::currentRouteName() === 'attendance.analysis' ? 'active-sub active' : '' }}">
 												<a href="{{route('attendance.analysis')}}">Attendance Analysis</a>
 											</li>
-											<!--<li><a href="forms-wizard.html">Wizard</a></li>
-											<li><a href="forms-file-upload.html">File Upload</a></li>
-											<li><a href="forms-text-editor.html">Text Editor</a></li>
-											<li><a href="forms-markdown.html">Markdown</a></li>-->
 
 										</ul>
 									</li>
@@ -1158,16 +847,6 @@
 											<i class="arrow"></i>
 										</a>
 
-
-										<!--<ul class="collapse">
-											<li>
-												<a href="tables-static.html">Offering Collection</a>
-											</li>
-											<li>
-												<a href="tables-bootstrap.html">Offering Analysis</a>
-											</li>
-
-										</ul>-->
 									</li>
                   <li class="{{Route::currentRouteName() === 'groups' ? 'active-sub' : ''}}">
 										<a href="{{ route('groups') }}">
@@ -1209,9 +888,6 @@
 											<li>
 												<a href="{{route('branch.ho')}}">Head Office Options</a>
 											</li>
-											<!--li>
-												<a href="{{route('branches')}}">Coming Soon</a>
-											</li-->
 
 										</ul>
 									</li>
@@ -1242,280 +918,10 @@
 										</ul>
 									</li>
 
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="dashboard">
-						                    <i class="demo-pli-bar-chart"></i>
-						                    <span class="menu-title">Charts</span>
-											<i class="arrow"></i>
-						                </a>
-						                <ul class="collapse">
-						                    <li><a href="charts-morris-js.html">Morris JS</a></li>
-											<li><a href="charts-flot-charts.html">Flot Charts</a></li>
-											<li><a href="charts-easy-pie-charts.html">Easy Pie Charts</a></li>
-											<li><a href="charts-sparklines.html">Sparklines</a></li>
-
-						                </ul>
-						            </li>-->
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="dashboard">
-						                    <i class="demo-pli-repair"></i>
-						                    <span class="menu-title">Miscellaneous</span>
-											<i class="arrow"></i>
-						                </a>
-
-
-						                <ul class="collapse">
-						                    <li><a href="misc-timeline.html">Timeline</a></li>
-											<li><a href="misc-maps.html">Google Maps</a></li>
-											<li><a href="xplugins-notifications.html">Notifications<span class="label label-purple pull-right">Improved</span></a></li>
-											<li><a href="misc-nestable-list.html">Nestable List</a></li>
-											<li><a href="misc-animate-css.html">CSS Animations</a></li>
-											<li><a href="misc-css-loaders.html">CSS Loaders</a></li>
-											<li><a href="misc-spinkit.html">Spinkit</a></li>
-											<li><a href="misc-tree-view.html">Tree View</a></li>
-											<li><a href="misc-clipboard.html">Clipboard</a></li>
-											<li><a href="misc-x-editable.html">X-Editable</a></li>
-
-						                </ul>
-						            </li>-->
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="dashboard">
-						                    <i class="demo-pli-warning-window"></i>
-						                    <span class="menu-title">Grid System</span>
-											<i class="arrow"></i>
-						                </a>
-
-
-						                <ul class="collapse">
-						                    <li><a href="grid-bootstrap.html">Bootstrap Grid</a></li>
-											<li><a href="grid-liquid-fixed.html">Liquid Fixed</a></li>
-											<li><a href="grid-match-height.html">Match Height</a></li>
-											<li><a href="grid-masonry.html">Masonry</a></li>
-
-						                </ul>
-						            </li>-->
-
 									<li class="list-divider"></li>
 
-									<!--Category name-->
-									<!--<li class="list-header">More</li>-->
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="dashboard">
-						                    <i class="demo-pli-computer-secure"></i>
-						                    <span class="menu-title">App Views</span>
-											<i class="arrow"></i>
-						                </a>
-
-
-						                <ul class="collapse">
-						                    <li><a href="app-file-manager.html">File Manager</a></li>
-											<li><a href="app-users.html">Users</a></li>
-											<li><a href="app-users-2.html">Users 2</a></li>
-											<li><a href="app-profile.html">Profile</a></li>
-											<li><a href="app-calendar.html">Calendar</a></li>
-											<li><a href="app-taskboard.html">Taskboard</a></li>
-											<li><a href="app-chat.html">Chat</a></li>
-											<li><a href="app-contact-us.html">Contact Us</a></li>
-
-						                </ul>
-						            </li>-->
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="dashboard">
-						                    <i class="demo-pli-speech-bubble-5"></i>
-						                    <span class="menu-title">Blog Apps</span>
-											<i class="arrow"></i>
-						                </a>
-
-
-						                <ul class="collapse">
-						                    <li><a href="blog.html">Blog</a></li>
-											<li><a href="blog-list.html">Blog List</a></li>
-											<li><a href="blog-list-2.html">Blog List 2</a></li>
-											<li><a href="blog-details.html">Blog Details</a></li>
-											<li class="list-divider"></li>
-											<li><a href="blog-manage-posts.html">Manage Posts</a></li>
-											<li><a href="blog-add-edit-post.html">Add Edit Post</a></li>
-
-						                </ul>
-						            </li>-->
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="dashboard">
-						                    <i class="demo-pli-mail"></i>
-						                    <span class="menu-title">Email</span>
-											<i class="arrow"></i>
-						                </a>
-
-
-						                <ul class="collapse">
-						                    <li><a href="mailbox.html">Inbox</a></li>
-											<li><a href="mailbox-message.html">View Message</a></li>
-											<li><a href="mailbox-compose.html">Compose Message</a></li>
-											<li><a href="mailbox-templates.html">Email Templates</a></li>
-
-						                </ul>
-						            </li>-->
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="dashboard">
-						                    <i class="demo-pli-file-html"></i>
-						                    <span class="menu-title">Other Pages</span>
-											<i class="arrow"></i>
-						                </a>
-
-
-						                <ul class="collapse">
-						                    <li><a href="pages-blank.html">Blank Page</a></li>
-											<li><a href="pages-invoice.html">Invoice</a></li>
-											<li><a href="pages-search-results.html">Search Results</a></li>
-											<li><a href="pages-faq.html">FAQ</a></li>
-											<li><a href="pages-pricing.html">Pricing<span class="label label-success pull-right">New</span></a></li>
-											<li class="list-divider"></li>
-											<li><a href="pages-404-alt.html">Error 404 alt</a></li>
-											<li><a href="pages-500-alt.html">Error 500 alt</a></li>
-											<li class="list-divider"></li>
-											<li><a href="pages-404.html">Error 404 </a></li>
-											<li><a href="pages-500.html">Error 500</a></li>
-											<li><a href="pages-maintenance.html">Maintenance</a></li>
-											<li><a href="pages-login.html">Login</a></li>
-											<li><a href="pages-register.html">Register</a></li>
-											<li><a href="pages-password-reminder.html">Password Reminder</a></li>
-											<li><a href="pages-lock-screen.html">Lock Screen</a></li>
-
-						                </ul>
-						            </li>-->
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="dashboard">
-						                    <i class="demo-pli-photo-2"></i>
-						                    <span class="menu-title">Gallery</span>
-											<i class="arrow"></i>
-						                </a>
-
-
-						                <ul class="collapse">
-						                    <li><a href="gallery-columns.html">Columns</a></li>
-											<li><a href="gallery-justified.html">Justified</a></li>
-											<li><a href="gallery-nested.html">Nested</a></li>
-											<li><a href="gallery-grid.html">Grid</a></li>
-											<li><a href="gallery-carousel.html">Carousel</a></li>
-											<li class="list-divider"></li>
-											<li><a href="gallery-slider.html">Slider</a></li>
-											<li><a href="gallery-default-theme.html">Default Theme</a></li>
-											<li><a href="gallery-compact-theme.html">Compact Theme</a></li>
-											<li><a href="gallery-grid-theme.html">Grid Theme</a></li>
-
-						                </ul>
-						            </li>-->
-
-
-									<!--Menu list item-->
-									<!--<li>
-                                        <a href="dashboard">
-                                            <i class="demo-pli-tactic"></i>
-                                            <span class="menu-title">Menu Level</span>
-                                            <i class="arrow"></i>
-                                        </a>
-
-
-                                        <ul class="collapse">
-                                            <li><a href="dashboard">Second Level Item</a></li>
-                                            <li><a href="dashboard">Second Level Item</a></li>
-                                            <li><a href="dashboard">Second Level Item</a></li>
-                                            <li class="list-divider"></li>
-                                            <li>
-                                                <a href="dashboard">Third Level<i class="arrow"></i></a>
-
-
-                                                <ul class="collapse">
-                                                    <li><a href="dashboard">Third Level Item</a></li>
-                                                    <li><a href="dashboard">Third Level Item</a></li>
-                                                    <li><a href="dashboard">Third Level Item</a></li>
-                                                    <li><a href="dashboard">Third Level Item</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="dashboard">Third Level<i class="arrow"></i></a>
-
-
-                                                <ul class="collapse">
-                                                    <li><a href="dashboard">Third Level Item</a></li>
-                                                    <li><a href="dashboard">Third Level Item</a></li>
-                                                    <li class="list-divider"></li>
-                                                    <li><a href="dashboard">Third Level Item</a></li>
-                                                    <li><a href="dashboard">Third Level Item</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>-->
-
-
 									<li class="list-divider"></li>
-
-									<!--Category name-->
-									<!--<li class="list-header">Extras</li>-->
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="dashboard">
-						                    <i class="demo-pli-happy"></i>
-						                    <span class="menu-title">Icons Pack</span>
-											<i class="arrow"></i>
-						                </a>
-
-
-						                <ul class="collapse">
-						                    <li><a href="icons-ionicons.html">Ion Icons</a></li>
-											<li><a href="icons-themify.html">Themify</a></li>
-											<li><a href="icons-font-awesome.html">Font Awesome</a></li>
-											<li><a href="icons-flagicons.html">Flag Icon CSS</a></li>
-											<li><a href="icons-weather-icons.html">Weather Icons</a></li>
-
-						                </ul>
-						            </li>-->
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="dashboard">
-						                    <i class="demo-pli-medal-2"></i>
-						                    <span class="menu-title">
-												PREMIUM ICONS
-												<span class="label label-danger pull-right">BEST</span>
-											</span>
-						                </a>
-
-
-						                <ul class="collapse">
-						                    <li><a href="premium-line-icons.html">Line Icons Pack</a></li>
-											<li><a href="premium-solid-icons.html">Solid Icons Pack</a></li>
-
-						                </ul>
-						            </li>-->
-
-									<!--Menu list item-->
-									<!--<li>
-						                <a href="helper-classes.html">
-						                    <i class="demo-pli-inbox-full"></i>
-						                    <span class="menu-title">Helper Classes</span>
-						                </a>
-						            </li> -->
 								</ul>
-
-
-
-
 							</div>
 						</div>
 					</div>
@@ -1603,7 +1009,7 @@
     <!--=================================================-->
 
     <!--Demo script [ DEMONSTRATION ]-->
-    <script src="{{ URL::asset('js/demo/nifty-demo.min.js') }}"></script>
+    <!--script src="{{ URL::asset('js/demo/nifty-demo.min.js') }}"></script-->
 
 
     <!--Morris.js [ OPTIONAL ]-->
