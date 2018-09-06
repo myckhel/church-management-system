@@ -48,7 +48,7 @@
         <div class="panel">
             <div class="panel-heading">
             </div>
-            <div class="panel-body">
+            <div class="panel-body" style="overflow:scroll">
                 <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                     <thead>
                         <tr>

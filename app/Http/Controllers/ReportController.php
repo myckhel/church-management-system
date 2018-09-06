@@ -14,7 +14,13 @@ class ReportController extends Controller
       count(case when marital_status = 'single' then 1 end) AS single, count(case when marital_status = 'married' then 1 end) AS married
       FROM `members` WHERE branch_id = ".$user->branchcode."";
       $reports = \DB::select($sql);
-      return view('report.membership', compact('reports'));
+
+      //Year of reg
+      $sql = "SELECT COUNT(case when sex = 'male' then 1 end) AS male, COUNT(case when sex = 'female' then 1 end) AS female,
+      YEAR(created_at) AS year FROM `members` WHERE created_at >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = ".$user->branchcode." GROUP BY year";
+      $r_years = \DB::select($sql);
+
+      return view('report.membership', compact('reports', 'r_years'));
     }
 
     public function collections(){
@@ -51,7 +57,7 @@ class ReportController extends Controller
     public function attendance(){
       $user = \Auth::user();
 
-      $sql = "SELECT count(id) AS total_attendance, SUM(case when attendance_date = date(now()) then (female + male + children) end) AS todays_attendance,
+      $sql = "SELECT SUM(female + male + children) AS total_attendance, SUM(case when attendance_date = date(now()) then (female + male + children) end) AS todays_attendance,
       SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, SUM(children + male + female) AS total
       FROM `attendances` WHERE branch_id = ".$user->branchcode."";
       $reports = \DB::select($sql);

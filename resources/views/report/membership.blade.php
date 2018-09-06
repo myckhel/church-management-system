@@ -48,8 +48,9 @@
             <div class="panel-heading">
                 <h3 class="panel-title">List of Members In {{\Auth::user()->branchname}}</h3>
             </div>
-            <div class="col-lg-10 col-lg-offset-2">
             @if (session('status'))
+
+            <div class="col-lg-10 col-lg-offset-2">
 
                           <div class="alert alert-success">
                               {{ session('status') }}
@@ -62,11 +63,11 @@
 
                           @endforeach
 
+                          </div>
                       @endif
-            </div>
             <div class="panel-body">
                 <div class="row">
-                  <div class="col-lg-3">
+                  <div class="col-md-6">
                     <ul class="list-group">
                       <?php $count=1;?>
                       @foreach($reports as $report)
@@ -100,6 +101,74 @@
         <!--===================================================-->
         <!-- End Striped Table -->
 
+        <?php
+        $years = [];
+        $i = 9;
+        while ($i >= 0) {
+
+        $years[$i] = date('Y', strtotime("-$i year")); //1 week ago
+        $i--;
+        }
+        ?>
+
+        <div class="col-md-12 col-md-offset-0" style="margin-bottom:20px">
+          <div class="panel">
+              <div class="panel-heading">
+                  <h3 class="panel-title"><strong>Last 10 <i>Years</i> Gender</strong> Registration Report</h3>
+              </div>
+            <div class="panel-body">
+              <table class="table" id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
+                <thead class="bg-dark text-white">
+                  <tr>
+                    <th>Gender</th>
+                    <?php $totalss = [];
+                    $totals = []; $type = ['male', 'female'];
+                    foreach ($type as $key => $value) {
+                      $totalss[$value] = 0;
+                    }
+                    foreach ($years as $key => $value) { $totals[$value] = 0; ?>
+                    <th>{{$value}}</th>
+                    <?php } ?>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($type as $t)
+                <tr>
+                  <th>{{ucwords($t)}}</th>
+                  @foreach($years as $key => $value)
+                  <?php $found = false; ?>
+                    @foreach($r_years as $k => $v)
+                    <?php if($v->year == $value){
+                      $found = true; if($v->$t){
+                        $totals[$value] += ($v->$t) ? $v->$t : 0;
+                        $totalss[$t] += ($v->$t) ? $v->$t : 0;
+                        echo '<td>'.$v->$t.'</td>';}else{echo '<td>0</td>';
+                        }
+                    } ?>
+                    @endforeach
+                    @if(!$found)
+                    <td>No Record</td>
+                    @endif
+                    @endforeach
+                    <td class="bg-warning">{{$totalss[$t]}}</td>
+                  </tr>
+                  @endforeach
+                    <!--th scope="row">3</th-->
+                </tbody>
+                <tfoot class="bg-success text-white">
+                  <tr>
+                    <th>Total</th>
+                    <?php foreach ($totals as $key => $value) { ?>
+                    <th>{{$value}}</th>
+                    <?php } ?>
+                    <th><?php $q = 0; foreach($totalss as $plus => $v){$q += $v;} echo $q;?></th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
 
     </div>
     <!--===================================================-->
