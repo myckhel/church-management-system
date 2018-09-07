@@ -110,20 +110,20 @@
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total attendance <i>By</i> Members Till Date</strong></h3>
+                      <h3 class="panel-title"><strong>Total Branches <i>By</i> attendance Till Date</strong></h3>
                   </div>
                 <div class="panel-body">
                   <ul>
                     <li class="bg-warning list-group-item d-flex justify-content-between align-items-center">
-                      Member Name
-                      <span class="badge badge-primary badge-pill">Member Total</span>
+                      Branch Name
+                      <span class="badge badge-primary badge-pill">Branch Total</span>
                     </li>
                     <?php $total = 0; ?>
-                    @foreach ($m_r as $mc)
-                    <?php $total += $mc->total; ?>
+                    @foreach ($ad_rep as $ar)
+                    <?php $total += ($ar->atotal + $ar->mtotal); ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                      {{$mc->fname}} {{$mc->lname}}
-                      <span class="badge badge-primary badge-pill">{{$mc->total or 0}}</span>
+                      {{$ar->name}}
+                      <span class="badge badge-primary badge-pill">{{($ar->atotal + $ar->mtotal)}}</span>
                     </li>
                     @endforeach
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
@@ -191,6 +191,33 @@
                       </tr>
                     </tfoot>
                   </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
+              <div class="panel">
+                  <div class="panel-heading">
+                      <h3 class="panel-title"><strong>Total attendance <i>By</i> Members Till Date</strong></h3>
+                  </div>
+                <div class="panel-body">
+                  <ul>
+                    <li class="bg-warning list-group-item d-flex justify-content-between align-items-center">
+                      Member Name
+                      <span class="badge badge-primary badge-pill">Member Total</span>
+                    </li>
+                    <?php $total = 0; ?>
+                    @foreach ($m_r as $mc)
+                    <?php $total += $mc->total; ?>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      {{$mc->fname}} {{$mc->lname}}
+                      <span class="badge badge-primary badge-pill">{{$mc->total or 0}}</span>
+                    </li>
+                    @endforeach
+                    <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
+                      Total
+                      <span class="badge badge-primary badge-pill">{{$total}}</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>

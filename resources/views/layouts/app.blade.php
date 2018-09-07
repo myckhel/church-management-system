@@ -740,6 +740,7 @@
 											<i class="arrow"></i>
 										</a>
 										<ul class="collapse">
+											@if(!(\Auth::user()->isAdmin()))
 											<li>
 												<a href="{{route('report.membership')}}">Membership</a>
 											</li>
@@ -749,6 +750,56 @@
 											<li>
 												<a href="{{route('report.attendance')}}">Attendance</a>
 											</li>
+											@else
+											<li>
+												<li>
+													<a href="#">
+														<i class="fa fa-envelope"></i>
+														<span class="menu-title">Membership</span>
+														<i class="arrow"></i>
+													</a>
+													<ul class="collapse">
+														<li>
+															<a href="{{route('report.membership.all')}}">All Branches</a>
+														</li>
+														<li>
+															<a href="{{route('report.membership')}}">This Branch</a>
+														</li>
+													</ul>
+												</li>
+												<li>
+													<a href="#">
+														<i class="fa fa-envelope"></i>
+														<span class="menu-title">Collections</span>
+														<i class="arrow"></i>
+													</a>
+													<ul class="collapse">
+														<li>
+															<a href="{{route('report.collections.all')}}">All Branches</a>
+														</li>
+														<li>
+															<a href="{{route('report.collections')}}">This Branch</a>
+														</li>
+													</ul>
+												</li>
+												<li>
+													<a href="#">
+														<i class="fa fa-envelope"></i>
+														<span class="menu-title">Attendance</span>
+														<i class="arrow"></i>
+													</a>
+													<ul class="collapse">
+														<li>
+															<a href="{{route('report.attendance.all')}}">All Branches</a>
+														</li>
+														<li>
+															<a href="{{route('report.attendance')}}">This Branch</a>
+														</li>
+													</ul>
+												</li>
+
+											</li>
+											@endif
 										</ul>
 									</li>
 									<!--Menu list item-->
