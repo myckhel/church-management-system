@@ -191,9 +191,15 @@
                     <thead class="bg-dark text-white">
                       <tr>
                         <th>Type</th>
-                        <?php $totals = []; $type = ['tithe', 'offering', 'other']; foreach ($years as $key => $value) { $totals[$value] = 0; ?>
+                        <?php  $totalss = [];
+                        $totals = []; $type = ['tithe', 'offering', 'other'];
+                        foreach ($type as $key => $value) {
+                          $totalss[$value] = 0;
+                        }
+                        foreach ($years as $key => $value) { $totals[$value] = 0; ?>
                         <th>{{$value}}</th>
                         <?php } ?>
+                        <th>Total</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -207,6 +213,7 @@
                           $found = true;
                           if($v->$t){
                             $totals[$value] += ($v->$t) ? $v->$t : 0;
+                            $totalss[$t] += ($v->$t) ? $v->$t : 0;
                             echo '<td>₦'.number_format($v->$t).'</td>';}else{echo '<td>₦0</td>';
                             }
                           } ?>
@@ -215,6 +222,7 @@
                         <td>No Record</td>
                         @endif
                         @endforeach
+                        <th>{{'₦'.number_format($totalss[$t])}}</th>
                       </tr>
                       @endforeach
                         <!--th scope="row">3</th-->
@@ -225,6 +233,7 @@
                         <?php foreach ($totals as $key => $value) { ?>
                         <th>{{'₦'.number_format($value)}}</th>
                         <?php } ?>
+                        <th><?php $q = 0; foreach($totalss as $plus => $v){$q += $v;} echo '₦'.number_format($q);?></th>
                       </tr>
                     </tfoot>
                   </table>

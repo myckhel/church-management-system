@@ -55,4 +55,23 @@ class MessagingController extends Controller
         }
 
     }
+
+    public function inbox(){
+      $user = \Auth::user();
+      $members = \App\User::get();
+      return view('messaging.inbox', compact('members'));
+    }
+
+    public function sendMessage(Request $request){
+      $subject = $request->subject;
+      $to = $request->to;
+      $from = $request->from;
+      $message = $request->message;
+
+      foreach($to as $branch){
+        $sql = "INSERT INTO messaging(msg_to,msg_from,subject,msg) VALUES('$branch', '$from', '$subject', '$message')";
+        \DB::insert($sql);
+      }
+      return redirect()->back()->with('status', 'Message Sent Successfully');
+    }
 }

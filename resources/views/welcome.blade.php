@@ -5,10 +5,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>CMS-HT</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
         <!-- Styles -->
         <style>
@@ -82,10 +83,15 @@
                 </div>
             @endif
 
+            <div class="panel">
             <div class="content">
-                <div class="title m-b-md">
-                    <b>Church Management System</b>
+                <div class="title m-b-md panel-heading">
+                    <b>CMS-HT</b>
                 </div>
+                <div class="panel-footer">
+                <b><h3 class="text-primary font-weight-bold">A Product Of <a href="http://hoffenheimtechnologies.com"> Hoffenheim Technologies</a></h3></b>
+              </div>
+              </div>
 
                 <!--<div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>

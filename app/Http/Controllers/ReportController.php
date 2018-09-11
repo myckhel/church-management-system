@@ -98,12 +98,32 @@ class ReportController extends Controller
       YEAR(created_at) AS year FROM `members` WHERE created_at >= DATE(NOW() + INTERVAL - 10 YEAR) GROUP BY year";
       $r_years = \DB::select($sql);
 
-      $sq = "SELECT branch_id, COUNT(branch_id), branchname FROM members LEFT JOIN users u ON branch_id = u.branchcode GROUP BY branch_id, branchname";
-      $runs = \DB::select($sq);
-
       $sql = "SELECT COUNT(case when sex = 'male' then 1 end) AS male, COUNT(case when sex = 'female' then 1 end) as female,
       branchname AS name,
-      YEAR(m.created_at) AS year FROM members m LEFT JOIN users u ON branch_id = u.branchcode WHERE m.created_at >= DATE(NOW() + INTERVAL - 10 YEAR) GROUP BY year, name";
+      YEAR(m.created_at) AS year FROM members m RIGHT JOIN users u ON branch_id = u.branchcode WHERE m.created_at >= DATE(NOW() + INTERVAL - 10 YEAR) GROUP BY name, year";
+
+      /*$sql = "SELECT sum(m.sex), branchname
+      from(
+      SELECT COUNT(sex), u.branchname, YEAR(m.created_at) as year FROM members m, users u WHERE m.branch_id = u.branchcode AND m.created_at >= DATE(NOW() + INTERVAL - 10 YEAR)
+      AND sex='male' GROUP BY sex, branchname, year
+      UNION ALL
+      SELECT COUNT(sex), u.branchname, YEAR(m.created_at) as year FROM members m, users u WHERE m.branch_id = u.branchcode AND m.created_at >= DATE(NOW() + INTERVAL - 10 YEAR)
+      AND sex='female' GROUP BY sex, branchname, year) m
+      group by sex";*/
+
+      /*$sql = "SELECT m.sex, u.branchname AS name, YEAR(m.created_at) AS year
+      FROM
+      (
+          SELECT  u.branchname
+            FROM users u
+          UNION ALL
+          SELECT  SUM(case when sex = 'male' then 1 end) AS male, SUM(case when sex = 'female' then 1 end) as female
+            FROM members m
+      ) derivedTable
+      GROUP BY year
+      ORDER BY year";*/
+
+
       $i_years= \DB::select($sql);
 
       return view('report.all-m', compact('reports', 'r_years', 'i_years', 'runs'));

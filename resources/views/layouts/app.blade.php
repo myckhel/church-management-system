@@ -28,7 +28,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css" rel="stylesheet">
         @endif
 	<!--=================================================-->
-	@if (Route::currentRouteName() == ('email'))
+	@if (Route::currentRouteName() == ('email') || Route::currentRouteName() == ('inbox'))
 	    <!--Summernote [ OPTIONAL ]-->
 		<link href="{{ URL::asset('plugins/summernote/summernote.min.css')}}" rel="stylesheet">
 		@endif
@@ -37,7 +37,7 @@
 	<link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet">
 
 	<!--Font Awesome [ OPTIONAL ]-->
-	<link href="{{ URL::asset('plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 
     <!--Bootstrap Timepicker [ OPTIONAL ]-->
@@ -699,6 +699,9 @@
 											<li>
 												<a href="{{route('sms')}}">Bulk SMS</a>
 											</li>
+											<li>
+												<a href="{{route('inbox')}}">Inbox</a>
+											</li>
 
 										</ul>
 									</li>
@@ -736,7 +739,7 @@
 									<li class="{{Route::currentRouteName() === 'report.membership' || Route::currentRouteName() === 'report.collections' || Route::currentRouteName() === 'report.attendance' ? 'active-sub' : ''}}">
 										<a href="#">
 											<i class="fa fa-envelope"></i>
-											<span class="menu-title">Report</span>
+											<span class="menu-title">Reports</span>
 											<i class="arrow"></i>
 										</a>
 										<ul class="collapse">
@@ -1418,7 +1421,7 @@ e">Select Relative</button></div>
 	})
 })
 </script>
-	@if (Route::currentRouteName() == ('email'))
+	@if (Route::currentRouteName() == ('email') || Route::currentRouteName() == ('inbox'))
     <!--Summernote [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/summernote/summernote.min.js')}}"></script>
 

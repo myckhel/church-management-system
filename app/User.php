@@ -32,4 +32,10 @@ class User extends Authenticatable
 
         return ($this->isadmin == "true") ? true : false;
     }
+
+    public function getName(){
+
+        return "$this->branchname";
+
+    }
 }

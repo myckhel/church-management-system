@@ -155,9 +155,15 @@
                     <thead class="bg-dark text-white">
                       <tr>
                         <th>Type</th>
-                        <?php $totals = []; $type = ['male', 'female', 'children']; foreach ($years as $key => $value) { $totals[$value] = 0; ?>
+                        <?php $totalss = [];
+                        $totals = []; $type = ['male', 'female', 'children'];
+                        foreach ($type as $key => $value) {
+                          $totalss[$value] = 0;
+                        }
+                        foreach ($years as $key => $value) { $totals[$value] = 0; ?>
                         <th>{{$value}}</th>
                         <?php } ?>
+                        <th>Total</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -170,6 +176,7 @@
                         <?php if($v->year == $value){
                           $found = true; if($v->$t){
                             $totals[$value] += ($v->$t) ? $v->$t : 0;
+                            $totalss[$t] += ($v->$t) ? $v->$t : 0;
                             echo '<td>'.$v->$t.'</td>';}else{echo '<td>0</td>';
                             }
                         } ?>
@@ -178,6 +185,7 @@
                         <td>No Record</td>
                         @endif
                         @endforeach
+                        <td class="bg-warning">{{$totalss[$t]}}</td>
                       </tr>
                       @endforeach
                         <!--th scope="row">3</th-->
@@ -188,6 +196,7 @@
                         <?php foreach ($totals as $key => $value) { ?>
                         <th>{{$value}}</th>
                         <?php } ?>
+                        <th><?php $q = 0; foreach($totalss as $plus => $v){$q += $v;} echo $q;?></th>
                       </tr>
                     </tfoot>
                   </table>
