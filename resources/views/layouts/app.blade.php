@@ -700,7 +700,7 @@
 												<a href="{{route('sms')}}">Bulk SMS</a>
 											</li>
 											<li>
-												<a href="{{route('inbox')}}">Inbox</a>
+												<a href="{{route('inbox')}}">Communicator</a>
 											</li>
 
 										</ul>
@@ -1599,18 +1599,6 @@ function view(d){
 @endif
 @if(Route::currentRouteName() == "collection.offering")
 <script>
-	//check if js working
-	//alert('ok');
-
-	/*$(':input').keyup(function (){
-		var sum = 0;
-		var rowid = $(this).parent().parent().parent().attr('id');
-		$('#row,1 > :input').each(function(){
-			alert('im inside');
-			sum = parseInt($(this).val()) + sum;
-		});
-		alert(sum);
-	});*/
 
 $(document).ready(function(){
 	$(".saisie").each(function() {
@@ -1746,6 +1734,92 @@ $(document).ready(function(){
 		});
 });
 
+</script>
+@endif
+
+@if(Route::currentRouteName() == "inbox")
+<script>
+$(document).ready(function(){
+
+	$('#reply-btn').click(function(){
+		var msg = $('#reply-text').val();
+		var to = $('#reply-to').val();
+		var from = $('#reply-from').val();
+		//var value = {'msg': msg, 'to': to, 'from': from};
+		var values = {};
+		$.each($('#chat-form').serializeArray(), function(i, field) {
+				values[field.name] = field.value;
+		});
+		if(msg != ''){
+			$.ajax({
+				type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+				url         : "{{route('reply')}}", // the url where we want to POST
+				data        : values, // our data object
+				dataType    : 'json', // what type of data do we expect back from the server
+				encode      : true
+			}).done(function(data){
+				alert(data.success);
+			});
+		}
+	});
+});
+function get_msg(to,from){
+	var values = {'to':to, 'from':from};
+	$.ajax({
+			type        : 'GET', // define the type of HTTP verb we want to use (POST for our form)
+			url         : "{{route('conversation')}}", // the url where we want to POST
+			data        : values, // our data object
+			dataType    : 'json', // what type of data do we expect back from the server
+			encode      : true
+	}).done(function(data) {
+					//alert(data['chats'][0]['msg']);
+					// log data to the console so we can see
+					var chat_msg = "";
+					data['chats'].forEach(function(ch){
+						if(ch.msg_from == from){
+							chat_msg += '<div class="message info">'+
+									'<img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">'+
+
+									'<div class="message-body">'+
+											'<div class="message-info">'+
+													'<h4 id="msg-from-name">'+ ch.msg_from +' </h4>'+
+													'<h5> <i class="fa fa-clock-o"></i>'+ch.date+'</h5>'+
+											'</div>'+
+											'<hr>'+
+											'<div class="message-text" id="msg-from">'+
+											ch.msg+
+											'</div>'+
+									'</div>'+
+									'<br>'+
+							'</div>';
+						}else{
+						chat_msg +='<div class="message my-message">'+
+								'<img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">'+
+
+								'<div class="message-body">'+
+								'<div class="message-body-inner">'+
+										'<div class="message-info">'+
+												'<h4 id="msg-from-name">'+ ch.msg_from +'</h4>'+
+												'<h5> <i class="fa fa-clock-o"></i>'+ch.date+'</h5>'+
+										'</div>'+
+										'<hr>'+
+										'<div class="message-text" id="msg-to">'+
+										ch.msg+
+										'</div>'+
+								'</div>'+
+								'</div>'+
+								'<br>'+
+						'</div>';
+							//chat_msg += "";
+						}
+					});
+					$('#inbox-chat-body').html(chat_msg);
+					$('#reply-from').val(to);
+					$('#reply-to').val(from);
+					console.log(data);
+					// here we will handle errors and validation messages
+			});
+}
 </script>
 @endif
 </body>

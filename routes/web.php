@@ -72,6 +72,8 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/messaging/sms/send', 'MessagingController@sendSMS')->name('sendSMS');
     Route::get('/inbox', 'MessagingController@inbox')->name('inbox');
     Route::post('/inbox/message/send', 'MessagingController@sendMessage')->name('sendMessage');
+    Route::get('/inbox/conversation/{from?}/{to?}', 'MessagingController@getMsg')->name('conversation');
+    Route::post('/inbox/reply', 'MessagingController@reply')->name('reply');
 
     Route::get('/report/membership', 'ReportController@membership')->name('report.membership');
     Route::get('/report/membership/all', 'ReportController@allMembership')->name('report.membership.all');
