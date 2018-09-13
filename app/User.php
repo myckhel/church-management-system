@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Cache;
 
 class User extends Authenticatable
 {
@@ -36,6 +37,14 @@ class User extends Authenticatable
     public function getName(){
 
         return "$this->branchname";
+    }
 
+    public function isOnline()
+    {
+      return Cache::has('user-is-online-' . $this->id);
+    }
+
+    public function getUserById($id){
+      return \App\User::where($id)->get();
     }
 }

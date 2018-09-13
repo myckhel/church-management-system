@@ -1059,11 +1059,11 @@ body{
                                           <?php $user = \Auth::user()->branchcode; $username = \Auth::user()->branchname; ?>
                                           @foreach($msg_user as $branch)
                                             <li data-toggle="tab" data-target="#inbox-message" class="" onclick="get_msg({{$user}},{{$branch->code}})">
-                                                <div class="message-count"> {{$branch->count}} </div>
+                                                <div class="message-count {{$branch->count ? 'online-count' : 'offline-count'}}"> {{$branch->count}} </div>
                                                 <img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
 
                                                 <div class="vcentered info-combo">
-                                                    <h3 class="no-margin-bottom name"> {{$branch->name}} </h3>
+                                                    <h3 class="no-margin-bottom name"> {{$branch->name}}</h3>
                                                     <h5> .......</h5>
                                                 </div>
                                                 <div class="contacts-add">
@@ -1083,13 +1083,13 @@ body{
                                     </form>
                                     <div class="contacts-outter">
                                         <ul class="list-unstyled contacts success">
-                                          @foreach($users as $branch)
-                                            <li data-toggle="tab" data-target="#inbox-message" onclick="get_msg({{$user}},{{$branch->code}})">
+                                          @foreach($members as $branch)
+                                            <li data-toggle="tab" data-target="#inbox-message" onclick="get_msg({{$user}},{{$branch->branchcode}})">
                                                 <img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
 
                                                 <div class="vcentered info-combo">
-                                                    <h3 class="no-margin-bottom name"> {{$branch->name}} </h3>
-                                                      <div class="{{$branch->seen ? 'online-count' : 'offline-count'}}"> </div><h5> <?php if($branch->seen){ echo '<p class="text-success">online</p>';} else {echo '<p class="text-danger">offline</p>';} ?></h5>
+                                                    <h3 class="no-margin-bottom name"> {{$branch->getName()}} </h3>
+                                                      <div class="{{$branch->isOnline() ? 'online-count' : 'offline-count'}}"> </div><h5> <?php if($branch->isOnline()){ echo '<p class="text-success">online</p>';} else {echo '<p class="text-danger">offline</p>';} ?></h5>
                                                 </div>
                                                 <div class="contacts-add">
                                                     <span class="message-time"> 2:24 <sup>AM</sup></span>

@@ -57,8 +57,9 @@ class MessagingController extends Controller
     }
 
     public function inbox(){
-      $user = \Auth::user()->branchcode;
-      $members = \App\User::get();
+      $users = \Auth::user();
+      $user = \Auth::user();
+      $members = \App\User::where('branchcode', '!=', $users->branchcode)->get();
 
       //$sql = "SELECT (u.branchname) AS name, (u.branchcode) AS code, m.msg_from, m.msg_to, m.msg, m.date
       //FROM messaging m, users u WHERE $user->branchcode = msg_to GROUP BY name,code,m.msg_from, m.msg_to, m.msg, m.date";
@@ -68,12 +69,13 @@ class MessagingController extends Controller
       (SELECT MAX(date) FROM messaging WHERE msg_to = $user OR msg_from = $user GROUP BY msg_from)";
       $msg = \DB::select($sql);*/
 
-      $sql = "SELECT online as seen, branchname as name,branchcode as code FROM users ORDER BY seen DESC";
-      $users= \DB::select($sql);
+      //$sql = "SELECT * FROM users";
+      //$users= \DB::select($sql);
 
       $sql = "SELECT COUNT(m.id) as count, (u.branchname) AS name, (u.branchcode) AS code FROM messaging m LEFT JOIN users u ON m.msg_from = u.branchcode
-      WHERE (m.id > 0) AND (msg_to = $user AND msg_from != $user) GROUP BY name, code";
+      WHERE (m.id > 0) AND (msg_to = $users->branchcode AND msg_from != $users->branchcode) GROUP BY name, code";
       $msg_user = \DB::select($sql);
+      //$msg_user = \App\messaging::select(\DB::raw('COUNT(m.id) as count, (u.branchname) AS name, (u.branchcode) AS code'))->leftjoin('users u', 'm.msg_from', '=', 'u.branchcode')->where('m.id', '>', '0')->where('msg_to ', '=', ' $users->branchcode')->where('msg_from ', '!=', ' $users->branchcode')->groupby('name,code')->get();
 
       return view('messaging.inbox', compact('members', 'users', 'msg_user'));
     }
