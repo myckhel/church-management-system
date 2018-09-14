@@ -51,7 +51,6 @@ class MessagingController extends Controller
         else {
 
             return redirect()->back()->with('status','FAILURE!! Could not Send Message.'.$response);
-
         }
 
     }
@@ -72,10 +71,13 @@ class MessagingController extends Controller
       //$sql = "SELECT * FROM users";
       //$users= \DB::select($sql);
 
-      $sql = "SELECT COUNT(m.id) as count, (u.branchname) AS name, (u.branchcode) AS code FROM messaging m LEFT JOIN users u ON m.msg_from = u.branchcode
+      /*$sql = "SELECT COUNT(m.id) as count, (u.branchname) AS name, (u.branchcode) AS code FROM messaging m LEFT JOIN users u ON m.msg_from = u.branchcode
       WHERE (m.id > 0) AND (msg_to = $users->branchcode AND msg_from != $users->branchcode) GROUP BY name, code";
-      $msg_user = \DB::select($sql);
-      //$msg_user = \App\messaging::select(\DB::raw('COUNT(m.id) as count, (u.branchname) AS name, (u.branchcode) AS code'))->leftjoin('users u', 'm.msg_from', '=', 'u.branchcode')->where('m.id', '>', '0')->where('msg_to ', '=', ' $users->branchcode')->where('msg_from ', '!=', ' $users->branchcode')->groupby('name,code')->get();
+      $msg_user = \DB::select($sql);*/
+      $msg_user = \App\User::selectRaw('count(messagings.id) as count, users.branchname, users.branchcode')->
+      leftjoin('messagings', 'messagings.msg_from', '=', 'users.branchcode')->where('messagings.id', '>', '0')->
+      where('messagings.msg_to', '=', $users->branchcode)->where('messagings.msg_from', '!=', $users->branchcode)->
+      groupby('users.branchname','users.branchcode')->get();
 
       return view('messaging.inbox', compact('members', 'users', 'msg_user'));
     }
@@ -86,7 +88,7 @@ class MessagingController extends Controller
       $message = $request->message;
 
       foreach($to as $branch){
-        $sql = "INSERT INTO messaging(msg_to,msg_from,msg) VALUES('$branch', '$from','$message')";
+        $sql = "INSERT INTO messagings(msg_to,msg_from,msg) VALUES('$branch', '$from','$message')";
         \DB::insert($sql);
       }
       return redirect()->back()->with('status', 'Message Sent Successfully');
@@ -117,8 +119,12 @@ class MessagingController extends Controller
       WHERE m.msg_to = $to AND m.msg_from = $from OR m.msg_from = $to AND m.msg_to =$from GROUP BY m.msg_from, m.msg_to, m.date, m.seen, from_name, to_name";
       $chat = \DB::select($sql);*/
 
-      $sql = "SELECT * FROM messaging WHERE msg_to = $to AND msg_from = $from OR msg_from = $to AND msg_to =$from";
-      $chat = \DB::select($sql);
+      //$sql = "SELECT * FROM messagings WHERE msg_to = $to AND msg_from = $from OR msg_from = $to AND msg_to =$from";
+      //$chat = \DB::select($sql);
+      $chat = \App\User::selectRaw('messagings.*, users.branchname')->
+      leftjoin('messagings', 'messagings.msg_from', '=', 'users.branchcode')->where('messagings.msg_to', '=', $from)->
+      where('messagings.msg_from', '=', $to)->orWhere('messagings.msg_from', '=', $from)->where('messagings.msg_to', '=', $to)->
+      groupby('users.branchname','users.branchcode','messagings.id','messagings.msg_to','messagings.msg_from','messagings.msg','messagings.date','messagings.seen')->orderby('messagings.date')->get();
 
       return response()->json(['success' => true, 'chats' => $chat]);
     }
@@ -127,8 +133,27 @@ class MessagingController extends Controller
       $to = $request->to;
       $from = $request->from;
       $message = $request->message;
-      $sql = "INSERT INTO messaging(msg_to,msg_from,msg) VALUES('$to', '$from','$message')";
+      $sql = "INSERT INTO messagings(msg_to,msg_from,msg) VALUES('$to', '$from','$message')";
       \DB::insert($sql);
       return response()->json(['success' => true]);
+    }
+
+    public function get_inbox(){
+      $users = \Auth::user();
+      //$members = \App\User::where('branchcode', '!=', $users->branchcode)->get();
+
+      $msg_user = \App\User::selectRaw('count(messagings.id) as count, users.branchname, users.branchcode')->
+      leftjoin('messagings', 'messagings.msg_from', '=', 'users.branchcode')->where('messagings.id', '>', '0')->
+      where('messagings.msg_to', '=', $users->branchcode)->where('messagings.msg_from', '!=', $users->branchcode)->
+      groupby('users.branchname','users.branchcode')->get();
+
+      return response()->json(['success' => true, 'chats' => $msg_user]);
+      //view('messaging.inbox', compact('members', 'users', 'msg_user'));
+    }
+
+    public function get_users(){
+      $user = \Auth::user();
+      $branches = \App\User::select('branchname', 'branchcode')->where('branchcode', '!=', $user->branchcode)->get();
+      return response()->json(['success' => true, 'chats' => $branches]);
     }
 }

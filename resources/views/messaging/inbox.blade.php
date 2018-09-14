@@ -14,6 +14,17 @@ body{
     font-size:12px;
 }
 
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+#inbox-chat-body {
+  overflow-y: auto;
+}
+
 .contacts li .message-time {
     text-align: right;
     display: block;
@@ -353,10 +364,8 @@ body{
   font-size: 10px;
 }
 
-.contacts li .online-count {
+.online-count {
   position: absolute;
-  top: 8px;
-  left: 5px;
   width: 20px;
   height: 20px;
   line-height: 20px;
@@ -368,7 +377,7 @@ body{
   font-size: 10px;
 }
 
-.contacts li .offline-count {
+.offline-count {
   position: absolute;
   top: 8px;
   left: 5px;
@@ -390,13 +399,12 @@ body{
   float: right;
 }
 
-.message-body .message-top {
+.message-top {
   display: inline-block;
   width: 100%;
   position: relative;
   min-height: 53px;
   height: auto;
-  background-color: #fff;
   border-bottom: 1px solid rgba(205,211,237,0.5);
 }
 
@@ -945,15 +953,15 @@ body{
                               </div>
                             <!---------------------------------->
                           @endif
-					        <div class="panel-body">
+					        <!--div class="panel-body">
 					            <div class="fixed-fluid">
 					                <div class="fluid">
 					                    <!-- COMPOSE EMAIL -->
 					                    <!--===================================================-->
 
-					                    <div class="pad-btm clearfix">
+					                    <!--div class="pad-btm clearfix">
 					                        <!--Cc & bcc toggle buttons-->
-					                        <div class="pull-right pad-btm">
+					                        <!--div class="pull-right pad-btm">
 					                            <div class="btn-group">
 					                                <button id="demo-toggle-cc" data-toggle="button" type="button" class="btn btn-sm btn-default btn-active-info">Cc</button>
 					                                <button id="demo-toggle-bcc" data-toggle="button" type="button" class="btn btn-sm btn-default btn-active-info">Bcc</button>
@@ -962,7 +970,7 @@ body{
 					                    </div>
 
 					                    <!--Input form-->
-					                    <form id="send-mail-form" role="form" class="form-horizontal" method=POST action="{{route('sendMessage')}}">
+					                    <!--form id="send-mail-form" role="form" class="form-horizontal" method=POST action="{{route('sendMessage')}}">
 							                      @csrf
 					                        <div class="form-group">
 
@@ -1011,12 +1019,12 @@ body{
 					                            </div>
 					                        </div>
 					                    <!--Wysiwyg editor : Summernote placeholder-->
-					                    <div id="demo-mail-compose"></div>
+					                    <!--div id="demo-mail-compose"></div>
 
 					                    <div class="pad-ver">
 
 					                        <!--Send button-->
-					                        <button id="mail-send-btn" type="submit" class="btn btn-primary">
+					                        <!--button id="mail-send-btn" type="submit" class="btn btn-primary">
 					                            <i class="demo-psi-mail-send icon-lg icon-fw"></i> Send Mail
 					                        </button>
 					                    </div>
@@ -1024,9 +1032,9 @@ body{
 										</form>
 					                    <!--===================================================-->
 					                    <!-- END COMPOSE EMAIL -->
-					                </div>
+					                <!--/div>
 					            </div>
-					        </div>
+					        </div-->
 
 
 
@@ -1037,18 +1045,19 @@ body{
 
 
 
-                  <?php print_r($users); ?>
-                  <div class="container">
+                  <?php //print_r($msg_user); print('<br></br>'); print_r($members); ?>
+                  <br><br><br>
+                  <div class="container" style="overflow:scroll">
                     <div class="panel messages-panel">
                         <div class="contacts-list">
                             <div class="inbox-categories">
-                                <div data-toggle="tab" data-target="#inbox,#welcome-box" class="active"> Inbox </div>
-                                <div data-toggle="tab" data-target="#online,#welcome-box"> Active Branches </div>
+                                <div data-toggle="tab" data-target="#inbox,#welcome-box" class="active" onclick="clr_msg_box();"> Inbox </div>
+                                <div data-toggle="tab" data-target="#online,#welcome-box" onclick="clr_msg_box();"> Active Branches </div>
                                 <!--div data-toggle="tab" data-target="#sent"> Sent </div>
                                 <div data-toggle="tab" data-target="#marked"> Marked </div>
                                 <div data-toggle="tab" data-target="#drafts"> Drafts </div-->
                             </div>
-                            <div class="tab-content">
+                            <div class="tab-content" style="background-color:#afbfd8">
                                 <div id="inbox" class="contacts-outter-wrapper tab-pane active">
                                     <form class="panel-search-form info form-group has-feedback no-margin-bottom">
                                         <input type="text" class="form-control" name="search" placeholder="Search">
@@ -1058,19 +1067,19 @@ body{
                                         <ul class="list-unstyled contacts">
                                           <?php $user = \Auth::user()->branchcode; $username = \Auth::user()->branchname; ?>
                                           @foreach($msg_user as $branch)
-                                            <li data-toggle="tab" data-target="#inbox-message" class="" onclick="get_msg({{$user}},{{$branch->code}})">
-                                                <div class="message-count {{$branch->count ? 'online-count' : 'offline-count'}}"> {{$branch->count}} </div>
+                                            <li data-toggle="tab" data-target="#inbox-message" class="" onclick="get_msg({{$user}},{{$branch->branchcode}})">
+                                                <div class="message-count {{$branch->isOnline() ? 'online-count' : 'offline-count'}}"> {{$branch->count}} </div>
                                                 <img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
 
                                                 <div class="vcentered info-combo">
-                                                    <h3 class="no-margin-bottom name"> {{$branch->name}}</h3>
-                                                    <h5> .......</h5>
+                                                    <h3 class="no-margin-bottom name"> {{$branch->branchname}}</h3>
+                                                    <!--h5></h5-->
                                                 </div>
-                                                <div class="contacts-add">
+                                                <!--div class="contacts-add">
                                                     <span class="message-time"> 2:32 <sup>AM</sup></span>
                                                     <i class="fa fa-trash-o"></i>
                                                     <i class="fa fa-paperclip"></i>
-                                                </div>
+                                                </div-->
                                             </li>
                                             @endforeach
                                         </ul>
@@ -1084,6 +1093,7 @@ body{
                                     <div class="contacts-outter">
                                         <ul class="list-unstyled contacts success">
                                           @foreach($members as $branch)
+                                          @if($branch->isOnline())
                                             <li data-toggle="tab" data-target="#inbox-message" onclick="get_msg({{$user}},{{$branch->branchcode}})">
                                                 <img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
 
@@ -1091,13 +1101,32 @@ body{
                                                     <h3 class="no-margin-bottom name"> {{$branch->getName()}} </h3>
                                                       <div class="{{$branch->isOnline() ? 'online-count' : 'offline-count'}}"> </div><h5> <?php if($branch->isOnline()){ echo '<p class="text-success">online</p>';} else {echo '<p class="text-danger">offline</p>';} ?></h5>
                                                 </div>
-                                                <div class="contacts-add">
-                                                    <span class="message-time"> 2:24 <sup>AM</sup></span>
+                                                <!--div class="contacts-add">
+                                                    <span class="message-time"> 2:24 {{$branch->isOnline()}}<sup>AM</sup></span>
                                                     <i class="fa fa-trash-o"></i>
                                                     <i class="fa fa-paperclip"></i>
-                                                </div>
+                                                </div-->
                                             </li>
+                                            @endif
                                             @endforeach
+
+                                            @foreach($members as $branch)
+                                            @if(!$branch->isOnline())
+                                              <li data-toggle="tab" data-target="#inbox-message" onclick="get_msg({{$user}},{{$branch->branchcode}})">
+                                                  <img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+
+                                                  <div class="vcentered info-combo">
+                                                      <h3 class="no-margin-bottom name"> {{$branch->getName()}} </h3>
+                                                        <div class="offline-count"> </div><h5> <p class="text-danger">offline</p></h5>
+                                                  </div>
+                                                  <!--div class="contacts-add">
+                                                      <span class="message-time"> 2:24 <sup>AM</sup></span>
+                                                      <i class="fa fa-trash-o"></i>
+                                                      <i class="fa fa-paperclip"></i>
+                                                  </div-->
+                                              </li>
+                                              @endif
+                                              @endforeach
                                         </ul>
                                     </div>
 
@@ -1154,16 +1183,19 @@ body{
                         <!-- inbox -->
                         <div class="tab-content">
                             <div class="tab-pane message-body" id="inbox-message">
-                                <div class="message-top">
-                                    <!--a class="btn btn btn-success new-message"> <i class="fa fa-envelope"></i> New Message </a>
+                                <div class="message-top bg-primary">
+                                    <!--a class="btn btn btn-success new-message"> <i class="fa fa-envelope"></i> New Message </a-->
+                                    <div class="">
+                                      <h1 class="text-center text-white">Powered By Hoffenheim Technologies</h1>
+                                    </div>
 
-                                    <div class="new-message-wrapper">
+                                    <!--div class="new-message-wrapper">
                                         <div class="form-group">
                                             <input type="text" class="form-control" placeholder="Send message to...">
                                             <a class="btn btn-danger close-new-message" href="#"><i class="fa fa-times"></i></a>
                                         </div>
 
-                                        <div class="chat-footer new-message-textarea">
+                                        <!--div class="chat-footer new-message-textarea">
                                             <textarea class="send-message-text"></textarea>
                                             <label class="upload-file">
                                                 <input type="file" required="">
@@ -1174,7 +1206,7 @@ body{
                                     </div-->
                                 </div>
 
-                                <div class="message-chat">
+                                <div class="message-chat"  id="msg_chat">
                                     <div id="inbox-chat-body" class="chat-body">
 
                                     </div>
@@ -1185,10 +1217,10 @@ body{
                                         <input id="reply-to" type="hidden" name="to" >
                                         @csrf
                                           <textarea id="reply-text" name="message" class="send-message-text"></textarea>
-                                          <label class="upload-file">
+                                          <!--label class="upload-file">
                                               <input name="file" type="file">
                                               <i class="fa fa-paperclip"></i>
-                                          </label>
+                                          </label-->
                                           <button id="reply-btn" type="button" class="send-message-button btn-info"> <i class="fa fa-send"></i> </button>
                                         </form>
                                     </div>
@@ -1198,13 +1230,16 @@ body{
 
 
                             <div class="tab-pane message-body active" id="welcome-box">
-                                <div class="message-top">
-                                    <!--a class="btn btn btn-success new-message"> <i class="fa fa-envelope"></i> New Message </a-->
+                              <div class="message-top bg-primary">
+                                  <!--a class="btn btn btn-success new-message"> <i class="fa fa-envelope"></i> New Message </a-->
+                                  <div class="">
+                                    <h1 class="text-center text-white">Powered By Hoffenheim Technologies</h1>
+                                  </div>
                                 </div>
 
                                 <div class="message-chat">
                                     <div id="inbox-chat-body" class="chat-body">
-                                      <div class="col-xs-6 col-sm-6 col-md-3 text-center leftspan" id="one"><h5>WELCOME!!!</h5><img src="{{URL::asset('images/chat.png')}}"></div>
+                                      <img class="center" src="{{URL::asset('images/chat.png')}}">
                                     </div>
                                     <!-- conversation end -->
                                     <div class="chat-footer">

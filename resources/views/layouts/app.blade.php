@@ -1758,12 +1758,16 @@ $(document).ready(function(){
 				dataType    : 'json', // what type of data do we expect back from the server
 				encode      : true
 			}).done(function(data){
-				alert(data.success);
+				get_msg(from,to);
 			});
 		}
 	});
 });
+var To;
+var From;
 function get_msg(to,from){
+	To = to;
+	From = from;
 	var values = {'to':to, 'from':from};
 	$.ajax({
 			type        : 'GET', // define the type of HTTP verb we want to use (POST for our form)
@@ -1782,7 +1786,7 @@ function get_msg(to,from){
 
 									'<div class="message-body">'+
 											'<div class="message-info">'+
-													'<h4 id="msg-from-name">'+ ch.msg_from +' </h4>'+
+													'<h4 id="msg-from-name">'+ ch.branchname +' </h4>'+
 													'<h5> <i class="fa fa-clock-o"></i>'+ch.date+'</h5>'+
 											'</div>'+
 											'<hr>'+
@@ -1799,7 +1803,7 @@ function get_msg(to,from){
 								'<div class="message-body">'+
 								'<div class="message-body-inner">'+
 										'<div class="message-info">'+
-												'<h4 id="msg-from-name">'+ ch.msg_from +'</h4>'+
+												'<h4 id="msg-from-name">'+ ch.branchname+'</h4>'+
 												'<h5> <i class="fa fa-clock-o"></i>'+ch.date+'</h5>'+
 										'</div>'+
 										'<hr>'+
@@ -1816,12 +1820,61 @@ function get_msg(to,from){
 					$('#inbox-chat-body').html(chat_msg);
 					$('#reply-from').val(to);
 					$('#reply-to').val(from);
-					console.log(data);
+					$('#reply-text').val('');
+					// Prior to getting your messages.
+				  var shouldScroll = messages.scrollTop + messages.clientHeight === messages.scrollHeight;
+				  /*
+				   * Get your messages, we'll just simulate it by appending a new one syncronously.
+				   */
+				  //appendMessage();
+				  // After getting your messages.
+				  if (!shouldScroll) {
+				    scrollToBottom();
+				  }
 					// here we will handle errors and validation messages
 			});
 }
+var messages = document.getElementById('inbox-chat-body');
+
+/*function appendMessage() {
+	const message = document.getElementsByClassName('message')[0];
+  const newMessage = message.cloneNode(true);
+  messages.appendChild(newMessage);
+}*/
+function scrollToBottom() {
+  messages.scrollTop = messages.scrollHeight;
+}
+function clr_msg_box(){
+	$('#inbox-chat-body').html('');
+}
+scrollToBottom();
+
+
+/*function get_users(){
+	$.ajax({
+			type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+			url         : "{{route('conversation')}}", // the url where we want to POST
+			data        : values, // our data object
+			dataType    : 'json', // what type of data do we expect back from the server
+			encode      : true
+	}).done(function(data) {
+
+	});
+}
+
+function isOnline(){
+	$.ajax({
+			type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+			url         : "{{route('conversation')}}", // the url where we want to POST
+			data        : values, // our data object
+			dataType    : 'json', // what type of data do we expect back from the server
+			encode      : true
+	}).done(function(data) {
+
+	});
+}*/
+
 </script>
 @endif
 </body>
-
 </html>
