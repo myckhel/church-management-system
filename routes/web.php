@@ -83,6 +83,10 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/report/collections/all', 'ReportController@allCollections')->name('report.collections.all');
     Route::get('/report/attendance', 'ReportController@attendance')->name('report.attendance');
     Route::get('/report/attendance/all', 'ReportController@allAttendance')->name('report.attendance.all');
+    //New route from kenny
+   Route::get('/notification', 'EventController@news')->name('notification');
+   Route::post('/readmore', 'EventController@readmore')->name('readmore');
+   Route::post('/notification/announcement', 'EventController@add')->name('calendar.announcement');
 });
 
 Route::get('/admin/login', function () {

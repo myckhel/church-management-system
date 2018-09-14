@@ -26,6 +26,7 @@ class HomeController extends Controller
     public function index()
     {
         $user = \Auth::user();
+         $eventsall =  \App\Announcement::leftjoin('users',"announcements.branchcode", '=','users.branchcode')->where('announcements.branchcode', $user->branchcode)->orWhere('announcements.branch_id', $user->branchcode)->orderBy('announcements.id', 'desc')->get();
         $members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branchcode)->get();
         $events = $user->isAdmin() ? Event::orderBy('date', 'asc')->get() : Event::where('branch_id', $user->branchcode)->orderBy('date', 'asc')->get();
         $options = DB::table('head_office_options')->where('HOID',1)->first();
@@ -34,6 +35,6 @@ class HomeController extends Controller
         $num_workers = $user->isAdmin() ? DB::table('members')->where('position', 'worker')->count() : DB::table('members')->where('position', 'worker')->where('branch_id', \Auth::user()->branchcode)->count();
         $total = ['workers' => $num_workers, 'pastors' => $num_pastors, 'members' => $num_members];
         //$events = Event::all();
-        return view('dashboard.index', compact('events','options','total','members'));
+        return view('dashboard.index', compact('events','options','total','members', 'eventsall'));
     }
 }

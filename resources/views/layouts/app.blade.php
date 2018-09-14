@@ -23,7 +23,7 @@
 
 	<!--Nifty Premium Icon [ DEMONSTRATION ]-->
 	<link href="{{ URL::asset('css/demo/nifty-demo-icons.min.css') }}" rel="stylesheet">
-        @if (Route::currentRouteName() == ('calendar'))
+        @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification'))
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css" rel="stylesheet">
         @endif
@@ -57,7 +57,7 @@
     <link href="{{ URL::asset('plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css') }}" rel="stylesheet">
 	@endif
 
-	@if (Route::currentRouteName() == ('calendar'))
+	@if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification'))
     <!--Full Calendar [ OPTIONAL ]-->
     <link href="{{ URL::asset('plugins/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css') }}" rel="stylesheet">
@@ -898,7 +898,7 @@
 
 	<!--NiftyJS [ RECOMMENDED ]-->
 	<script src="{{ URL::asset('js/nifty.min.js') }}"></script>
-        @if (Route::currentRouteName() == ('calendar'))
+        @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification'))
         <script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.js"></script>
         <script type="text/javascript">
     $('.clockpicker').clockpicker();
@@ -991,7 +991,7 @@
 	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.pie.min.js') }}"></script>
 	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.tooltip.min.js') }}"></script>
 
-	@if (Route::currentRouteName() == ('calendar'))
+	@if (Route::currentRouteName() == ('calendar') )
 
 	<!--Full Calendar [ OPTIONAL ]-->
 	<script src="plugins/fullcalendar/lib/moment.min.js"></script>
