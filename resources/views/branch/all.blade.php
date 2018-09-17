@@ -53,7 +53,7 @@
                 <table id="demo-dt-basic" class="table table-striped table-bordered datatable " cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>Country</th>
+                            <!--th>Country</th-->
                             <th>Branch Name</th>
                             <th>Address</th>
                             <th class="min-tablet">Branch Code</th>
@@ -65,7 +65,7 @@
                     <tbody>
                         @foreach ($users as $user)
                         <tr>
-                            <td><span class="flag-icon flag-icon-ng"></span> </td>
+                            <!--td><span class="flag-icon flag-icon-ng"></span> </td-->
                             <td>{{$user->branchname}}</td>
                             <td>{{$user->address}}</td>
                             <td>{{$user->branchcode}}</td>

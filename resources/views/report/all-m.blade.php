@@ -177,18 +177,19 @@
                   <h3 class="panel-title"><strong>Last 10 <i>Years</i> Members</strong> Registration Report</h3>
               </div>
             <div class="panel-body">
-              <?php print_r($i_years); echo '<br>'; //print_r(explode(',', $i_years[0]->yearm));
-              $branchs = [[]];
-              foreach($i_years as $b => $v){
-                print($v->name);
-                $branchs[$v->name][$v->year] = $v;
-                echo '<br>-----';
-                print($branchs[$v->name][$v->year]->year);
-                echo '<br>-----------';
-                print($branchs[$v->name][$v->year]->name);
-              }
-              print_r($branchs);
-              print($branchs['Branch 3']['2018']->male);
+              <?php
+              //  print_r($i_years); echo '<br>'; print_r(explode(',', $i_years[0]->yearm));
+              // $branchs = [[]];
+              // foreach($i_years as $b => $v){
+              //   print($v->name);
+              //   $branchs[$v->name][$v->year] = $v;
+              //   echo '<br>-----';
+              //   print($branchs[$v->name][$v->year]->year);
+              //   echo '<br>-----------';
+              //   print($branchs[$v->name][$v->year]->name);
+              // }
+              // print_r($branchs);
+              // print($branchs['Branch 3']['2018']->male);
               ?>
               <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                 <thead class="bg-dark text-white">
@@ -257,12 +258,12 @@
 
               <br><br>
 
-              <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
+              <!--table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                 <thead class="bg-dark text-white">
                   <tr>
                     <th>Branch</th>
                     <th>Gender</th>
-                    <?php $totalss = [[]];
+                    <?php/* $totalss = [[]];
                     $totals = []; $type = ['male', 'female'];
                     $i = 0;
                     foreach($branchs as $v){
@@ -273,14 +274,14 @@
                       }
                       $i++;
                     }
-                    foreach ($years as $key => $value) { $totals[$value] = 0; ?>
+                    foreach ($years as $key => $value) { $totals[$value] = 0; */?>
                     <th>{{$value}}</th>
-                    <?php } ?>
+                    <?php// } ?>
                     <th>Total</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($branchs as $k => $s)
+                  <?php /* @foreach($branchs as $k => $s)
                   @foreach($s as $v)
                   @foreach($type as $t)
                 <tr>
@@ -308,7 +309,7 @@
                   @endforeach
                   @endforeach
                     <!--th scope="row">3</th-->
-                </tbody>
+                <!--/tbody>
                 <tfoot class="bg-success text-white">
                   <tr>
                     <th>###</th>
@@ -323,10 +324,10 @@
                           }
                       }
                       echo $q;
-                      ?></th>
+                      */?></th>
                   </tr>
                 </tfoot>
-              </table>
+              </table-->
 
 
             </div>

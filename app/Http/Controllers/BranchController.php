@@ -133,6 +133,9 @@ class BranchController extends Controller
       $data['branchcode'] = $request->branchcode;
       $data['address'] = $request->address;
       $data['email'] = $request->email;
+      $data['country'] = $request->country;
+      $data['state'] = $request->state;
+      $data['city'] = $request->city;
       $data['password'] = $request->password;
       $data['password_confirmation'] = $request->password_confirmation;
       //foreach($request as $key => $value){
@@ -161,6 +164,9 @@ class BranchController extends Controller
             'address' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'country' => 'required|string|max:255',
+            'state' =>  'required|string|max:255',
+            'city' => 'required|string|max:255',
         ]);
     }
 
@@ -173,6 +179,9 @@ class BranchController extends Controller
             'email' => $data['email'],
             'isadmin' => 'false',
             'password' => Hash::make($data['password']),
+            'country' => $data['country'],
+            'state' => $data['state'],
+            'city' => $data['city'],
         ]);
     }
 

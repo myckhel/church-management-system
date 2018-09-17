@@ -136,7 +136,7 @@
                     </li>
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
                       Total
-                      <span class="badge badge-primary badge-pill">₦ {{number_format(($reports[0]->so + $reports[0]->sdo + $reports[0]->o + $reports[0]->d + $reports[0]->t + $reports[0]->ff + $reports[0]->cs + $reports[0]->ls + $reports[0]->s + $reports[0]->tg + $reports[0]->tgs + $reports[0]->ot))}}</span>
+                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->total_collections)}} <!--/span> ₦ {{number_format(($reports[0]->so + $reports[0]->sdo + $reports[0]->o + $reports[0]->d + $reports[0]->t + $reports[0]->ff + $reports[0]->cs + $reports[0]->ls + $reports[0]->s + $reports[0]->tg + $reports[0]->tgs + $reports[0]->ot))}}</span-->
                     </li>
                   </ul>
                 </div>

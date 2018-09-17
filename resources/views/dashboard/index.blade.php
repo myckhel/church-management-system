@@ -26,9 +26,7 @@
     <!--Nifty Premium Icon [ DEMONSTRATION ]-->
     <link href="{{ URL::asset('css/demo/nifty-demo-icons.min.css') }}" rel="stylesheet">
 
-    <!--custom.css [ OPTIONAL ]-->
-    <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet">
-    <!--=================================================
+
     <!--=================================================-->
 
 
@@ -50,7 +48,8 @@
     <!--Morris.js [ OPTIONAL ]-->
     <link href="{{ URL::asset('plugins/morris-js/morris.min.css') }}" rel="stylesheet">
 
-
+    <!--custom.css [ OPTIONAL ]-->
+    <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet">
     <!--=================================================
 
     REQUIRED
@@ -76,8 +75,9 @@
     Detailed information and more samples can be found in the document.
 
     =================================================-->
-    	<!--Font Awesome [ OPTIONAL ]-->
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <!--Font Awesome [ OPTIONAL ]-->
+        <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css' rel='stylesheet' type='text/css'>
+<!--  <link href="{{ URL::asset('plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"> -->
 
 </head>
 
@@ -142,17 +142,20 @@
 
                     </ul>
                     <ul class="nav navbar-top-links">
-                      <li class="dropdown">
-                       <a href="{{ route('notification') }}">
-                         <i class="fa fa-bullhorn fa-3x" aria-hidden="true"></i> Announcement &nbsp;&nbsp;&nbsp
-                           <span class="badge badge-header badge-danger"></span>
-                       </a>
+                        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                          <!--Notification dropdown-->
+                        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                        <li class="dropdown">
+                            <a href="{{ route('notification') }}">
+                              <i class="fa fa-bullhorn fa-3x" aria-hidden="true"></i> Announcement &nbsp;&nbsp;&nbsp
+                                <span class="badge badge-header badge-danger"></span>
+                            </a>
 
 
 
-                       <!--Notification dropdown menu-->
-
-                   </li>
+                            <!--Notification dropdown menu-->
+                          
+                        </li>
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                         <!--End notifications dropdown-->
                         <!--User dropdown-->
@@ -206,132 +209,132 @@
                         <h3>Welcome to <strong>{{strtoupper(\Auth::user()->branchname)}}</strong> Dashboard.</h3>
                         <!--<p>Check out your past searches and the content you’ve browsed in. <a href="dashboard" class="btn-link">View last results</a></p>-->
                     </div>
-                    <hr class="new-section-md bord-no">
+                    <!-- <hr class="new-section-md bord-no"> -->
                 </div>
                 <!--Page content-->
                 <!--===================================================-->
                 <div id="page-content">
 
-                    <hr class="new-section-md bord-no">
                     <div class="row">
 
-                           @if (session('status'))
+                             @if (session('status'))
 
-                      <div class="alert alert-success">
-                          {{ session('status') }}
-                      </div>
-                  @endif
-              <!--     @if (count($errors) > 0)
-                      @foreach ($errors->all() as $error)
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                <!--     @if (count($errors) > 0)
+                        @foreach ($errors->all() as $error)
 
-                          <div class="alert alert-danger">{{ $error }}</div>
+                            <div class="alert alert-danger">{{ $error }}</div>
 
-                      @endforeach
+                        @endforeach
 
-                  @endif -->
-                         <div class="col-md-6 col-md-offset-2">
+                    @endif -->
+                           <div class="col-md-12 col-md-offset-2">
 
-                          <img  src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="img-responsive" alt="Cinque Terre">
-                              <!--   <div class="img-responsive">
-                      <img style="margin-top:-200px; max-width: 914px; min-width:500px ; min-height:150px ; max-height: 228px;" src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="center-block img-responsive" /> <!-- ./images/church-logo.png -->
-                   </div>
-
-                           <div class="col-md-3">
-<div class="well inset">
-                              @if(session()->has('message.level'))
-  <div class="alert alert-{{ session('message.level') }}">
-  {!! session('message.content') !!}
-  </div>
+                            <img  src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="img-responsive" alt="Cinque Terre">
+                                <!--   <div class="img-responsive">
+                        <img style="margin-top:-200px; max-width: 914px; min-width:500px ; min-height:150px ; max-height: 228px;" src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="center-block img-responsive" /> <!-- ./images/church-logo.png -->
+                     </div>
+                    </div>
+                        <div class="row">
+                             <div class="col-md-9 col-md-offset-2">
+ <div class="well solid bodyshadow">
+                                @if(session()->has('message.level'))
+    <div class="alert alert-{{ session('message.level') }}"> 
+    {!! session('message.content') !!}
+    </div>
 @endif
-                     <div class="text-center">
-                          <h3 class="div1">Announcement </h3>
-                      </div>
-                                <div class="bodyshadow">
-                              <?php
+                       <div class="text-center">
+                            <h3 class="div1">Announcement </h3>
+                        </div>
+                                  <div class="">
+                                <?php
 
 //                                 $color_arrar = array('alert alert-success','alert alert-info','alert alert-danger','alert alert-warning');
 // $size_of_array = sizeof($color_arrar);
-                              ?>
-                     <div class="vew">         @if (count($eventsall) > 0)
-                                @foreach ($eventsall as $event)
-                                  <?php $sql ="DELETE FROM announcements WHERE (start_date <= CURDATE())  ";
-                                \DB::delete($sql);
                                 ?>
-                                @if ($event->start_date >= now())
-                                <?php //$n = rand(1,$size_of_array-1);
-  //$class = $color_arrar[$n%3];?>
-
-  <div class="list-group bg-trans">
-                                  <a href="#" class="list-group-item">
-                                    <!--   <div class="media-left pos-rel">
-                                          <img class="img-circle img-xs" src="img/profile-photos/2.png" alt="Profile Picture">
-                                          <i class="badge badge-success badge-stat badge-icon pull-left"></i>
-                                      </div> -->
-                                      <div class="media-body">
-                                          <h4 class="shadow"><p>by {{$event->by_who}}</p></h4>
-                                          <div class="bodyshadow">
-                                          <h class="pad-top text-semibold ano"> <h4 class="blink2">{{ html_entity_decode(str_limit($event->details, 100)) }}</h4>
-                                              <p class="pull-right">{{$event->branchname}} </p>
-          @if (strlen(strip_tags($event->details)) > 100)
-          <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#createTopic_{{$event->id}}">
-                                             <i class="fa fa-book fa-2x" aria-hidden="true"></i> Read More</a>  &nbsp;&nbsp;&nbsp
+                       <div class="vew">         @if (count($eventsall) > 0)
+                                  @foreach ($eventsall as $event)
+                                    <?php $sql ="DELETE FROM announcements WHERE (start_date <= CURDATE())  "; 
+                                  \DB::delete($sql);
+                                  ?> 
+                                  @if ($event->start_date >= now())
+                                  <?php //$n = rand(1,$size_of_array-1);
+    //$class = $color_arrar[$n%3];?>
+                                
+    <div class="list-group bg-trans">
+                                    <a href="#" class="list-group-item">
+                                      <!--   <div class="media-left pos-rel">
+                                            <img class="img-circle img-xs" src="img/profile-photos/2.png" alt="Profile Picture">
+                                            <i class="badge badge-success badge-stat badge-icon pull-left"></i>
+                                        </div> -->
+                                        <div class="media-body">
+                                            <h4 class="shadow"><p>by {{$event->by_who}}</p></h4>
+                                            <div class="bodyshadow">
+                                            <h class="pad-top text-semibold ano"> <h4 class="blink2">{{ html_entity_decode(str_limit($event->details, 100)) }}</h4>
+                                                <p class="pull-right">{{$event->branchname}} </p>
+            @if (strlen(strip_tags($event->details)) > 100)
+            <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#createTopic_{{$event->id}}">
+                                               <i class="fa fa-book fa-2x" aria-hidden="true"></i> Read More</a>  &nbsp;&nbsp;&nbsp
 <!--              <a href="{{ action('EventController@readmore', $event->id) }}" class="btn btn-info btn-sm"></a> -->
-          @endif</p>
-      </div>
-                                      </div>
-                                  </a>
-                                  </div>
-                                 @endif
+            @endif</p>
+        </div>
+                                        </div>
+                                    </a>   
+                                    </div>                            
+                                   @endif
 
-<div class="modal" id="createTopic_{{$event->id}}" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                  <div class="modal-header">
-                     <!--  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
-                      <h1 class="text-center class="bodyshadow"">{{$event->branchname}}!</h1>
-                  </div>
-                  <div class="modal-body">
-                      <div class="bodyshadow">
-                      <blockquote class="bq-sm bq-open bq-close bg-warning"><h3> {{$event->details}} </h3></blockquote>
-                       <p class="pull-right">by <a><strong>{{$event->by_who}}</strong>   </a>    </p>
-             </div>
-
-
-                  </div>
-                  <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                                    @endforeach
-                                    <?php else: ?>
-                                      <div class="alert alert-danger">
-                                <strong>Sorry!</strong> No New Announcement.
-                              </div>
-
-                                      @endif
-                                 </div>   </div>
-<br>  <br>  <br>
-
-
+ <div class="modal" id="createTopic_{{$event->id}}" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                       <!--  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
+                        <h1 class="text-center class="bodyshadow"">{{$event->branchname}}!</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bodyshadow">
+                        <blockquote class="bq-sm bq-open bq-close bg-warning"><h3> {{$event->details}} </h3></blockquote> 
+                         <p class="pull-right">by <a><strong>{{$event->by_who}}</strong>   </a>    </p>
+               </div>
+                    
+                      
+                    </div>
+                    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                            
+        
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                                      @endforeach
+                                      <?php else: ?>
+                                        <div class="alert alert-danger">
+                                  <strong>Sorry!</strong> No New Announcement.
+                                </div>
+                                      
+                                        @endif
+                                   </div>   </div>
+  <br>  <br>  <br>
 
 
+                                
+                      
 <!-- <div class="alert alert-info">
-<strong>Info!</strong> Indicates a neutral informative change or action.
+  <strong>Info!</strong> Indicates a neutral informative change or action.
 </div>
 
 <div class="alert alert-warning">
-<strong>Warning!</strong> Indicates a warning that might need attention.
+  <strong>Warning!</strong> Indicates a warning that might need attention.
 </div>
 
 <div class="alert alert-danger">
-<strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+  <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
 </div> -->
-                    </div>
-             </div>
-
+                      </div> 
+               </div>
+  <div class="row">
 
                         <div class="col-md-10 col-md-offset-1">
                             <div clas="row">
@@ -366,8 +369,10 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                            </div>
-                                          <div class="col-md-3">
+                             </div>
+                                 </div>
+                                 <div clas="row">
+                                          <div class="col-md-6">
 
                                                 <!--Tile-->
                                                 <!--===================================================-->
@@ -996,6 +1001,9 @@
 											</li>
 											<li>
 												<a href="{{route('sms')}}">Bulk SMS</a>
+											</li>
+                      <li>
+												<a href="{{route('inbox')}}">Communicator</a>
 											</li>
 
 										</ul>
