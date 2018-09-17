@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mail\MailMember;
+use App\Mail\TickectEmail;
 use Illuminate\Support\Facades\Mail;
 
 class MessagingController extends Controller
@@ -118,9 +119,16 @@ class MessagingController extends Controller
       return response()->json(['success' => true, 'chats' => $branches]);
     }
 
+    public function indexticket(){
+      return view('ticketing.ticket');
+    }
+
     //kenny
-     public function sendTicket(Request $request){
-             $randid= mt_rand(13, rand(100, 99999990));
+    public function sendTicket(Request $request)
+   {
+    // $this->validate($request, [ 'name' => 'required', 'email' => 'required|email', 'message' => 'required' ]);
+    // ContactUS::create($request->all());
+    $randid= mt_rand(13, rand(100, 99999990));
             $error_code = $request->error_code;
             $error_name = $request->error_name;
             $severity = $request->severity;
@@ -130,12 +138,44 @@ class MessagingController extends Controller
              $full_name = $request->full_name;
             $phone_number = $request->phone_number;
             $email = $request->email;
-     $data = array('name'=> $fname . " " . $lname);
+             $msg= $request->message;
+    Mail::send('email',
+      array('TicketID'=>$randid,'ErrorCode'=>$error_code,'ErrorName'=>$error_name,'Severity'=>$severity,'ServiceLevel'=>$servicelevel,'Time'=> $time,'Date'=>$date,'Name'=>$full_name,'PhoneNumber'=>$phone_number,'Email'=>$email,'kmessage'=>$msg), function($message)
+   {
+       $message->from("kennyendowed@ymail.com");
+       $message->to('kakpan@hoffenheimtechnologies.com', 'Hoffenheim Technologies Test Single Email')->subject('From Support Ticket');
+   });
 
-     Mail::send(['text'=>'mail'], $data, function($message) {
-        $message->to('kakpan@hoffenheimtechnologies.com', 'Hoffenheim Technologies Test Single Email')->subject('From Support Ticket');
-        $message->from($email,$fname . " " . $lname);
-     });
-     redirect()->back()->with('status', "Ticket Email Sent. Check your inbox.");
-  }
+        redirect()->back()->with('status', "Ticket Email Sent. Check your inbox.");
+   }
+
+
+ public function sendTickeet(Request $request)
+    {
+       $randid= mt_rand(13, rand(100, 99999990));
+            $error_code = $request->error_code;
+            $error_name = $request->error_name;
+            $severity = $request->severity;
+            $servicelevel = $request->servicelevels;
+            $time = $request->time;
+            $date = $request->date;
+             $full_name = $request->full_name;
+            $phone_number = $request->phone_number;
+            $email = $request->email;
+             $message= $request->message;
+  $data = array('TicketID'=>$randid,'ErrorCode'=>$error_code,'ErrorName'=>$ $error_name,'Severity'=>$severity,'ServiceLevels'=>$servicelevel,'Time'=> $time,'Date'=>$date,'Name'=>$full_name,'PhoneNumber'=>$phone_number,'Email'=>$email,'message'=>$message);
+
+        Mail::to("kakpan@hoffenheimtechnologies.com")->send(new MailMember($data));
+    }
+
+    public function demo(){
+      $objDemo = new \stdClass();
+       $objDemo->demo_one = 'Demo One Value';
+       $objDemo->demo_two = 'Demo Two Value';
+       $objDemo->sender = 'myckhel1@gmail.com';
+       $objDemo->receiver = 'ReceiverUserName';
+       echo view('mails.ticket');
+
+       Mail::to("kakpan@hoffenheimtechnologies.com")->send(new TickectEmail($objDemo));
+    }
 }

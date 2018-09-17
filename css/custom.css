@@ -58,13 +58,13 @@ div.bodyshadow {
 
 
 
-    h4.blink2 {
-        -webkit-animation: blink 2s step-end infinite;
+  h4.blink2 {
+    -webkit-animation: blink 2s step-end infinite;
             animation: blink 2s step-end infinite;
                 color: #e20707;
-        }
-        @-webkit-keyframes blink { 50% { visibility: hidden; }}
-                @keyframes blink { 50% { visibility: hidden; }}
+    }
+    @-webkit-keyframes blink { 50% { visibility: hidden; }}
+            @keyframes blink { 50% { visibility: hidden; }}
 
 h4.textcolor{
       color: #e20707;
@@ -130,4 +130,18 @@ h4.textcolor{
   100% {
     background-position: 300px 0px, 0px 116px, 0px 0px, 216px 150px;
   }
+}
+
+option.line1 {
+  background-color:   #228B22;
+  color: #ffffff;
+}
+
+option.line2 {
+  background-color: #000000;
+  color: #ffff00;
+}
+option.line3 {
+  background-color: #000000;
+  color: #ffff00;
 }
