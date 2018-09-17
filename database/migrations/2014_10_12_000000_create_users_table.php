@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('branchcode')->unique();
             $table->string('email', 30)->unique();
             $table->string('address');
+            $table->integer('currency', 5);
             $table->enum('isadmin',['true','false'])->default('false');
             $table->string('password');
             $table->rememberToken();

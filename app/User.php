@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','branchname','branchcode','address','isadmin', 'city', 'state', 'country',
+        'name', 'email', 'password','branchname','branchcode','address','isadmin', 'city', 'state', 'country', 'currency',
     ];
 
     /**
@@ -37,6 +37,11 @@ class User extends Authenticatable
     public function getName(){
 
         return "$this->branchname";
+    }
+
+    public function getCurrencySymbol(){
+      $currency = $this->currency;
+      return \DB::table('country')->select('currency_symbol')->where('ID', '=', $currency)->first();
     }
 
     public function isOnline()

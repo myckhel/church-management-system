@@ -84,9 +84,11 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/report/attendance', 'ReportController@attendance')->name('report.attendance');
     Route::get('/report/attendance/all', 'ReportController@allAttendance')->name('report.attendance.all');
     //New route from kenny
-   Route::get('/notification', 'EventController@news')->name('notification');
-   Route::post('/readmore', 'EventController@readmore')->name('readmore');
-   Route::post('/notification/announcement', 'EventController@add')->name('calendar.announcement');
+ Route::get('/notification', 'EventController@news')->name('notification');
+    Route::post('/readmore', 'EventController@readmore')->name('readmore');
+    Route::post('/notification/announcement', 'EventController@add')->name('calendar.announcement');
+    Route::get('/ticket', 'MessagingController@indexticket')->name('ticket');
+    Route::post('/ticket/email/ticket', 'MessagingController@sendTicket')->name('sendTicket');
 });
 
 Route::get('/admin/login', function () {

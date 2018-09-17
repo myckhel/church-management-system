@@ -28,7 +28,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::select()->join('country', 'country.ID', '=', 'users.currency')->get();
 
         return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard') : view('branch.all',compact('users'));
 
@@ -120,8 +120,11 @@ class BranchController extends Controller
         //
         $users = User::all();
 
+        $sql = "SELECT currency_name, currency_symbol, ID FROM country WHERE currency_name != ''";
+        $currencies = \DB::select($sql);
+
         return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard'):
-        view('branch.register');
+        view('branch.register', compact('currencies'));
     }
 
 
@@ -136,6 +139,7 @@ class BranchController extends Controller
       $data['country'] = $request->country;
       $data['state'] = $request->state;
       $data['city'] = $request->city;
+      $data['currency'] = $request->currency;
       $data['password'] = $request->password;
       $data['password_confirmation'] = $request->password_confirmation;
       //foreach($request as $key => $value){
@@ -167,6 +171,7 @@ class BranchController extends Controller
             'country' => 'required|string|max:255',
             'state' =>  'required|string|max:255',
             'city' => 'required|string|max:255',
+            'currency' => 'required',
         ]);
     }
 
@@ -182,6 +187,7 @@ class BranchController extends Controller
             'country' => $data['country'],
             'state' => $data['state'],
             'city' => $data['city'],
+            'currency' => $data['currency'],
         ]);
     }
 

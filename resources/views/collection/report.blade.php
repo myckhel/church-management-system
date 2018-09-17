@@ -48,6 +48,7 @@
         <div class="panel">
             <div class="panel-heading">
             </div>
+            <?php $currency = \Auth::user()->getCurrencySymbol()->currency_symbol; ?>
             <div class="panel-body" style="overflow:scroll">
                 <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                     <thead>
@@ -85,19 +86,19 @@
                         <tr>
                           <td>{{$count}}</td>
                           <td>{{$list->type}}</td>
-                          <td>{{$list->special_offering}}</td>
-                          <td>{{$list->seed_offering}}</td>
-                          <td>{{$list->tithe}}</td>
-                          <td>{{$list->offering}}</td>
-                          <td>{{$list->donation}}</td>
-                          <td>{{$list->first_fruit}}</td>
-                          <td>{{$list->covenant_seed}}</td>
-                          <td>{{$list->love_seed}}</td>
-                          <td>{{$list->sacrifice}}</td>
-                          <td>{{$list->thanksgiving}}</td>
-                          <td>{{$list->thanksgiving_seed}}</td>
-                          <td>{{$list->other}}</td>
-                          <td>{{$list->amount}}</td>
+                          <td>{{$currency.number_format($list->special_offering)}}</td>
+                          <td>{{$currency.number_format($list->seed_offering)}}</td>
+                          <td>{{$currency.number_format($list->tithe)}}</td>
+                          <td>{{$currency.number_format($list->offering)}}</td>
+                          <td>{{$currency.number_format($list->donation)}}</td>
+                          <td>{{$currency.number_format($list->first_fruit)}}</td>
+                          <td>{{$currency.number_format($list->covenant_seed)}}</td>
+                          <td>{{$currency.number_format($list->love_seed)}}</td>
+                          <td>{{$currency.number_format($list->sacrifice)}}</td>
+                          <td>{{$currency.number_format($list->thanksgiving)}}</td>
+                          <td>{{$currency.number_format($list->thanksgiving_seed)}}</td>
+                          <td>{{$currency.number_format($list->other)}}</td>
+                          <td>{{$currency.number_format($list->amount)}}</td>
                           <!--td>{{$list->date_collected}}</td-->
                           <td>{{$date}}</td>
                           <td>{{$p[0]}}</td>
@@ -152,19 +153,19 @@
                     <td><strong>{{$count}}</strong></td>
                     <td>{{$li->fname}} {{$li->lname}}</td>
                     <td>{{$li->service_type}}</td>
-                    <td>{{$li->special_offering}}</td>
-                    <td>{{$li->seed_offering}}</td>
-                    <td>{{$li->tithe}}</td>
-                    <td>{{$li->offering}}</td>
-                    <td>{{$li->donation}}</td>
-                    <td>{{$li->first_fruit}}</td>
-                    <td>{{$li->covenant_seed}}</td>
-                    <td>{{$li->love_seed}}</td>
-                    <td>{{$li->sacrifice}}</td>
-                    <td>{{$li->thanksgiving}}</td>
-                    <td>{{$li->thanksgiving_seed}}</td>
-                    <td>{{$li->other}}</td>
-                    <td>{{($li->special_offering + $li->seed_offering + $li->tithe + $li->offering + $li->donation + $li->first_fruit + $li->covenant_seed + $li->sacrifice + $li->thanksgiving + $li->thanksgiving_seed + $li->other)}}</td>
+                    <td>{{$currency.number_format($li->special_offering)}}</td>
+                    <td>{{$currency.number_format($li->seed_offering)}}</td>
+                    <td>{{$currency.number_format($li->tithe)}}</td>
+                    <td>{{$currency.number_format($li->offering)}}</td>
+                    <td>{{$currency.number_format($li->donation)}}</td>
+                    <td>{{$currency.number_format($li->first_fruit)}}</td>
+                    <td>{{$currency.number_format($li->covenant_seed)}}</td>
+                    <td>{{$currency.number_format($li->love_seed)}}</td>
+                    <td>{{$currency.number_format($li->sacrifice)}}</td>
+                    <td>{{$currency.number_format($li->thanksgiving)}}</td>
+                    <td>{{$currency.number_format($li->thanksgiving_seed)}}</td>
+                    <td>{{$currency.number_format($li->other)}}</td>
+                    <td>{{$currency.number_format(($li->special_offering + $li->seed_offering + $li->tithe + $li->offering + $li->donation + $li->first_fruit + $li->covenant_seed + $li->sacrifice + $li->thanksgiving + $li->thanksgiving_seed + $li->other))}}</td>
                     <td>{{$li->date_added}}</td>
                     <!--td><button id="" type="submit" class="btn btn-primary" onclick="view(this);">View</button></td-->
                 </tr>

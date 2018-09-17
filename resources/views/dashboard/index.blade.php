@@ -25,7 +25,7 @@
 
     <!--Nifty Premium Icon [ DEMONSTRATION ]-->
     <link href="{{ URL::asset('css/demo/nifty-demo-icons.min.css') }}" rel="stylesheet">
-
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!--=================================================-->
 
@@ -75,9 +75,9 @@
     Detailed information and more samples can be found in the document.
 
     =================================================-->
-      <!--Font Awesome [ OPTIONAL ]-->
+        <!--Font Awesome [ OPTIONAL ]-->
         <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css' rel='stylesheet' type='text/css'>
-<!--  <link href="{{ URL::asset('plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"> -->
+<!--    <link href="{{ URL::asset('plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"> -->
 
 </head>
 
@@ -115,7 +115,7 @@
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                         <li class="tgl-menu-btn">
                             <a class="mainnav-toggle slide" href="dashboard">
-                                <i class="demo-pli-list-view"></i>
+                                <i class="fa fa-bars"></i>
                             </a>
                         </li>
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -154,7 +154,7 @@
 
 
                             <!--Notification dropdown menu-->
-                          
+
                         </li>
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                         <!--End notifications dropdown-->
@@ -167,7 +167,7 @@
                                     <!--You can use an image instead of an icon.-->
                                     <!--<img class="img-circle img-user media-object" src="img/profile-photos/1.png" alt="Profile Picture">-->
                                     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                                    <i class="demo-pli-male"> Hello {{\Auth::user()->branchname}}</i>
+                                    <i class="fa fa-user"> Hello {{\Auth::user()->branchname}}</i>
                                 </span>
                                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                                 <!--You can also display a user name in the navbar.-->
@@ -239,32 +239,32 @@
                      </div>
                     </div>
                         <div class="row">
-                             <div class="col-md-9 col-md-offset-2">
- <div class="well solid bodyshadow">
+                             <div class="col-md-10 col-md-offset-1">
+ <div class="border">
+ <div class="well  bodyshadow">
+
                                 @if(session()->has('message.level'))
-    <div class="alert alert-{{ session('message.level') }}"> 
+    <div class="alert alert-{{ session('message.level') }}">
     {!! session('message.content') !!}
     </div>
 @endif
                        <div class="text-center">
-                            <h3 class="div1">Announcement </h3>
+                            <h3 class="ji">Announcement Board </h3>
                         </div>
-                                  <div class="">
-                                <?php
 
-//                                 $color_arrar = array('alert alert-success','alert alert-info','alert alert-danger','alert alert-warning');
-// $size_of_array = sizeof($color_arrar);
-                                ?>
-                       <div class="vew">         @if (count($eventsall) > 0)
+
+
+                       <div class="vew">
+                           @if (count($eventsall) > 0)
                                   @foreach ($eventsall as $event)
-                                    <?php $sql ="DELETE FROM announcements WHERE (start_date <= CURDATE())  "; 
+                                    <?php $sql ="DELETE FROM announcements WHERE (start_date <= CURDATE())  ";
                                   \DB::delete($sql);
-                                  ?> 
+                                  ?>
                                   @if ($event->start_date >= now())
                                   <?php //$n = rand(1,$size_of_array-1);
     //$class = $color_arrar[$n%3];?>
-                                
-    <div class="list-group bg-trans">
+
+                             <div class="list-group bg-trans">
                                     <a href="#" class="list-group-item">
                                       <!--   <div class="media-left pos-rel">
                                             <img class="img-circle img-xs" src="img/profile-photos/2.png" alt="Profile Picture">
@@ -273,68 +273,57 @@
                                         <div class="media-body">
                                             <h4 class="shadow"><p>by {{$event->by_who}}</p></h4>
                                             <div class="bodyshadow">
-                                            <h class="pad-top text-semibold ano"> <h4 class="blink2">{{ html_entity_decode(str_limit($event->details, 100)) }}</h4>
+                                            <h class="pad-top text-semibold ano"> <h4 class="textcolor">{{ html_entity_decode(str_limit($event->details, 100)) }}</h4>
                                                 <p class="pull-right">{{$event->branchname}} </p>
             @if (strlen(strip_tags($event->details)) > 100)
             <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#createTopic_{{$event->id}}">
                                                <i class="fa fa-book fa-2x" aria-hidden="true"></i> Read More</a>  &nbsp;&nbsp;&nbsp
 <!--              <a href="{{ action('EventController@readmore', $event->id) }}" class="btn btn-info btn-sm"></a> -->
             @endif</p>
-        </div>
+                                             </div>
                                         </div>
-                                    </a>   
-                                    </div>                            
+                                    </a>
+                             </div>
                                    @endif
 
- <div class="modal" id="createTopic_{{$event->id}}" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                       <!--  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
-                        <h1 class="text-center class="bodyshadow"">{{$event->branchname}}!</h1>
-                    </div>
-                    <div class="modal-body">
-                        <div class="bodyshadow">
-                        <blockquote class="bq-sm bq-open bq-close bg-warning"><h3> {{$event->details}} </h3></blockquote> 
-                         <p class="pull-right">by <a><strong>{{$event->by_who}}</strong>   </a>    </p>
-               </div>
-                    
-                      
-                    </div>
-                    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                            
-        
-                                    </div>
+        <div class="modal" id="createTopic_{{$event->id}}" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                   <!--  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
+                                    <h1 class="text-center bodyshadow">{{$event->branchname}}!</h1>
                                 </div>
-                            </div>
-                        </div> 
+                                <div class="modal-body">
+                                    <div class="bodyshadow">
+                                    <blockquote class="bq-sm bq-open bq-close bg-warning"><h3> {{$event->details}} </h3></blockquote>
+                                     <p class="pull-right">by <a><strong>{{$event->by_who}}</strong>   </a>    </p>
+                           </div>
+
+
+                                </div>
+                                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+         </div>
                                       @endforeach
                                       <?php else: ?>
                                         <div class="alert alert-danger">
                                   <strong>Sorry!</strong> No New Announcement.
                                 </div>
-                                      
+
                                         @endif
-                                   </div>   </div>
-  <br>  <br>  <br>
+                    </div>
 
+ </div>
+                                    </div>
+                             <br>  <br>  <br>
 
-                                
-                      
-<!-- <div class="alert alert-info">
-  <strong>Info!</strong> Indicates a neutral informative change or action.
-</div>
-
-<div class="alert alert-warning">
-  <strong>Warning!</strong> Indicates a warning that might need attention.
-</div>
-
-<div class="alert alert-danger">
-  <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
-</div> -->
-                      </div> 
+   </div>
                </div>
-  <div class="row">
+                          <div class="row">
 
                         <div class="col-md-10 col-md-offset-1">
                             <div clas="row">
@@ -369,11 +358,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                             </div>
+                            </div>
                                  </div>
                                  <div clas="row">
                                           <div class="col-md-6">
-
+                                            <div class="view2">
                                                 <!--Tile-->
                                                 <!--===================================================-->
                                                 <div class="panel"> <!--panel-dark panel-colorful" -->
@@ -384,7 +373,7 @@
                                                     <!-- Striped Table -->
                                                     <!--===================================================-->
                                                       <div class="panel-body">
-                                                            <div class="table-responsive">
+                                                            <div class="table-responsive t1">
                                                                 <table class="table table-striped">
                                                                     <thead>
                                                                         <tr>
@@ -392,7 +381,9 @@
                                                                           <th>Birth Date</th>
                                                                         </tr>
                                                                     </thead>
+
                                                                     <tbody>
+                                                                          <div class="ex1">
                                                                       @if (count($members) > 0)
                                                                 @foreach ($members as $member)
                                                                 @if (date('F', (strtotime($member->dob))) == date('F') && (int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->dob)), 0,2) )
@@ -407,16 +398,18 @@
                                                                       <td colspan="4">No Upcoming Birthday</td>
                                                                   </tr>
                                                                 @endif
+                                                                   </div>
                                                                     </tbody>
+
                                                                 </table>
                                                             </div>
                                                       </div>
                                                 </div>
                                                 <!--===================================================-->
                                               </div>
-
-                                              <div class="col-md-3">
-
+                                             </div>
+                                              <div class="col-md-6">
+                                                  <div class="view2">
                                                     <!--Tile-->
                                                     <!--===================================================-->
                                                     <div class="panel"> <!--panel-dark panel-colorful" -->
@@ -427,7 +420,7 @@
                                                         <!-- Striped Table -->
                                                         <!--===================================================-->
                                                           <div class="panel-body">
-                                                                <div class="table-responsive">
+                                                                <div class="table-responsive t2">
                                                                     <table class="table table-striped">
                                                                         <thead>
                                                                             <tr>
@@ -466,8 +459,10 @@
                                                     </div>
                                                     <!--===================================================-->
                                                   </div>
-
-                                              <div class="col-sm-6">
+                                                   </div>
+                    </div>
+                                       <div class="row">
+                                              <div class="col-sm-12">
                                                 <div class="panel">
                                                     <div class="panel-heading">
                                                         <h3 class="panel-title"><strong>Upcoming Events for {{strtoupper(\Auth::user()->branchname)}}</strong></h3>
@@ -476,15 +471,15 @@
                                                     <!-- Striped Table -->
                                                     <!--===================================================-->
                                                     <div class="panel-body">
-                                                        <div class="table-responsive">
+                                                        <div class="table-responsive t3">
                                                             <table class="table table-striped">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Title</th>
                                                                         <th>Location</th>
                                                                         <th>Time</th>
-                                                    <th>By</th>
-                                                    <th>Date</th>
+                                                                        <th>By</th>
+                                                                        <th>Date</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -514,6 +509,10 @@
 
                                                 </div>
                                             </div>
+                                            <!--  <div class="col-sm-6">
+
+                                            </div>
+ -->
                         </div>
                         </div>
 
@@ -536,6 +535,8 @@
                             <!---------------------------------->
                         </div>
                     </div>
+
+
                 </div>
                 <!--===================================================-->
                 <!--End page content-->
@@ -846,224 +847,227 @@
                         <nav id="mainnav-container">
                                 <div id="mainnav">
 
-					<!--Menu-->
-					<!--================================-->
-					<div id="mainnav-menu-wrap">
-						<div class="nano">
-							<div class="nano-content">
+                    <!--Menu-->
+                    <!--================================-->
+                    <div id="mainnav-menu-wrap">
+                        <div class="nano">
+                            <div class="nano-content">
 
-								<!--Profile Widget-->
-								<!--================================-->
-								<div id="mainnav-profile" class="mainnav-profile">
-									<div class="profile-wrap text-center">
-										<div class="pad-btm">
-											<img class="img-circle img-md" src="{{ URL::asset('img/profile-photos/1.png') }}" alt="Profile Picture">
-										</div>
-										<a href="dashboardprofile-nav" class="box-block" data-toggle="collapse" aria-expanded="false">
-											<span class="pull-right dropdown-toggle">
-												<i class="dropdown-caret"></i>
-											</span>
-											<p class="mnp-name"><span class="flag-icon flag-icon-ng"></span> {{\Auth::user()->branchname}}</p>
-											<p class="mnp-desc">{{\Auth::user()->branchcode}}</p>
-										</a>
-									</div>
+                                <!--Profile Widget-->
+                                <!--================================-->
+                                <div id="mainnav-profile" class="mainnav-profile">
+                                    <div class="profile-wrap text-center">
+                                        <div class="pad-btm">
+                                            <img class="img-circle img-md" src="{{ URL::asset('img/profile-photos/1.png') }}" alt="Profile Picture">
+                                        </div>
+                                        <a href="dashboardprofile-nav" class="box-block" data-toggle="collapse" aria-expanded="false">
+                                            <span class="pull-right dropdown-toggle">
+                                                <i class="dropdown-caret"></i>
+                                            </span>
+                                            <p class="mnp-name"><span class="flag-icon flag-icon-ng"></span> {{\Auth::user()->branchname}}</p>
+                                            <p class="mnp-desc">{{\Auth::user()->branchcode}}</p>
+                                        </a>
+                                    </div>
 
-								</div>
+                                </div>
 
 
                                                                 <!--Shortcut buttons-->                                                                <!--================================-->                                                                <div id="mainnav-shortcut" class="hidden">
-									<ul class="list-unstyled shortcut-wrap">
-										<li class="col-xs-3" data-content="My Profile">
-											<a class="shortcut-grid" href="dashboard">
-												<div class="icon-wrap icon-wrap-sm icon-circle bg-mint">
-													<i class="demo-pli-male"></i>
-												</div>
-											</a>
-										</li>
-										<li class="col-xs-3" data-content="Messages">
-											<a class="shortcut-grid" href="dashboard">
-												<div class="icon-wrap icon-wrap-sm icon-circle bg-warning">
-													<i class="demo-pli-speech-bubble-3"></i>
-												</div>
-											</a>
-										</li>
-										<li class="col-xs-3" data-content="Activity">
-											<a class="shortcut-grid" href="dashboard">
-												<div class="icon-wrap icon-wrap-sm icon-circle bg-success">
-													<i class="demo-pli-thunder"></i>
-												</div>
-											</a>
-										</li>
-										<li class="col-xs-3" data-content="Lock Screen">
-											<a class="shortcut-grid" href="dashboard">
-												<div class="icon-wrap icon-wrap-sm icon-circle bg-purple">
-													<i class="demo-pli-lock-2"></i>
-												</div>
-											</a>
-										</li>
-									</ul>
-								</div>
-								<!--================================-->
-								<!--End shortcut buttons-->
+                                    <ul class="list-unstyled shortcut-wrap">
+                                        <li class="col-xs-3" data-content="My Profile">
+                                            <a class="shortcut-grid" href="dashboard">
+                                                <div class="icon-wrap icon-wrap-sm icon-circle bg-mint">
+                                                    <i class="fa fa-user"></i>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="col-xs-3" data-content="Messages">
+                                            <a class="shortcut-grid" href="dashboard">
+                                                <div class="icon-wrap icon-wrap-sm icon-circle bg-warning">
+                                                    <i class="demo-pli-speech-bubble-3"></i>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="col-xs-3" data-content="Activity">
+                                            <a class="shortcut-grid" href="dashboard">
+                                                <div class="icon-wrap icon-wrap-sm icon-circle bg-success">
+                                                    <i class="demo-pli-thunder"></i>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="col-xs-3" data-content="Lock Screen">
+                                            <a class="shortcut-grid" href="dashboard">
+                                                <div class="icon-wrap icon-wrap-sm icon-circle bg-purple">
+                                                    <i class="demo-pli-lock-2"></i>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--================================-->
+                                <!--End shortcut buttons-->
 
 
-								<ul id="mainnav-menu" class="list-group">
+                                <ul id="mainnav-menu" class="list-group">
 
-									<!--Category name-->
-									<li class="list-header">Navigation</li>
+                                    <!--Category name-->
+                                    <li class="list-header">Navigation</li>
 
-									<!--Menu list item-->
-									<li class="{{ Route::currentRouteName() === 'dashboard' ? 'active-sub active' : '' }}">
-										<a href="{{route('dashboard')}}">
-											<!--<i class="demo-pli-home"></i>-->
-											<span class="menu-title">Dashboard</span>
-											<!--<i class="arrow"></i>-->
-										</a>
+                                    <!--Menu list item-->
+                                    <li class="{{ Route::currentRouteName() === 'dashboard' ? 'active-sub active' : '' }}">
+                                        <a href="{{route('dashboard')}}">
+                                            <!--<i class="demo-pli-home"></i>-->
+                                            <span class="menu-title">Dashboard</span>
+                                            <!--<i class="arrow"></i>-->
+                                        </a>
 
-									</li>
+                                    </li>
 
-									<li class="list-divider"></li>
+                                    <li class="list-divider"></li>
 
-									<!--Category name-->
-									<!--<li class="list-header">Components</li>-->
+                                    <!--Category name-->
+                                    <!--<li class="list-header">Components</li>-->
 
-									<!--Menu list item-->
+                                    <!--Menu list item-->
                                     <li class="{{ Route::currentRouteName() === 'members.all' || Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : ''}}
 
                                     {{Route::currentRouteName() === 'member.profile' ? 'active-sub' : ''}}">
-										<a href="{{route('members.all')}}">
-											<i class="demo-pli-boot-2"></i>
-											<span class="menu-title">Members</span>
-											<i class="arrow"></i>
-										</a>
+                                        <a href="{{route('members.all')}}">
+                                            <i class="fa fa-users"></i>
+                                            <span class="menu-title">Members</span>
+                                            <i class="arrow"></i>
+                                        </a>
 
 
-										<ul class="collapse">
-											<li class="{{ Route::currentRouteName() === 'members.all' ? 'active-sub active' : '' }}">
-												<a href="{{ route('members.all') }}">All Members</a>
-											</li>
-											<li class="{{ Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : '' }}">
-												<a href="{{route('member.register.form')}}">Registration</a>
+                                        <ul class="collapse">
+                                            <li class="{{ Route::currentRouteName() === 'members.all' ? 'active-sub active' : '' }}">
+                                                <a href="{{ route('members.all') }}">All Members</a>
+                                            </li>
+                                            <li class="{{ Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : '' }}">
+                                                <a href="{{route('member.register.form')}}">Registration</a>
                                             </li>
 
-										</ul>
-									</li>
+                                        </ul>
+                                    </li>
 
-									<!--Menu list item-->
+                                    <!--Menu list item-->
                                                                         <li class="{{ Route::currentRouteName() === 'attendance' || Route::currentRouteName() === 'attendance.analysis' || Route::currentRouteName() === 'attendance.view.form' ? 'active-sub active' : ''}}
-									{{Route::currentRouteName() === 'attendance' ? 'active-sub' : ''}}">
-										<a href="dashboard">
-											<i class="demo-pli-pen-5"></i>
-											<span class="menu-title">Attendance</span>
-											<i class="arrow"></i>
-										</a>
+                                    {{Route::currentRouteName() === 'attendance' ? 'active-sub' : ''}}">
+                                        <a href="dashboard">
+                                            <i class="fa fa-check"></i>
+                                            <span class="menu-title">Attendance</span>
+                                            <i class="arrow"></i>
+                                        </a>
 
 
-										<ul class="collapse">
-											<li class="{{ Route::currentRouteName() === 'attendance' ? 'active-sub active' : '' }}">
-												<a href="{{route('attendance')}}">Mark Attendance</a>
-											</li>
+                                        <ul class="collapse">
+                                            <li class="{{ Route::currentRouteName() === 'attendance' ? 'active-sub active' : '' }}">
+                                                <a href="{{route('attendance')}}">Mark Attendance</a>
+                                            </li>
                                                                                         <li class="{{ Route::currentRouteName() === 'attendance.view.form' ? 'active-sub active' : '' }}">
                                                                                                 <a href="{{route('attendance.view.form')}}">View Attendance</a>
-											</li>
-											<li class="{{ Route::currentRouteName() === 'attendance.analysis' ? 'active-sub active' : '' }}">
-												<a href="{{route('attendance.analysis')}}">Attendance Analysis</a>
-											</li>
+                                            </li>
+                                            <li class="{{ Route::currentRouteName() === 'attendance.analysis' ? 'active-sub active' : '' }}">
+                                                <a href="{{route('attendance.analysis')}}">Attendance Analysis</a>
+                                            </li>
 
-										</ul>
-									</li>
+                                        </ul>
+                                    </li>
 
-									<!--Menu list item-->
-									<li>
-										<a href="{{route('collection.offering')}}">
-											<i class="demo-pli-receipt-4"></i>
-											<span class="menu-title">Collection</span>
-											<i class="arrow"></i>
-										</a>
+                                    <!--Menu list item-->
+                                    <li>
+                                        <a href="{{route('collection.offering')}}">
+                                            <i class="fa fa-mars"></i>
+                                            <span class="menu-title">Collection</span>
+                                            <i class="arrow"></i>
+                                        </a>
 
-									</li>
+                                    </li>
                   <li class="{{Route::currentRouteName() === 'groups' ? 'active-sub' : ''}}">
-										<a href="{{ route('groups') }}">
-											<i class="fa fa-users"></i>
-											<span class="menu-title">Small Groups</span>
+                                        <a href="{{ route('groups') }}">
+                                            <i class="fa fa-users"></i>
+                                            <span class="menu-title">Small Groups</span>
 
-										</a>
-									</li>
-									<li class="{{Route::currentRouteName() === 'messaging' ? 'active-sub' : ''}}">
-										<a href="#">
-											<i class="fa fa-envelope"></i>
-											<span class="menu-title">Messaging</span>
-											<i class="arrow"></i>
-										</a>
-										<ul class="collapse">
-											<li>
-												<a href="{{route('email')}}">Email</a>
-											</li>
-											<li>
-												<a href="{{route('sms')}}">Bulk SMS</a>
-											</li>
-                      <li>
-												<a href="{{route('inbox')}}">Communicator</a>
-											</li>
+                                        </a>
+                                    </li>
+                                    <li class="{{Route::currentRouteName() === 'messaging' ? 'active-sub' : ''}}">
+                                        <a href="#">
+                                            <i class="fa fa-envelope"></i>
+                                            <span class="menu-title">Messaging</span>
+                                            <i class="arrow"></i>
+                                        </a>
+                                        <ul class="collapse">
+                                            <li>
+                                                <a href="{{route('email')}}">Email</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{route('sms')}}">Bulk SMS</a>
+                                            </li>
 
-										</ul>
-									</li>
-									@if (\Auth::user()->isAdmin())
-									<li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
-										<a href="#">
-											<i class="fa fa-building-o"></i>
-											<span class="menu-title">Admin Tools</span>
-											<i class="arrow"></i>
-										</a>
-										<ul class="collapse">
-											<li>
-												<a href="{{route('branches')}}">Branches</a>
-											</li>
-											<li>
-												<a href="{{route('branch.register')}}">Add New Branch</a>
-											</li>
-											<li>
-												<a href="{{route('branch.ho')}}">Head Office Options</a>
-											</li>
+                                        </ul>
+                                    </li>
+                                    @if (\Auth::user()->isAdmin())
+                                    <li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
+                                        <a href="#">
+                                            <i class="fa fa-building-o"></i>
+                                            <span class="menu-title">Admin Tools</span>
+                                            <i class="arrow"></i>
+                                        </a>
+                                        <ul class="collapse">
+                                            <li>
+                                                <a href="{{route('branches')}}">Branches</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{route('branch.register')}}">Add New Branch</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{route('branch.ho')}}">Head Office Options</a>
+                                            </li>
 
-										</ul>
-									</li>
-									@endif
-									<li class="{{Route::currentRouteName() === 'calendar' ? 'active-sub' : ''}}">
-										<a href="{{ route('calendar') }}">
-											<i class="fa fa-calendar"></i>
-											<span class="menu-title">Calendar & Events</span>
-											<!--<i class="arrow"></i>-->
-										</a>
-									</li>
-									<li class="{{Route::currentRouteName() === 'report.membership' || Route::currentRouteName() === 'report.collections' || Route::currentRouteName() === 'report.attendance' ? 'active-sub' : ''}}">
-										<a href="#">
-											<i class="fa fa-envelope"></i>
-											<span class="menu-title">Report</span>
-											<i class="arrow"></i>
-										</a>
-										<ul class="collapse">
-											<li>
-												<a href="{{route('report.membership')}}">Membership</a>
-											</li>
-											<li>
-												<a href="{{route('report.collections')}}">Collections</a>
-											</li>
-											<li>
-												<a href="{{route('report.attendance')}}">Attendance</a>
-											</li>
-										</ul>
-									</li>
+                                        </ul>
+                                    </li>
+                                    @endif
+                                    <li class="{{Route::currentRouteName() === 'calendar' ? 'active-sub' : ''}}">
+                                        <a href="{{ route('calendar') }}">
+                                            <i class="fa fa-calendar"></i>
+                                            <span class="menu-title">Calendar & Events</span>
+                                            <!--<i class="arrow"></i>-->
+                                        </a>
+                                    </li>
+                                    <li class="{{Route::currentRouteName() === 'report.membership' || Route::currentRouteName() === 'report.collections' || Route::currentRouteName() === 'report.attendance' ? 'active-sub' : ''}}">
+                                        <a href="#">
+                                            <i class="fa fa-signal"></i>
+                                            <span class="menu-title">Report</span>
+                                            <i class="arrow"></i>
+                                        </a>
+                                        <ul class="collapse">
+                                            <li>
+                                                <a href="{{route('report.membership')}}">Membership</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{route('report.collections')}}">Collections</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{route('report.attendance')}}">Attendance</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                     <li class="{{Route::currentRouteName() === 'ticket' ? 'active-sub' : ''}}">
+                                        <a href="{{ route('ticket') }}">
+                                            <i class="fa fa-users"></i>
+                                            <span class="menu-title">Ticket</span>
 
-									<li class="list-divider"></li>
+                                        </a>
+                                    </li>
+                                    <li class="list-divider"></li>
 
-									<li class="list-divider"></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<!--================================-->
-					<!--End menu-->
+                                    <li class="list-divider"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--================================-->
+                    <!--End menu-->
 
                                 </div>
                         </nav>
@@ -1140,7 +1144,7 @@
     <!--NiftyJS [ RECOMMENDED ]-->
     <script src="{{ URL::asset('js/nifty.min.js') }}"></script>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
 
     <!--=================================================-->

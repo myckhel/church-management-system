@@ -50,14 +50,19 @@
                 <h3 class="panel-title">List of All Branches</h3>
             </div>
             <div class="panel-body">
+              <?php print_r($users); ?>
                 <table id="demo-dt-basic" class="table table-striped table-bordered datatable " cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <!--th>Country</th-->
                             <th>Branch Name</th>
                             <th>Address</th>
+                            <th class="min-tablet">City</th>
+                            <th class="min-tablet">State</th>
+                            <th class="min-tablet">Country</th>
                             <th class="min-tablet">Branch Code</th>
-                            <th class="min-desktop">Country</th>
+                            <th class="min-desktop">Branch Role</th>
+                            <th class="min-tablet">Currency</th>
                             <th class="min-desktop">Pastor in Charge</th>
                             <th class="min-desktop">Action</th>
                         </tr>
@@ -67,10 +72,14 @@
                         <tr>
                             <!--td><span class="flag-icon flag-icon-ng"></span> </td-->
                             <td>{{$user->branchname}}</td>
-                            <td>{{$user->address}}</td>
+                            <td>{{ucwords($user->address)}}</td>
+                            <td>{{ucwords($user->city)}}</td>
+                            <td>{{ucwords($user->state)}}</td>
+                            <td>{{ucwords($user->country)}}</td>
                             <td>{{$user->branchcode}}</td>
                             <td><?php echo $user->isAdmin() ? '<strong>HeadQuaters</strong>' : 'Branch Church'; ?></td>
-                            <td>Mathew Ashimolowo</td>
+                            <td>{{$user->currency_symbol}}</td>
+                            <td>NULL <!--Mathew Ashimolowo --></td>
                             <td><a href="#" id="{{route('branch.destroy',$user->id)}}" onclick="del(this);" class="btn btn-danger" /><span>delete<i class="fa fa-trash"></i></span></a</td>
                         </tr>
                         @endforeach

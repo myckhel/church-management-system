@@ -55,6 +55,7 @@
 
                 @endif
             </div>
+            <?php $currency = \Auth::user()->getCurrencySymbol()->currency_symbol; ?>
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
@@ -64,11 +65,11 @@
                   <ul>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Total Amount of All Collections Till Date
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->total_collections)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->total_collections)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Total Amount Of Today's Collections
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->todays_collections)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->todays_collections)}}</span>
                     </li>
                   </ul>
                 </div>
@@ -88,55 +89,55 @@
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Special Offering
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->so)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->so)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Seed Offering
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->sdo)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->sdo)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Offering
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->o)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->o)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Donation
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->d)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->d)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Tithe
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->t)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->t)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       First Fruit
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->ff)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->ff)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Covenant Seed
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->cs)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->cs)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Love Seed
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->ls)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->ls)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Sacrifice
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->s)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->s)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Thanksgiving
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->tg)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->tg)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Thanksgiving Seed
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->tgs)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->tgs)}}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       Other
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->ot)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->ot)}}</span>
                     </li>
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
                       Total
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($reports[0]->total_collections)}} <!--/span> ₦ {{number_format(($reports[0]->so + $reports[0]->sdo + $reports[0]->o + $reports[0]->d + $reports[0]->t + $reports[0]->ff + $reports[0]->cs + $reports[0]->ls + $reports[0]->s + $reports[0]->tg + $reports[0]->tgs + $reports[0]->ot))}}</span-->
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->total_collections)}} <!--/span> ₦ {{number_format(($reports[0]->so + $reports[0]->sdo + $reports[0]->o + $reports[0]->d + $reports[0]->t + $reports[0]->ff + $reports[0]->cs + $reports[0]->ls + $reports[0]->s + $reports[0]->tg + $reports[0]->tgs + $reports[0]->ot))}}</span-->
                     </li>
                   </ul>
                 </div>
@@ -159,12 +160,12 @@
                     <?php $total += ($ar->ctotal); ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       {{$ar->name}}
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($ar->ctotal)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($ar->ctotal)}}</span>
                     </li>
                     @endforeach
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
                       Total
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($total)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($total)}}</span>
                     </li>
                   </ul>
                 </div>
@@ -214,7 +215,7 @@
                           if($v->$t){
                             $totals[$value] += ($v->$t) ? $v->$t : 0;
                             $totalss[$t] += ($v->$t) ? $v->$t : 0;
-                            echo '<td>₦'.number_format($v->$t).'</td>';}else{echo '<td>₦0</td>';
+                            echo '<td>'.$currency.number_format($v->$t).'</td>';}else{echo $currency.'<td>0</td>';
                             }
                           } ?>
                         @endforeach
@@ -222,7 +223,7 @@
                         <td>No Record</td>
                         @endif
                         @endforeach
-                        <th>{{'₦'.number_format($totalss[$t])}}</th>
+                        <th>{{$currency.''.number_format($totalss[$t])}}</th>
                       </tr>
                       @endforeach
                         <!--th scope="row">3</th-->
@@ -231,9 +232,9 @@
                       <tr>
                         <th>Total</th>
                         <?php foreach ($totals as $key => $value) { ?>
-                        <th>{{'₦'.number_format($value)}}</th>
+                        <th>{{$currency.number_format($value)}}</th>
                         <?php } ?>
-                        <th><?php $q = 0; foreach($totalss as $plus => $v){$q += $v;} echo '₦'.number_format($q);?></th>
+                        <th><?php $q = 0; foreach($totalss as $plus => $v){$q += $v;} echo $currency.number_format($q);?></th>
                       </tr>
                     </tfoot>
                   </table>
@@ -257,12 +258,12 @@
                     <?php $total += $mc->total; ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       {{$mc->fname}} {{$mc->lname}}
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($mc->total)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($mc->total)}}</span>
                     </li>
                     @endforeach
                     <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
                       Total
-                      <span class="badge badge-primary badge-pill">₦ {{number_format($total)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($total)}}</span>
                     </li>
                   </ul>
                 </div>

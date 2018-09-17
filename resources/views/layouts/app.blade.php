@@ -145,7 +145,7 @@
 						<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 						<li class="tgl-menu-btn">
 							<a class="mainnav-toggle" href="#">
-								<i class="demo-pli-list-view"></i>
+								<i class="fa fa-bars"></i>
 							</a>
 						</li>
 						<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -184,7 +184,7 @@
 									<!--You can use an image instead of an icon.-->
 									<!--<img class="img-circle img-user media-object" src="img/profile-photos/1.png" alt="Profile Picture">-->
 									<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-									<i class="demo-pli-male"> Hello {{\Auth::user()->branchname}}</i>
+									<i class="fa fa-user"> Hello {{\Auth::user()->branchname}}</i>
 								</span>
 								<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 								<!--You can also display a user name in the navbar.-->
@@ -552,7 +552,7 @@
 											<span class="pull-right dropdown-toggle">
 												<i class="dropdown-caret"></i>
 											</span>
-											<p class="mnp-name"><span class="flag-icon flag-icon-ng"></span> {{\Auth::user()->branchname}}</p>
+											<p class="mnp-name"><!--span class="flag-icon flag-icon-ng"></span--> {{\Auth::user()->branchname}}</p>
 											<p class="mnp-desc">{{\Auth::user()->branchcode}}</p>
 										</a>
 									</div>
@@ -564,7 +564,7 @@
 										<li class="col-xs-3" data-content="My Profile">
 											<a class="shortcut-grid" href="dashboard">
 												<div class="icon-wrap icon-wrap-sm icon-circle bg-mint">
-													<i class="demo-pli-male"></i>
+													<i class="fa fa-user"></i>
 												</div>
 											</a>
 										</li>
@@ -619,7 +619,7 @@
 
                                     {{Route::currentRouteName() === 'member.profile' ? 'active-sub' : ''}}">
 										<a href="{{route('members.all')}}">
-											<i class="demo-pli-boot-2"></i>
+											<i class="fa fa-users"></i>
 											<span class="menu-title">Members</span>
 											<i class="arrow"></i>
 										</a>
@@ -639,7 +639,7 @@
                                                                         <li class="{{ Route::currentRouteName() === 'attendance' || Route::currentRouteName() === 'attendance.analysis' || Route::currentRouteName() === 'attendance.view.form' ? 'active-sub active' : ''}}
 									{{Route::currentRouteName() === 'attendance' ? 'active-sub' : ''}}">
 										<a href="dashboard">
-											<i class="demo-pli-pen-5"></i>
+											<i class="fa fa-check"></i>
 											<span class="menu-title">Attendance</span>
 											<i class="arrow"></i>
 										</a>
@@ -661,7 +661,7 @@
 									<!--Menu list item-->
 									<li>
 										<a href="#">
-											<i class="demo-pli-receipt-4"></i>
+											<i class="fa fa-mars"></i>
 											<span class="menu-title">Collection</span>
 											<i class="arrow"></i>
 										</a>
@@ -738,7 +738,7 @@
 									</li>
 									<li class="{{Route::currentRouteName() === 'report.membership' || Route::currentRouteName() === 'report.collections' || Route::currentRouteName() === 'report.attendance' ? 'active-sub' : ''}}">
 										<a href="#">
-											<i class="fa fa-envelope"></i>
+											<i class="fa fa-signal"></i>
 											<span class="menu-title">Reports</span>
 											<i class="arrow"></i>
 										</a>
@@ -802,9 +802,17 @@
 												</li>
 
 											</li>
+
 											@endif
 										</ul>
 									</li>
+									 <li class="{{Route::currentRouteName() === 'ticket' ? 'active-sub' : ''}}">
+                                        <a href="{{ route('ticket') }}">
+                                            <i class="fa fa-users"></i>
+                                            <span class="menu-title">Ticket</span>
+
+                                        </a>
+                                    </li>
 									<!--Menu list item-->
 									<li class="list-divider"></li>
 
