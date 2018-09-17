@@ -119,16 +119,17 @@ class MessagingController extends Controller
     }
 
     //kenny
-    public function indexticket()
-    {
-         return view('ticketing.ticket');
-    }
-
-    //myckhel
-    public function single_email(Request $request){
-      $fname = $request->firstname;
-      $lname = $request->lastname;
-      $email = $request->email;
+     public function sendTicket(Request $request){
+             $randid= mt_rand(13, rand(100, 99999990));
+            $error_code = $request->error_code;
+            $error_name = $request->error_name;
+            $severity = $request->severity;
+            $servicelevel = $request->servicelevel;
+            $time = $request->time;
+            $date = $request->date;
+             $full_name = $request->full_name;
+            $phone_number = $request->phone_number;
+            $email = $request->email;
      $data = array('name'=> $fname . " " . $lname);
 
      Mail::send(['text'=>'mail'], $data, function($message) {
