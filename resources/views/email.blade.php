@@ -33,12 +33,9 @@
           vertical-align: top; }
 
 
-<<<<<<< HEAD
-=======
-<p>
+ <p>
 You received a message from : {{ $Email }}
 </p>
->>>>>>> 52f712b6a7249fe7509b94b9e318ef7b386237eb
 
       .body {
         background-color: #f6f6f6;
@@ -123,7 +120,7 @@ You received a message from : {{ $Email }}
         color: #3498db;
         text-decoration: underline; }
 
-  
+
       .btn {
         box-sizing: border-box;
         width: 100%; }
@@ -263,8 +260,8 @@ You received a message from : {{ $Email }}
  <br>
  You received a message from : {{$request->email}}
 
- 
- Error Code : {{$request->error_code }}  ||  Ticket ID : {{$request->TicketID}}  ||  Error Name : {{$request->error_name}} 
+
+ Error Code : {{$request->error_code }}  ||  Ticket ID : {{$request->TicketID}}  ||  Error Name : {{$request->error_name}}
 
   <table border="0" cellpadding="0" cellspacing="0" class="body">
       <tr>
@@ -282,11 +279,11 @@ You received a message from : {{ $Email }}
 <p>
 Name: {{$request->full_name}}
 </p>
- 
+
 <p>
 Email: {{$request->email}}
 </p>
- 
+
 
 
 <p>
@@ -332,7 +329,7 @@ Message: {{$request->message}}
                                 </tr>
                             </table>
             </div>
-       
+
           </div>
         </td>
         <td>&nbsp;</td>
