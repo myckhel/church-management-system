@@ -58,13 +58,16 @@
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Attendance <i>Report Counts</i></strong></h3>
+                      <h3 class="panel-title"><strong>All Branches Attendance <i>Report</i></strong></h3>
                   </div>
                 <div class="panel-body">
                   <table class="table text-center">
                     <thead class="bg-warning text-center">
-                      <tr><th colspan="2" class="bg-light text-center">Total Number of Attendance </th></tr>
+                      <tr><th colspan="3" class="bg-light text-center">Total Number of Attendance </th></tr>
                       <tr>
+                        <th>
+
+                        </th>
                         <th class="text-center">
                           Till Date
                         </th>
@@ -75,6 +78,9 @@
                     </thead>
                     <tbody>
                       <tr>
+                        <th>
+                          Total
+                        </th>
                         <td>
                           <span class="badge badge-primary badge-pill">{{$reports[0]->total_attendance or 0}}</span>
                         </td>
@@ -91,12 +97,11 @@
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total <i>attendance</i> By attendance Type Till Date</strong></h3>
+                      <h3 class="panel-title"><strong>Total Attendance By Type</strong></h3>
                   </div>
                 <div class="panel-body">
                   <table class="table text-center">
                     <thead class="bg-warning text-center">
-                      <tr><th colspan="3" class="bg-light text-center">Attendance</th></tr>
                       <tr>
                         <th class="text-center">
                           Type
@@ -165,15 +170,14 @@
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total Branches <i>By</i> attendance Till Date</strong></h3>
+                      <h3 class="panel-title"><strong>All branches Total Attendance</strong></h3>
                   </div>
                 <div class="panel-body">
                   <table class="table text-center">
                     <thead class="bg-warning text-center">
-                      <tr><th colspan="3" class="bg-light text-center">Branch</th></tr>
                       <tr>
                         <th class="text-center">
-                          Name
+                          Branch Name
                         </th>
                         <th class="text-center">
                           Till Date
@@ -231,7 +235,7 @@
             <div class="col-md-12 col-md-offset-0" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Last 10 <i>Years</i> Attendance</strong> Report</h3>
+                      <h3 class="panel-title"><strong>Last 10 Years Attendance</strong></h3>
                   </div>
                 <div class="panel-body">
                   <table class="table" id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
@@ -286,61 +290,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
-              <div class="panel">
-                  <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total attendance <i>By</i> Members Till Date</strong></h3>
-                  </div>
-                <div class="panel-body">
-                  <table class="table text-center">
-                    <thead class="bg-warning text-center">
-                      <tr><th colspan="3" class="bg-light text-center">Member</th></tr>
-                      <tr>
-                        <th class="text-center">
-                          Name
-                        </th>
-                        <th class="text-center">
-                          Till Date
-                        </th>
-                        <th class="text-center">
-                          Today's
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php $total = 0; $totalt = 0;?>
-                      @foreach ($m_r as $mc)
-                      <?php $total += $mc->total; $totalt += $mc->totalt; ?>
-                      <tr>
-                        <th>
-                          {{$mc->fname}} {{$mc->lname}}
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($mc->total)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($mc->totalt)}}</span>
-                        </td>
-                      </tr>
-                      @endforeach
-                    </tbody>
-                    <tfoot class="bg-success">
-                      <tr>
-                        <th>
-                          Total
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($total)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($totalt)}}</span>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-            </div>
+            
 
         </div>
     </div>

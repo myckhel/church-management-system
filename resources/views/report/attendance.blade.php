@@ -55,16 +55,20 @@
 
                 @endif
             </div>
+            <?php $name = \Auth::user()->getName() . ' ' .\Auth::user()->branchcode; ?>
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Attendance <i>Report Counts</i></strong></h3>
+                      <h3 class="panel-title"><strong>{{$name}} Attendance</strong> Report</h3>
                   </div>
                 <div class="panel-body">
                   <table class="table text-center">
                     <thead class="bg-warning text-center">
-                      <tr><th colspan="2" class="bg-light text-center">Total Number of Attendance </th></tr>
+                      <tr><th colspan="3" class="bg-light text-center">{{$name}} Attendance Report </th></tr>
                       <tr>
+                        <th>
+
+                        </th>
                         <th class="text-center">
                           Till Date
                         </th>
@@ -75,6 +79,9 @@
                     </thead>
                     <tbody>
                       <tr>
+                        <th>
+                          Total
+                        </th>
                         <td>
                           <span class="badge badge-primary badge-pill">{{$reports[0]->total_attendance or 0}}</span>
                         </td>
@@ -91,12 +98,11 @@
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total <i>attendance</i> By attendance Type Till Date</strong></h3>
+                      <h3 class="panel-title"><strong>Total Attendance By Type</strong></h3>
                   </div>
                 <div class="panel-body">
                   <table class="table text-center">
                     <thead class="bg-warning text-center">
-                      <tr><th colspan="3" class="bg-light text-center">Attendance</th></tr>
                       <tr>
                         <th class="text-center">
                           Type

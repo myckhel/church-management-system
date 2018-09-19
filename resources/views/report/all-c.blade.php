@@ -59,13 +59,16 @@
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Collections <i>Report Counts</i> For</strong></h3>
+                      <h3 class="panel-title"><strong>All Branches Collections Report</strong></h3>
                   </div>
                 <div class="panel-body">
                   <table class="table text-center">
                     <thead class="bg-warning text-center">
-                      <tr><th colspan="2" class="bg-light text-center">Total Amount of Collections </th></tr>
+                      <tr><th colspan="3" class="bg-light text-center">Total Collections </th></tr>
                       <tr>
+                        <th>
+
+                        </th>
                         <th class="text-center">
                           Till Date
                         </th>
@@ -76,6 +79,9 @@
                     </thead>
                     <tbody>
                       <tr>
+                        <th>
+                          Total Amount Collected
+                        </th>
                         <td>
                           <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->total_collections)}}</span>
                         </td>
@@ -93,15 +99,14 @@
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total <i>Collections</i> By Collections Type Till Date</strong></h3>
+                      <h3 class="panel-title"><strong>Total Collection By Type</strong></h3>
                   </div>
                 <div class="panel-body">
                   <table class="table text-center">
                     <thead class="bg-warning text-center">
-                      <tr><th colspan="3" class="bg-light text-center">Collections</th></tr>
                       <tr>
                         <th class="text-center">
-                          Type
+                          Collections Type
                         </th>
                         <th class="text-center">
                           Till Date
@@ -266,15 +271,14 @@
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total Branches <i>By</i> Collections Till Date</strong></h3>
+                      <h3 class="panel-title"><strong>Total Branches Collections</strong></h3>
                   </div>
                 <div class="panel-body">
                   <table class="table text-center">
                     <thead class="bg-warning text-center">
-                      <tr><th colspan="3" class="bg-light text-center">Branch</th></tr>
                       <tr>
                         <th class="text-center">
-                          Name
+                          Branch Name
                         </th>
                         <th class="text-center">
                           Till Date
@@ -389,61 +393,6 @@
               </div>
             </div>
 
-            <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
-              <div class="panel">
-                  <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total Collections <i>By</i> Members Till Date</strong></h3>
-                  </div>
-                <div class="panel-body">
-                  <table class="table text-center">
-                    <thead class="bg-warning text-center">
-                      <tr><th colspan="3" class="bg-light text-center">Member</th></tr>
-                      <tr>
-                        <th class="text-center">
-                          Name
-                        </th>
-                        <th class="text-center">
-                          Till Date
-                        </th>
-                        <th class="text-center">
-                          Today's
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php $total = 0; $totalt = 0;?>
-                      @foreach ($m_r as $mc)
-                      <?php $total += $mc->total; $totalt += $mc->totalt; ?>
-                      <tr>
-                        <th>
-                          {{$mc->fname}} {{$mc->lname}}
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($mc->total)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($mc->totalt)}}</span>
-                        </td>
-                      </tr>
-                      @endforeach
-                    </tbody>
-                    <tfoot class="bg-success">
-                      <tr>
-                        <th>
-                          Total
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($total)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($totalt)}}</span>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-            </div>
 
         </div>
     </div>
