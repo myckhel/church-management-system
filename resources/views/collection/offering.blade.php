@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 
-@section('title') All Members @endsection
+@section('title') Collections @endsection
 
 @section('content')
 <!--CONTENT CONTAINER-->
@@ -21,14 +21,9 @@
         <!--Breadcrumb-->
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <ol class="breadcrumb">
-            <li>
-                <a href="forms-general.html#">
-                    <i class="demo-pli-home"></i>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('collection.offering')}}">Collection</a>
-            </li>
+          <li>
+              <i class="fa fa-home"></i><a href="{{route('dashboard')}}"> Dashboard</a>
+          </li>
             <li class="active">Offering</li>
         </ol>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

@@ -204,8 +204,9 @@ class BranchController extends Controller
         return view('branch.ho', ['options' => $options]);
     }
     public function ho_up(Request $request){
-        $img = file_get_contents(Input::file('img')->getRealPath());//$_FILES['img']['tmp_name']);
-        //$img = base64_encode($data);
+      if(Input::file('img')){
+        $img = file_get_contents(Input::file('img')->getRealPath());
+      }
         $user = \Auth::user();
         $sname = $request->sname;
         $lname = $request->lname;
@@ -222,6 +223,7 @@ class BranchController extends Controller
         $email  = $request->email;
         //$img = $request->img;
         $id = $request->id;
+        $data = [];
 
         DB::table('head_office_options')->where('HOID', $id)->update(['HOSNAME'=>$sname,
                                                                'HOLNAME'=>$lname,
@@ -236,7 +238,7 @@ class BranchController extends Controller
                                                                'HOPHONE3'=>$phone3,
                                                                'HOPHONE4'=>$phone4,
                                                                'HOEMAIL'=>$email,
-                                                               'HOLOGO'=>$img,
+                                                               if($img){'HOLOGO'=>$img,}
                                                                ]);
 
         //foreach($request as $key => $value){

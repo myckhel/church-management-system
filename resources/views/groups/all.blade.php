@@ -20,14 +20,9 @@
         <!--Breadcrumb-->
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <ol class="breadcrumb">
-            <li>
-                <a href="forms-general.html#">
-                    <i class="demo-pli-home"></i>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('groups')}}">groups</a>
-            </li>
+          <li>
+              <i class="fa fa-home"></i><a href="{{route('dashboard')}}"> Dashboard</a>
+          </li>
             <li class="active">All</li>
         </ol>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
