@@ -61,16 +61,29 @@
                       <h3 class="panel-title"><strong>Attendance <i>Report Counts</i></strong></h3>
                   </div>
                 <div class="panel-body">
-                  <ul>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Total No Of All Attendance Till Date
-                      <span class="badge badge-primary badge-pill">{{$reports[0]->total_attendance or 0}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Total No Of All Today's Attendance
-                      <span class="badge badge-primary badge-pill">{{$reports[0]->todays_attendance or 0}}</span>
-                    </li>
-                  </ul>
+                  <table class="table text-center">
+                    <thead class="bg-warning text-center">
+                      <tr><th colspan="2" class="bg-light text-center">Total Number of Attendance </th></tr>
+                      <tr>
+                        <th class="text-center">
+                          Till Date
+                        </th>
+                        <th class="text-center">
+                          Today's
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{$reports[0]->total_attendance or 0}}</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{$reports[0]->todays_attendance or 0}}</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -81,28 +94,70 @@
                       <h3 class="panel-title"><strong>Total <i>attendance</i> By attendance Type Till Date</strong></h3>
                   </div>
                 <div class="panel-body">
-                  <ul>
-                    <li class="bg-warning list-group-item d-flex justify-content-between align-items-center">
-                      attendance Type
-                      <span class="badge badge-primary badge-pill">attendance Type Total</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Male
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->male)}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Female
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->female)}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      Children
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->children)}}</span>
-                    </li>
-                    <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
-                      Total
-                      <span class="badge badge-primary badge-pill">{{($reports[0]->total)}}</span>
-                    </li>
-                  </ul>
+                  <table class="table text-center">
+                    <thead class="bg-warning text-center">
+                      <tr><th colspan="3" class="bg-light text-center">Attendance</th></tr>
+                      <tr>
+                        <th class="text-center">
+                          Type
+                        </th>
+                        <th class="text-center">
+                          Till Date
+                        </th>
+                        <th class="text-center">
+                          Today's
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>
+                          Male
+                        </th>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->male)}}</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->malet)}}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Female
+                        </th>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->female)}}</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->femalet)}}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>
+                          Children
+                        </th>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->children)}}</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->childrent)}}</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot class="bg-success">
+                      <tr>
+                        <th>
+                          Total
+                        </th>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->total)}}</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->totalt)}}</span>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
                 </div>
               </div>
             </div>
@@ -173,24 +228,52 @@
                       <h3 class="panel-title"><strong>Total attendance <i>By</i> Members Till Date</strong></h3>
                   </div>
                 <div class="panel-body">
-                  <ul>
-                    <li class="bg-warning list-group-item d-flex justify-content-between align-items-center">
-                      Member Name
-                      <span class="badge badge-primary badge-pill">Member Total</span>
-                    </li>
-                    <?php $total = 0; ?>
-                    @foreach ($m_r as $mc)
-                    <?php $total += $mc->total; ?>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      {{$mc->fname}} {{$mc->lname}}
-                      <span class="badge badge-primary badge-pill">{{$mc->total or 0}}</span>
-                    </li>
-                    @endforeach
-                    <li class="bg-success list-group-item d-flex justify-content-between align-items-center">
-                      Total
-                      <span class="badge badge-primary badge-pill">{{$total}}</span>
-                    </li>
-                  </ul>
+                  <table class="table text-center">
+                    <thead class="bg-warning text-center">
+                      <tr><th colspan="3" class="bg-light text-center">Member</th></tr>
+                      <tr>
+                        <th class="text-center">
+                          Name
+                        </th>
+                        <th class="text-center">
+                          Till Date
+                        </th>
+                        <th class="text-center">
+                          Today's
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php $total = 0; $totalt = 0;?>
+                      @foreach ($m_r as $mc)
+                      <?php $total += $mc->total; $totalt += $mc->totalt; ?>
+                      <tr>
+                        <th>
+                          {{$mc->fname}} {{$mc->lname}}
+                        </th>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($mc->total)}}</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($mc->totalt)}}</span>
+                        </td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                    <tfoot class="bg-success">
+                      <tr>
+                        <th>
+                          Total
+                        </th>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($total)}}</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-primary badge-pill">{{number_format($totalt)}}</span>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
                 </div>
               </div>
             </div>
