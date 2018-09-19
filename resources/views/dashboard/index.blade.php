@@ -976,13 +976,25 @@
 
                                     <!--Menu list item-->
                                     <li>
-                                        <a href="{{route('collection.offering')}}">
-                                            <i class="fa fa-mars"></i>
-                                            <span class="menu-title">Collection</span>
-                                            <i class="arrow"></i>
-                                        </a>
+                  										<a href="#">
+                  											<i class="fa fa-mars"></i>
+                  											<span class="menu-title">Collection</span>
+                  											<i class="arrow"></i>
+                  										</a>
+                  										<ul class="collapse">
+                  											<li>
+                  												<a href="{{route('collection.offering')}}">Save Collection</a>
+                  											</li>
+                  											<li>
+                  												<a href="{{route('collection.report')}}">View Collection</a>
+                  											</li>
+                  											<li>
+                  												<a href="{{route('collection.analysis')}}">Collection Analysis</a>
+                  											</li>
 
-                                    </li>
+                  										</ul>
+
+                  									</li>
                   <li class="{{Route::currentRouteName() === 'groups' ? 'active-sub' : ''}}">
                                         <a href="{{ route('groups') }}">
                                             <i class="fa fa-users"></i>
@@ -991,20 +1003,23 @@
                                         </a>
                                     </li>
                                     <li class="{{Route::currentRouteName() === 'messaging' ? 'active-sub' : ''}}">
-                                        <a href="#">
-                                            <i class="fa fa-envelope"></i>
-                                            <span class="menu-title">Messaging</span>
-                                            <i class="arrow"></i>
-                                        </a>
-                                        <ul class="collapse">
-                                            <li>
-                                                <a href="{{route('email')}}">Email</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{route('sms')}}">Bulk SMS</a>
-                                            </li>
+                                      <a href="#">
+                                        <i class="fa fa-envelope"></i>
+                                        <span class="menu-title">Messaging</span>
+                                        <i class="arrow"></i>
+                                      </a>
+                                      <ul class="collapse">
+                                        <li>
+                                          <a href="{{route('email')}}">Email</a>
+                                        </li>
+                                        <li>
+                                          <a href="{{route('sms')}}">Bulk SMS</a>
+                                        </li>
+                                        <li>
+                                          <a href="{{route('inbox')}}">Communicator</a>
+                                        </li>
 
-                                        </ul>
+                                      </ul>
                                     </li>
                                     @if (\Auth::user()->isAdmin())
                                     <li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
@@ -1035,23 +1050,75 @@
                                         </a>
                                     </li>
                                     <li class="{{Route::currentRouteName() === 'report.membership' || Route::currentRouteName() === 'report.collections' || Route::currentRouteName() === 'report.attendance' ? 'active-sub' : ''}}">
-                                        <a href="#">
-                                            <i class="fa fa-signal"></i>
-                                            <span class="menu-title">Report</span>
-                                            <i class="arrow"></i>
-                                        </a>
-                                        <ul class="collapse">
-                                            <li>
-                                                <a href="{{route('report.membership')}}">Membership</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{route('report.collections')}}">Collections</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{route('report.attendance')}}">Attendance</a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                  										<a href="#">
+                  											<i class="fa fa-signal"></i>
+                  											<span class="menu-title">Reports</span>
+                  											<i class="arrow"></i>
+                  										</a>
+                  										<ul class="collapse">
+                  											@if(!(\Auth::user()->isAdmin()))
+                  											<li>
+                  												<a href="{{route('report.membership')}}">Membership</a>
+                  											</li>
+                  											<li>
+                  												<a href="{{route('report.collections')}}">Collections</a>
+                  											</li>
+                  											<li>
+                  												<a href="{{route('report.attendance')}}">Attendance</a>
+                  											</li>
+                  											@else
+                  											<li>
+                  												<li>
+                  													<a href="#">
+                  														<i class="fa fa-envelope"></i>
+                  														<span class="menu-title">Membership</span>
+                  														<i class="arrow"></i>
+                  													</a>
+                  													<ul class="collapse">
+                  														<li>
+                  															<a href="{{route('report.membership.all')}}">All Branches</a>
+                  														</li>
+                  														<li>
+                  															<a href="{{route('report.membership')}}">This Branch</a>
+                  														</li>
+                  													</ul>
+                  												</li>
+                  												<li>
+                  													<a href="#">
+                  														<i class="fa fa-envelope"></i>
+                  														<span class="menu-title">Collections</span>
+                  														<i class="arrow"></i>
+                  													</a>
+                  													<ul class="collapse">
+                  														<li>
+                  															<a href="{{route('report.collections.all')}}">All Branches</a>
+                  														</li>
+                  														<li>
+                  															<a href="{{route('report.collections')}}">This Branch</a>
+                  														</li>
+                  													</ul>
+                  												</li>
+                  												<li>
+                  													<a href="#">
+                  														<i class="fa fa-envelope"></i>
+                  														<span class="menu-title">Attendance</span>
+                  														<i class="arrow"></i>
+                  													</a>
+                  													<ul class="collapse">
+                  														<li>
+                  															<a href="{{route('report.attendance.all')}}">All Branches</a>
+                  														</li>
+                  														<li>
+                  															<a href="{{route('report.attendance')}}">This Branch</a>
+                  														</li>
+                  													</ul>
+                  												</li>
+
+                  											</li>
+
+                  											@endif
+                  										</ul>
+                  									</li>
                                      <li class="{{Route::currentRouteName() === 'ticket' ? 'active-sub' : ''}}">
                                         <a href="{{ route('ticket') }}">
                                             <i class="fa fa-users"></i>

@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Http\Request;
+use Illuminate\Mail\PendingMail;
 
 class TickectEmail extends Mailable
 {
@@ -16,19 +18,25 @@ class TickectEmail extends Mailable
      *
      * @return void
      */
-     public $demo;
-    public function __construct($demo)
-    {
-        //
-        $this->demo = $demo;
-    }
+     public $request;
+     public function __construct(Request $request)
+     {
+         $this->request = $request;
+     }
 
     /**
      * Build the message.
      *
      * @return $this
      */
-    public function build()
+
+     public function build()
+     {
+       return $this->from($this->request->email)
+                   ->subject($this->request->subject)
+                   ->view('email');
+     }
+    /*public function build()
     {
       return $this->from('sender@example.com')
                     ->view('mails.ticket')
@@ -43,5 +51,5 @@ class TickectEmail extends Mailable
                               'mime' => 'image/jpeg',
                       ]);
         //return $this->view('view.name');
-    }
+    }*/
 }

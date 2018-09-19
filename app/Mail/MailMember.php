@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Http\Request;
-use Illuminate\Mail\PendingMail
+use Illuminate\Mail\PendingMail;
 
 class MailMember extends Mailable
 {
@@ -37,7 +37,7 @@ class MailMember extends Mailable
      */
     public function build()
     {
-        return $this->from('church@churchCMS.com')
+        return $this->from('noreply@cms.hoffenheimtechnologies.tech')
                     ->subject($this->request->subject)
                     ->view('mails.member');
     }

@@ -123,52 +123,64 @@ class EventController extends Controller
 
 
 
-        public function add(Request $request)
-   {
-       $this->validate($request, [
-           'message' => 'required|string|min:0',
-           'by_who' => 'required|string|min:0',
-           'date' => 'required|date ',
-       ]);
-         $split_sdate_array = explode("-", date('Y-m-d',strtotime($request->get('sdate'))));
-       $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date'))));
-       
-       if(Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2])->isPast() ||  $split_date_array < $split_sdate_array){
-
-     $request->session()->flash('message', 'Announcement Not saved Only Future Date Allowed!');
-       $request->session()->flash('alert-class', 'alert-danger');
-       return redirect()->route('notification');
-     }
-else{
-    foreach ($request->to as $to)
+       public function add(Request $request)
     {
-       // register attendance
+        $this->validate($request, [
+            'message' => 'required|string|min:0',
+            'by_who' => 'required|string|min:0',
+            'date' => 'required|date ',
+        ]);
 
-           $by_who = $request->get('by_who');
-            $branchcode = $to;
-           $details = $request->get('message');
-           $time = $request->get('time');
-           $stime = $request->get('stime');
-           $branch_id = $user = \Auth::user()->branchcode;
+//         @if ($dt < Carbon\Carbon::parse($edition->start)->->timestamp && $dt > Carbon\Carbon::parse($edition->end)->timestamp)
+//        <p></p>
+// @else
+//     <button>
+// @endif
+          $today = Carbon::now()->toDateString();
+          $split_sdate_array = explode("-", date('Y-m-d',strtotime($request->get('sdate'))));
+        $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date'))));
+        if(Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2]) < $today || Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2]) < Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2])){
+        //if($request->get('sdate') < $today) {
+          $request->session()->flash('message', 'Announcement Not saved Only Future Date Allowed!');
+        $request->session()->flash('alert-class', 'alert-danger');
+        //echo $request->get('sdate') . '  ' .$today .'            '. print_r($split_sdate_array) . '         ' . print_r($split_date_array) . ' carb ' . Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2]) . ' carb end '. Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2]);
+        return redirect()->route('notification');
+      }
+      /*elseif($request->get('sdate') < $today){
+        $request->session()->flash('message', 'Announcement Not saved Only Future Date Allowed!');
+      $request->session()->flash('alert-class', 'alert-danger');
+      return redirect()->route('notification');
+    }*/
+      else{
+     foreach ($request->to as $to)
+     {
+        // register attendance
 
-           // convert date to acceptable mysql format
-           $sdate = date('Y-m-d',strtotime($request->get('sdate')));
-               $date = date('Y-m-d',strtotime($request->get('date')));
+            $by_who = $request->get('by_who');
+             $branchcode = $to;
+            $details = $request->get('message');
+            $time = $request->get('time');
+            $stime = $request->get('stime');
+            $branch_id = $user = \Auth::user()->branchcode;
+
+            // convert date to acceptable mysql format
+            $sdate = date('Y-m-d',strtotime($request->get('sdate')));
+                $date = date('Y-m-d',strtotime($request->get('date')));
 
 
 
 
-   // return redirect()->route('notification')->with('status', 'Announcement Not saved Only Future Date Allowed');
+    // return redirect()->route('notification')->with('status', 'Announcement Not saved Only Future Date Allowed');
 
- $sql="INSERT INTO announcements (branch_id,branchcode,details,by_who,start_date,stop_date,start_time,stop_time) VALUES ('$branch_id','$branchcode','$details','$by_who','$date','$sdate','$time','$stime')";
-     \DB::insert($sql);
+  $sql="INSERT INTO announcements (branch_id,branchcode,details,by_who,start_date,stop_date,start_time,stop_time) VALUES ('$branch_id','$branchcode','$details','$by_who','$date','$sdate','$time','$stime')";
+      \DB::insert($sql);
 
-   }
-      $request->session()->flash('message', 'Announcement successfully saved!');
-       $request->session()->flash('alert-class', 'alert-success');
-          return redirect()->route('notification');
+    }
+       $request->session()->flash('message', 'Announcement successfully saved!');
+        $request->session()->flash('alert-class', 'alert-success');
+           return redirect()->route('notification');
 }
 
-   }
+    }
 
 }

@@ -50,7 +50,7 @@
                 <h3 class="panel-title">List of All Branches</h3>
             </div>
             <div class="panel-body">
-              <?php print_r($users); ?>
+              <?php // print_r($users); ?>
                 <table id="demo-dt-basic" class="table table-striped table-bordered datatable " cellspacing="0" width="100%">
                     <thead>
                         <tr>

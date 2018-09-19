@@ -53,7 +53,8 @@ h4.shadow {
 }
 
 div.bodyshadow {
-    box-shadow: 10px 10px 5px grey;
+   /* box-shadow: 10px 10px 5px grey;*/
+    box-shadow: 13px 21px 14px grey;
 }
 
 
@@ -111,13 +112,13 @@ h4.textcolor{
   height: 150px;
 }
 .border {
-  height: 376px;
-  width: 1246px;
+ /* height: 376px;
+  width: 1246px;*/
   background: linear-gradient(90deg, red 50%, transparent 50%),
    linear-gradient(90deg, red 50%, transparent 50%),
     linear-gradient(0deg, red 50%, transparent 50%),
      linear-gradient(0deg, red 50%, transparent 50%);
-  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-repeat: repeat-x, repeat-x, repeat-y;
   background-size: 15px 4px, 15px 4px, 4px 15px, 4px 15px;
   background-position: 0px 0px, 200px 100px, 0px 100px, 200px 0px;
   padding: 3px;
@@ -145,3 +146,26 @@ option.line3 {
   background-color: #000000;
   color: #ffff00;
 }
+
+
+/*.border {
+  height: 376px;
+  width: 1246px;
+  background: linear-gradient(90deg, red 50%, transparent 50%),
+   linear-gradient(90deg, red 50%, transparent 50%),
+    linear-gradient(0deg, red 50%, transparent 50%),
+     linear-gradient(0deg, red 50%, transparent 50%);
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 15px 4px, 15px 4px, 4px 15px, 4px 15px;
+  background-position: 0px 0px, 200px 100px, 0px 100px, 200px 0px;
+  padding: 3px;
+  animation: border-dance 4s infinite linear;
+}
+@keyframes border-dance {
+  0% {
+    background-position: 0px 0px, 300px 116px, 0px 150px, 216px 0px;
+  }
+  100% {
+    background-position: 300px 0px, 0px 116px, 0px 0px, 216px 150px;
+  }
+}*/

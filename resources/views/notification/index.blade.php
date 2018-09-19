@@ -79,12 +79,12 @@
                                           @endforeach
                                         </select>
                                                 </div>
-                                      
+
                                   <?php }?>
-                                           
+
                                             <div class="col-md-4 mar-btm">
                                                  <label class=" control-label" for="inputSubject">By who</label>
-                                        
+
                                                 <input type="text"  id="by_who" class="form-control{{ $errors->has('by_who') ? ' is-invalid' : '' }}" name="by_who" value="{{ old('by_who') }}">
                                                   <br>
                                 @if ($errors->has('by_who'))
@@ -92,7 +92,7 @@
                                         <strong>{{ $errors->first('by_who') }}</strong>
                                     </span>
                                 @endif
-                                        
+
                                             </div>
                                             <div class="col-md-4 mar-btm">
                                                          <label class=" control-label" for="inputSubject">Start Time</label>
@@ -103,9 +103,9 @@
                                 </span>
                             </div>
                                             </div>
-                                         
-                                         </div>   
-                                         <div class="row"> 
+
+                                         </div>
+                                         <div class="row">
                                                <div class="col-md-4 mar-btm">
                                                          <label class=" control-label" for="inputSubject">Stop Time</label>
                                   <div class="input-group clockpicker col-md-9">
@@ -122,8 +122,8 @@
                                   border-radius: 3px;display: block;
                                   width: 100%;
                                    color: #555;
-                                  background-color: #fff;outline:none; margin-top:2px;padding:2px 10px" type="text" placeholder="Event Date" name="date" class="datepicker"/>
-                                         
+                                  background-color: #fff;outline:none; margin-top:2px;padding:2px 10px" type="text" placeholder="Event Date" name="sdate" class="datepicker"/>
+
                     <br>
                                 @if ($errors->has('date'))
                                     <span class="alert alert-danger">
@@ -139,8 +139,8 @@
                                   border-radius: 3px;display: block;
                                   width: 100%;
                                    color: #555;
-                                  background-color: #fff;outline:none; margin-top:15px;padding:2px 10px" type="text" placeholder="Event Date" name="sdate" class="datepicker"/>
-                                         
+                                  background-color: #fff;outline:none; margin-top:2px;padding:2px 10px" type="text" placeholder="Event Date" name="date" class="datepicker"/>
+
                     <br>
                                 @if ($errors->has('date'))
                                     <span class="alert alert-danger">
@@ -150,13 +150,13 @@
 
                                         </div>
 
-                        
-                                           
-                  </div>
-                        
 
-                                           <div class="row">     
-                                         
+
+                  </div>
+
+
+                                           <div class="row">
+
 
                                           <textarea placeholder="Message" name="message" rows="10" class="form-control"></textarea>
                                     </div>
@@ -173,7 +173,7 @@
 
 
 
-          
+
         </div>
       </div>
     </div>
@@ -188,4 +188,3 @@
 <!--END CONTENT CONTAINER-->
 
 @endsection
-
