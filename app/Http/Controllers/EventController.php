@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Event;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Member;
 
 class EventController extends Controller
 {
@@ -16,8 +17,9 @@ class EventController extends Controller
     public function index()
     {
         $user = \Auth::user();
+        $pastors = Member::where('branch_id',$user->branchcode)->where('position','pastor','senior pastor')->get();
         $events = Event::where('branch_id',$user->branchcode)->get();
-        return view('calendar.index', compact('events'));
+        return view('calendar.index', compact('events', 'pastors'));
     }
 
     /**
@@ -46,7 +48,7 @@ class EventController extends Controller
             'by_who' => 'required|string|min:0',
             'date' => 'required|date ',
         ]);
-
+        //$assign_to = get('assign_to');
         // register attendance
         $event = new Event([
             'title' => $request->get('title'),
@@ -131,11 +133,6 @@ class EventController extends Controller
             'date' => 'required|date ',
         ]);
 
-//         @if ($dt < Carbon\Carbon::parse($edition->start)->->timestamp && $dt > Carbon\Carbon::parse($edition->end)->timestamp)
-//        <p></p>
-// @else
-//     <button>
-// @endif
           $today = Carbon::now()->toDateString();
           $split_sdate_array = explode("-", date('Y-m-d',strtotime($request->get('sdate'))));
         $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date'))));
@@ -146,11 +143,6 @@ class EventController extends Controller
         //echo $request->get('sdate') . '  ' .$today .'            '. print_r($split_sdate_array) . '         ' . print_r($split_date_array) . ' carb ' . Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2]) . ' carb end '. Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2]);
         return redirect()->route('notification');
       }
-      /*elseif($request->get('sdate') < $today){
-        $request->session()->flash('message', 'Announcement Not saved Only Future Date Allowed!');
-      $request->session()->flash('alert-class', 'alert-danger');
-      return redirect()->route('notification');
-    }*/
       else{
      foreach ($request->to as $to)
      {
@@ -166,11 +158,6 @@ class EventController extends Controller
             // convert date to acceptable mysql format
             $sdate = date('Y-m-d',strtotime($request->get('sdate')));
                 $date = date('Y-m-d',strtotime($request->get('date')));
-
-
-
-
-    // return redirect()->route('notification')->with('status', 'Announcement Not saved Only Future Date Allowed');
 
   $sql="INSERT INTO announcements (branch_id,branchcode,details,by_who,start_date,stop_date,start_time,stop_time) VALUES ('$branch_id','$branchcode','$details','$by_who','$date','$sdate','$time','$stime')";
       \DB::insert($sql);

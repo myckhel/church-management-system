@@ -1,15 +1,19 @@
 @extends('layouts.app')
 
-@section('title') All Branches @endsection
+@section('title') Events @endsection
 
 @section('content')
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
 <div id="content-container">
     <div id="page-head">
-
-
-        </div>
+      <ol class="breadcrumb">
+          <li>
+              <i class="fa fa-home"></i><a href="{{route('dashboard')}}"> Dashboard</a>
+          </li>
+          <li class="active">Add Event</li>
+      </ol>
+    </div>
 
 
     <!--Page content-->
@@ -44,6 +48,13 @@
                             <div class="form-group">
                                 <input type="text" id="event_title" placeholder="Event Title..." name="title" class="form-control" value="" style="margin-bottom:15px">
                                 <input type="text" id="event_title" placeholder="By who" name="by_who" class="form-control" value=""><br/>
+                                <label>assign to</label>
+                                <select id="num-selector" data-live-search="true" name="assign[]" data-width="100%" data-actions-box="true" class="selectpicker" multiple>
+                                  @foreach ($pastors as $pastor)
+                                    <option id="event_title" value="{{$pastor->id}}">{{ucwords($pastor->getFullname())}}</option>
+                                  @endforeach
+                                </select>
+                                <br/>
                                 <input type="text" id="event_title" placeholder="Location" name="location" class="form-control" value="">
                                 <input type="text" id="event_title" placeholder="details" name="details" class="form-control" value="">
                                 <div class="input-group clockpicker">
@@ -63,29 +74,6 @@
                             <button class="btn btn-block btn-purple btn-lg">Add New Event</button>
 
                             <hr>
-
-                            <!-- Draggable Events -->
-                            <!-- ============================================ -->
-                            <!--<div id="demo-external-events">
-                                <div class="fc-event fc-list" data-class="warning">All Day Event</div>
-                                <div class="fc-event fc-list" data-class="success">Meeting</div>
-                                <div class="fc-event fc-list" data-class="mint">Birthday Party</div>
-                                <div class="fc-event fc-list" data-class="purple">Happy Hour</div>
-                                <div class="fc-event fc-list">Lunch</div>
-                                <hr>
-                                <div class="checkbox pad-btm text-left">
-                                    <input id="drop-remove" class="magic-checkbox" type="checkbox">
-                                    <label for="drop-remove">Remove after drop</label>
-                                </div>
-                                <hr class="bord-no">
-                                <p class="text-muted text-sm text-uppercase">Sample Events</p>
-                                <div class="fc-event" data-class="warning">All Day Event</div>
-                                <div class="fc-event" data-class="success">Meeting</div>
-                                <div class="fc-event" data-class="mint">Birthday Party</div>
-                                <div class="fc-event" data-class="purple">Happy Hour</div>
-                                <div class="fc-event">Lunch</div>
-                            </div>-->
-                            <!-- ============================================ -->
                         </div>
                         <div class="fluid">
                             <!-- Calendar placeholder-->
