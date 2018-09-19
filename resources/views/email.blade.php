@@ -8,7 +8,9 @@
 	<div id="page-head">
 
 
+<p>
 You received a message from : {{ $Email }}
+</p>
 
 
  Error Code : {{$ErrorCode }}  ||  Ticket ID : {{$TicketID}}  ||  Error Name : {{$ErrorName }}
