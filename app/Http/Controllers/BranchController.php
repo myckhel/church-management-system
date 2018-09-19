@@ -223,23 +223,24 @@ class BranchController extends Controller
         $email  = $request->email;
         //$img = $request->img;
         $id = $request->id;
-        $data = [];
-
-        DB::table('head_office_options')->where('HOID', $id)->update(['HOSNAME'=>$sname,
-                                                               'HOLNAME'=>$lname,
-                                                               'HOADDRESS'=>$addr1,
-                                                               'HOADDRESS2'=>$addr2,
-                                                               'HOCITY'=>$city,
-                                                               'HOSTATE'=>$state,
-                                                               'HOPOSTAL_CODE'=>$postal,
-                                                               'HOCOUNTRY'=>$country,
-                                                               'HOPHONE1'=>$phone1,
-                                                               'HOPHONE2'=>$phone2,
-                                                               'HOPHONE3'=>$phone3,
-                                                               'HOPHONE4'=>$phone4,
-                                                               'HOEMAIL'=>$email,
-                                                               if($img){'HOLOGO'=>$img,}
-                                                               ]);
+        $data = ['HOSNAME'=>$sname,
+                 'HOLNAME'=>$lname,
+                 'HOADDRESS'=>$addr1,
+                 'HOADDRESS2'=>$addr2,
+                 'HOCITY'=>$city,
+                 'HOSTATE'=>$state,
+                 'HOPOSTAL_CODE'=>$postal,
+                 'HOCOUNTRY'=>$country,
+                 'HOPHONE1'=>$phone1,
+                 'HOPHONE2'=>$phone2,
+                 'HOPHONE3'=>$phone3,
+                 'HOPHONE4'=>$phone4,
+                 'HOEMAIL'=>$email,
+                 ];
+                 if(isset($img)){
+                  $data['HOLOGO'] = $img;
+                 }
+        DB::table('head_office_options')->where('HOID', $id)->update($data);
 
         //foreach($request as $key => $value){
 
