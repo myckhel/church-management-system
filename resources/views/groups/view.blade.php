@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') All members @endsection
+@section('title') All Group Members @endsection
 
 @section('content')
 <!--CONTENT CONTAINER-->
@@ -20,15 +20,13 @@
         <!--Breadcrumb-->
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <ol class="breadcrumb">
+          <li>
+              <i class="fa fa-home"></i><a href="{{route('dashboard')}}"> Dashboard</a>
+          </li>
             <li>
-                <a href="forms-general.html#">
-                    <i class="demo-pli-home"></i>
-                </a>
+                <i class="fa fa-users"></i><a href="{{url('groups')}}"> Groups</a>
             </li>
-            <li>
-                <a href="#">members</a>
-            </li>
-            <li class="active">All Members</li>
+            <li class="active">Members</li>
         </ol>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <!--End breadcrumb-->

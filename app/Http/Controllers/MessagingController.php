@@ -60,8 +60,8 @@ class MessagingController extends Controller
       $users = \Auth::user();
       $user = \Auth::user();
       $members = \App\User::where('branchcode', '!=', $users->branchcode)->get();
-      $msg_user = \App\User::selectRaw('count(messagings.id) as count, users.branchname, users.branchcode')->
-      leftjoin('messagings', 'messagings.msg_from', '=', 'users.branchcode')->where('messagings.id', '>', '0')->
+      $msg_user = \App\User::selectRaw('SUM(case when messagings.seen = 0 then 1 else 0 end) as count, users.branchname, users.branchcode')->
+      leftjoin('messagings', 'messagings.msg_from', '=', 'users.branchcode')->where('messagings.msg_to', '>', '0')->
       where('messagings.msg_to', '=', $users->branchcode)->where('messagings.msg_from', '!=', $users->branchcode)->
       groupby('users.branchname','users.branchcode')->get();
 
@@ -83,10 +83,16 @@ class MessagingController extends Controller
     public function getMsg(Request $request){
       $from = $request->from;
       $to = $request->to;
+      // $sql = "UPDATE messagings
+      //   SET    messagings.seen = 1
+      //   WHERE  messagings.msg_to = $to AND (messagings.msg_from = $from AND messagings.msg_to = $to)";
+      //   \DB::update($sql);
+
       $chat = \App\User::selectRaw('messagings.*, users.branchname')->
       leftjoin('messagings', 'messagings.msg_from', '=', 'users.branchcode')->where('messagings.msg_to', '=', $from)->
       where('messagings.msg_from', '=', $to)->orWhere('messagings.msg_from', '=', $from)->where('messagings.msg_to', '=', $to)->
       groupby('users.branchname','users.branchcode','messagings.id','messagings.msg_to','messagings.msg_from','messagings.msg','messagings.date','messagings.seen')->orderby('messagings.date')->get();
+
 
       return response()->json(['success' => true, 'chats' => $chat]);
     }
@@ -159,7 +165,7 @@ class MessagingController extends Controller
               ->send(new TickectEmail($request));
           //  }
   $message ='Ticket  #'.$request->TicketID  .'   successfully Created!                                                                          Our Technical Support Team Will Get Back To You Soon Thank You. Please Refer To The Above Ticket  #   For Your Future Reference.';
-   
+
         return redirect()
                 ->back()
                 ->with('status', $message);

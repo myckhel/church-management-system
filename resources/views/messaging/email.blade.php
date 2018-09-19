@@ -5,9 +5,29 @@
 @section('content')
             <!--CONTENT CONTAINER-->
             <!--===================================================-->
-            <div id="content-container">
-                <div id="page-head">
-                                    </div>
+<div id="content-container">
+  <div id="page-head">
+
+        <!--Page Title-->
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <div id="page-title">
+            <h1 class="page-header text-overflow">Messaging - Email</h1>
+        </div>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <!--End page title-->
+
+
+        <!--Breadcrumb-->
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <ol class="breadcrumb">
+          <li>
+              <i class="fa fa-home"></i><a href="{{route('dashboard')}}"> Dashboard</a>
+          </li>
+            <li class="active">Email</li>
+        </ol>
+        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <!--End breadcrumb-->
+  </div>
 
 
                 <!--Page content-->

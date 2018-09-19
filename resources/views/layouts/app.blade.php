@@ -57,6 +57,11 @@
     <link href="{{ URL::asset('plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css') }}" rel="stylesheet">
 	@endif
 
+	@if (Route::currentRouteName() == 'inbox')
+	<!--CHAT [ OPTIONAL ]-->
+	<link href="{{ URL::asset('css/chat.css') }}" rel="stylesheet">
+	@endif
+
 	@if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
     <!--Full Calendar [ OPTIONAL ]-->
     <link href="{{ URL::asset('plugins/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
@@ -1798,9 +1803,9 @@ function get_msg(to,from){
 													'<h5> <i class="fa fa-clock-o"></i>'+ch.date+'</h5>'+
 											'</div>'+
 											'<hr>'+
-											'<div class="message-text" id="msg-from">'+
+											'<div class="message-text" id="msg-from"><p>'+
 											ch.msg+
-											'</div>'+
+											'</p></div>'+
 									'</div>'+
 									'<br>'+
 							'</div>';
@@ -1815,9 +1820,9 @@ function get_msg(to,from){
 												'<h5> <i class="fa fa-clock-o"></i>'+ch.date+'</h5>'+
 										'</div>'+
 										'<hr>'+
-										'<div class="message-text" id="msg-to">'+
+										'<div class="message-text" id="msg-to"><p>'+
 										ch.msg+
-										'</div>'+
+										'</p></div>'+
 								'</div>'+
 								'</div>'+
 								'<br>'+

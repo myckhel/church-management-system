@@ -21,14 +21,9 @@
         <!--Breadcrumb-->
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <ol class="breadcrumb">
-            <li>
-                <a href="forms-general.html#">
-                    <i class="demo-pli-home"></i>
-                </a>
-            </li>
-            <li>
-                <a href="forms-general.html#">Branch</a>
-            </li>
+          <li>
+              <i class="fa fa-home"></i><a href="{{route('dashboard')}}"> Dashboard</a>
+          </li>
             <li class="active">All</li>
         </ol>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -87,15 +82,6 @@
                 </table>
             </div>
         </div>
-        <script>
-            /*function confirm(obj){
-                var id = obj.value;
-                var confirm = confirm('confirm to delete');
-            }
-            $(document).ready(function(){
-                ;
-            });*/
-        </script>
         <!--===================================================-->
         <!-- End Striped Table -->
 

@@ -88,6 +88,7 @@
                 <div class="title m-b-md panel-heading">
                     <b>CMS-HT</b>
                 </div>
+                <b><i>Church, the smarter way!</i></b>
                 <div class="panel-footer">
                 <b><h3 class="text-primary font-weight-bold">A Product Of <a href="http://hoffenheimtechnologies.com"> Hoffenheim Technologies</a></h3></b>
               </div>

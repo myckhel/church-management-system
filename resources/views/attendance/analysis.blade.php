@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 
-@section('title') All Members @endsection
+@section('title') Attendance Analysis @endsection
 
 @section('content')
 <!--CONTENT CONTAINER-->
@@ -21,14 +21,9 @@
         <!--Breadcrumb-->
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <ol class="breadcrumb">
-            <li>
-                <a href="forms-general.html#">
-                    <i class="demo-pli-home"></i>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('attendance')}}">Attendance</a>
-            </li>
+          <li>
+              <i class="fa fa-home"></i><a href="{{route('dashboard')}}"> Dashboard</a>
+          </li>
             <li class="active">Analysis</li>
         </ol>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
