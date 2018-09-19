@@ -56,16 +56,20 @@
                 @endif
             </div>
             <?php $currency = \Auth::user()->getCurrencySymbol()->currency_symbol; ?>
+            <?php $name = \Auth::user()->getName() . ' ' .\Auth::user()->branchcode; ?>
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Collections <i>Report Counts</i> For</strong></h3>
+                      <h3 class="panel-title"><strong>{{$name}} Collections Report</strong></h3>
                   </div>
                 <div class="panel-body">
                   <table class="table text-center">
                     <thead class="bg-warning text-center">
-                      <tr><th colspan="2" class="bg-light text-center">Total Amount of Collections </th></tr>
+                      <tr><th colspan="3" class="bg-light text-center">Total Collection Amount </th></tr>
                       <tr>
+                        <th>
+
+                        </th>
                         <th class="text-center">
                           Till Date
                         </th>
@@ -76,8 +80,11 @@
                     </thead>
                     <tbody>
                       <tr>
+                        <th>
+                          Total Amount Collected
+                        </th>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->total_collections)}}</span>
+                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format(($reports[0]->so + $reports[0]->sdo + $reports[0]->o + $reports[0]->d + $reports[0]->t + $reports[0]->ff + $reports[0]->cs + $reports[0]->ls + $reports[0]->s + $reports[0]->tg + $reports[0]->tgs + $reports[0]->ot))}}</span>
                         </td>
                         <td>
                           <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->todays_collections)}}</span>
@@ -92,15 +99,14 @@
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel">
                   <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Total <i>Collections</i> By Collections Type Till Date</strong></h3>
+                      <h3 class="panel-title"><strong>Total Collections By Type</strong></h3>
                   </div>
                 <div class="panel-body">
                   <table class="table text-center">
                     <thead class="bg-warning text-center">
-                      <tr><th colspan="3" class="bg-light text-center">Collections</th></tr>
                       <tr>
                         <th class="text-center">
-                          Type
+                          Collection Type
                         </th>
                         <th class="text-center">
                           Till Date
@@ -326,15 +332,14 @@
                         <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
                           <div class="panel">
                               <div class="panel-heading">
-                                  <h3 class="panel-title"><strong>Total Collections <i>By</i> Members Till Date</strong></h3>
+                                  <h3 class="panel-title"><strong>Total Collections By Members</strong></h3>
                               </div>
                             <div class="panel-body">
                               <table class="table text-center">
                                 <thead class="bg-warning text-center">
-                                  <tr><th colspan="3" class="bg-light text-center">Member</th></tr>
                                   <tr>
                                     <th class="text-center">
-                                      Name
+                                      Member Name
                                     </th>
                                     <th class="text-center">
                                       Till Date
