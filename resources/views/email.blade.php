@@ -33,6 +33,12 @@
           vertical-align: top; }
 
 
+<<<<<<< HEAD
+=======
+<p>
+You received a message from : {{ $Email }}
+</p>
+>>>>>>> 52f712b6a7249fe7509b94b9e318ef7b386237eb
 
       .body {
         background-color: #f6f6f6;
