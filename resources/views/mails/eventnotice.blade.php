@@ -13,4 +13,4 @@ by_who: {{$request->get('by_who')}}
 details: {{$request->get('details')}}
 
 Thank You,
-{{ App\Auth::user()->branchname }}
+{{ Auth::user()->branchname }}
