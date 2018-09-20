@@ -6,6 +6,7 @@ use App\Event;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Member;
+use App\Mail\MailMember;
 
 class EventController extends Controller
 {
@@ -17,8 +18,9 @@ class EventController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        $pastors = Member::where('branch_id',$user->branchcode)->where('position','pastor','senior pastor')->get();
-        $events = Event::where('branch_id',$user->branchcode)->get();
+        $pastors = Member::whereRaw('(position = "senior pastor" OR position = "pastor")')->where('branch_id',$user->branchcode)->get();
+        $events = Event::selectRaw('events.*,members.firstname,members.lastname')->leftjoin('members', 'members.id', '=', 'events.assign_to')->
+        where('events.branch_id',$user->branchcode)->where('events.assign_to', 'like', '%members.id%')->get();
         return view('calendar.index', compact('events', 'pastors'));
     }
 
@@ -48,12 +50,13 @@ class EventController extends Controller
             'by_who' => 'required|string|min:0',
             'date' => 'required|date ',
         ]);
-        //$assign_to = get('assign_to');
+        $assign_to = implode(",", $request->get('assign'));
         // register attendance
         $event = new Event([
             'title' => $request->get('title'),
             'location' => $request->get('location'),
             'time' => $request->get('time'),
+            'assign_to' => $assign_to,
             'by_who' => $request->get('by_who'),
             'details' => $request->get('details'),
             'branch_id' => $user = \Auth::user()->branchcode,
@@ -62,6 +65,12 @@ class EventController extends Controller
             'date' => date('Y-m-d',strtotime($request->get('date'))),
         ]);
         $event->save();
+        foreach ($request->assign as $to){
+          \Mail::to($to)//$request->to)
+              //->cc($request->cc)
+              //->bcc($request->bcc)
+              ->send(new MailMember($request));
+            }
 
         return redirect()->route('calendar')->with('status', 'Event successfully saved');
     }

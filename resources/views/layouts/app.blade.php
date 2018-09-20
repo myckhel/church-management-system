@@ -1084,7 +1084,8 @@ $('#demo-calendar').fullCalendar({
 												time: '{{$event->time}}',
 												idss: '{{$event->id}}',
                         className: 'purple',
-												details: '{{$event->details}}'
+												details: '{{$event->details}}',
+												assign_to: '{{$event->assign_to}}'
 								},
                 @endforeach
                 {
@@ -1111,6 +1112,13 @@ $('#demo-calendar').fullCalendar({
 					var idss = calEvent.idss;
 					var time = calEvent.time;
 					var details = calEvent.details;
+					var assignee = calEvent.assign_to.split(",")
+					var assign_to = assignee;
+					var i = 0;
+					/*assignee.forEach(function(ch){
+						assign_to[i] = '<span class="badge badge-info badge-pill"><p id="assigns">''</p></span>';
+						i++;
+					});*/
 					$('#by').text(by);
 					$('#title').text(title);
 					$('#location').text(location);
@@ -1118,6 +1126,8 @@ $('#demo-calendar').fullCalendar({
 					$('#id').val(idss);
 					$('#details').text(details);
 					$('#myModal').modal('show');
+
+					$('#assign .badge').after(assign_to);
 				},
 				eventMouseover: function(calEvent, jsEvent, view){
 				},

@@ -48,10 +48,10 @@
                             <div class="form-group">
                                 <input type="text" id="event_title" placeholder="Event Title..." name="title" class="form-control" value="" style="margin-bottom:15px">
                                 <input type="text" id="event_title" placeholder="By who" name="by_who" class="form-control" value=""><br/>
-                                <label>assign to</label>
+                                <center><label>assign to</label></center>
                                 <select id="num-selector" data-live-search="true" name="assign[]" data-width="100%" data-actions-box="true" class="selectpicker" multiple>
                                   @foreach ($pastors as $pastor)
-                                    <option id="event_title" value="{{$pastor->id}}">{{ucwords($pastor->getFullname())}}</option>
+                                    <option id="event_title" value="{{$pastor->email}}">{{ucwords($pastor->getFullname())}}</option>
                                   @endforeach
                                 </select>
                                 <br/>
@@ -114,6 +114,10 @@
                         Details:
                         <span class="badge badge-info badge-pill"><p id="details"></p></span>
                       </li>
+                      <li id="assign" class="list-group-item d-flex justify-content-between align-items-center">
+                        Assigned To:
+                        <span class="badge badge-info badge-pill"><p id="assigns">fff</p></span>
+                      </li>
                     </ul>
                   </div>
                   <div class="modal-footer">
@@ -124,6 +128,7 @@
 
               </div>
             </div>
+            <?php print_r($events); ?>
     </div>
     <!--===================================================-->
     <!--End page content-->
