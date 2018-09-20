@@ -1,5 +1,5 @@
 Hello,
-This is to notify you that you have been assigned to an event from <?php App\Auth::user()->branchname.' '.App\Auth::user()->branchcode ?>.
+This is to notify you that you have been assigned to an event from <?php \Auth::user()->branchname.' '.\Auth::user()->branchcode ?>.
 
 <p><b>Event Details:</b></p>
 <?php
