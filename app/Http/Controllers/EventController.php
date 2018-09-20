@@ -6,7 +6,7 @@ use App\Event;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Member;
-use App\Mail\MailMember;
+use App\Mail\EventNotice;
 
 class EventController extends Controller
 {
@@ -69,7 +69,7 @@ class EventController extends Controller
           \Mail::to($to)//$request->to)
               //->cc($request->cc)
               //->bcc($request->bcc)
-              ->send(new MailMember($request));
+              ->send(new EventNotice($request));
             }
 
         return redirect()->route('calendar')->with('status', 'Event successfully saved');
