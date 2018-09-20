@@ -1,4 +1,4 @@
-Hello {{ $demo->receiver }},
+Hello,
 This is to notify you that you have been assigned to an event from <?php App\Auth::user()->branchname.' '.App\Auth::user()->branchcode ?>.
 
 <p><b>Event Details:</b></p>
