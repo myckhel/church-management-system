@@ -19,11 +19,11 @@ class EventController extends Controller
     {
         $user = \Auth::user();
         $pastors = Member::whereRaw('(position = "senior pastor" OR position = "pastor")')->where('branch_id',$user->branchcode)->get();
-        $events = Event::selectRaw('events.*,members.firstname,members.lastname')->leftjoin('members', 'members.id', '=', 'events.assign_to')->
-        where('events.branch_id',$user->branchcode)->where('events.assign_to', 'like', '%members.id%')->get();
+        $events = Event::selectRaw('events.*,members.firstname,members.lastname')->join('members', 'members.id', '=', 'events.assign_to')->
+        where('events.branch_id',$user->branchcode)->get();
         return view('calendar.index', compact('events', 'pastors'));
     }
-
+//->where('events.assign_to', 'like', '%members.id,%')
     /**
      * Show the form for creating a new resource.
      *

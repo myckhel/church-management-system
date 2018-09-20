@@ -92,7 +92,7 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                   <div class="modal-header bg-warning">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal"><h1>&times;</h1></button>
                     <div class="d-inline pull-left"><h1 class="">Event Title: </h1></div>
                     <div class="d-inline text-center text-white"><h1 id="title"></h1></div>
                   </div>
@@ -110,15 +110,20 @@
                         Location:
                         <span class="badge badge-info badge-pill"><p id="location"></p></span>
                       </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Details:
-                        <span class="badge badge-info badge-pill"><p id="details"></p></span>
-                      </li>
-                      <li id="assign" class="list-group-item d-flex justify-content-between align-items-center">
-                        Assigned To:
-                        <span class="badge badge-info badge-pill"><p id="assigns">fff</p></span>
-                      </li>
+
                     </ul>
+                    <li class="text-center bg-purple list-group-item d-flex justify-content-between align-items-center">
+                      Details:
+                    </li>
+                    <li class="text-center list-group-item d-flex justify-content-between align-items-center">
+                      <p id="details"></p>
+                    </li>
+                    <li class="text-center list-group-item d-flex justify-content-between align-items-center">
+                      Assigned To:
+                    </li>
+                    <li id="assign" class="text-center list-group-item d-flex justify-content-between align-items-center">
+
+                    </li>
                   </div>
                   <div class="modal-footer">
                     <button id="id" type="button" class="btn btn-danger" value="" data-dismiss="modal" onclick="dele(this.value);">Delete</button>
@@ -128,7 +133,6 @@
 
               </div>
             </div>
-            <?php print_r($events); ?>
     </div>
     <!--===================================================-->
     <!--End page content-->

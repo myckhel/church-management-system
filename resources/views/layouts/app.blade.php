@@ -1075,7 +1075,18 @@ $('#demo-calendar').fullCalendar({
         defaultDate: new Date,
         eventLimit: true, // allow "more" link when too many events
         events: [
+									<?php $pastors = []; ?>
                 @foreach ($events as $event)
+
+								<?php $ar = explode(',',$event->assign_to);
+								$i = 0;
+									foreach($ar as $id){
+										$name = App\Member::getNameById($id)->firstname .' '. App\Member::getNameById($id)->lastname;
+										$pastors[$i] = $name;
+										$i++;
+									}
+									$pastors = implode(',',$pastors);
+								 ?>
                 {
                         title: '{{$event->title}}',
                         start: '{{$event->date}}',
@@ -1085,7 +1096,7 @@ $('#demo-calendar').fullCalendar({
 												idss: '{{$event->id}}',
                         className: 'purple',
 												details: '{{$event->details}}',
-												assign_to: '{{$event->assign_to}}'
+												assign_to: '{{$pastors}}'
 								},
                 @endforeach
                 {
@@ -1112,13 +1123,14 @@ $('#demo-calendar').fullCalendar({
 					var idss = calEvent.idss;
 					var time = calEvent.time;
 					var details = calEvent.details;
-					var assignee = calEvent.assign_to.split(",")
-					var assign_to = assignee;
+					var assign_to = calEvent.assign_to;
+					var assign_tos = [];
+					var assignee = assign_to.split(',');
 					var i = 0;
-					/*assignee.forEach(function(ch){
-						assign_to[i] = '<span class="badge badge-info badge-pill"><p id="assigns">''</p></span>';
+					assignee.forEach(function(ch){
+						assign_tos[i] = '<span><p class="bg-primary">'+ch+'</p></span>';
 						i++;
-					});*/
+					});
 					$('#by').text(by);
 					$('#title').text(title);
 					$('#location').text(location);
@@ -1127,7 +1139,7 @@ $('#demo-calendar').fullCalendar({
 					$('#details').text(details);
 					$('#myModal').modal('show');
 
-					$('#assign .badge').after(assign_to);
+					$('#assign').html(assign_tos);
 				},
 				eventMouseover: function(calEvent, jsEvent, view){
 				},

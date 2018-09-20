@@ -22,6 +22,6 @@ class Member extends Model
     }
 
     public static function getNameById($id){
-      return \DB::table('members')->select('firstname','lastname')->where('id',$id)->orderby('firstname','lastname');
+      return \DB::table('members')->select('firstname','lastname')->where('id',$id)->orderby('firstname','lastname')->first();
     }
 }
