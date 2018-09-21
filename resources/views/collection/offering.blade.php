@@ -199,9 +199,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-md-offset-0" style="margin-bottom:500px">
+            <div class="col-sm-12 col-md-12 col-md-offset-0" style="margin-bottom:500px">
                 <div class="panel">
-                    <div class="panel-body" style="overflow:scroll">
+                    <div class="panel-body demo-nifty-btn" style="overflow:scroll">
 
                         <!-- Inline Form  -->
                         <!--===================================================-->
