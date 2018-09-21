@@ -205,7 +205,7 @@ class AttendanceController extends Controller
       $user = \Auth::user();
       $sql = "SELECT * FROM attendances WHERE branch_id = '$user->branchcode' "; // ORDER BY attendance_date DESC";
       $attendance = \DB::select($sql);
-      $sqll = "SELECT * FROM members_attendance WHERE branch_id =" .$user->branchcode. "";
+      $sqll = "SELECT * FROM members_attendance WHERE branch_id ='$user->branchcode'";
       $attendances = \DB::select($sqll);
       return view('attendance.view', compact('attendance', 'attendances'));
     }
