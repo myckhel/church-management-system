@@ -135,10 +135,10 @@ class CollectionController extends Controller
         //$sql = 'SELECT SUM(amount) AS amount, MONTH(date_collected) AS month, count(*) AS entries FROM `collections` WHERE branch_id = '.\Auth::user()->branchcode.' GROUP BY month';
         //$collections = \DB::select($sql);
         $code = \Auth::user()->branchcode;
-        $sql = "SELECT * FROM collections WHERE branch_id = " . $code . "";
+        $sql = "SELECT * FROM collections WHERE branch_id = '$code'";
         $collections = \DB::select($sql);
 
-        $sqll = "SELECT * FROM members_collection WHERE branch_id =" .$code. "";
+        $sqll = "SELECT * FROM members_collection WHERE branch_id = '$code'";
         $collectionss = \DB::select($sqll);
 
         return view('collection.report', compact('collections', 'collectionss'));
@@ -184,24 +184,24 @@ class CollectionController extends Controller
         //
         $user = \Auth::user();
         $sql = 'SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        MONTH(date_collected) AS month FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND branch_id = '.$user->branchcode.' GROUP BY month';
+        MONTH(date_collected) AS month FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND branch_id = "$user->branchcode" GROUP BY month';
         $collections = \DB::select($sql);
 
         //$sql = 'SELECT SUM(special_offering + seed_offering + offering) AS total, MONTH(date_collected) AS month FROM `collections` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
         //$attendances2 = \DB::select($sql);
 
         $sql = 'SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        DAYOFWEEK(date_collected) AS day FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 7 DAY) AND WEEK(date_collected) = WEEK(DATE(NOW())) AND branch_id = '.$user->branchcode.' GROUP BY day';
+        DAYOFWEEK(date_collected) AS day FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 7 DAY) AND WEEK(date_collected) = WEEK(DATE(NOW())) AND branch_id = "$user->branchcode" GROUP BY day';
         $collections2 = \DB::select($sql);
 
         $sql = 'SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        WEEK(date_collected) AS week FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND date_collected >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = '.$user->branchcode.' GROUP BY week';
+        WEEK(date_collected) AS week FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND date_collected >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = "$user->branchcode" GROUP BY week';
         $collections3 = \DB::select($sql);
 
         //$sql = 'SELECT SUM(special_offering + seed_offering + offering) AS total, MONTH(date_collected) AS month FROM `collections` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
         //$attendances4 = \DB::select($sql);
         $sql = 'SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '.$user->branchcode.' GROUP BY year';
+        YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = "$user->branchcode" GROUP BY year';
         $collections4 = \DB::select($sql);
 
         return view('collection.analysis', compact('collections','collections2','collections3','collections4'));

@@ -97,6 +97,7 @@
                             <h1>Members Collection</h1>
                             <?php $count = 1; ?>
                             <?php $class = ['normal', 'alt']; $i = 0; $size = sizeof($members); ?>
+                            @if(isset($members))
                             @foreach ($members as $member)
                             <?php if($i == 1){ $num = 0; $i = 0; }else{ $num = 1; $i = 1;} ?>
                               <tr class="<?php echo $class[$num]; ?>" id="row,{{$count}}" onMouseOver="this.className='highlight'" onMouseOut="this.className='<?php echo $class[$num]; ?>'">
@@ -179,6 +180,11 @@
                               </tr>
                               <?php $count++; ?>
                               @endforeach
+                              @else
+                              <tr>
+                                <td>No Members</td>
+                              </tr>
+                              @endif
                                 <div class="" style="width:30%;">
                                   <h3><label for="date">Choose Date</label></h3>
                                 <input style="border:1px solid rgba(0,0,0,0.07);height: 33px; font-size: 13px; border-radius: 3px;display: block;color: #555; background-color: #fff;outline:none; padding:2px 10px"
@@ -201,7 +207,7 @@
                         <!--===================================================-->
                         <form class="form-inline" method="POST" action="{{route('collection.save')}}">
                         @csrf
-                        <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
+                        <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="1800px" >
                             <thead>
                                 <tr>
                                     <th>Special Offering</th>
@@ -252,8 +258,8 @@
                                     <input id="" type="number" name="first_fruit" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
-                                  <input id="" type="hidden" value="{{$member->id}}" name="member_id" class="" />
-                                  <input id="" type="hidden" value="{{$member->branch_id}}" name="branch_id" class="" />
+                                  <input id="" type="hidden" value="<?php if(isset($member->id)){echo $member->id;} ?>" name="member_id" class="" />
+                                  <input id="" type="hidden" value="<?php if(isset($member->branch_id)){echo $member->branch_id;} ?>" name="branch_id" class="" />
                                   @csrf
                                 <td>
                                   <div class="input-group">
@@ -295,12 +301,6 @@
                               </tr>
                             </tbody>
                           </table>
-                        <!--input type="text" value="3" name="branch_id" hidden=hidden-->
-                            <!--div class="form-group">
-                                <label for="demo-inline-inputmail" class="sr-only">Amount</label>
-                                <input type="number" placeholder="₦ Amount in Naira" name="amount" id="demo-inline-inputmail" class="form-control">
-
-                            </div-->
                             <div class="form-group">
                             <input style="border:1px solid rgba(0,0,0,0.07);height: 33px; font-size: 13px; border-radius: 3px;display: block;
 
@@ -308,37 +308,26 @@
                             background-color: #fff;outline:none; padding:2px 10px" type="text" placeholder="Date" required name="date_collected" class="datepicker form-control"/>
                             </div>
                             <div class="form-group">
-							<div>
-								<select style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
-                <option value="sunday service" selected>Sunday Service</option>
-                <option value="monday service">Monday Service</option>
-                <option value="tuesday service">Tuesday Service</option>
-                <option value="wednessday service">Wednessday Service</option>
-                <option value="thursday service">Thursday Service</option>
-                <option value="friday service">Friday Service</option>
-                <option value="saturday service">Saturday Service</option>
-
-                  <!--option value="offering">Offering</option>
-									<option value="donation">Donation</option>
-									<option value="tithe">Tithe</option>
-                  <option value="special">Special Offering</option>
-                  <option value="first fruit">First Fruit</option>
-                  <option value="covenant seed">Covenant Seed</option>
-                  <option value="love seed">Love Seed</option>
-                  <option value="sacrifice">Sacrifice</option>
-                  <option value="thanksgiving seed">Thanksgiving Seed</option>
-									<option value="other">Other</option-->
-								</select>
-							</div>
-						</div>
+                							<div>
+                								<select style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
+                                <option value="sunday service" selected>Sunday Service</option>
+                                <option value="monday service">Monday Service</option>
+                                <option value="tuesday service">Tuesday Service</option>
+                                <option value="wednessday service">Wednessday Service</option>
+                                <option value="thursday service">Thursday Service</option>
+                                <option value="friday service">Friday Service</option>
+                                <option value="saturday service">Saturday Service</option>
+                								</select>
+                							</div>
+                						</div>
                             <button class="btn btn-primary" type="submit">SAVE</button>
                         </form>
                         <!--===================================================-->
                         <!-- End Inline Form  -->
 
                     </div>
-				</div>
-            </div>
+          				</div>
+                </div>
 
         <div style="display:none" class="col-md-10 col-md-offset-1">
         <!-- Basic Data Tables -->

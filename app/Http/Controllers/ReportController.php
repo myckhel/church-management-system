@@ -12,12 +12,12 @@ class ReportController extends Controller
 
       $sql = "SELECT count(id) AS total_member, count(case when sex = 'male' then 1 end) AS male, count(case when sex = 'female' then 1 end) AS female,
       count(case when marital_status = 'single' then 1 end) AS single, count(case when marital_status = 'married' then 1 end) AS married
-      FROM `members` WHERE branch_id = ".$user->branchcode."";
+      FROM `members` WHERE branch_id = '$user->branchcode'";
       $reports = \DB::select($sql);
 
       //Year of reg
       $sql = "SELECT COUNT(case when sex = 'male' then 1 end) AS male, COUNT(case when sex = 'female' then 1 end) AS female,
-      YEAR(created_at) AS year FROM `members` WHERE created_at >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = ".$user->branchcode." GROUP BY year";
+      YEAR(created_at) AS year FROM `members` WHERE created_at >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branchcode' GROUP BY year";
       $r_years = \DB::select($sql);
 
       return view('report.membership', compact('reports', 'r_years'));
@@ -35,13 +35,13 @@ class ReportController extends Controller
       SUM(case when date_collected = date(now()) then donation end) AS dt, SUM(case when date_collected = date(now()) then tithe end) AS tt, SUM(case when date_collected = date(now()) then first_fruit end) AS fft,
       SUM(case when date_collected = date(now()) then covenant_seed end) AS cst, SUM(case when date_collected = date(now()) then love_seed end) AS lst, SUM(case when date_collected = date(now()) then sacrifice end) AS st, SUM(case when date_collected = date(now()) then thanksgiving end) AS tgt,
       SUM(case when date_collected = date(now()) then thanksgiving_seed end) AS tgst, SUM(case when date_collected = date(now()) then other end) AS ott, SUM(case when date_collected = date(now()) then amount end) AS total
-      FROM `collections` WHERE branch_id = ".$user->branchcode."";
+      FROM `collections` WHERE branch_id = '$user->branchcode'";
       $reports = \DB::select($sql);
 
       $sql = "SELECT SUM(offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) as total,
       SUM(case when date_added = date(now()) then (offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) end) as totalt,
       fname AS fname, lname AS lname
-      FROM `members_collection` WHERE branch_id = '".$user->branchcode."' GROUP BY fname, lname";
+      FROM `members_collection` WHERE branch_id = '$user->branchcode' GROUP BY fname, lname";
       $m_r = \DB::select($sql);
 
       $sql = "SELECT SUM(c.offering + c.tithe + c.special_offering + c.seed_offering + c.donation + c.first_fruit + c.covenant_seed + c.love_seed + c.sacrifice + c.thanksgiving + c.thanksgiving_seed + c.other) as ctotal,
@@ -51,7 +51,7 @@ class ReportController extends Controller
 
       //year
       $sql = 'SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-      YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '.$user->branchcode.' GROUP BY year';
+      YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = "$user->branchcode" GROUP BY year';
       $c_years = \DB::select($sql);
 
       return view('report.collections', compact('reports', 'm_r', 'ad_rep', 'c_years'));
@@ -63,12 +63,12 @@ class ReportController extends Controller
       $sql = "SELECT SUM(female + male + children) AS total_attendance, SUM(case when attendance_date = date(now()) then (female + male + children) end) AS todays_attendance,
       SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, SUM(children + male + female) AS total, SUM(case when attendance_date = date(now()) then children + male + female end) AS totalt,
       SUM(case when attendance_date = date(now()) then male end) AS malet, SUM(case when attendance_date = date(now()) then female end) AS femalet, SUM(case when attendance_date = date(now()) then children end) AS childrent
-      FROM `attendances` WHERE branch_id = ".$user->branchcode."";
+      FROM `attendances` WHERE branch_id = '$user->branchcode'";
       $reports = \DB::select($sql);
 
       $sql = "SELECT count(case when attendance = 'yes' then 1 end) as total, count(case when attendance_date = date(now()) then (case when attendance = 'yes' then 1 end) end) as totalt,
       firstname AS fname, lastname AS lname
-      FROM `members_attendance` WHERE branch_id = '".$user->branchcode."' GROUP BY fname, lname";
+      FROM `members_attendance` WHERE branch_id = '$user->branchcode' GROUP BY fname, lname";
       $m_r = \DB::select($sql);
 
       $sql = "SELECT SUM(a.male + a.female + a.children) as atotal,
@@ -79,7 +79,7 @@ class ReportController extends Controller
 
       //Year
       $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-      YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '.$user->branchcode.' GROUP BY year';
+      YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = "$user->branchcode" GROUP BY year';
       $a_years = \DB::select($sql);
 
       return view('report.attendance', compact('reports', 'm_r', 'ad_rep', 'a_years'));
