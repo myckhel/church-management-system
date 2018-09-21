@@ -329,35 +329,35 @@
                             <div clas="row">
                             <div class="col-md-12">
                                 <div class="panel">
-                                                        <div class="panel-body text-center clearfix">
-                                                            <div class="col-sm-4 pad-top">
-                                                                <div class="text-lg">
-                                                                    <p class="text-5x text-thin text-main">{{\App\User::all()->count()}}</p>
-                                                                </div>
-                                                                <p class="text-sm text-bold text-uppercase">Total Number of Our Branches</p>
-                                                            </div>
-                                                            <div class="col-sm-8">
-                                                              <div class="col-sm-4 pad-top">
-                                                                  <div class="text-lg">
-                                                                      <p class="text-5x text-thin text-main">{{$total['members']}}</p>
-                                                                  </div>
-                                                                  <p class="text-sm text-bold text-uppercase">Total Number of Our Members</p>
-                                                              </div>
-                                                              <div class="col-sm-4 pad-top">
-                                                                  <div class="text-lg">
-                                                                      <p class="text-5x text-thin text-main">{{$total['workers']}}</p>
-                                                                  </div>
-                                                                  <p class="text-sm text-bold text-uppercase">Total Number of  Our Workers</p>
-                                                              </div>
-                                                              <div class="col-sm-4 pad-top">
-                                                                  <div class="text-lg">
-                                                                      <p class="text-5x text-thin text-main">{{$total['pastors']}}</p>
-                                                                  </div>
-                                                                  <p class="text-sm text-bold text-uppercase">Total Number of Our Pastors</p>
-                                                              </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                  <div class="panel-body text-center clearfix">
+                                      <div class="col-sm-4 pad-top">
+                                          <div class="text-lg">
+                                              <p class="text-5x text-thin text-main">{{\App\User::all()->count()}}</p>
+                                          </div>
+                                          <p class="text-sm text-bold text-uppercase">Total Number of Our Branches</p>
+                                      </div>
+                                      <div class="col-sm-8">
+                                        <div class="col-sm-4 pad-top">
+                                            <div class="text-lg">
+                                                <p class="text-5x text-thin text-main">{{$total['members']}}</p>
+                                            </div>
+                                            <p class="text-sm text-bold text-uppercase">Total Number of Our Members</p>
+                                        </div>
+                                        <div class="col-sm-4 pad-top">
+                                            <div class="text-lg">
+                                                <p class="text-5x text-thin text-main">{{$total['workers']}}</p>
+                                            </div>
+                                            <p class="text-sm text-bold text-uppercase">Total Number of  Our Workers</p>
+                                        </div>
+                                        <div class="col-sm-4 pad-top">
+                                            <div class="text-lg">
+                                                <p class="text-5x text-thin text-main">{{$total['pastors']}}</p>
+                                            </div>
+                                            <p class="text-sm text-bold text-uppercase">Total Number of Our Pastors</p>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
                             </div>
                                  </div>
                                  <div clas="row">
@@ -447,15 +447,6 @@
                                                                     </table>
                                                                 </div>
                                                           </div>
-                                                        <!--===================================================-->
-                                                        <!-- End Striped Table -->
-                                                        <!--div class="pad-al text-center">
-                                                            <p class="text-semibold text-lg mar-no">Earning</p>
-                                                            <p class="text-1x text-bold mar-no ">$7,428</p>
-                                                            <p class="text-overflow pad-top pad-all">
-                                                                <span class="label label-dark">22,675</span> Total Earning
-                                                            </p>
-                                                        </div-->
                                                     </div>
                                                     <!--===================================================-->
                                                   </div>
@@ -479,6 +470,7 @@
                                                                         <th>Location</th>
                                                                         <th>Time</th>
                                                                         <th>By</th>
+                                                                        <th>Assigned Pastor(s)</th>
                                                                         <th>Date</th>
                                                                     </tr>
                                                                 </thead>
@@ -491,6 +483,18 @@
                                                                       <td>{{$event->location}}</td>
                                                                       <td>{{$event->time}}</td>
                                                                       <td>{{$event->by_who}}</td>
+                                                                      <?php
+                                                                      if(isset($event->assign_to)){
+                                                                        $emails = explode(',',$event->assign_to);
+                                                                        echo '<td>';
+                                                                        foreach($emails as $email){
+                                                                          echo App\Member::getNameByEmail($email).', ';
+                                                                        }
+                                                                        echo '</td>';
+                                                                    }else{
+                                                                      echo '<td>None</td>';
+                                                                    }
+                                                                      ?>
                                                                       <td>{{$event->date}}</td>
                                                                   </tr>
                                                                   @endif

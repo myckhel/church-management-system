@@ -19,7 +19,7 @@ class EventController extends Controller
     {
         $user = \Auth::user();
         $pastors = Member::whereRaw('(position = "senior pastor" OR position = "pastor")')->where('branch_id',$user->branchcode)->get();
-        $events = Event::selectRaw('events.*,members.firstname,members.lastname')->join('members', 'members.id', '=', 'events.assign_to')->
+        $events = Event::
         where('events.branch_id',$user->branchcode)->get();
         return view('calendar.index', compact('events', 'pastors'));
     }

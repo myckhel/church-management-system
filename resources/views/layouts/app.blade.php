@@ -1078,14 +1078,18 @@ $('#demo-calendar').fullCalendar({
 									<?php $pastors = []; ?>
                 @foreach ($events as $event)
 
-								<?php $ar = explode(',',$event->assign_to);
+								<?php
+								$pastors = [];
+								if(isset($event->assign_to)){
+								$emails = explode(',',$event->assign_to);
 								$i = 0;
-									foreach($ar as $id){
-										$name = App\Member::getNameById($id)->firstname .' '. App\Member::getNameById($id)->lastname;
+									foreach($emails as $email){
+										$name = App\Member::getNameByEmail($email);
 										$pastors[$i] = $name;
 										$i++;
 									}
 									$pastors = implode(',',$pastors);
+								}else{$pastors = '';}
 								 ?>
                 {
                         title: '{{$event->title}}',

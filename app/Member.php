@@ -24,4 +24,10 @@ class Member extends Model
     public static function getNameById($id){
       return \DB::table('members')->select('firstname','lastname')->where('id',$id)->orderby('firstname','lastname')->first();
     }
+
+    public static function getNameByEmail($email){
+      $std = \DB::table('members')->select('firstname','lastname')->where('email',$email)->orderby('firstname','lastname')->first();
+      $name = $std->firstname.' '.$std->lastname;
+      return $name;
+    }
 }
