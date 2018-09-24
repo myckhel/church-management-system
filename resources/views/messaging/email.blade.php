@@ -115,9 +115,9 @@
 					                            <label class="col-lg-1 control-label text-left"  for="inputEmail">To</label>
 					                            <div class="col-lg-6">
                                         <?php if(isset($_GET['mail'])) { ?>
-					                                <input type="email" id="inputEmail" name="to[]" value="<?php echo $_GET['mail']; ?> " class="form-control">
+					                                <input type="email" id="inputEmail" name="to[]" value="<?php echo $_GET['mail']; ?> " class="form-control" required>
                                         <?php echo '</div>'; }else{ ?>
-                                        <select id="num-selector" data-live-search="true" name="to[]" data-width="100%" data-actions-box="true" class="selectpicker" multiple>
+                                        <select id="num-selector" data-live-search="true" name="to[]" data-width="100%" data-actions-box="true" class="selectpicker" multiple required>
                                           @foreach ($members as $member)
                                             <option value="{{$member->email}}">{{ucwords($member->getFullname())}}</option>
                                           @endforeach
@@ -151,7 +151,7 @@
   					                        <div class="form-group">
   				                            <label class="col-lg-1 control-label text-left" for="inputSubject">Subject</label>
   				                            <div class="col-lg-6">
-  				                                <input type="text" id="inputSubject" name="subject" class="form-control">
+  				                                <input type="text" id="inputSubject" name="subject" class="form-control"  required>
   				                            </div>
                                       <div class="col-lg-4">
                                         <ul id="list" class="list-group">

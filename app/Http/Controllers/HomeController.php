@@ -27,8 +27,8 @@ class HomeController extends Controller
     {
         $user = \Auth::user();
          $eventsall =  \App\Announcement::leftjoin('users',"announcements.branchcode", '=','users.branchcode')->where('announcements.branchcode', $user->branchcode)->orWhere('announcements.branch_id', $user->branchcode)->orderBy('announcements.id', 'desc')->get();
-        $members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branchcode)->get();
-        $events = $user->isAdmin() ? Event::orderBy('date', 'asc')->get() : Event::where('branch_id', $user->branchcode)->orderBy('date', 'asc')->get();
+        $members = \App\Member::where('branch_id', $user->branchcode)->get();
+        $events = Event::where('branch_id', $user->branchcode)->orderBy('date', 'asc')->get();
         $options = DB::table('head_office_options')->where('HOID',1)->first();
         $num_members = $user->isAdmin() ? DB::table('members')->count() : DB::table('members')->where('branch_id', \Auth::user()->branchcode)->count();
         $num_pastors = $user->isAdmin() ? DB::table('members')->where('position', 'pastor')->orWhere('position', 'senior pastor')->count() : DB::table('members')->where('position', 'pastor')->orWhere('position', 'senior pastor')->where('branch_id', \Auth::user()->branchcode)->count();

@@ -72,7 +72,7 @@
             <form method="POST" action="{{route('group.create')}}">
             @csrf
             <input type=text name=branch_id value="{{\Auth::user()->branchcode}}" hidden=hidden/>
-            <input style="border:1px solid #ddd; padding:7px;outline:none" name=name type=text Placeholder="Group Name"/>
+            <input style="border:1px solid #ddd; padding:7px;outline:none" name=name type=text Placeholder="Group Name" required/>
                 <button type="submit" class="btn btn-success btn-md">Create Group</button>
             </form>
             </div>

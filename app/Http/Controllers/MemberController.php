@@ -26,7 +26,7 @@ class MemberController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        $members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branchcode)->get();
+        $members = \App\Member::where('branch_id', $user->branchcode)->get();
         //$members = Member::all();
         return view('members.all', compact('members'));
     }

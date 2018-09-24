@@ -1805,6 +1805,8 @@ $(document).ready(function(){
 var To;
 var From;
 function get_msg(to,from){
+	$('#inbox-chat-body').html(`<div id="wait" style="display:none;width:69px;height:89px;position:absolute;top:50%;left:50%;padding:2px;"><img src="{{URL::asset('images/msg-loader.gif')}}" width="64" height="64" /><br>Loading..	</div>`);
+	$("#wait").css("display", "block");
 	To = to;
 	From = from;
 	var values = {'to':to, 'from':from};
@@ -1815,6 +1817,7 @@ function get_msg(to,from){
 			dataType    : 'json', // what type of data do we expect back from the server
 			encode      : true
 	}).done(function(data) {
+					$("#wait").css("display", "none");
 					//alert(data['chats'][0]['msg']);
 					// log data to the console so we can see
 					var chat_msg = "";
@@ -1875,11 +1878,6 @@ function get_msg(to,from){
 }
 var messages = document.getElementById('inbox-chat-body');
 
-/*function appendMessage() {
-	const message = document.getElementsByClassName('message')[0];
-  const newMessage = message.cloneNode(true);
-  messages.appendChild(newMessage);
-}*/
 function scrollToBottom() {
   messages.scrollTop = messages.scrollHeight;
 }
@@ -1887,31 +1885,6 @@ function clr_msg_box(){
 	$('#inbox-chat-body').html('');
 }
 scrollToBottom();
-
-
-/*function get_users(){
-	$.ajax({
-			type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-			url         : "{{route('conversation')}}", // the url where we want to POST
-			data        : values, // our data object
-			dataType    : 'json', // what type of data do we expect back from the server
-			encode      : true
-	}).done(function(data) {
-
-	});
-}
-
-function isOnline(){
-	$.ajax({
-			type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-			url         : "{{route('conversation')}}", // the url where we want to POST
-			data        : values, // our data object
-			dataType    : 'json', // what type of data do we expect back from the server
-			encode      : true
-	}).done(function(data) {
-
-	});
-}*/
 
 </script>
 @endif

@@ -65,7 +65,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Number</label>
                                         <!--input type="text" name="to" class="form-control"-->
-                                        <select id="num-selector" name="to[]" class="selectpicker" data-live-search="true" data-actions-box="true" data-width="100%" multiple>
+                                        <select id="num-selector" name="to[]" class="selectpicker" data-live-search="true" data-actions-box="true" data-width="100%" multiple required>
                                           @foreach ($members as $member)
                                             <option value="{{$member->phone}}">{{ucwords($member->getFullname()) . ' - ' . $member->phone}}</option>
                                           @endforeach
@@ -87,7 +87,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Message</label>
-                                        <textarea name="message" class="form-control" style="height:300px"></textarea>
+                                        <textarea name="message" class="form-control" style="height:300px"  required></textarea>
                                     </div>
                                 </div>
                             </div>

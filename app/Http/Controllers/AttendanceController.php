@@ -179,21 +179,21 @@ class AttendanceController extends Controller
         $attendances4 = \DB::select($sql);*/
         //month
         $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-        MONTH(attendance_date) AS month FROM `attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND branch_id = "$user->branchcode" GROUP BY month';
+        MONTH(attendance_date) AS month FROM `attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND branch_id = '."$user->branchcode".' GROUP BY month';
         $attendances = \DB::select($sql);
         //day
         $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-        DAYOFWEEK(attendance_date) AS day FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 7 DAY) AND WEEK(attendance_date) = WEEK(DATE(NOW())) AND branch_id = "$user->branchcode" GROUP BY day';
+        DAYOFWEEK(attendance_date) AS day FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 7 DAY) AND WEEK(attendance_date) = WEEK(DATE(NOW())) AND branch_id = '."$user->branchcode".' GROUP BY day';
         $attendances2 = \DB::select($sql);
 
         //Week
         $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-        WEEK(attendance_date) AS week FROM `attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND attendance_date >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = "$user->branchcode" GROUP BY week';
+        WEEK(attendance_date) AS week FROM `attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND attendance_date >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = '."$user->branchcode".' GROUP BY week';
         $attendances3 = \DB::select($sql);
 
         //Year
         $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-        YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = "$user->branchcode" GROUP BY year';
+        YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '."$user->branchcode".' GROUP BY year';
         $attendances4 = \DB::select($sql);
 
         return view('attendance.analysis', compact('attendances', 'attendances2', 'attendances3', 'attendances4'));

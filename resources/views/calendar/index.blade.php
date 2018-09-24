@@ -46,8 +46,8 @@
                             <input type="text" value="3" name="branch_id" hidden="hidden"/>
 
                             <div class="form-group">
-                                <input type="text" id="event_title" placeholder="Event Title..." name="title" class="form-control" value="" style="margin-bottom:15px">
-                                <input type="text" id="event_title" placeholder="By who" name="by_who" class="form-control" value=""><br/>
+                                <input type="text" id="event_title" placeholder="Event Title..." name="title" class="form-control" value="" style="margin-bottom:15px" required>
+                                <input type="text" id="event_title" placeholder="By who" name="by_who" class="form-control" value="" required><br/>
                                 <center><label>assign to</label></center>
                                 <select id="num-selector" data-live-search="true" name="assign[]" data-width="100%" data-actions-box="true" class="selectpicker" multiple>
                                   @foreach ($pastors as $pastor)
@@ -55,8 +55,8 @@
                                   @endforeach
                                 </select>
                                 <br/>
-                                <input type="text" id="event_title" placeholder="Location" name="location" class="form-control" value="">
-                                <input type="text" id="event_title" placeholder="details" name="details" class="form-control" value="">
+                                <input type="text" id="event_title" placeholder="Location" name="location" class="form-control" value="" required>
+                                <input type="text" id="event_title" placeholder="details" name="details" class="form-control" value="" required>
                                 <div class="input-group clockpicker">
                                 <input type="text" class="form-control" value="09:30" name="time">
                                 <span class="input-group-addon">
@@ -68,7 +68,7 @@
                                   border-radius: 3px;display: block;
                                   width: 100%;
                                    color: #555;
-                                  background-color: #fff;outline:none; margin-top:15px;padding:2px 10px" type="text" placeholder="Event Date" name="date" class="datepicker"/>
+                                  background-color: #fff;outline:none; margin-top:15px;padding:2px 10px" type="text" placeholder="Event Date" name="date" class="datepicker" required/>
                             </div>
 
                             <button class="btn btn-block btn-purple btn-lg">Add New Event</button>

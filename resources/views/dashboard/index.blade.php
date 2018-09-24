@@ -240,14 +240,14 @@
                     </div>
                         <div class="row">
                              <div class="col-md-10 col-md-offset-1">
- <div class="border">
- <div class="well  bodyshadow">
+                               <div class="border">
+                               <div class="well  bodyshadow">
 
-                                @if(session()->has('message.level'))
-    <div class="alert alert-{{ session('message.level') }}">
-    {!! session('message.content') !!}
-    </div>
-@endif
+                              @if(session()->has('message.level'))
+                                  <div class="alert alert-{{ session('message.level') }}">
+                                  {!! session('message.content') !!}
+                                  </div>
+                              @endif
                        <div class="text-center">
                             <h3 class="ji">Announcement Board </h3>
                         </div>
@@ -262,7 +262,7 @@
                                   ?>
                                   @if ($event->start_date >= now())
                                   <?php //$n = rand(1,$size_of_array-1);
-    //$class = $color_arrar[$n%3];?>
+                                  //$class = $color_arrar[$n%3];?>
 
                              <div class="list-group bg-trans">
                                     <a href="#" class="list-group-item">
@@ -275,11 +275,11 @@
                                             <div class="bodyshadow">
                                             <h class="pad-top text-semibold ano"> <h4 class="textcolor">{{ html_entity_decode(str_limit($event->details, 100)) }}</h4>
                                                 <p class="pull-right">{{$event->branchname}} </p>
-            @if (strlen(strip_tags($event->details)) > 100)
-            <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#createTopic_{{$event->id}}">
-                                               <i class="fa fa-book fa-2x" aria-hidden="true"></i> Read More</a>  &nbsp;&nbsp;&nbsp
-<!--              <a href="{{ action('EventController@readmore', $event->id) }}" class="btn btn-info btn-sm"></a> -->
-            @endif</p>
+                                                @if (strlen(strip_tags($event->details)) > 100)
+                                                <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#createTopic_{{$event->id}}">
+                                                                                   <i class="fa fa-book fa-2x" aria-hidden="true"></i> Read More</a>  &nbsp;&nbsp;&nbsp
+                                    <!--              <a href="{{ action('EventController@readmore', $event->id) }}" class="btn btn-info btn-sm"></a> -->
+                                                @endif</p>
                                              </div>
                                         </div>
                                     </a>
@@ -302,12 +302,12 @@
 
                                 </div>
                                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
                                                 </div>
                                             </div>
                                         </div>
-         </div>
+                                     </div>
                                       @endforeach
                                       <?php else: ?>
                                         <div class="alert alert-danger">
@@ -315,7 +315,7 @@
                                 </div>
 
                                         @endif
-                    </div>
+                            </div>
 
  </div>
                                     </div>

@@ -122,7 +122,7 @@ li {
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Choose Specific Date</label>
-                                        <input type="date" value="<?php if (isset($request_date)) echo $request_date;?>" name="date" class="form-control">
+                                        <input type="date" value="<?php if (isset($request_date)) echo $request_date;?>" name="date" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
