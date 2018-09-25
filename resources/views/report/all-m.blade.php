@@ -171,7 +171,7 @@
         </div>
 
         <!--INDIVIDUAL -->
-        <!--div class="col-md-12 col-md-offset-0" style="margin-bottom:20px">
+        <div class="col-md-12 col-md-offset-0" style="margin-bottom:20px">
           <div class="panel">
               <div class="panel-heading">
                   <h3 class="panel-title"><strong>Last 10 <i>Years</i> Members</strong> Registration Report</h3>
@@ -191,7 +191,7 @@
               // print_r($branchs);
               // print($branchs['Branch 3']['2018']->male);
               ?>
-              <!--table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
+              <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                 <thead class="bg-dark text-white">
                   <tr>
                     <th>Branch</th>
@@ -236,7 +236,7 @@
                   @endforeach
                   @endforeach
                     <!--th scope="row">3</th-->
-                <!--/tbody>
+                </tbody>
                 <tfoot class="bg-success text-white">
                   <tr>
                     <th>###</th>
@@ -254,7 +254,7 @@
                       ?></th>
                   </tr>
                 </tfoot>
-              </table-->
+              </table>
 
               <br><br>
 
@@ -333,9 +333,9 @@
               </table-->
 
 
-            <!--/div>
+            </div>
           </div>
-        </div-->
+        </div>
 
     </div>
     <!--===================================================-->

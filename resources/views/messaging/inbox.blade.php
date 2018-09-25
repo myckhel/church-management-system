@@ -86,13 +86,13 @@
 
                                                 <div class="vcentered info-combo">
                                                     <h3 class="no-margin-bottom name"> {{$branch->branchname}}</h3>
-                                                    <!--h5></h5-->
+                                                    <!--h5>$branch->lastmsg</h5-->
                                                 </div>
-                                                <!--div class="contacts-add">
-                                                    <span class="message-time"> 2:32 <sup>AM</sup></span>
-                                                    <i class="fa fa-trash-o"></i>
-                                                    <i class="fa fa-paperclip"></i>
-                                                </div-->
+                                                <div class="contacts-add">
+                                                    <span class="message-time"> {{date('H:i',strtotime($branch->MaxDate))}} <sup></sup></span>
+                                                    <!--i class="fa fa-trash-o"></i>
+                                                    <i class="fa fa-paperclip"></i-->
+                                                </div>
                                             </li>
                                             @endforeach
                                         </ul>
