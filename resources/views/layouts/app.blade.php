@@ -1804,6 +1804,7 @@ $(document).ready(function(){
 });
 var To;
 var From;
+
 function get_msg(to,from){
 	$('#inbox-chat-body').html(`<div id="wait" style="display:none;width:69px;height:89px;position:absolute;top:50%;left:50%;padding:2px;"><img src="{{URL::asset('images/msg-loader.gif')}}" width="64" height="64" /><br>Loading..	</div>`);
 	$("#wait").css("display", "block");
