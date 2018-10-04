@@ -30,11 +30,11 @@ class ReportController extends Controller
       SUM(case when date_collected = date(now()) then (offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) end) AS todays_collections,
       SUM(case when date_collected = date(now()) then (offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) end) AS todays_collectionst,
       SUM(special_offering) AS so, SUM(seed_offering) AS sdo, SUM(offering) AS o, SUM(donation) AS d, SUM(tithe) AS t, SUM(first_fruit) AS ff,
-      SUM(covenant_seed) AS cs, SUM(love_seed) AS ls, SUM(sacrifice) AS s, SUM(thanksgiving) AS tg, SUM(thanksgiving_seed) AS tgs, SUM(other) AS ot, SUM(amount) AS total,
+      SUM(covenant_seed) AS cs, SUM(love_seed) AS ls, SUM(sacrifice) AS s, SUM(thanksgiving) AS tg, SUM(thanksgiving_seed) AS tgs, SUM(other) AS oth, SUM(amount) AS total,
       SUM(case when date_collected = date(now()) then special_offering end) AS sot, SUM(case when date_collected = date(now()) then seed_offering end) AS sdot, SUM(case when date_collected = date(now()) then offering end) AS ot,
       SUM(case when date_collected = date(now()) then donation end) AS dt, SUM(case when date_collected = date(now()) then tithe end) AS tt, SUM(case when date_collected = date(now()) then first_fruit end) AS fft,
       SUM(case when date_collected = date(now()) then covenant_seed end) AS cst, SUM(case when date_collected = date(now()) then love_seed end) AS lst, SUM(case when date_collected = date(now()) then sacrifice end) AS st, SUM(case when date_collected = date(now()) then thanksgiving end) AS tgt,
-      SUM(case when date_collected = date(now()) then thanksgiving_seed end) AS tgst, SUM(case when date_collected = date(now()) then other end) AS ott, SUM(case when date_collected = date(now()) then amount end) AS total
+      SUM(case when date_collected = date(now()) then thanksgiving_seed end) AS tgst, SUM(case when date_collected = date(now()) then other end) AS otht, SUM(case when date_collected = date(now()) then amount end) AS total
       FROM `collections` WHERE branch_id = '$user->branchcode'";
       $reports = \DB::select($sql);
 
@@ -53,6 +53,7 @@ class ReportController extends Controller
       $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
       YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branchcode' GROUP BY year";
       $c_years = \DB::select($sql);
+      //dd($c_years);
 
       return view('report.collections', compact('reports', 'm_r', 'ad_rep', 'c_years'));
     }
@@ -122,11 +123,11 @@ class ReportController extends Controller
       SUM(case when date_collected = date(now()) then (offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) end) AS todays_collections,
       SUM(case when date_collected = date(now()) then (offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) end) AS todays_collectionst,
       SUM(special_offering) AS so, SUM(seed_offering) AS sdo, SUM(offering) AS o, SUM(donation) AS d, SUM(tithe) AS t, SUM(first_fruit) AS ff,
-      SUM(covenant_seed) AS cs, SUM(love_seed) AS ls, SUM(sacrifice) AS s, SUM(thanksgiving) AS tg, SUM(thanksgiving_seed) AS tgs, SUM(other) AS ot, SUM(amount) AS total,
+      SUM(covenant_seed) AS cs, SUM(love_seed) AS ls, SUM(sacrifice) AS s, SUM(thanksgiving) AS tg, SUM(thanksgiving_seed) AS tgs, SUM(other) AS oth, SUM(amount) AS total,
       SUM(case when date_collected = date(now()) then special_offering end) AS sot, SUM(case when date_collected = date(now()) then seed_offering end) AS sdot, SUM(case when date_collected = date(now()) then offering end) AS ot,
       SUM(case when date_collected = date(now()) then donation end) AS dt, SUM(case when date_collected = date(now()) then tithe end) AS tt, SUM(case when date_collected = date(now()) then first_fruit end) AS fft,
       SUM(case when date_collected = date(now()) then covenant_seed end) AS cst, SUM(case when date_collected = date(now()) then love_seed end) AS lst, SUM(case when date_collected = date(now()) then sacrifice end) AS st, SUM(case when date_collected = date(now()) then thanksgiving end) AS tgt,
-      SUM(case when date_collected = date(now()) then thanksgiving_seed end) AS tgst, SUM(case when date_collected = date(now()) then other end) AS ott, SUM(case when date_collected = date(now()) then amount end) AS total
+      SUM(case when date_collected = date(now()) then thanksgiving_seed end) AS tgst, SUM(case when date_collected = date(now()) then other end) AS otht, SUM(case when date_collected = date(now()) then amount end) AS total
       FROM `collections` ";
       $reports = \DB::select($sql);
 

@@ -147,7 +147,7 @@
                           <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->o)}}</span>
                         </td>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->ot)}}</span>
+                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->oth)}}</span>
                         </td>
                       </tr>
                       <tr>
@@ -243,10 +243,10 @@
                           Other
                         </th>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->ot)}}</span>
+                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->oth)}}</span>
                         </td>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->ott)}}</span>
+                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->otht)}}</span>
                         </td>
                       </tr>
                     </tbody>
