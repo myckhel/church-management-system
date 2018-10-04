@@ -199,12 +199,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-12 col-md-offset-0" style="margin-bottom:500px">
+
+            <div class="col-sm-12 col-md-12 col-md-offset-0">
                 <div class="panel">
                     <div class="panel-body demo-nifty-btn" style="overflow:scroll">
-
-                        <!-- Inline Form  -->
-                        <!--===================================================-->
+                        <style>th{width: 300px; text-align: center;}</style>
                         <form class="form-inline" method="POST" action="{{route('collection.save')}}">
                         @csrf
                         <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="1800px" >
@@ -294,10 +293,6 @@
                                 <td style="display:none">
                                   <input id="hidden-total" name="amount" type="text" />
                                 </td>
-                                <td>
-                                  <div class="input-group">
-                                  </div>
-                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -328,40 +323,6 @@
                     </div>
           				</div>
                 </div>
-
-        <div style="display:none" class="col-md-10 col-md-offset-1">
-        <!-- Basic Data Tables -->
-        <!--===================================================-->
-        <div class="panel">
-            <div class="panel-heading">
-                <h3 class="panel-title">List of Members in province004</h3>
-            </div>
-            <div class="panel-body">
-                <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th style="width:200px">Fullname</th>
-                            <th style="width:100px"><span class="text-success">Amount</span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td >Tiger Nixon</td>
-                            <td>
-                            ₦ <input style="border:none;border-bottom:1px solid green;outline: none;"  class="magic-radio" type="text" name="form-radio-button" checked>
-
-                            </td>
-                        </tr>
-
-
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <!--===================================================-->
-        <!-- End Striped Table -->
-        </div>
 
 
     </div>
