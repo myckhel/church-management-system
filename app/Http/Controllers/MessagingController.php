@@ -60,10 +60,10 @@ class MessagingController extends Controller
       $users = \Auth::user();
       $user = \Auth::user();
       $members = \App\User::where('branchcode', '!=', $users->branchcode)->get();
-      $msg_user = \App\User::selectRaw('SUM(case when messagings.seen = 0 then 1 else 0 end) as count, MAX(date) MaxDate, users.branchname, users.branchcode')->
+      $msg_user = \App\User::selectRaw('SUM(case when messagings.seen = 0 then 1 else 0 end) as count, MAX(messagings.date) MaxDate, users.branchname, users.branchcode')->
       leftjoin('messagings', 'messagings.msg_from', '=', 'users.branchcode')->where('messagings.msg_to', '>', '0')->
       where('messagings.msg_to', '=', $users->branchcode)->where('messagings.msg_from', '!=', $users->branchcode)->
-      groupby('users.branchname','users.branchcode')->get();
+      groupby('users.branchname','users.branchcode')->orderby('messagings.date','ASC')->get();
 
       return view('messaging.inbox', compact('members', 'users', 'msg_user'));
     }

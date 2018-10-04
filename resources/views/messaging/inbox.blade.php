@@ -87,9 +87,10 @@
                                                 <div class="vcentered info-combo">
                                                     <h3 class="no-margin-bottom name"> {{$branch->branchname}}</h3>
                                                     <!--h5>$branch->lastmsg</h5-->
+                                                    <!--p>hiii</p-->
                                                 </div>
                                                 <div class="contacts-add">
-                                                    <span class="message-time"> {{date('H:i',strtotime($branch->MaxDate))}} <sup></sup></span>
+                                                    <span class="message-time"> <?php echo $branch->MaxDate == NOW() ? date('H:i',strtotime($branch->MaxDate)) : date('m/d',strtotime($branch->MaxDate)); ?> <sup></sup></span>
                                                     <!--i class="fa fa-trash-o"></i>
                                                     <i class="fa fa-paperclip"></i-->
                                                 </div>
@@ -112,7 +113,8 @@
 
                                                 <div class="vcentered info-combo">
                                                     <h3 class="no-margin-bottom name"> {{$branch->getName()}} </h3>
-                                                      <div class="{{$branch->isOnline() ? 'online-count' : 'offline-count'}}"> </div><h5> <?php if($branch->isOnline()){ echo '<p class="text-success">online</p>';} else {echo '<p class="text-danger">offline</p>';} ?></h5>
+                                                      <div class="{{$branch->isOnline() ? 'online-count' : 'offline-count'}}"> </div><h5> <?php if($branch->isOnline()){echo '<p class="text-success">online</p>';} else {echo '<p class="text-danger">offline</p>';} ?></h5>
+
                                                 </div>
                                                 <!--div class="contacts-add">
                                                     <span class="message-time"> 2:24 {{$branch->isOnline()}}<sup>AM</sup></span>

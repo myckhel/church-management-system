@@ -37,4 +37,9 @@ class HomeController extends Controller
         //$events = Event::all();
         return view('dashboard.index', compact('events','options','total','members', 'eventsall'));
     }
+
+    public function gallery()
+    {
+      return view('gallery.gallery');
+    }
 }

@@ -32,7 +32,9 @@
 	    <!--Summernote [ OPTIONAL ]-->
 		<link href="{{ URL::asset('plugins/summernote/summernote.min.css')}}" rel="stylesheet">
 		@endif
-
+@if(Route::currentRouteName() == "gallery")
+<link href="{{ URL::asset('plugins/gallery/ekko-lightbox.css') }}" rel="stylesheet">
+@endif
 	<!--Demo [ DEMONSTRATION ]-->
 	<link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet">
 
@@ -928,6 +930,10 @@
     <script src="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
     @endif
 
+		@if (Route::currentRouteName() == ('gallery'))
+		<script src="{{ URL::asset('plugins/gallery/ekko-lightbox.min.js') }}"></script>
+		@endif
+
 	<!--=================================================-->
 
 	<!--Demo script [ DEMONSTRATION ]-->
@@ -1781,19 +1787,19 @@ $(document).ready(function(){
 $(document).ready(function(){
 
 	$('#reply-btn').click(function(){
-		var msg = $('#reply-text').val();
-		var to = $('#reply-to').val();
-		var from = $('#reply-from').val();
+		var msg = $('#reply-text').val();//get d value from the input
+		var to = $('#reply-to').val();//get d value from the input
+		var from = $('#reply-from').val();//get d value from the input
 		//var value = {'msg': msg, 'to': to, 'from': from};
-		var values = {};
+		var values = {};//emtpy json obj
 		$.each($('#chat-form').serializeArray(), function(i, field) {
-				values[field.name] = field.value;
+				values[field.name] = field.value;//populate the values into d json obj
 		});
 		if(msg != ''){
 			$.ajax({
 				type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
 				url         : "{{route('reply')}}", // the url where we want to POST
-				data        : values, // our data object
+				data        : values, // use the data object
 				dataType    : 'json', // what type of data do we expect back from the server
 				encode      : true
 			}).done(function(data){
@@ -1887,6 +1893,42 @@ function clr_msg_box(){
 }
 scrollToBottom();
 
+</script>
+@endif
+
+@if(Route::currentRouteName() == "gallery")
+<script>
+function readURL(input) {
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('#blah').attr('src', e.target.result);
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+$("#imgInp").change(function() {
+  readURL(this);
+});
+
+$('#imgInp').filestyle({
+
+iconName : 'glyphicon glyphicon-file',
+
+buttonText : 'Select File',
+
+buttonName : 'btn-warning'
+
+});
+
+$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
+});
 </script>
 @endif
 </body>
