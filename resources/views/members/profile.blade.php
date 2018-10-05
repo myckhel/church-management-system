@@ -97,8 +97,8 @@
                                 <h3 class="panel-title text-right">Attendance Analysis - {{date("Y")}}</h3>
                               </div>
                               <div class="col-xs-6 panel-title">
-                                <div class="col-xs-4  small bg-danger">Absent</div>
-                                <div class="col-xs-4  small bg-success">Present</div>
+                                <div class="col-xs-4  small bg-success">Absent</div>
+                                <div class="col-xs-4  small bg-danger">Present</div>
                               </div>
                               <div id="demo-morris-bar-month" style="height: 250px"></div>
                             </div>
@@ -132,7 +132,6 @@
         <!--===================================================-->
         <!--End page content-->
 
-</div>
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
 

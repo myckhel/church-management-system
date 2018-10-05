@@ -230,7 +230,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              <tr>
+                              <tr class="normal" id="rowr" onMouseOver="this.className='highlight'" onMouseOut="this.className='normal'">
                                 <td>
                                   <div id="" class="input-group">
                                     <input id="" type="number" name="special_offering" value="0" class="form-control saisie"/>
@@ -294,9 +294,10 @@
                                     <input type="number" name="other" value="0" class="form-control saisie" />
                                   </div>
                                 </td>
-                                <td style="display:none">
+                                <!--td style="display:none">
                                   <input id="hidden-total" name="amount" type="text" />
-                                </td>
+                                </td-->
+                                <td></td>
                               </tr>
                             </tbody>
                           </table>
