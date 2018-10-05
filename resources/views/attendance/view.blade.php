@@ -141,7 +141,7 @@ li {
                   <div class="panel-heading text-center">
                     <h1 class="panel-title">Branch Attendance History<h1>
                   </div>
-                <div class="panel-body text-center clearfix" style="overflow:scroll">
+                <div class="panel-body clearfix" style="overflow:scroll">
                   <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
                 <thead>
                     <tr>
@@ -151,10 +151,8 @@ li {
                         <th class="min-tablet">Women</th>
                         <th class="min-tablet">Children</th>
                         <th class="min-tablet">Total</th>
-                        <th class="min-tablet">Date</th>
-                        <th class="min-tablet">Day</th>
-                        <th class="min-tablet">Month</th>
-                        <th class="min-tablet">Year</th>
+                        <th class="min-tablet">Transaction Date</th>
+                        <th class="min-tablet">Processed Date</th>
                         <th class="min-desktop">Action</th>
                     </tr>
                 </thead>
@@ -174,9 +172,7 @@ li {
                         <td>{{$list->children}}</td>
                         <td>{{$list->male + $list->female + $list->children}}</td>
                         <td>{{$list->attendance_date}}</td>
-                        <td>{{$p[2]}}</td>
-                        <td>{{$p[0]}}</td>
-                        <td>{{$p[1]}}</td>
+                        <td>{{$list->created_at}}</td>
                         <td><button id="{{$list->attendance_date}}" type="submit" class="btn btn-primary" onclick="view(this);">View</button></td>
                     </tr>
                     <?php $count++;?>
@@ -238,7 +234,8 @@ li {
                         <th class="min-tablet">Last Name</th>
                         <th class="min-tablet">Attendance</th>
                         <th class="min-tablet">Service type</th>
-                        <th class="min-tablet">Date</th>
+                        <th class="min-tablet">Transaction Date</th>
+                        <th class="min-tablet">Processed Date</th>
                         <!--th class="min-desktop">Action</th-->
                     </tr>
                 </thead>
@@ -258,6 +255,7 @@ li {
                         <td>{{$li->attendance}}</td>
                         <td>{{$li->service_type}}</td>
                         <td >{{$li->attendance_date}}</td>
+                        <td >{{$li->date_submitted}}</td>
                         <!--td><button id="{{$li->attendance_date}}" type="submit" class="btn btn-primary" onclick="view(this);">View</button></td-->
                     </tr>
                     <?php $count++;?>

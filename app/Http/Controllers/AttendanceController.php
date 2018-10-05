@@ -117,6 +117,7 @@ class AttendanceController extends Controller
         $convertedDate = date('Y-m-d',strtotime($request->get('date')));
         $thedate = (!empty($date) && strlen($date) > 2) ? $date : $convertedDate;
         $attendance = Attendance::where('attendance_date', $thedate )->where('branch_id',$user->branchcode )->first();
+        
         if ($attendance)
         {
             $addedVariables = ['formatted_date'=>$thedate, 'date_in_words'=>"{$this->get_date_in_words($attendance->attendance_date)}",'request_date'=>$request->date];

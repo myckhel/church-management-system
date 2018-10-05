@@ -65,9 +65,8 @@
                           <th class="min-desktop">Other</th>
                           <th class="min-desktop">Total</th>
                           <!--th class="min-desktop">Date Saved</th-->
-                          <th class="min-desktop">Date</th>
-                          <th class="min-desktop">Month</th>
-                          <th class="min-desktop">Year</th>
+                          <th class="min-desktop">Transaction Date</th>
+                          <th class="min-desktop">Processed Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,8 +95,7 @@
                           <td>{{$currency.number_format($list->amount)}}</td>
                           <!--td>{{$list->date_collected}}</td-->
                           <td>{{$date}}</td>
-                          <td>{{$p[0]}}</td>
-                          <td>{{$p[1]}}</td>
+                          <td>{{$list->created_at}}</td>
                         </tr>
                         <?php $count++;?>
                         @endforeach
@@ -136,7 +134,8 @@
                   <th class="min-desktop">Other</th>
                   <th class="min-desktop">Total</th>
                   <!--th class="min-desktop">Date Saved</th-->
-                  <th class="min-desktop">Date</th>
+                  <th class="min-desktop">Transaction Date</th>
+                  <th class="min-desktop">Processed Date</th>
                     <!--th class="min-desktop">Action</th-->
                 </tr>
             </thead>
@@ -161,6 +160,7 @@
                     <td>{{$currency.number_format($li->other)}}</td>
                     <td>{{$currency.number_format(($li->special_offering + $li->seed_offering + $li->tithe + $li->offering + $li->donation + $li->first_fruit + $li->covenant_seed + $li->sacrifice + $li->thanksgiving + $li->thanksgiving_seed + $li->other))}}</td>
                     <td>{{$li->date_added}}</td>
+                    <td>{{$li->date_submitted}}</td>
                     <!--td><button id="" type="submit" class="btn btn-primary" onclick="view(this);">View</button></td-->
                 </tr>
                 <?php $count++;?>
