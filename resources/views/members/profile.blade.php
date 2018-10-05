@@ -93,12 +93,12 @@
                       <div class="col-md-6">
                         <div class="panel rounded-top">
                             <div class="panel-heading bg-dark">
-                              <div class="col-xs-6">
-                                <h3 class="panel-title text-right">Attendance Analysis - {{date("Y")}}</h3>
+                              <div class="col-xs-8" style="padding-top:7px;">
+                                <p class="text-right">Attendance Analysis - {{date("Y")}}</p>
                               </div>
-                              <div class="col-xs-6 panel-title">
-                                <div class="col-xs-4  small bg-success">Absent</div>
-                                <div class="col-xs-4  small bg-danger">Present</div>
+                              <div class="col-xs-4 panel-title">
+                                <div class="col-xs-6  small bg-success">Absent</div>
+                                <div class="col-xs-6  small bg-danger">Present</div>
                               </div>
                               <div id="demo-morris-bar-month" style="height: 250px"></div>
                             </div>
@@ -107,8 +107,8 @@
                       <div class="col-md-6">
                         <div class="panel rounded-top">
                             <div class="panel-heading bg-dark">
-                              <div class="col-xs-6">
-                                <h3 class="panel-title text-right">Collection  Analysis - {{date("Y")}}</h3>
+                              <div class="col-xs-6" style="padding-top:7px;">
+                                <p class="text-right">Collection  Analysis - {{date("Y")}}</p>
                               </div>
                               <div class="col-xs-6 panel-title">
                                 <div class="col-xs-4  small bg-danger">Tithe</div>
