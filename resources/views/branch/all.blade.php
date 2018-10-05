@@ -40,7 +40,7 @@
 
         <!-- Basic Data Tables -->
         <!--===================================================-->
-        <div class="panel" style="overflow:scroll">
+        <div class="panel" style="overflow:scroll; background-color: #e8ddd3;">
             <div class="panel-heading">
                 <h3 class="panel-title">List of All Branches</h3>
             </div>

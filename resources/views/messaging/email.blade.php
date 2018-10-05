@@ -59,7 +59,7 @@
 							</div>
 							<!---------------------------------->
 						@endif
-                        <div class="panel">
+                        <div class="panel" style="background-color: #e8ddd3;">
 
 					        <div class="panel-body">
 					            <div class="fixed-fluid">

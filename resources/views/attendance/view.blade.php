@@ -106,12 +106,10 @@ li {
             <div class="col-sm-6 col-sm-offset-3" style="margin-bottom:<?php
             echo (isset($formatted_date)) ? '30' : '60';
             ?>px">
-                <div class="panel">
-                    <div class="panel-heading">
+                <div class="panel rounded-top" style="background-color: #e8ddd3;">
+                    <div class="panel-heading text-center">
                         <h3 class="panel-title">View Attendance for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
-
                     </div>
-
                     <!--Block Styled Form -->
                     <!--===================================================-->
                     <form method="POST" action="{{route('attendance.view')}}">
@@ -127,7 +125,7 @@ li {
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-footer text-right">
+                        <div class="panel-footer text-right bg-dark">
                             <button class="btn btn-success" type="submit">VIEW ATTENDANCE</button>
                         </div>
                     </form>
@@ -139,7 +137,10 @@ li {
             </div>
             <?php if (!isset($addedVariables)){ ?>
             <div class="col-md-offset-1 col-md-10" style="margin-bottom:50px">
-                <div class="panel">
+                <div class="panel rounded-top" style="background-color: #e8ddd3;">
+                  <div class="panel-heading text-center">
+                    <h1 class="panel-title">Branch Attendance History<h1>
+                  </div>
                 <div class="panel-body text-center clearfix" style="overflow:scroll">
                   <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
                 <thead>
@@ -159,7 +160,6 @@ li {
                 </thead>
                 <tbody>
                   <?php $count=1;?>
-                  <h1>Branch Attendance History<h1>
                     @foreach($attendance as $list)
                     <?php
                       $date = $list->attendance_date;
@@ -189,7 +189,7 @@ li {
 
       <?php }else{ ?>
             <div class="col-md-offset-3 col-md-6" style="margin-bottom:350px">
-                <div class="panel">
+                <div class="panel rounded-top" style="background-color: #e8ddd3;">
                     <div class="panel-body text-center clearfix">
                         <div class="col-sm-4 pad-top">
                             <div class="text-lg">
@@ -224,7 +224,10 @@ li {
             <!-- MEMBERS ATTENDANCE -->
             <?php if (!isset($addedVariables)){ ?>
             <div class="col-md-offset-1 col-md-10" style="margin-bottom:50px">
-                <div class="panel">
+                <div class="panel rounded-top" style="background-color: #e8ddd3;">
+                  <div class="panel-heading">
+                    <h1 class="panel-title text-center">Members Attendance History<h1>
+                  </div>
                 <div class="panel-body text-center clearfix" style="overflow:scroll">
             <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
                 <thead>
@@ -241,7 +244,6 @@ li {
                 </thead>
                 <tbody>
                   <?php $count=1;?>
-                  <h1>Members Attendance History<h1>
                     @foreach($attendances as $li)
                     <?php
                       $date = $li->attendance_date;

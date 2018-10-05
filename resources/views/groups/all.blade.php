@@ -64,16 +64,16 @@
 
         <!-- Line Chart -->
         <!---------------------------------->
-        <div class="panel" style="padding-top:15px;padding-bottom:45px;">
+        <div class="panel"  style="background-color: #e8ddd3;">
             <div class="panel-heading">
-                <h3 class="panel-title">Create Group</h3>
+                <h3 class="panel-title text-center">Create Group</h3>
             </div>
             <div class="pad-all">
             <form method="POST" action="{{route('group.create')}}">
             @csrf
             <input type=text name=branch_id value="{{\Auth::user()->branchcode}}" hidden=hidden/>
             <input style="border:1px solid #ddd; padding:7px;outline:none" name=name type=text Placeholder="Group Name" required/>
-                <button type="submit" class="btn btn-success btn-md">Create Group</button>
+                <button type="submit" class="btn btn-success btn-md"><i class="fa fa-plus"></i> Create Group</button>
             </form>
             </div>
         </div>
@@ -81,9 +81,9 @@
 
         <!-- Basic Data Tables -->
         <!--===================================================-->
-        <div class="panel">
+        <div class="panel"  style="background-color: #e8ddd3;">
             <div class="panel-heading">
-                <h3 class="panel-title">List of Groups in <strong>{{\Auth::user()->branchname}}</strong> (<i>{{\Auth::user()->branchcode}}</i>)</h3>
+                <h3 class="panel-title text-center">List of Groups in <strong>{{\Auth::user()->branchname}}</strong> (<i>{{\Auth::user()->branchcode}}</i>)</h3>
             </div>
             <div class="panel-body" style="overflow:scroll">
                 <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
@@ -106,7 +106,7 @@
                             <td>{{ \Carbon\Carbon::parse(substr($group->created_at, 0, 10))->format('l, jS \\of F Y')}}</td>
                             <td>
                                 <a class="btn btn-success btn-sm d-inline" href="{{route('group.view', $group->id)}}">View Group</a>
-                                <a onclick="return confirm('Are you sure you want to delete the group?')" class="btn btn-danger btn-sm d-inline" href="{{route('group.delete', $group->id)}}">Delete Group</a>
+                                <a onclick="return confirm('Are you sure you want to delete the group?')" class="btn btn-sm d-inline" href="{{route('group.delete', $group->id)}}" style="background-color:#8c0e0e">Delete Group</a>
                             </td>
                         </tr>
                         <?php $count++;?>

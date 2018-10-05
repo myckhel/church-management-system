@@ -41,11 +41,18 @@
 
 					            <!-- Line Chart -->
 					            <!---------------------------------->
-					            <div class="panel">
-					                <div class="panel-heading">
-					                    <h3 class="panel-title">Attendance by Month</h3>
+					            <div class="panel rounded-top">
+				                <div class="panel-heading bg-dark">
+                            <div class="col-xs-6">
+					                    <h3 class="panel-title text-right">{{date("Y")}} Monthly Attendance</h3>
+                            </div>
+                            <div class="col-xs-6 panel-title">
+                              <div class="col-xs-4 small" style="background-color:#8c0e0e">Men</div>
+                              <div class="col-xs-4 small bg-success">Women</div>
+                              <div class="col-xs-4 small bg-warning">Children</div>
+                            </div>
 					                </div>
-					                <div class="pad-all">
+					                <div class="pad-all" style="background-color: #e8ddd3;">
 					                    <div id="demo-morris-bar-month" class="legendInline" style="height:250px"></div>
 					                </div>
 					            </div>
@@ -56,11 +63,18 @@
 
   					            <!-- Line Chart -->
   					            <!---------------------------------->
-  					            <div class="panel">
-  					                <div class="panel-heading">
-  					                    <h3 class="panel-title">Attendance by Last 10 Weeks</h3>
+                        <div class="panel rounded-top">
+  					                <div class="panel-heading bg-dark">
+                              <div class="col-xs-6">
+  					                    <h3 class="panel-title text-right">{{date("Y")}} Last 10 Weeks Attendance</h3>
+                              </div>
+                              <div class="col-xs-6 panel-title">
+                                <div class="col-xs-4  small" style="background-color:#8c0e0e">Men</div>
+                                <div class="col-xs-4  small bg-success">Women</div>
+                                <div class="col-xs-4  small bg-warning">Children</div>
+                              </div>
   					                </div>
-  					                <div class="pad-all">
+  					                <div class="pad-all" style="background-color: #e8ddd3;">
   					                    <div id="demo-morris-bar-week" class="legendInline" style="height:250px"></div>
   					                </div>
   					            </div>
@@ -72,11 +86,18 @@
 
     					            <!-- Line Chart -->
     					            <!---------------------------------->
-    					            <div class="panel">
-    					                <div class="panel-heading">
-    					                    <h3 class="panel-title">Attendance by Day</h3>
+                          <div class="panel rounded-top">
+    					                <div class="panel-heading bg-dark">
+                                <div class="col-xs-6">
+    					                    <h3 class="panel-title text-right">{{date("Y")}} Last 7 Days Attnedance</h3>
+                                </div>
+                                <div class="col-xs-6 panel-title">
+                                  <div class="col-xs-4  small" style="background-color:#8c0e0e">Men</div>
+                                  <div class="col-xs-4  small bg-success">Women</div>
+                                  <div class="col-xs-4  small bg-warning">Children</div>
+                                </div>
     					                </div>
-    					                <div class="pad-all">
+    					                <div class="pad-all" style="background-color: #e8ddd3;">
     					                    <div id="demo-morris-bar-day" class="legendInline" style="height:250px"></div>
     					                </div>
     					            </div>
@@ -88,63 +109,24 @@
 
       					            <!-- Line Chart -->
       					            <!---------------------------------->
-      					            <div class="panel">
-      					                <div class="panel-heading">
-      					                    <h3 class="panel-title">Attendance by Year</h3>
+                            <div class="panel rounded-top">
+      					                <div class="panel-heading bg-dark">
+                                  <div class="col-xs-6">
+      					                    <h3 class="panel-title text-right">Yearly Attnedance</h3>
+                                  </div>
+                                  <div class="col-xs-6 panel-title">
+                                    <div class="col-xs-4  small" style="background-color:#8c0e0e">Men</div>
+                                    <div class="col-xs-4  small bg-success">Women</div>
+                                    <div class="col-xs-4  small bg-warning">Children</div>
+                                  </div>
       					                </div>
-      					                <div class="pad-all">
+      					                <div class="pad-all" style="background-color: #e8ddd3;">
       					                    <div id="demo-morris-bar-year" class="legendInline" style="height:250px"></div>
       					                </div>
       					            </div>
       					            <!---------------------------------->
                           </div>
           					    </div>
-
-
-
-
-        <!-- Basic Data Tables -->
-        <!--===================================================-->
-        <div class="panel" style="display:none">
-            <div class="panel-heading">
-                <h3 class="panel-title">List of Members in province004</h3>
-            </div>
-            <div class="panel-body">
-                <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>Fullname</th>
-                            <th><span class="text-success">Last Sunday</span></th>
-                            <th class="min-tablet ">2 sundays ago</th>
-                            <th class="min-tablet">3 sundays ago</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>
-                                <i class="text-success ion-checkmark-circled"></i>
-                            </td>
-                            <td>
-                                <i class="text-danger ion-close-circled"></i>
-
-                            </td>
-                            <td><i class="text-success ion-checkmark-circled"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td><i class="text-success ion-checkmark-circled"></td>
-                            <td><i class="text-success ion-checkmark-circled"></td>
-                            <td><i class="text-danger ion-close-circled"></i></td>
-                        </tr>
-
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <!--===================================================-->
-        <!-- End Striped Table -->
 
 
     </div>

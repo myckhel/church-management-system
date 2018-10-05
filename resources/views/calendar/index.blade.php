@@ -37,7 +37,7 @@
                 @endif
             </div>
 
-            <div class="panel">
+            <div class="panel" style="background-color: #e8ddd3;">
                 <div class="panel-body">
                     <div class="fixed-fluid">
                         <div class="fixed-sm-200 pull-sm-left fixed-right-border">

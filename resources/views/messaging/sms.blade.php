@@ -49,7 +49,7 @@
                 @endif
             </div>
             <div class="col-sm-6 col-sm-offset-3" style="margin-bottom:420px">
-                <div class="panel">
+                <div class="panel" style="background-color: #e8ddd3;">
                     <div class="panel-heading">
                         <h3 class="panel-title">SMS Messaging</h3>
                     </div>

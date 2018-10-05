@@ -215,7 +215,7 @@
                 <!--===================================================-->
                 <div id="page-content">
 
-                    <div class="row">
+                    <div class="row" >
 
                              @if (session('status'))
 
@@ -231,7 +231,7 @@
                         @endforeach
 
                     @endif -->
-                           <div class="col-md-12 col-md-offset-2">
+                           <div class="col-md-10 col-md-offset-1" style="background-color: #e8ddd3;">
 
                             <img  src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="img-responsive" alt="Cinque Terre">
                                 <!--   <div class="img-responsive">
@@ -241,7 +241,7 @@
                         <div class="row">
                              <div class="col-md-10 col-md-offset-1">
                                <div class="border">
-                               <div class="well  bodyshadow">
+                               <div class="well  bodyshadow" style="background-color: #e8ddd3;">
 
                               @if(session()->has('message.level'))
                                   <div class="alert alert-{{ session('message.level') }}">
@@ -328,7 +328,7 @@
                         <div class="col-md-10 col-md-offset-1">
                             <div clas="row">
                             <div class="col-md-12">
-                                <div class="panel">
+                                <div class="panel" style="background-color: #e8ddd3;">
                                   <div class="panel-body text-center clearfix">
                                       <div class="col-sm-4 pad-top">
                                           <div class="text-lg">
@@ -365,7 +365,7 @@
                                             <div class="view2">
                                                 <!--Tile-->
                                                 <!--===================================================-->
-                                                <div class="panel"> <!--panel-dark panel-colorful" -->
+                                                <div class="panel" style="background-color: #e8ddd3;"> <!--panel-dark panel-colorful" -->
                                                     <div class="panel-heading"> <!--body text-center"-->
                                                         <h3 class="panel-title"><strong>Upcoming Birthdays For <?php echo date('F Y'); ?></strong> </h3>
                                                         <!--i class="demo-pli-coin icon-4x"></i-->
@@ -412,7 +412,7 @@
                                                   <div class="view2">
                                                     <!--Tile-->
                                                     <!--===================================================-->
-                                                    <div class="panel"> <!--panel-dark panel-colorful" -->
+                                                    <div class="panel" style="background-color: #e8ddd3;"> <!--panel-dark panel-colorful" -->
                                                         <div class="panel-heading"> <!--body text-center"-->
                                                             <h3 class="panel-title"><strong>Upcoming Anniversaries For <?php echo date('F Y'); ?></strong> </h3>
                                                             <!--i class="demo-pli-coin icon-4x"></i-->
@@ -454,7 +454,7 @@
                     </div>
                                        <div class="row">
                                               <div class="col-sm-12">
-                                                <div class="panel">
+                                                <div class="panel" style="background-color: #e8ddd3;">
                                                     <div class="panel-heading">
                                                         <h3 class="panel-title"><strong>Upcoming Events for {{strtoupper(\Auth::user()->branchname)}}</strong></h3>
                                                     </div>

@@ -66,16 +66,16 @@
 
         <!-- Line Chart -->
         <!---------------------------------->
-        <div class="panel" style="padding-top:15px;padding-bottom:45px;">
+        <div class="panel"  style="background-color: #e8ddd3;">
             <div class="panel-heading">
-                <h3 class="panel-title">Add Members To Group</h3>
+                <h3 class="panel-title text-center">Add Members To Group</h3>
             </div>
             <div class="pad-all">
             <form method="POST" action="{{route('group.add.member', $group->id)}}">
             @csrf
                 <input type="text" name="group_id" value="{{$group->id}}" hidden=hidden/>
                 <p>Members of <strong>{{\Auth::user()->branchname}}</strong> that are not in <strong>{{strtoupper($group->name)}}</strong> Group</p>
-                <select name="member_id" style="outline:none;height:33px">
+                <select class="selectpicker" name="member_id" style="outline:none;height:33px">
                     @foreach ($members_in_branch as $member)
 
                         @if (!$member->InGroup($group->id))
@@ -87,17 +87,17 @@
                     @endforeach
 
                 </select>
-                <input type="hidden" value="{{\Auth::user()->branchcode}}" name="branch_id" />
-                <button type="submit" class="btn btn-success btn-md">Add Member</button>
+                <input class="" type="hidden" value="{{\Auth::user()->branchcode}}" name="branch_id" />
+                <button type="submit" class="btn btn-success btn-md"><i class="fa fa-plus"></i> Add Member</button>
             </form>
             </div>
         </div>
         <!---------------------------------->
         <!-- Basic Data Tables -->
         <!--===================================================-->
-        <div class="panel">
+        <div class="panel"  style="background-color: #e8ddd3;">
             <div class="panel-heading">
-                <h3 class="panel-title">List of members in <strong>{{strtoupper($group->name)}}</strong> group province004</h3>
+                <h3 class="panel-title text-center">List of members in <strong>{{strtoupper($group->name)}}</strong> Group</h3>
             </div>
             <div class="panel-body" style="overflow:scroll">
             <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >

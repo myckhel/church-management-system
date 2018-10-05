@@ -44,7 +44,7 @@
 
         <!-- Basic Data Tables -->
         <!--===================================================-->
-        <div class="panel">
+        <div class="panel" style="background-color: #e8ddd3;">
             <div class="panel-heading">
                 <h3 class="panel-title">List of Members In {{\Auth::user()->branchname}}</h3>
             </div>
@@ -112,7 +112,7 @@
         ?>
 
         <div class="col-md-12 col-md-offset-0" style="margin-bottom:20px">
-          <div class="panel">
+          <div class="panel" style="background-color: #e8ddd3;">
               <div class="panel-heading">
                   <h3 class="panel-title"><strong>Last 10 <i>Years</i> Gender</strong> Registration Report</h3>
               </div>

@@ -67,7 +67,10 @@
             }
             </style>
             <div class="col-sm-12 col-md-12 col-md-offset-0">
-                <div class="panel">
+                <div class="panel" style="background-color: #e8ddd3;">
+                  <div class="panel-heading">
+                      <h3 class="panel-title text-center">Members Collection</h3>
+                  </div>
                     <div class="panel-body demo-nifty-btn" style="overflow:scroll">
                       <form action="{{route('collection.save.member')}}" method="post" >
                       <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="1800px" >
@@ -94,7 +97,6 @@
                               </tr>
                           </thead>
                           <tbody>
-                            <h1>Members Collection</h1>
                             <?php $count = 1; ?>
                             <?php $class = ['normal', 'alt']; $i = 0; $size = sizeof($members); ?>
                             @if(isset($members))
@@ -201,7 +203,10 @@
             </div>
 
             <div class="col-sm-12 col-md-12 col-md-offset-0">
-                <div class="panel">
+                <div class="panel" style="background-color: #e8ddd3;">
+                  <div class="panel-heading">
+                      <h1 class="text-center panel-title">Branch Collection</h1>
+                  </div>
                     <div class="panel-body demo-nifty-btn" style="overflow:scroll">
                         <style>th{width: 300px; text-align: center;}</style>
                         <form class="form-inline" method="POST" action="{{route('collection.save')}}">
@@ -225,7 +230,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              <h1 class="text-center">Branch Collection</h1>
                               <tr>
                                 <td>
                                   <div id="" class="input-group">

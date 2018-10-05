@@ -41,11 +41,18 @@
 
                               <!-- Line Chart -->
                               <!---------------------------------->
-                              <div class="panel">
-                                  <div class="panel-heading">
-                                      <h3 class="panel-title">Monthly Collections</h3>
-                                  </div>
-                                  <div class="pad-all">
+                              <div class="panel rounded-top">
+        				                <div class="panel-heading bg-dark">
+                                    <div class="col-xs-6">
+        					                    <h3 class="panel-title text-right">{{date("Y")}} Monthly Collections</h3>
+                                    </div>
+                                    <div class="col-xs-6 panel-title">
+                                      <div class="col-xs-4 small" style="background-color:#8c0e0e">Tithe</div>
+                                      <div class="col-xs-4 small"style="background-color: green;">Offering</div>
+                                      <div class="col-xs-4 text-dark small"style="background-color: yellow; text-color:black;">Other</div>
+                                    </div>
+        					                </div>
+                                  <div class="pad-all" style="background-color: #e8ddd3;">
                                       <div id="demo-morris-bar-month" class="legendInline" style="height:250px"></div>
                                   </div>
                               </div>
@@ -56,11 +63,18 @@
 
                                 <!-- Line Chart -->
                                 <!---------------------------------->
-                                <div class="panel">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Last 10 Weeks Collections</h3>
-                                    </div>
-                                    <div class="pad-all">
+                                <div class="panel rounded-top">
+          				                <div class="panel-heading bg-dark">
+                                      <div class="col-xs-6">
+          					                    <h3 class="panel-title text-right">{{date("Y")}} Last 10 Weeks Collections</h3>
+                                      </div>
+                                      <div class="col-xs-6 panel-title">
+                                        <div class="col-xs-4 small" style="background-color:#8c0e0e">Tithe</div>
+                                        <div class="col-xs-4 small"style="background-color: green;">Offering</div>
+                                        <div class="col-xs-4 small"style="background-color: yellow; text-color:black;">Other</div>
+                                      </div>
+          					                </div>
+                                    <div class="pad-all" style="background-color: #e8ddd3;">
                                         <div id="demo-morris-bar-week" class="legendInline" style="height:250px"></div>
                                     </div>
                                 </div>
@@ -72,11 +86,18 @@
 
                                   <!-- Line Chart -->
                                   <!---------------------------------->
-                                  <div class="panel">
-                                      <div class="panel-heading">
-                                          <h3 class="panel-title">Daily Collections</h3>
-                                      </div>
-                                      <div class="pad-all">
+                                  <div class="panel rounded-top">
+            				                <div class="panel-heading bg-dark">
+                                        <div class="col-xs-6">
+            					                    <h3 class="panel-title text-right">{{date("Y")}} Last 7 Days Collections</h3>
+                                        </div>
+                                        <div class="col-xs-6 panel-title">
+                                          <div class="col-xs-4 small" style="background-color:#8c0e0e">Tithe</div>
+                                          <div class="col-xs-4 small"style="background-color: green;">Offering</div>
+                                          <div class="col-xs-4 text-dark small"style="background-color: yellow; text-color:black;">Other</div>
+                                        </div>
+            					                </div>
+                                      <div class="pad-all" style="background-color: #e8ddd3;">
                                           <div id="demo-morris-bar-day" class="legendInline" style="height:250px"></div>
                                       </div>
                                   </div>
@@ -88,64 +109,24 @@
 
                                     <!-- Line Chart -->
                                     <!---------------------------------->
-                                    <div class="panel">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">Yearly Collections</h3>
-                                        </div>
-                                        <div class="pad-all">
+                                    <div class="panel rounded-top">
+              				                <div class="panel-heading bg-dark">
+                                          <div class="col-xs-6">
+              					                    <h3 class="panel-title text-right">Yearly Collections</h3>
+                                          </div>
+                                          <div class="col-xs-6 panel-title">
+                                            <div class="col-xs-4 small" style="background-color:#8c0e0e">Tithe</div>
+                                            <div class="col-xs-4 small"style="background-color: green;">Offering</div>
+                                            <div class="col-xs-4 text-dark small"style="background-color: yellow; text-color:black;">Other</div>
+                                          </div>
+              					                </div>
+                                        <div class="pad-all" style="background-color: #e8ddd3;">
                                             <div id="demo-morris-bar-year" class="legendInline" style="height:250px"></div>
                                         </div>
                                     </div>
                                     <!---------------------------------->
                                   </div>
-
-          					    </div>
-
-
-
-        <!-- Basic Data Tables -->
-        <!--===================================================-->
-        <div class="panel" style="display:none">
-            <div class="panel-heading">
-                <h3 class="panel-title">List of Members in province004</h3>
-            </div>
-            <div class="panel-body">
-                <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>Fullname</th>
-                            <th><span class="text-success">Last Sunday</span></th>
-                            <th class="min-tablet ">2 sundays ago</th>
-                            <th class="min-tablet">3 sundays ago</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>
-                                <i class="text-success ion-checkmark-circled"></i>
-                            </td>
-                            <td>
-                                <i class="text-danger ion-close-circled"></i>
-
-                            </td>
-                            <td><i class="text-success ion-checkmark-circled"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td><i class="text-success ion-checkmark-circled"></td>
-                            <td><i class="text-success ion-checkmark-circled"></td>
-                            <td><i class="text-danger ion-close-circled"></i></td>
-                        </tr>
-
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <!--===================================================-->
-        <!-- End Striped Table -->
-
+                  					    </div>
 
     </div>
     <!--===================================================-->

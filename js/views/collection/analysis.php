@@ -34,7 +34,7 @@ gridEnabled: true,
 gridLineColor: 'rgba(0,0,0,.1)',
 gridTextColor: '#8f9ea6',
 gridTextSize: '11px',
-barColors: ['red', 'green', 'yellow'],
+barColors: ['#8c0e0e', 'green', 'yellow'],
 resize:true,
 hideHover: 'auto'
 });
@@ -69,7 +69,7 @@ gridEnabled: true,
 gridLineColor: 'rgba(0,0,0,.1)',
 gridTextColor: '#8f9ea6',
 gridTextSize: '11px',
-barColors: ['red', 'green', 'yellow'],
+barColors: ['#8c0e0e', 'green', 'yellow'],
 resize:true,
 hideHover: 'auto'
 });
@@ -116,7 +116,7 @@ gridEnabled: true,
 gridLineColor: 'rgba(0,0,0,.1)',
 gridTextColor: '#8f9ea6',
 gridTextSize: '11px',
-barColors: ['red', 'green', 'yellow'],
+barColors: ['#8c0e0e', 'green', 'yellow'],
 resize:true,
 hideHover: 'auto'
 });
@@ -164,7 +164,7 @@ gridEnabled: true,
 gridLineColor: 'rgba(0,0,0,.1)',
 gridTextColor: '#8f9ea6',
 gridTextSize: '11px',
-barColors: ['red', 'green', 'yellow'],
+barColors: ['#8c0e0e', 'green', 'yellow'],
 resize:true,
 hideHover: 'auto'
 });

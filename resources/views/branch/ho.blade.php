@@ -57,7 +57,7 @@
                 @endif
             </div>
             <div class="">
-                <div class="panel" style="overflow:scroll">
+                <div class="panel" style="overflow:scroll; background-color: #e8ddd3;">
                     <div class="panel-heading">
                         <h3 class="panel-title">Edit Options</h3>
                     </div>

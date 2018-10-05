@@ -40,9 +40,10 @@
             <div class="col-md-12 col-md-offset-0">
         <!-- Basic Data Tables -->
         <!--===================================================-->
-        <div class="panel">
-            <div class="panel-heading">
-            </div>
+        <div class="panel" style="background-color: #e8ddd3;">
+          <div class="panel-heading">
+              <h1 class="text-center panel-title">Collection History</h1>
+          </div>
             <?php $currency = \Auth::user()->getCurrencySymbol()->currency_symbol; ?>
             <div class="panel-body" style="overflow:scroll">
                 <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
@@ -71,7 +72,6 @@
                     </thead>
                     <tbody>
                       <?php $count=1;?>
-                      <h1>Collection History<h1>
                         @foreach($collections as $list)
                         <?php
                           $date = $list->date_collected;
@@ -111,10 +111,10 @@
         </div>
 
         <div class="col-md-12 col-md-offset-0" style="margin-bottom:50px">
-            <div class="panel">
-            <div class="panel-heading">
-                    <h3 class="panel-title"><strong> <i></i> </strong>Members Collection History</h3>
-            </div>
+            <div class="panel" style="background-color: #e8ddd3;">
+              <div class="panel-heading">
+                  <h1 class="text-center panel-title">Members Collection History</h1>
+              </div>
             <div class="panel-body text-center clearfix" style="overflow:scroll">
             <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
             <thead>
@@ -142,7 +142,6 @@
             </thead>
             <tbody>
               <?php $count=1;?>
-              <h1>Members Collection History<h1>
                 @foreach($collectionss as $li)
                 <tr>
                     <td><strong>{{$count}}</strong></td>

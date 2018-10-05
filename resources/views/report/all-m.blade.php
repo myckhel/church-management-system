@@ -44,7 +44,7 @@
 
         <!-- Basic Data Tables -->
         <!--===================================================-->
-        <div class="panel">
+        <div class="panel" style="background-color: #e8ddd3;">
             <div class="panel-heading">
                 <h3 class="panel-title">List of Members In {{\Auth::user()->branchname}}</h3>
             </div>
@@ -112,7 +112,7 @@
         ?>
 
         <div class="col-md-12 col-md-offset-0" style="margin-bottom:20px">
-          <div class="panel">
+          <div class="panel" style="background-color: #e8ddd3;">
               <div class="panel-heading">
                   <h3 class="panel-title"><strong>Last 10 <i>Years</i> Members</strong> Registration Report</h3>
               </div>
@@ -172,25 +172,11 @@
 
         <!--INDIVIDUAL -->
         <div class="col-md-12 col-md-offset-0" style="margin-bottom:20px">
-          <div class="panel">
+          <div class="panel" style="background-color: #e8ddd3;">
               <div class="panel-heading">
                   <h3 class="panel-title"><strong>Last 10 <i>Years</i> Members</strong> Registration Report</h3>
               </div>
             <div class="panel-body">
-              <?php
-              //  print_r($i_years); echo '<br>'; print_r(explode(',', $i_years[0]->yearm));
-              // $branchs = [[]];
-              // foreach($i_years as $b => $v){
-              //   print($v->name);
-              //   $branchs[$v->name][$v->year] = $v;
-              //   echo '<br>-----';
-              //   print($branchs[$v->name][$v->year]->year);
-              //   echo '<br>-----------';
-              //   print($branchs[$v->name][$v->year]->name);
-              // }
-              // print_r($branchs);
-              // print($branchs['Branch 3']['2018']->male);
-              ?>
               <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                 <thead class="bg-dark text-white">
                   <tr>
@@ -257,82 +243,6 @@
               </table>
 
               <br><br>
-
-              <!--table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
-                <thead class="bg-dark text-white">
-                  <tr>
-                    <th>Branch</th>
-                    <th>Gender</th>
-                    <?php
-                    /* $totalss = [[]];
-                    $totals = []; $type = ['male', 'female'];
-                    $i = 0;
-                    foreach($branchs as $v){
-                      foreach ($type as $key => $value) {
-                        foreach($v as $vv){
-                          $totalss[$vv->name][$value] = 0;
-                        }
-                      }
-                      $i++;
-                    }
-                    foreach ($years as $key => $value) { $totals[$value] = 0; */?>
-                    <th>{{$value}}</th>
-                    <?php
-                    // }
-                    ?>
-                    <th>Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php /* @foreach($branchs as $k => $s)
-                  @foreach($s as $v)
-                  @foreach($type as $t)
-                <tr>
-                  <th>{{$v->name}}</th>
-                  <th>{{ucwords($t)}}</th>
-                  @foreach($years as $key => $value)
-                  <?php $found = false; ?>
-                    <?php
-                    //foreach($vv as $v){
-                    if($v->year == $value){
-                      $found = true; if($v->$t){
-                        $totals[$value] += ($v->$t) ? $v->$t : 0;
-                        $totalss[$v->name][$t] += ($v->$t) ? $v->$t : 0;
-                        echo '<td>'.$v->$t.'</td>';}else{echo '<td>0</td>';
-                        //}
-                      }
-                    } ?>
-                    @if(!$found)
-                    <td>No Record</td>
-                    @endif
-                    @endforeach
-                    <td class="bg-warning"><?php echo $totalss[$v->name][$t]; ?></td>
-                  </tr>
-                  @endforeach
-                  @endforeach
-                  @endforeach
-                    <!--th scope="row">3</th-->
-                <!--/tbody>
-                <tfoot class="bg-success text-white">
-                  <tr>
-                    <th>###</th>
-                    <th>Total</th>
-                    <?php foreach ($totals as $key => $value) { ?>
-                    <th>{{$value}}</th>
-                    <?php } ?>
-                    <th><?php $q = 0;
-                      foreach($totalss as $bra => $v){
-                        foreach($v as $s){
-                            $q += $s;
-                          }
-                      }
-                      echo $q;
-                      */?></th>
-                  </tr>
-                </tfoot>
-              </table-->
-
-
             </div>
           </div>
         </div>

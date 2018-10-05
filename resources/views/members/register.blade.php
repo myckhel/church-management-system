@@ -38,7 +38,7 @@
 	<div id="page-content">
 		<div class="row">
 			<div class="col-lg-8 col-lg-offset-2">
-				<div class="panel">
+				<div class="panel rounded-top" style="background-color: #e8ddd3;">
 					<div class="panel-heading">
 						<h1 class="text-center" style="padding-top:5px">Register Member</h2>
 					</div>
@@ -58,7 +58,7 @@
 
                     @endif
 					</div>
-					<div class="row panel-body">
+					<div class="row panel-body" style="background-color: #e8ddd3;">
 						<div class=""  style="border:1pt solid #090c5e; border-radius:25px;">
 							<!-- BASIC FORM ELEMENTS -->
 							<!--===================================================-->
@@ -95,7 +95,7 @@
 
 								<!--Text Input-->
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="demo-text-input">Firstname</label>
+									<label class="col-md-3 control-label" for="demo-text-input">First Name</label>
 									<div class="col-md-9">
 										<input type="text" id="demo-text-input" name="firstname" value="{{old('firstname')}}" class="form-control" placeholder="Firstname" required>
 
@@ -103,7 +103,7 @@
 								</div>
 														<!--Text Input-->
 														<div class="form-group">
-									<label class="col-md-3 control-label" for="demo-text-input">Lastname</label>
+									<label class="col-md-3 control-label" for="demo-text-input">Last Name</label>
 									<div class="col-md-9">
 										<input type="text" id="demo-text-input" name="lastname" class="form-control" placeholder="Lastname" required>
 
@@ -573,6 +573,8 @@
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="panel-footer panel-primary bg-dark">
 					</div>
 					<!--===================================================-->
 					<!--End Default Bootstrap Modal-->

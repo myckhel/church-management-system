@@ -51,9 +51,9 @@
                 @endif
             </div>
             <div class="col-md-12 col-md-offset-0 col-lg-8 col-lg-offset-1" style="margin-bottom:20px">
-                <div class="panel">
+                <div class="panel rounded-top" style="background-color: #e8ddd3;">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
+                        <h3 class="panel-title text-center">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
                     </div>
 
                     <!--Block Styled Form -->
@@ -104,7 +104,7 @@
                                             <option value="saturday service">Saturday Service</option>
                                         </select>
                                     </div>
-                            </div>
+                                </div>
                               <div class="col-sm-2">
                                   <div class="form-group">
                                       <label class="control-label" style="font-size:8pt">Other Attendance Type</label>
@@ -121,7 +121,7 @@
 
                             </div>
                         </div>
-                        <div class="panel-footer text-right">
+                        <div class="panel-footer text-right bg-dark">
                             <button id="btn-mark" class="btn btn-success" type="submit">Submit</button>
                         </div>
                     </form>
@@ -131,14 +131,14 @@
                     <!--End Block Styled Form -->
 
             <div class="col-md-12 col-md-offset-0 col-lg-8 col-lg-offset-1" style="margin-bottom:20px">
-                <div class="panel"  style="overflow:scroll">
+                <div class="panel bg-warning rounded-top"  style="overflow:scroll; background-color: #e8ddd3;">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
+                        <h3 class="panel-title text-center">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
                     </div>
                     <div class="panel-body">
                     <form action="{{route('attendance.mark')}}" method="post" >
                       @csrf
-                    <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
+                    <table id="demo-dt-basic" class="table table-striped table-bordered datatable text-dark" cellspacing="0" width="100%" >
                         <thead>
                             <tr>
                                 <th>S/N</th>

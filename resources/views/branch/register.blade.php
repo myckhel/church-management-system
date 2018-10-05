@@ -41,7 +41,7 @@
 
 		<div class="row">
 			<div class="col-lg-8 col-lg-offset-2">
-				<div class="panel">
+				<div class="panel" style="background-color: #e8ddd3;">
 					<div class="panel-heading">
 						<h2 class="panel-title text-center">Register Branch</h2>
 					</div>

@@ -56,7 +56,7 @@
                 @endif
             </div>
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
-              <div class="panel">
+              <div class="panel" style="background-color: #e8ddd3;">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>All Branches Attendance <i>Report</i></strong></h3>
                   </div>
@@ -95,7 +95,7 @@
             </div>
 
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
-              <div class="panel">
+              <div class="panel" style="background-color: #e8ddd3;">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>Total Attendance By Type</strong></h3>
                   </div>
@@ -168,7 +168,7 @@
             </div>
 
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
-              <div class="panel">
+              <div class="panel" style="background-color: #e8ddd3;">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>All branches Total Attendance</strong></h3>
                   </div>
@@ -233,7 +233,7 @@
             ?>
 
             <div class="col-md-12 col-md-offset-0" style="margin-bottom:20px">
-              <div class="panel">
+              <div class="panel" style="background-color: #e8ddd3;">
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>Last 10 Years Attendance</strong></h3>
                   </div>
@@ -290,7 +290,7 @@
                 </div>
               </div>
             </div>
-            
+
 
         </div>
     </div>
