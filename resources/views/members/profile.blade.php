@@ -56,10 +56,11 @@
                       <a href="tel:{{$member->phone}}" class="btn  btn-success btn-md">Call</a>
                       <a href="{{route('email')}}?mail={{$member->email}}" class="btn  btn-primary btn-md">Email</a>
                     </div>
+                    <br><br>
                     <div class="col-md-12">
-                      <p class="pad-ver text-main text-center text-sm text-uppercase text-bold">Details</p>
-                      <hr>
                       <div class="text-center">
+                      <p class=" text-center text-sm text-uppercase text-bold">Details</p>
+                      <hr>
                       <p class="text-align-right">Address:    <i class="fa fa-map-marker icon-lg icon-fw"></i>{{$member->address}}</p>
                       <p>Email:    <a href="app-profile.html#" class="btn-link">
                         <i class="fa fa-inbox icon-lg icon-fw"></i>{{$member->email}}</a>
@@ -97,7 +98,7 @@
                         <div class="panel rounded-top">
                             <div class="panel-heading bg-dark">
                               <div class="col-xs-8" style="padding-top:7px;">
-                                <p class="text-right">Attendance Analysis - {{date("Y")}}</p>
+                                <h2 class="text-center text-white" style="color:white;">Attendance Analysis - {{date("Y")}}</h2>
                               </div>
                               <div class="col-xs-4 panel-title">
                                 <div class="col-xs-6  small bg-success">Absent</div>
@@ -115,7 +116,7 @@
                         <div class="panel rounded-top">
                             <div class="panel-heading bg-dark">
                               <div class="col-xs-6" style="padding-top:7px;">
-                                <p class="text-right">Collection  Analysis - {{date("Y")}}</p>
+                                  <h2 class="text-center text-white"><p style="color:white;" >Collection  Analysis - {{date("Y")}}</p></h2>
                               </div>
                               <div class="col-xs-6 panel-title">
                                 <div class="col-xs-4  small bg-danger">Tithe</div>

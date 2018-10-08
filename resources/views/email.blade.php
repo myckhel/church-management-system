@@ -34,7 +34,7 @@
 
 
  <p>
-You received a message from : {{ $Email }}
+You received a message from : {{$request->email}}
 </p>
 
       .body {
