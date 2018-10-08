@@ -90,7 +90,7 @@
                                                     <!--p>hiii</p-->
                                                 </div>
                                                 <div class="contacts-add">
-                                                    <span class="message-time"> <?php echo $branch->MaxDate == NOW() ? date('H:i',strtotime($branch->MaxDate)) : date('m/d',strtotime($branch->MaxDate)); ?> <sup></sup></span>
+                                                    <span class="message-time"> <?php /* echo $branch->MaxDate == NOW() ? date('H:i',strtotime($branch->MaxDate)) : date('m/d',strtotime($branch->MaxDate)); */ ?> <sup></sup></span>
                                                     <!--i class="fa fa-trash-o"></i>
                                                     <i class="fa fa-paperclip"></i-->
                                                 </div>

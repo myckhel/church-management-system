@@ -193,7 +193,7 @@
                                  type="text" placeholder="Choose Date" name="date" class="datepicker form-control" required/>
                                 </div>
                           </tbody>
-                      </table><span id="sum" name sum></span>
+                      </table><!--span id="sum" name sum></span-->
                         <div class="input-group pull-right " style="margin-right:100">
                           <input type="submit" name="save" value="Submit" class="btn btn-primary form-control" />
                     </form>
@@ -328,7 +328,6 @@
                     </div>
           				</div>
                 </div>
-
 
     </div>
     <!--===================================================-->
