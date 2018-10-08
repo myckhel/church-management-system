@@ -1374,7 +1374,7 @@ function calculateRowSum()
 				 sum += parseFloat($(this).find('.saisie').val()) || 0;
 			 });
 					$(this).find('td:last').html(sum);
-					$(this).find('#hidden-total').val(sum);
+					$('#hidden-total').val(sum);
 	 });
 }
 function calculateSum() {

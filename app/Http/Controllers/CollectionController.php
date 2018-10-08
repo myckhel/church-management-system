@@ -168,6 +168,7 @@ class CollectionController extends Controller
         'other' => $offer['other'][$i],
         'branch_id' => $offer['branch_id'][$i],
         'date_submitted' => now(),
+        'service_type' => $offer['type'],
         ];
             DB::table('members_collection')->insert($value);
       }
