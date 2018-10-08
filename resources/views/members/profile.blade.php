@@ -40,7 +40,7 @@
             <div class="panel" style="background-color: #e8ddd3;">
               <div class="panel-body">
                 <div class="row row-broken" data-height>
-                  <div class="col-sm-12 col-md-4">
+                  <div class="col-sm-12 col-md-4" style="border-right:1pt solid rgba(0, 0, 0, 0.1)">
                     <div class="text-center">
                       <div class="pad-ver">
                         <img src="{{url('/public/images/')}}/{{$member->photo}}" class="img-lg img-circle" alt="Profile Picture">
@@ -56,9 +56,11 @@
                       <a href="tel:{{$member->phone}}" class="btn  btn-success btn-md">Call</a>
                       <a href="{{route('email')}}?mail={{$member->email}}" class="btn  btn-primary btn-md">Email</a>
                     </div>
-                    <div class="col-md-6">
-                      <p class="pad-ver text-main text-sm text-uppercase text-bold">Details</p>
-                      <p>Address:    <i class="fa fa-map-marker icon-lg icon-fw"></i>{{$member->address}}</p>
+                    <div class="col-md-12">
+                      <p class="pad-ver text-main text-center text-sm text-uppercase text-bold">Details</p>
+                      <hr>
+                      <div class="text-center">
+                      <p class="text-align-right">Address:    <i class="fa fa-map-marker icon-lg icon-fw"></i>{{$member->address}}</p>
                       <p>Email:    <a href="app-profile.html#" class="btn-link">
                         <i class="fa fa-inbox icon-lg icon-fw"></i>{{$member->email}}</a>
                       </p>
@@ -68,11 +70,11 @@
                         <p>Country:    <i class="fa fa-home icon-lg icon-fw"></i>{{$member->country}}</p>
                       <p class="text-sm text-center"></p>
                     </div>
-                    <div class="col-md-6">
                       <hr>
-                      <p class="pad-ver text-main text-sm text-uppercase text-bold">Position: <span class="pull-right">{{$member->position}}</span></p>
+                      <div class="col-md-6 col-md-offset-2">
+                      <p class="pad-ver text-main text-sm text-capitalize text-bold">Position: <span class="pull-right">{{$member->position}}</span></p>
 
-                      <p class="pad-ver text-main text-sm text-uppercase text-bold">Relatives:
+                      <p class="pad-ver text-main text-sm text-capitalize text-bold">Relatives:
                         <span class="pull-right">
                           <?php if (!empty($member->relative) || strlen($member->relative)>0){ // do this only if there are relatives assigned to the member?>
                           <?php $relatives = json_decode($member->relative); ?>
@@ -86,11 +88,12 @@
                             } else {echo 'No Relatives<br/>';}
                           ?>
                         </span></p>
+                        </div>
                     </div>
                   </div>
                   <div class="col-sm-12 col-md-8">
-                    <div class="row">
-                      <div class="col-md-6">
+                    <div class="row" style="height: 250px">
+                      <div class="col-md-12">
                         <div class="panel rounded-top">
                             <div class="panel-heading bg-dark">
                               <div class="col-xs-8" style="padding-top:7px;">
@@ -104,7 +107,11 @@
                             </div>
                           </div>
                         </div>
-                      <div class="col-md-6">
+                      </div>
+                       <br>
+                        <hr>
+                        <div class="row" style="height: 250px">
+                      <div class="col-md-12">
                         <div class="panel rounded-top">
                             <div class="panel-heading bg-dark">
                               <div class="col-xs-6" style="padding-top:7px;">
