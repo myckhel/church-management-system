@@ -81,10 +81,11 @@
                           <?php $relatives = json_decode($member->relative); ?>
                           <?php
                             foreach ($relatives as $relative){
-                              $rel = App\Member::where('id',$relative->id)->get()->first();
+                              if($rel = App\Member::where('id',$relative->id)->get()->first()){
                           ?>
                           <li class="tag tag-sm"><a href="{{route('member.profile', $rel->id)}}">{{$rel->getFullname()}}</a> - {{$relative->relationship}}</li><br/>
                           <?php
+                              }
                               }
                             } else {echo 'No Relatives<br/>';}
                           ?>
