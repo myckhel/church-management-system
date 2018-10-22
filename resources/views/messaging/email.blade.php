@@ -153,6 +153,22 @@
   				                            <div class="col-lg-6">
   				                                <input type="text" id="inputSubject" name="subject" class="form-control"  required>
   				                            </div>
+
+                                      <div class="col-lg-5">
+                                        <div class="col-lg-9">
+                                          <select id="groups-selector" data-live-search="true" name="to[]" data-width="100%" data-actions-box="true" class="selectpicker" multiple>
+                                            <option data-hidden="true" selected >Select Group to send to</option>
+                                            @foreach ($groups as $group)
+                                              <option value="{{$group->id}}">{{ucwords($group->name)}}</option>
+                                            @endforeach
+                                          </select>
+                                        </div>
+                                      <div class="col-lg-3">
+                                        <div class="input-group-append">
+                                          <button id="add-num" type="button" class="btn btn-success form-control input-group-text" id="basic-addon2">Add</button>
+                                        </div>
+                                      </div>
+                                    </div>
                                       <div class="col-lg-4">
                                         <ul id="list" class="list-group">
                                         </ul>

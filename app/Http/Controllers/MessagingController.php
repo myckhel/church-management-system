@@ -11,13 +11,14 @@ class MessagingController extends Controller
 {
     public function indexEmail(){
       $user = \Auth::user();
+      $groups =\App\Group::all();
       $members = \App\Member::where('branch_id', $user->branchcode)->get(); //$user->isAdmin() ? \App\Member::all() :
-        return view('messaging.email', compact('members'));
+        return view('messaging.email', compact('members', 'groups'));
     }
     public function indexSMS(){
 
       $user = \Auth::user();
-      $members = \App\Member::where('branch_id', $user->branchcode)->get(); //$user->isAdmin() ? \App\Member::all() : 
+      $members = \App\Member::where('branch_id', $user->branchcode)->get(); //$user->isAdmin() ? \App\Member::all() :
         return view('messaging.sms', compact('members'));
     }
     public function sendEmail(Request $request){
