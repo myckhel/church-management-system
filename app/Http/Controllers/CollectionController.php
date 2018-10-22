@@ -43,7 +43,7 @@ class CollectionController extends Controller
 
         $offer = $request;
         $this->validate($request, [
-            'branch_id' => 'required|string|min:0',
+            //'branch_id' => 'required|string|min:0',
             //'amount' => 'required|numeric|min:0',
             'date_collected' => 'required|string|min:0',
             'type' => 'required|string|min:0',

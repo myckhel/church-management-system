@@ -250,8 +250,8 @@ class MemberController extends Controller
 
         $user = \Auth::user();
 
-        $sql = 'SELECT * from members WHERE branch_id = '.$user->branchcode.' AND  MATCH (firstname,lastname)
-        AGAINST (\''.$search_term.'\')';
+        $sql = "SELECT * from members WHERE branch_id = '$user->branchcode' AND  MATCH (firstname,lastname)
+        AGAINST ('$search_term')";
         $members = \DB::select($sql);
 
 
