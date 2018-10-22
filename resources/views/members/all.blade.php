@@ -143,7 +143,7 @@ function makeMember(member_id){
     if(data.status){
       // log data to the console so we can see
       // data.name +
-      alert(data.status+' is now a full member');
+      alert(data.status + ' is now a full member');
       window.location.reload();
     }
     // else if (!data.status) {

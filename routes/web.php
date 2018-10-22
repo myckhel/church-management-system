@@ -66,6 +66,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('group/{id}/add', 'GroupController@add_member')->name('group.add.member');
     Route::get('group/{id}/delete', 'GroupController@destroy')->name('group.delete');
     Route::get('group/{id}/{group_id}/remove', 'GroupController@remove_member')->name('group.remove.member');
+    Route::get('group/{name}', 'GroupController@defaultView')->name('group.default.view');
 
 
     Route::get('/messaging/email', 'MessagingController@indexEmail')->name('email');

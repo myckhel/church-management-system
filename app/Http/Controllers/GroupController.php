@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\GroupMember;
 use Illuminate\Http\Request;
+use App\Member;
 
 class GroupController extends Controller
 {
@@ -18,8 +19,10 @@ class GroupController extends Controller
       $user = \Auth::user();
       //$members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branchcode)->get();
       $groups = Group::where('branch_id', $user->branchcode)->get();//all();
+      //default groups
+      $firstimer_numbers = Member::where('branch_id', $user->branchcode)->where('member_status', 'new')->get(['id'])->count();
 
-          return view('groups.all', compact('groups'));
+      return view('groups.all', compact('groups', 'firstimer_numbers'));
     }
 
     /**
@@ -70,9 +73,9 @@ class GroupController extends Controller
 
         foreach($member_ids as $member_id){
 
-            $member = \App\Member::where('id', json_decode($member_id)->member_id )->get()->first();
+          $member = Member::where('id', json_decode($member_id)->member_id )->get()->first();
 
-            if ($member) array_push($members_in_group, $member);
+          if ($member) array_push($members_in_group, $member);
 
         }
 
@@ -150,5 +153,15 @@ class GroupController extends Controller
 
         $group_member->delete();
         return redirect()->back()->with('status', 'Member has been removed from group!');
+    }
+
+    public function defaultView($name){
+      if($name == 'first'){
+        $group = new \App\Group();
+        $group->name = 'First Timers Group';
+        $firstimers = Member::where('branch_id', $user->branchcode)->where('member_status', 'new')->get();
+        return view('groups.view', compact('$firstimers', 'group'));
+      }
+      return ;
     }
 }

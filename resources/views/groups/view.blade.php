@@ -66,12 +66,13 @@
 
         <!-- Line Chart -->
         <!---------------------------------->
+        <?php if(!isset($members_in_branch)){ ?>
         <div class="panel"  style="background-color: #e8ddd3;">
             <div class="panel-heading">
                 <h3 class="panel-title text-center">Add Members To Group</h3>
             </div>
             <div class="pad-all">
-            <form method="POST" action="{{route('group.add.member', $group->id)}}">
+            <form method="POST" action="<?php echo route('group.add.member', $group->id) ?>">
             @csrf
                 <input type="text" name="group_id" value="{{$group->id}}" hidden=hidden/>
                 <p>Members of <strong>{{\Auth::user()->branchname}}</strong> that are not in <strong>{{strtoupper($group->name)}}</strong> Group</p>
@@ -92,6 +93,7 @@
             </form>
             </div>
         </div>
+        <?php }?>
         <!---------------------------------->
         <!-- Basic Data Tables -->
         <!--===================================================-->

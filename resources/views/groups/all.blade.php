@@ -111,7 +111,15 @@
                         </tr>
                         <?php $count++;?>
                         @endforeach
-
+                        <tr>
+                            <th>{{$count++}}</th>
+                            <td><strong>First Timers Group</strong></td>
+                            <td>{{$firstimer_numbers}}</td>
+                            <td>Default</td>
+                            <td>
+                                <a class="btn btn-success btn-sm d-inline" href="{{route('group.default.view', 'first')}}">View Group</a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
