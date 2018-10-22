@@ -492,8 +492,17 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="demo-text-input">Member Since</label>
 									<div class="col-md-9">
-									<input  type="text" placeholder="Member Since" name="member_since" class="datepicker form-control" required/>
+									<input  type="text" id="member_since" placeholder="Member Since" name="member_since" class="datepicker form-control" required/>
 
+									</div>
+								</div>
+								<div class="form-group"  id="member_status_div" style="display:none">
+									<label class="col-md-3 control-label" for="demo-text-input">Member Status</label>
+									<div id="selectparent" class="col-md-9">
+										<select id="member_status" name="member_status" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-9" data-style="btn-info">
+											<option selected value="old">Member</option>
+											<option value="new">First Timer</option>
+										</select>
 									</div>
 								</div>
 								<div id="wedding" class="form-group" style="display:none">
@@ -591,4 +600,27 @@
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
 
+@endsection
+
+@section('js')
+<script>
+	$(document).ready(function(){
+		$('#member_since').change(function(){
+			let today = new Date();
+			let member_date = this.value;
+			let lastWeek = Date.parse(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7));
+			//check if date within 7 days
+			//If nextWeek is smaller (earlier) than the value of the input date, alert...
+			if (lastWeek > Date.parse(member_date)){
+					$('#member_status').val('old');
+					$('#member_status').selectpicker('render');
+					$('#member_status_div').show();
+			}else{
+				$('#member_status').val('new');
+				$('#member_status').selectpicker('render');
+				$('#member_status_div').show();
+			}
+		});
+	});
+</script>
 @endsection

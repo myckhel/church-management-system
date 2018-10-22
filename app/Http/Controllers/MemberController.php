@@ -121,7 +121,8 @@ class MemberController extends Controller
             'member_since' => $request->get('member_since'),
             'wedding_anniversary' => $request->get('wedding_anniversary'),
             'photo' => $image_name,
-            'relative' => $relatives
+            'relative' => $relatives,
+            'member_status' => $request->member_status
         ));
         $member->save();
         return redirect()->route('member.register.form')->with('status', 'Member Successfully registered');
@@ -248,20 +249,22 @@ class MemberController extends Controller
 
     public function getRelative(Request $request, $search_term){
 
-        $user = \Auth::user();
+      $user = \Auth::user();
 
-        $sql = "SELECT * from members WHERE branch_id = '$user->branchcode' AND  MATCH (firstname,lastname)
-        AGAINST ('$search_term')";
-        $members = \DB::select($sql);
-
-
-        return response()->json(['success' => true, "result"=> sizeof($members) > 0 ? $members : ['message'=>'no result found']]);
-
+      $sql = "SELECT * from members WHERE branch_id = '$user->branchcode' AND  MATCH (firstname,lastname)
+      AGAINST ('$search_term')";
+      $members = \DB::select($sql);
+      return response()->json(['success' => true, "result"=> sizeof($members) > 0 ? $members : ['message'=>'no result found']]);
     }
 
     public function modify($id){
       $user = \Auth::user();
       $member = Member::whereId($id)->where('branch_id',$user)->first();
       return view('members.edit', compact('member'));
+    }
+
+    public function upgrade(Request $request){
+      $user = Member::where('id', $request->id)->first()->upgrade();
+      return response()->json(['status' => $user]);
     }
 }

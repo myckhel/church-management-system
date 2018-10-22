@@ -30,4 +30,10 @@ class Member extends Model
       $name = $std->firstname.' '.$std->lastname;
       return $name;
     }
+
+  public function upgrade(){
+    $this->member_status = 'old';
+    $this->save();
+    return $this->getFullname();
+  }
 }

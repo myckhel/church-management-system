@@ -1632,5 +1632,6 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
 });
 </script>
 @endif
+@yield('js')
 </body>
 </html>
