@@ -23,15 +23,13 @@
 
 	<!--Nifty Premium Icon [ DEMONSTRATION ]-->
 	<link href="{{ URL::asset('css/demo/nifty-demo-icons.min.css') }}" rel="stylesheet">
+	@yield('link')
         @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css" rel="stylesheet">
         @endif
 	<!--=================================================-->
-	@if (Route::currentRouteName() == ('email') || Route::currentRouteName() == ('inbox'))
-	    <!--Summernote [ OPTIONAL ]-->
-		<link href="{{ URL::asset('plugins/summernote/summernote.min.css')}}" rel="stylesheet">
-		@endif
+
 @if(Route::currentRouteName() == "gallery")
 <link href="{{ URL::asset('plugins/gallery/ekko-lightbox.css') }}" rel="stylesheet">
 @endif
@@ -1167,35 +1165,7 @@ e">Select Relative</button></div>
 	})
 })
 </script>
-	@if (Route::currentRouteName() == ('email') || Route::currentRouteName() == ('inbox'))
-    <!--Summernote [ OPTIONAL ]-->
-    <script src="{{ URL::asset('plugins/summernote/summernote.min.js')}}"></script>
 
-
-    <!--Mail [ SAMPLE ]-->
-    <script src="{{ URL::asset('js/demo/mail.js')}}"></script>
-
-	<script>
-	let shouldSubmit = false;
-
-	$('#send-mail-form').on('submit', function(e){
-
-		if (!shouldSubmit) e.preventDefault();
-		if (shouldSubmit) return;
-
-		let message = $('.note-editable.panel-body').html();
-
-		$('#message-textarea').html(message);
-
-		shouldSubmit = true;
-
-		$('#send-mail-form').trigger('submit');
-
-	})
-
-	</script>
-
-@endif
 <!-- branch delete -->
 @if (Route::currentRouteName() == ('branches'))
 <script>
@@ -1400,37 +1370,6 @@ function calculateSum() {
 </script>
 @endif
 
-@if(Route::currentRouteName() == "email")
-<!-- for email manual number input -->
-<script>
-$(document).ready(function(){
-	$('#add-num').click(function(){
-		var items = $('#emails').val().split(',');
-		$.each(items, function (i, item) {
-			$('#emails').val('');
-			//$("#list").append('<li class="list-group-item d-flex justify-content-between align-items-center">'+ item +'  <span class="badge badge-danger badge-pill"><i onClick="rm_num(this);" class="btn fa fa-trash"></i></span></li>');
-				$('#num-selector').append($('<option>'
-				, {
-						value: item,
-						text : item,
-						selected: 'selected'
-				}, '</option>'
-				));
-		});
-		var val = $('#num-selector').text().split(',');
-		alert('Added ' + items);
-		$.each(val, function(i,item){
-		});
-	});
-});
- //selected="selected" value="' + item +'" >'+ item +'</option>'
-function rm_num(d){
-	var text = $(d).parent().parent().text();
-	var input = $("#num-selector option[value='"+ text +"']").remove();
-	var ll = $('#list ' + d).remove();
-}
-</script>
-@endif
 
 @if(Route::currentRouteName() == "sms")
 <!-- for email manual number input -->

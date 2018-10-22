@@ -193,3 +193,66 @@
             <!--===================================================-->
             <!--END CONTENT CONTAINER-->
             @endsection
+@section('link')
+  <!--Summernote [ OPTIONAL ]-->
+<link href="{{ URL::asset('plugins/summernote/summernote.min.css')}}" rel="stylesheet">
+@endsection
+@section('js')
+<!--Summernote [ OPTIONAL ]-->
+<script src="{{ URL::asset('plugins/summernote/summernote.min.js')}}"></script>
+
+
+<!--Mail [ SAMPLE ]-->
+<script src="{{ URL::asset('js/demo/mail.js')}}"></script>
+
+<script>
+let shouldSubmit = false;
+
+$('#send-mail-form').on('submit', function(e){
+
+if (!shouldSubmit) e.preventDefault();
+if (shouldSubmit) return;
+
+let message = $('.note-editable.panel-body').html();
+
+$('#message-textarea').html(message);
+
+shouldSubmit = true;
+
+$('#send-mail-form').trigger('submit');
+
+})
+
+
+<!-- for email manual number input -->
+
+$(document).ready(function(){
+	$('#add-num').click(function(){
+		var items = $('#emails').val().split(',');
+		$.each(items, function (i, item) {
+			$('#emails').val('');
+			//$("#list").append('<li class="list-group-item d-flex justify-content-between align-items-center">'+ item +'  <span class="badge badge-danger badge-pill"><i onClick="rm_num(this);" class="btn fa fa-trash"></i></span></li>');
+				$('#num-selector').append($('<option>'
+				, {
+						value: item,
+						text : item,
+						selected: 'selected'
+				}, '</option>'
+				));
+		});
+		var val = $('#num-selector').text().split(',');
+    $('#num-selector').selectpicker('destroy');
+    $('#num-selector').selectpicker('render');
+		alert('Added ' + items);
+		$.each(val, function(i,item){
+		});
+	});
+});
+ //selected="selected" value="' + item +'" >'+ item +'</option>'
+function rm_num(d){
+	var text = $(d).parent().parent().text();
+	var input = $("#num-selector option[value='"+ text +"']").remove();
+	var ll = $('#list ' + d).remove();
+}
+</script>
+@endsection

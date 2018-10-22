@@ -66,7 +66,7 @@
 
         <!-- Line Chart -->
         <!---------------------------------->
-        <?php if(!isset($members_in_branch)){ ?>
+        <?php if(isset($members_in_branch)){ ?>
         <div class="panel"  style="background-color: #e8ddd3;">
             <div class="panel-heading">
                 <h3 class="panel-title text-center">Add Members To Group</h3>
@@ -134,7 +134,9 @@
                     <td>{{$member->member_since}}</td>
                     <td>
                         <a class="btn btn-success btn-sm" href="{{route('member.profile', $member->id)}}">View Profile</a>
-                        <a class="btn btn-danger btn-sm" href="{{route('group.remove.member', [$member->id, $group->id])}}">Remove Member</a>
+                        @if(isset($members_in_branch))
+                          <a class="btn btn-danger btn-sm" href="{{route('group.remove.member', [$member->id, $group->id])}}">Remove Member</a>
+                        @endif
 
                     </td>
                 </tr>

@@ -156,11 +156,13 @@ class GroupController extends Controller
     }
 
     public function defaultView($name){
+      $user = \Auth::user();
       if($name == 'first'){
         $group = new \App\Group();
         $group->name = 'First Timers Group';
-        $firstimers = Member::where('branch_id', $user->branchcode)->where('member_status', 'new')->get();
-        return view('groups.view', compact('$firstimers', 'group'));
+        // $group->save();
+        $members_in_group = Member::where('branch_id', $user->branchcode)->where('member_status', 'new')->get();
+        return view('groups.view', compact('members_in_group', 'group'));
       }
       return ;
     }
