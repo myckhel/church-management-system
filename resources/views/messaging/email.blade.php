@@ -156,7 +156,7 @@
 
                                       <div class="col-lg-5">
                                         <div class="col-lg-9">
-                                          <select id="groups-selector" data-live-search="true" name="to[]" data-width="100%" data-actions-box="true" class="selectpicker" multiple>
+                                          <select id="groups-selector" data-live-search="true" data-width="100%" data-actions-box="true" class="selectpicker" multiple>
                                             <option data-hidden="true" selected >Select Group to send to</option>
                                             @foreach ($groups as $group)
                                               <option value="{{$group->id}}">{{ucwords($group->name)}}</option>
@@ -165,7 +165,7 @@
                                         </div>
                                       <div class="col-lg-3">
                                         <div class="input-group-append">
-                                          <button id="add-num" type="button" class="btn btn-success form-control input-group-text" id="basic-addon2">Add</button>
+                                          <button id="add-group" type="button" class="btn btn-success form-control input-group-text" id="basic-addon2">Add</button>
                                         </div>
                                       </div>
                                     </div>
@@ -240,13 +240,13 @@ $('#send-mail-form').trigger('submit');
 })
 
 
-<!-- for email manual number input -->
+// for email manual number input
 
 $(document).ready(function(){
 	$('#add-num').click(function(){
 		var items = $('#emails').val().split(',');
+		$('#emails').val('');
 		$.each(items, function (i, item) {
-			$('#emails').val('');
 			//$("#list").append('<li class="list-group-item d-flex justify-content-between align-items-center">'+ item +'  <span class="badge badge-danger badge-pill"><i onClick="rm_num(this);" class="btn fa fa-trash"></i></span></li>');
 				$('#num-selector').append($('<option>'
 				, {
@@ -257,12 +257,60 @@ $(document).ready(function(){
 				));
 		});
 		var val = $('#num-selector').text().split(',');
-    $('#num-selector').selectpicker('destroy');
-    $('#num-selector').selectpicker('render');
+    $('#num-selector').selectpicker('refresh');
 		alert('Added ' + items);
 		$.each(val, function(i,item){
 		});
 	});
+
+  //add club function
+  $('#add-group').click(function(){
+    //remove attribut on click
+    $('#groups-selector').find(":selected").removeAttr("selected");
+    var items = $('#groups-selector').find(":selected").map(function() {
+        return this.text;
+    }).get();
+    //clear the selectpicker
+    $('#groups-selector').find(":selected").removeAttr("selected");
+    $('#groups-selector').selectpicker('deselectAll');
+    $('#groups-selector').selectpicker('refresh');
+    //transfer the groups
+    var values = {'group': items, '_token': '{{ csrf_token() }}' };
+    //get list of members in each group
+    $.ajax({
+        type        : 'GET', // define the type of HTTP verb we want to use (POST for our form)
+        url         : "{{route('group.members')}}", // the url where we want to POST
+        data        : values, // our data object
+        dataType    : 'json', // what type of data do we expect back from the server
+        encode      : true
+    })
+    // using the done promise callback
+    .done(function(data) {
+      if(data.status){
+        //append list to the emails
+        let itemss = data.groupMember;
+        $.each(itemss, function (i, items) {
+          $.each( items, function (ii, item) {
+            alert(item.email);
+            $('#num-selector').append($('<option>',
+            {
+              value: item.email,
+              text : item.firstname,
+              selected: 'selected'
+            }, '</option>'
+            ));
+          });
+        });
+      }
+      else{
+        alert('Error occured Please try again');
+      }
+    });
+
+    var val = $('#num-selector').text().split(',');
+    $('#num-selector').selectpicker('refresh');
+    alert('Added ' + items);
+  });
 });
  //selected="selected" value="' + item +'" >'+ item +'</option>'
 function rm_num(d){

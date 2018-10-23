@@ -36,4 +36,12 @@ class Member extends Model
     $this->save();
     return $this->getFullname();
   }
+
+  public function groupMember(){
+    return $this->belongsTo(GroupMember::class);
+  }
+
+  public function user(){
+    return $this->belongsTo(User::class);
+  }
 }

@@ -43,11 +43,9 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-
         $group = new Group([
-
-            'name' => $request->name,
-            'branch_id' => $request->branch_id
+          'name' => $request->name,
+          'branch_id' => $request->branch_id
         ]);
 
         $group->save();
@@ -165,5 +163,17 @@ class GroupController extends Controller
         return view('groups.view', compact('members_in_group', 'group'));
       }
       return ;
+    }
+
+    public function members(Request $request){
+      $user = \Auth::user()->branchcode;
+      $names = $request->group;
+      $groupMember = [];
+      foreach ($names as $key => $value) {
+        // code...
+        array_push($groupMember, Group::selectRaw('groups.id, groups.name, members.firstname, members.lastname, members.email')->join('group_members', 'group_members.group_id', 'groups.id')
+          ->join('members', 'members.id', 'group_members.member_id')->where('groups.name', $value)->where('groups.branch_id', $user)->get());
+      }
+      return response()->json(['status' => true, 'groupMember' => $groupMember]);
     }
 }

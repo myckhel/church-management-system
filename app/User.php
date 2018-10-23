@@ -52,4 +52,12 @@ class User extends Authenticatable
     public function getUserById($id){
       return \App\User::where($id)->get();
     }
+
+    public function group(){
+      return $this->hasMany(Group::class);
+    }
+
+    public function member(){
+      return $this->hasMany(Member::class);
+    }
 }

@@ -13,4 +13,12 @@ class Group extends Model
 
         return GroupMember::where('group_id', $this->id)->where('for_branch',$branch_id)->get()->count();
     }
+
+    public function groupMember(){
+      return $this->hasMany(GroupMember::class);
+    }
+
+    public function user(){
+      return $this->belongsTo(User::class);
+    }
 }
