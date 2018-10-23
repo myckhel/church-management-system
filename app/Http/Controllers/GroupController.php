@@ -174,7 +174,7 @@ class GroupController extends Controller
         if($value == 'First Timers Group'){
           $group = Member::where('branch_id', $user)->where('member_status', 'new')->get();
         }else{
-          $group = Group::selectRaw('groups.id, groups.name, members.firstname, members.lastname, members.email')->leftjoin('group_members', 'group_members.group_id', 'groups.id')
+          $group = Group::selectRaw('groups.id, groups.name, members.firstname, members.lastname, members.email, members.phone')->leftjoin('group_members', 'group_members.group_id', 'groups.id')
             ->leftjoin('members', 'members.id', 'group_members.member_id')->where('groups.name', $value)->where('group_members.for_branch', $user)->get();
         }
         if(!empty($group)){$groupMember[$value] = $group;}

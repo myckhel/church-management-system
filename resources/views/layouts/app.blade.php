@@ -1370,39 +1370,6 @@ function calculateSum() {
 </script>
 @endif
 
-
-@if(Route::currentRouteName() == "sms")
-<!-- for email manual number input -->
-<script>
-$(document).ready(function(){
-	$('#add-num').click(function(){
-		var items = $('#nums').val().split(',');
-		$.each(items, function (i, item) {
-			$('#nums').val('');
-			//$("#list").append('<li class="list-group-item d-flex justify-content-between align-items-center">'+ item +'  <span class="badge badge-danger badge-pill"><i onClick="rm_num(this);" class="btn fa fa-trash"></i></span></li>');
-				$('#num-selector').append($('<option>'
-				, {
-						value: item,
-						text : item,
-						selected: 'selected'
-				}, '</option>'
-				));
-		});
-		var val = $('#num-selector').text().split(',');
-		alert('Added ' + items);
-		$.each(val, function(i,item){
-		});
-	});
-});
- //selected="selected" value="' + item +'" >'+ item +'</option>'
-function rm_num(d){
-	var text = $(d).parent().parent().text();
-	var input = $("#num-selector option[value='"+ text +"']").remove();
-	var ll = $('#list ' + d).remove();
-}
-</script>
-@endif
-
 @if(Route::currentRouteName() == "member.register.form")
 <script>
 $(document).ready(function(){

@@ -280,7 +280,7 @@ $(document).ready(function(){
     var values = {'group': items, '_token': '{{ csrf_token() }}' };
     //get list of members in each group
     $.ajax({
-        type        : 'GET', // define the type of HTTP verb we want to use (POST for our form)
+        type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
         url         : "{{route('group.members')}}", // the url where we want to POST
         data        : values, // our data object
         dataType    : 'json', // what type of data do we expect back from the server

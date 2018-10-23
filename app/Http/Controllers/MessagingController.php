@@ -18,16 +18,21 @@ class MessagingController extends Controller
       $group->id = 1000;
       $default_groups = [];
       array_push($default_groups, $group);
-      // dd($groups);
-      // dd($group);
       return view('messaging.email', compact('members', 'groups', 'default_groups'));
     }
-    public function indexSMS(){
 
+    public function indexSMS(){
       $user = \Auth::user();
+      $groups =\App\Group::where('branch_id', $user->branchcode)->get();
       $members = \App\Member::where('branch_id', $user->branchcode)->get(); //$user->isAdmin() ? \App\Member::all() :
-        return view('messaging.sms', compact('members'));
+      $group = collect(new \App\Group);
+      $group->name = 'First Timers Group';
+      $group->id = 1000;
+      $default_groups = [];
+      array_push($default_groups, $group);
+      return view('messaging.sms', compact('members', 'groups', 'default_groups'));
     }
+
     public function sendEmail(Request $request){
         foreach ($request->to as $to){
           Mail::to($to)//$request->to)
@@ -35,11 +40,11 @@ class MessagingController extends Controller
               //->bcc($request->bcc)
               ->send(new MailMember($request));
             }
-
         return redirect()
                 ->back()
                 ->with('status','Mail Successfully Sent!');
     }
+
     public function sendSMS(Request $request){
 
         //print_r($_POST);exit();
