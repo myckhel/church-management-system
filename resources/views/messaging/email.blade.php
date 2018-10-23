@@ -161,6 +161,9 @@
                                             @foreach ($groups as $group)
                                               <option value="{{$group->id}}">{{ucwords($group->name)}}</option>
                                             @endforeach
+                                            @foreach ($default_groups as $group)
+                                              <option value="{{$group->id}}">{{ucwords($group->name)}}</option>
+                                            @endforeach
                                           </select>
                                         </div>
                                       <div class="col-lg-3">
@@ -244,6 +247,7 @@ $('#send-mail-form').trigger('submit');
 
 $(document).ready(function(){
 	$('#add-num').click(function(){
+    if(!$('#emails').val()){return;}
 		var items = $('#emails').val().split(',');
 		$('#emails').val('');
 		$.each(items, function (i, item) {
@@ -263,17 +267,15 @@ $(document).ready(function(){
 		});
 	});
 
-  //add club function
+  //add group function
   $('#add-group').click(function(){
-    //remove attribut on click
+    //remove attribute on click
     $('#groups-selector').find(":selected").removeAttr("selected");
     var items = $('#groups-selector').find(":selected").map(function() {
         return this.text;
     }).get();
-    //clear the selectpicker
-    $('#groups-selector').find(":selected").removeAttr("selected");
-    $('#groups-selector').selectpicker('deselectAll');
-    $('#groups-selector').selectpicker('refresh');
+    //do nothing if empty
+    if(items.length == 0){return;}
     //transfer the groups
     var values = {'group': items, '_token': '{{ csrf_token() }}' };
     //get list of members in each group
@@ -283,19 +285,19 @@ $(document).ready(function(){
         data        : values, // our data object
         dataType    : 'json', // what type of data do we expect back from the server
         encode      : true
-    })
+    })//<optgroup label="filter2">
     // using the done promise callback
     .done(function(data) {
       if(data.status){
         //append list to the emails
         let itemss = data.groupMember;
         $.each(itemss, function (i, items) {
+          $('#num-selector').append($('<optgroup label="'+i+'"></optgroup>'));
           $.each( items, function (ii, item) {
-            alert(item.email);
-            $('#num-selector').append($('<option>',
+            $('#num-selector optgroup[label="'+i+'"]').append($('<option>',
             {
               value: item.email,
-              text : item.firstname,
+              text : item.firstname  + ' ' + item.lastname ,
               selected: 'selected'
             }, '</option>'
             ));
@@ -305,11 +307,13 @@ $(document).ready(function(){
       else{
         alert('Error occured Please try again');
       }
+      //clear the selectpicker
+      $('#groups-selector').find(":selected").removeAttr("selected");
+      $('#groups-selector').selectpicker('deselectAll');
+      $('#groups-selector').selectpicker('refresh');
+      $('#num-selector').selectpicker('refresh');
+      alert('Group Members Added');
     });
-
-    var val = $('#num-selector').text().split(',');
-    $('#num-selector').selectpicker('refresh');
-    alert('Added ' + items);
   });
 });
  //selected="selected" value="' + item +'" >'+ item +'</option>'
