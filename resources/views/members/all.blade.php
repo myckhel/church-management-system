@@ -63,9 +63,11 @@
                 <!--div style="height:100px;border:1px solid green">
                 Sort by Newest Members, Gender
               </div-->
+              <form id="members" onsubmit="return false;" >
                 <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
                     <thead>
                         <tr>
+                            <th><input id="select-all" type="checkbox" /> Select all</th>
                             <th>S/N</th>
                             <th>Photo</th>
                             <th>Position</th>
@@ -83,6 +85,7 @@
                         <?php $count=1;?>
                         @foreach($members as $member)
                         <tr>
+                            <th><input type="checkbox" name="member[]" value="{{$member->id}}" /></th>
                             <th>{{$count}}</th>
                             <th><img src="{{url('/public/images/')}}/{{$member->photo}}"  class="img-md img-circle" alt="Profile Picture"></th>
                             <td><strong>{{strtoupper($member->position)}}</strong></td>
@@ -104,9 +107,14 @@
                         </tr>
                         <?php $count++;?>
                         @endforeach
-
                     </tbody>
                 </table>
+                <select id="action" name="action">
+                  <option>with selected</option>
+                  <option value="delete">delete</option>
+                </select>
+                <input class="btn-danger" id="apply" type="button" value="apply">
+              </form>
             </div>
         </div>
         <!--===================================================-->
@@ -125,7 +133,31 @@
 @section('js')
 <script>
   $(document).ready(function(){
-
+    //for bulk delete
+    $('#select-all').click(function(){
+      if(this.checked){
+        $('input[name=member\\[\\]]').each(function()    
+        {    
+          this.checked = true;    
+        });
+      }else{
+        $('input[name=member\\[\\]]').each(function()    
+        {    
+          this.checked = false;    
+        });
+      }
+    });
+    $('#apply').click(function(){
+      var example = $('input[name=member\\[\\]]').map(function(){
+        if($(this).is(':checked')){return this.value;}
+      }).get();
+      if(example.length == 0){return;}
+      if($('#action').find(":selected[value=delete]").length == 0){return;}
+      let confirmed = confirm('Are you sure you want to delete selected items?');
+      if(confirmed){
+        alert(example+' Deleted');
+      }
+    });
   });
 function makeMember(member_id){
   var confirmed = confirm('Are you sure you make this member a full member?');

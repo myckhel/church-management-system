@@ -1027,7 +1027,6 @@ function dele(input){
 
 <!-- FOR ATTENDANCE MARK -->
 @if (Route::currentRouteName() == ('attendance'))
-hhhhfh
 <?php require_once 'js/views/attendance/mark.php';?>
 @endif
 <!-- FOR ATTENDANCE MARK -->

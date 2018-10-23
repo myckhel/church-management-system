@@ -217,3 +217,7 @@
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
 @endsection
+
+@section('js')
+
+@endsection
