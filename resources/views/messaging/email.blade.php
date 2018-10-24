@@ -289,11 +289,19 @@ $(document).ready(function(){
     // using the done promise callback
     .done(function(data) {
       if(data.status){
-        //append list to the emails
         let itemss = data.groupMember;
+        //append list to the emails
         $.each(itemss, function (i, items) {
           $('#num-selector').append($('<optgroup label="'+i+'"></optgroup>'));
           $.each( items, function (ii, item) {
+            //check if already in list
+            let options = $("#num-selector option[value='"+item.email+"'], #num-selector optgroup[value='"+item.email+"']");
+            if(options.length > 0){
+              $.each(options, function(){
+                //delete email options
+                $(this).remove();
+              });
+            }
             $('#num-selector optgroup[label="'+i+'"]').append($('<option>',
             {
               value: item.email,
