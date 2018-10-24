@@ -155,7 +155,19 @@
       if($('#action').find(":selected[value=delete]").length == 0){return;}
       let confirmed = confirm('Are you sure you want to delete selected items?');
       if(confirmed){
-        alert(example+' Deleted');
+        var values = {'id': example, '_token': '{{ csrf_token() }}' };
+        $.ajax({type: "POST", url: "{{route('member.delete.multi')}}", data: values, dataType: "json", encode: true})
+          .done(function(response){
+            if(response.status){
+              alert('Selected Members Has Been Deleted Successfully');
+              if(response.failed.length > 0){
+                alert('Couldnt Delete'+response.failed);
+              }
+              window.location.reload();
+            }else{
+              alert('Error Occured');
+            }
+        });
       }
     });
   });

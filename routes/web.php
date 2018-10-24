@@ -28,6 +28,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/member/profile/{id}', 'MemberController@show')->name('member.profile');
     Route::get('/member/edit/{id}', 'MemberController@modify')->name('member.edit');
     Route::get('/member/delete/{id}', 'MemberController@destroy')->name('member.delete');
+    Route::post('/member/delete', 'MemberController@delete')->name('member.delete.multi');
     Route::post('/member/upgrade', 'MemberController@upgrade')->name('member.upgrade');
 
     Route::get('/branches', 'BranchController@index')->name('branches');

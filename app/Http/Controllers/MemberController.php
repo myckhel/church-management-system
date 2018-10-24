@@ -247,6 +247,22 @@ class MemberController extends Controller
         return redirect()->back()->with('status', 'Member has been deleted!');
     }
 
+    public function delete(Request $request){
+      $failed = [];
+      foreach ($request->id as $key => $value) {
+        # code...
+        try {
+          $member = Member::whereId($value)->firstOrFail();
+          if($member){
+            $member->delete();
+          }
+        } catch (Exception $e) {
+          array_push($failed, $value.' error: '.$e);
+        }
+      }
+      return response()->json(['status' => true, 'failed' => $failed]);
+    }
+
     public function getRelative(Request $request, $search_term){
 
       $user = \Auth::user();
