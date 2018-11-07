@@ -79,10 +79,9 @@ class ReportController extends Controller
       $ad_rep= \DB::select($sql);
 
       //Year
-      $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-      YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = "$user->branchcode" GROUP BY year';
+      $sql = "SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
+      YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '".$user->branchcode."' GROUP BY year";
       $a_years = \DB::select($sql);
-
       return view('report.attendance', compact('reports', 'm_r', 'ad_rep', 'a_years'));
     }
 

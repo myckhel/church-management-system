@@ -17,6 +17,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
 
 
+
     <!--Bootstrap Stylesheet [ REQUIRED ]-->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -42,7 +43,7 @@
     <link href="css/demo/nifty-demo.min.css" rel="stylesheet">
 
 
-            
+
     <!--=================================================
 
     REQUIRED
@@ -68,14 +69,14 @@
     Detailed information and more samples can be found in the document.
 
     =================================================-->
-        
+
 </head>
 
 <!--TIPS-->
 <!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
 <body>
     <div id="container" class="effect aside-float aside-bright mainnav-lg">
-        
+
         <!--NAVBAR-->
         <!--===================================================-->
         <header id="navbar">
@@ -414,7 +415,7 @@
             <!--===================================================-->
             <div id="content-container">
                 <div id="page-head">
-                    
+
                     <!--Page Title-->
                     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                     <div id="page-title">
@@ -436,17 +437,17 @@
 
                 </div>
 
-                
+
                 <!--Page content-->
                 <!--===================================================-->
                 <div id="page-content">
-                    
+
 					<div class="panel">
 					    <div class="panel-heading">
 					        <h3 class="panel-title">Inline Form</h3>
 					    </div>
 					    <div class="panel-body">
-					
+
 					        <!-- Inline Form  -->
 					        <!--===================================================-->
 					        <form class="form-inline">
@@ -466,7 +467,7 @@
 					        </form>
 					        <!--===================================================-->
 					        <!-- End Inline Form  -->
-					
+
 					    </div>
 					</div>
 					<div class="row">
@@ -475,7 +476,7 @@
 					            <div class="panel-heading">
 					                <h3 class="panel-title">Block styled form</h3>
 					            </div>
-					
+
 					            <!--Block Styled Form -->
 					            <!--===================================================-->
 					            <form>
@@ -515,7 +516,7 @@
 					            </form>
 					            <!--===================================================-->
 					            <!--End Block Styled Form -->
-					
+
 					        </div>
 					    </div>
 					    <div class="col-sm-6">
@@ -523,7 +524,7 @@
 					            <div class="panel-heading">
 					                <h3 class="panel-title">Horizontal form</h3>
 					            </div>
-					
+
 					            <!--Horizontal Form-->
 					            <!--===================================================-->
 					            <form class="form-horizontal">
@@ -553,7 +554,7 @@
 					            </form>
 					            <!--===================================================-->
 					            <!--End Horizontal Form-->
-					
+
 					        </div>
 					    </div>
 					</div>
@@ -563,8 +564,8 @@
 					            <div class="panel-heading">
 					                <h3 class="panel-title">Input size</h3>
 					            </div>
-					
-					
+
+
 					            <!--Input Size-->
 					            <!--===================================================-->
 					            <form class="form-horizontal">
@@ -620,8 +621,8 @@
 					            </form>
 					            <!--===================================================-->
 					            <!--End Input Size-->
-					
-					
+
+
 					        </div>
 					    </div>
 					    <div class="col-lg-6">
@@ -629,7 +630,7 @@
 					            <div class="panel-heading">
 					                <h3 class="panel-title">No label form</h3>
 					            </div>
-					
+
 					            <!--No Label Form-->
 					            <!--===================================================-->
 					            <form class="form-horizontal">
@@ -653,7 +654,7 @@
 					            </form>
 					            <!--===================================================-->
 					            <!--End No Label Form-->
-					
+
 					        </div>
 					    </div>
 					</div>
@@ -663,7 +664,7 @@
 					            <div class="panel-heading">
 					                <h3 class="panel-title">Icons Addons</h3>
 					            </div>
-					
+
 					            <!--Icons Addons-->
 					            <!--===================================================-->
 					            <form class="form-horizontal">
@@ -685,13 +686,13 @@
 					            </form>
 					            <!--===================================================-->
 					            <!--End Icons Addons-->
-					
+
 					        </div>
 					        <div class="panel">
 					            <div class="panel-heading">
 					                <h3 class="panel-title">Checkboxes and radio addons</h3>
 					            </div>
-					
+
 					            <!--Checkboxes and Radio addons-->
 					            <!--===================================================-->
 					            <form class="form-horizontal">
@@ -721,7 +722,7 @@
 					            </form>
 					            <!--===================================================-->
 					            <!--End Checkboxes and Radio addons-->
-					
+
 					        </div>
 					    </div>
 					    <div class="col-md-6">
@@ -729,7 +730,7 @@
 					            <div class="panel-heading">
 					                <h3 class="panel-title">Buttons Addons</h3>
 					            </div>
-					
+
 					            <!--Buttons Addons-->
 					            <!--===================================================-->
 					            <form class="form-horizontal">
@@ -759,13 +760,13 @@
 					            </form>
 					            <!--===================================================-->
 					            <!--End Buttons Addon-->
-					
+
 					        </div>
 					        <div class="panel">
 					            <div class="panel-heading">
 					                <h3 class="panel-title">Dropdowns Addons</h3>
 					            </div>
-					
+
 					            <!--Dropdowns Addons-->
 					            <!--===================================================-->
 					            <form class="form-horizontal">
@@ -832,7 +833,7 @@
 					            </form>
 					            <!--===================================================-->
 					            <!--End Dropdowns Addons-->
-					
+
 					        </div>
 					    </div>
 					</div>
@@ -842,7 +843,7 @@
 					            <div class="panel-heading">
 					                <h3 class="panel-title">Validation States</h3>
 					            </div>
-					
+
 					            <!--Validation States-->
 					            <!--===================================================-->
 					            <div class="panel-body">
@@ -865,7 +866,7 @@
 					            </div>
 					            <!--===================================================-->
 					            <!--END OF VALIDATION STATES-->
-					
+
 					        </div>
 					    </div>
 					    <div class="col-lg-6">
@@ -874,7 +875,7 @@
 					                <h3 class="panel-title">With optional icons</h3>
 					            </div>
 					            <div class="panel-body">
-					
+
 					                <!--Validation States-->
 					                <!--===================================================-->
 					                <div class="form-group has-feedback">
@@ -899,7 +900,7 @@
 					                </div>
 					                <!--===================================================-->
 					                <!--End Validation States-->
-					
+
 					            </div>
 					        </div>
 					    </div>
@@ -910,18 +911,18 @@
 					            <div class="panel-heading">
 					                <h3 class="panel-title">Basic Form Elements</h3>
 					            </div>
-					
-					
+
+
 					            <!-- BASIC FORM ELEMENTS -->
 					            <!--===================================================-->
 					            <form class="panel-body form-horizontal form-padding">
-					
+
 					                <!--Static-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">Static</label>
 					                    <div class="col-md-9"><p class="form-control-static">Username</p></div>
 					                </div>
-					
+
 					                <!--Text Input-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label" for="demo-text-input">Text Input</label>
@@ -930,7 +931,7 @@
 					                        <small class="help-block">This is a help text</small>
 					                    </div>
 					                </div>
-					
+
 					                <!--Email Input-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label" for="demo-email-input">Email Input</label>
@@ -939,7 +940,7 @@
 					                        <small class="help-block">Please enter your email</small>
 					                    </div>
 					                </div>
-					
+
 					                <!--Password-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label" for="demo-password-input">Password</label>
@@ -948,7 +949,7 @@
 					                        <small class="help-block">Please enter password</small>
 					                    </div>
 					                </div>
-					
+
 					                <!--Readonly Input-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label" for="demo-readonly-input">Readonly input</label>
@@ -956,7 +957,7 @@
 					                        <input type="text" id="demo-readonly-input" class="form-control" placeholder="Readonly input here..." readonly>
 					                    </div>
 					                </div>
-					
+
 					                <!--Textarea-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label" for="demo-textarea-input">Textarea</label>
@@ -964,11 +965,11 @@
 					                        <textarea id="demo-textarea-input" rows="9" class="form-control" placeholder="Your content here.."></textarea>
 					                    </div>
 					                </div>
-					
+
 					                <div class="form-group pad-ver">
 					                    <label class="col-md-3 control-label">Radio Buttons</label>
 					                    <div class="col-md-9">
-					
+
 					                        <!-- Radio Buttons -->
 					                        <div class="radio">
 					                            <input id="demo-form-radio" class="magic-radio" type="radio" name="form-radio-button" checked>
@@ -982,66 +983,66 @@
 					                            <input id="demo-form-radio-3" class="magic-radio" type="radio" name="form-radio-button">
 					                            <label for="demo-form-radio-3">Option 2</label>
 					                        </div>
-					
+
 					                    </div>
 					                </div>
 					                <div class="form-group pad-ver">
 					                    <label class="col-md-3 control-label">Inline Radio buttons</label>
 					                    <div class="col-md-9">
 					                        <div class="radio">
-					
+
 					                            <!-- Inline radio buttons -->
 					                            <input id="demo-inline-form-radio" class="magic-radio" type="radio" name="inline-form-radio" checked>
 					                            <label for="demo-inline-form-radio">Option 1 (pre-checked)</label>
-					
+
 					                            <input id="demo-inline-form-radio-2" class="magic-radio" type="radio" name="inline-form-radio">
 					                            <label for="demo-inline-form-radio-2">Option 2</label>
-					
+
 					                            <input id="demo-inline-form-radio-3" class="magic-radio" type="radio" name="inline-form-radio">
 					                            <label for="demo-inline-form-radio-3">Option 3</label>
-					
-					
+
+
 					                        </div>
 					                    </div>
 					                </div>
 					                <div class="form-group pad-ver">
 					                    <label class="col-md-3 control-label">Checkboxes</label>
 					                    <div class="col-md-9">
-					
+
 					                        <!-- Checkboxes -->
 					                        <div class="checkbox">
 					                            <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox" checked>
 					                            <label for="demo-form-checkbox">Option 1 (pre-checked)</label>
 					                        </div>
-					
+
 					                        <div class="checkbox">
 					                            <input id="demo-form-checkbox-2" class="magic-checkbox" type="checkbox">
 					                            <label for="demo-form-checkbox-2">Option 2</label>
 					                        </div>
-					
+
 					                        <div class="checkbox">
 					                            <input id="demo-form-checkbox-3" class="magic-checkbox" type="checkbox">
 					                            <label for="demo-form-checkbox-3">Option 3</label>
 					                        </div>
-					
-					
+
+
 					                    </div>
 					                </div>
 					                <div class="form-group pad-ver">
 					                    <label class="col-md-3 control-label">Inline Checkboxes</label>
 					                    <div class="col-md-9">
 					                        <div class="checkbox">
-					
+
 					                            <!-- Inline Checkboxes -->
 					                            <input id="demo-form-inline-checkbox" class="magic-checkbox" type="checkbox" checked>
 					                            <label for="demo-form-inline-checkbox">Option 1 (pre-checked)</label>
-					
+
 					                            <input id="demo-form-inline-checkbox-2" class="magic-checkbox" type="checkbox">
 					                            <label for="demo-form-inline-checkbox-2">Option 2</label>
-					
+
 					                            <input id="demo-form-inline-checkbox-3" class="magic-checkbox" type="checkbox">
 					                            <label for="demo-form-inline-checkbox-3">Option 3</label>
-					
+
 					                        </div>
 					                    </div>
 					                </div>
@@ -1056,8 +1057,8 @@
 					            </form>
 					            <!--===================================================-->
 					            <!-- END BASIC FORM ELEMENTS -->
-					
-					
+
+
 					        </div>
 					    </div>
 					    <div class="col-lg-6">
@@ -1065,12 +1066,12 @@
 					            <div class="panel-heading">
 					                <h3 class="panel-title">Disabled</h3>
 					            </div>
-					
-					
+
+
 					            <!-- DISABLED FORM ELEMENTS-->
 					            <!--===================================================-->
 					            <form class="panel-body form-horizontal form-padding">
-					
+
 					                <!--Static-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">Static</label>
@@ -1078,7 +1079,7 @@
 					                        <p class="form-control-static">Username</p>
 					                    </div>
 					                </div>
-					
+
 					                <!--Disabled Text Input-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">Text Input</label>
@@ -1087,7 +1088,7 @@
 					                        <small class="help-block">This is a help text</small>
 					                    </div>
 					                </div>
-					
+
 					                <!--Disabled Email Input-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">Email Input</label>
@@ -1096,7 +1097,7 @@
 					                        <small class="help-block">Please enter your email</small>
 					                    </div>
 					                </div>
-					
+
 					                <!--Disabled Password-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">Password</label>
@@ -1105,7 +1106,7 @@
 					                        <small class="help-block">Please enter password</small>
 					                    </div>
 					                </div>
-					
+
 					                <!--Readonly Input-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">Readonly input</label>
@@ -1113,8 +1114,8 @@
 					                        <input type="text" class="form-control" placeholder="Readonly input here..." readonly disabled>
 					                    </div>
 					                </div>
-					
-					
+
+
 					                <!--Disabled Textarea-->
 					                <div class="form-group">
 					                    <label class="col-md-3 control-label">Textarea</label>
@@ -1122,11 +1123,11 @@
 					                        <textarea rows="9" class="form-control" placeholder="Your content here.." disabled></textarea>
 					                    </div>
 					                </div>
-					
+
 					                <div class="form-group pad-ver">
 					                    <label class="col-md-3 control-label">Radio Buttons</label>
 					                    <div class="col-md-9">
-					
+
 					                            <!--Disabled Radio Buttons -->
 					                        <div class="radio">
 					                            <input id="demo-disabled-form-radio" class="magic-radio" type="radio" name="disabled-form-radio-button" checked disabled>
@@ -1140,65 +1141,65 @@
 					                            <input id="demo-disabled-form-radio-3" class="magic-radio" type="radio" name="disabled-form-radio-button" disabled>
 					                            <label for="demo-disabled-form-radio-3">Option 2</label>
 					                        </div>
-					
-					
+
+
 					                    </div>
 					                </div>
 					                <div class="form-group pad-ver">
 					                    <label class="col-md-3 control-label">Inline Radio Buttons</label>
 					                    <div class="col-md-9">
 					                        <div class="radio">
-					
+
 					                            <!-- Inline radio buttons -->
 					                            <input id="demo-disabled-inline-form-radio" class="magic-radio" type="radio" name="disabled-inline-form-radio" checked disabled>
 					                            <label for="demo-disabled-inline-form-radio">Option 1 (pre-checked)</label>
-					
+
 					                            <input id="demo-disabled-inline-form-radio-2" class="magic-radio" type="radio" name="disabled-inline-form-radio" disabled>
 					                            <label for="demo-disabled-inline-form-radio-2">Option 2</label>
-					
+
 					                            <input id="demo-disabled-inline-form-radio-3" class="magic-radio" type="radio" name="disabled-inline-form-radio" disabled>
 					                            <label for="demo-disabled-inline-form-radio-3">Option 3</label>
-					
-					
+
+
 					                        </div>
 					                    </div>
 					                </div>
 					                <div class="form-group pad-ver">
 					                    <label class="col-md-3 control-label">Checkboxes</label>
 					                    <div class="col-md-9">
-					
+
 					                        <div class="checkbox">
 					                            <input id="demo-disabled-form-checkbox" class="magic-checkbox" type="checkbox" checked disabled>
 					                            <label for="demo-disabled-form-checkbox">Option 1 (pre-checked)</label>
 					                        </div>
-					
+
 					                        <div class="checkbox">
 					                            <input id="demo-disabled-form-checkbox-2" class="magic-checkbox" type="checkbox" disabled>
 					                            <label for="demo-disabled-form-checkbox-2">Option 2</label>
 					                        </div>
-					
+
 					                        <div class="checkbox">
 					                            <input id="demo-disabled-form-checkbox-3" class="magic-checkbox" type="checkbox" disabled>
 					                            <label for="demo-disabled-form-checkbox-3">Option 3</label>
 					                        </div>
-					
+
 					                    </div>
 					                </div>
 					                <div class="form-group pad-ver">
 					                    <label class="col-md-3 control-label">Inline Checkboxes</label>
 					                    <div class="col-md-9">
 					                        <div class="checkbox">
-					
+
 					                            <!-- Inline Checkboxes -->
 					                            <input id="demo-disabled-form-inline-checkbox" class="magic-checkbox" type="checkbox" checked disabled>
 					                            <label for="demo-disabled-form-inline-checkbox">Option 1 (pre-checked)</label>
-					
+
 					                            <input id="demo-disabled-form-inline-checkbox-2" class="magic-checkbox" type="checkbox" disabled>
 					                            <label for="demo-disabled-form-inline-checkbox-2">Option 2</label>
-					
+
 					                            <input id="demo-disabled-form-inline-checkbox-3" class="magic-checkbox" type="checkbox" disabled>
 					                            <label for="demo-disabled-form-inline-checkbox-3">Option 3</label>
-					
+
 					                        </div>
 					                    </div>
 					                </div>
@@ -1213,12 +1214,12 @@
 					            </form>
 					            <!--===================================================-->
 					            <!-- END DISABLED FORM ELEMENTS -->
-					
+
 					        </div>
 					    </div>
 					</div>
-					
-					
+
+
                 </div>
                 <!--===================================================-->
                 <!--End page content-->
@@ -1228,14 +1229,14 @@
             <!--END CONTENT CONTAINER-->
 
 
-            
+
             <!--ASIDE-->
             <!--===================================================-->
             <aside id="aside-container">
                 <div id="aside">
                     <div class="nano">
                         <div class="nano-content">
-                            
+
                             <!--Nav tabs-->
                             <!--================================-->
                             <ul class="nav nav-tabs nav-justified">
@@ -1508,7 +1509,7 @@
             <!--===================================================-->
             <!--END ASIDE-->
 
-            
+
             <!--MAIN NAVIGATION-->
             <!--===================================================-->
             <nav id="mainnav-container">
@@ -1606,10 +1607,10 @@
 
 
                                 <ul id="mainnav-menu" class="list-group">
-						
+
 						            <!--Category name-->
 						            <li class="list-header">Navigation</li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1617,16 +1618,16 @@
 						                    <span class="menu-title">Dashboard</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="index.html">Dashboard 1</a></li>
 											<li><a href="dashboard-2.html">Dashboard 2</a></li>
 											<li><a href="dashboard-3.html">Dashboard 3</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1634,7 +1635,7 @@
 						                    <span class="menu-title">Layouts</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="layouts-collapsed-navigation.html">Collapsed Navigation</a></li>
@@ -1648,10 +1649,10 @@
 											<li class="list-divider"></li>
 											<li><a href="layouts-fixed-navbar.html">Fixed Navbar</a></li>
 											<li><a href="layouts-fixed-footer.html">Fixed Footer</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="widgets.html">
@@ -1662,12 +1663,12 @@
 											</span>
 						                </a>
 						            </li>
-						
+
 						            <li class="list-divider"></li>
-						
+
 						            <!--Category name-->
 						            <li class="list-header">Components</li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1675,7 +1676,7 @@
 						                    <span class="menu-title">UI Elements</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="ui-buttons.html">Buttons</a></li>
@@ -1687,10 +1688,10 @@
 											<li><a href="ui-list-group.html">List Group</a></li>
 											<li><a href="ui-tabs-accordions.html">Tabs &amp; Accordions</a></li>
 											<li><a href="ui-alerts-tooltips.html">Alerts &amp; Tooltips</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li class="active-sub">
 						                <a href="forms-general.html#">
@@ -1698,7 +1699,7 @@
 						                    <span class="menu-title">Forms</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse in">
 						                    <li class="active-link"><a href="forms-general.html">General</a></li>
@@ -1708,10 +1709,10 @@
 											<li><a href="forms-file-upload.html">File Upload</a></li>
 											<li><a href="forms-text-editor.html">Text Editor</a></li>
 											<li><a href="forms-markdown.html">Markdown</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1719,17 +1720,17 @@
 						                    <span class="menu-title">Tables</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="tables-static.html">Static Tables</a></li>
 											<li><a href="tables-bootstrap.html">Bootstrap Tables</a></li>
 											<li><a href="tables-datatable.html">Data Tables</a></li>
 											<li><a href="tables-footable.html">Foo Tables</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1737,17 +1738,17 @@
 						                    <span class="menu-title">Charts</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="charts-morris-js.html">Morris JS</a></li>
 											<li><a href="charts-flot-charts.html">Flot Charts</a></li>
 											<li><a href="charts-easy-pie-charts.html">Easy Pie Charts</a></li>
 											<li><a href="charts-sparklines.html">Sparklines</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1755,7 +1756,7 @@
 						                    <span class="menu-title">Miscellaneous</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="misc-timeline.html">Timeline</a></li>
@@ -1768,10 +1769,10 @@
 											<li><a href="misc-tree-view.html">Tree View</a></li>
 											<li><a href="misc-clipboard.html">Clipboard</a></li>
 											<li><a href="misc-x-editable.html">X-Editable</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1779,22 +1780,22 @@
 						                    <span class="menu-title">Grid System</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="grid-bootstrap.html">Bootstrap Grid</a></li>
 											<li><a href="grid-liquid-fixed.html">Liquid Fixed</a></li>
 											<li><a href="grid-match-height.html">Match Height</a></li>
 											<li><a href="grid-masonry.html">Masonry</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <li class="list-divider"></li>
-						
+
 						            <!--Category name-->
 						            <li class="list-header">More</li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1802,7 +1803,7 @@
 						                    <span class="menu-title">App Views</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="app-file-manager.html">File Manager</a></li>
@@ -1813,10 +1814,10 @@
 											<li><a href="app-taskboard.html">Taskboard</a></li>
 											<li><a href="app-chat.html">Chat</a></li>
 											<li><a href="app-contact-us.html">Contact Us</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1824,7 +1825,7 @@
 						                    <span class="menu-title">Blog Apps</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="blog.html">Blog</a></li>
@@ -1834,10 +1835,10 @@
 											<li class="list-divider"></li>
 											<li><a href="blog-manage-posts.html">Manage Posts</a></li>
 											<li><a href="blog-add-edit-post.html">Add Edit Post</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1845,17 +1846,17 @@
 						                    <span class="menu-title">Email</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="mailbox.html">Inbox</a></li>
 											<li><a href="mailbox-message.html">View Message</a></li>
 											<li><a href="mailbox-compose.html">Compose Message</a></li>
 											<li><a href="mailbox-templates.html">Email Templates</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1863,7 +1864,7 @@
 						                    <span class="menu-title">Other Pages</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="pages-blank.html">Blank Page</a></li>
@@ -1882,10 +1883,10 @@
 											<li><a href="pages-register.html">Register</a></li>
 											<li><a href="pages-password-reminder.html">Password Reminder</a></li>
 											<li><a href="pages-lock-screen.html">Lock Screen</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1893,7 +1894,7 @@
 						                    <span class="menu-title">Gallery</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="gallery-columns.html">Columns</a></li>
@@ -1906,7 +1907,7 @@
 											<li><a href="gallery-default-theme.html">Default Theme</a></li>
 											<li><a href="gallery-compact-theme.html">Compact Theme</a></li>
 											<li><a href="gallery-grid-theme.html">Grid Theme</a></li>
-											
+
 						                </ul>
 						            </li>
 
@@ -1951,12 +1952,12 @@
                                         </ul>
                                     </li>
 
-						
+
 						            <li class="list-divider"></li>
-						
+
 						            <!--Category name-->
 						            <li class="list-header">Extras</li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1964,7 +1965,7 @@
 						                    <span class="menu-title">Icons Pack</span>
 											<i class="arrow"></i>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="icons-ionicons.html">Ion Icons</a></li>
@@ -1972,10 +1973,10 @@
 											<li><a href="icons-font-awesome.html">Font Awesome</a></li>
 											<li><a href="icons-flagicons.html">Flag Icon CSS</a></li>
 											<li><a href="icons-weather-icons.html">Weather Icons</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="forms-general.html#">
@@ -1985,15 +1986,15 @@
 												<span class="label label-danger pull-right">BEST</span>
 											</span>
 						                </a>
-						
+
 						                <!--Submenu-->
 						                <ul class="collapse">
 						                    <li><a href="premium-line-icons.html">Line Icons Pack</a></li>
 											<li><a href="premium-solid-icons.html">Solid Icons Pack</a></li>
-											
+
 						                </ul>
 						            </li>
-						
+
 						            <!--Menu list item-->
 						            <li>
 						                <a href="helper-classes.html">
@@ -2056,7 +2057,7 @@
 
         </div>
 
-        
+
 
         <!-- FOOTER -->
         <!--===================================================-->
@@ -2105,9 +2106,9 @@
     <!-- END OF CONTAINER -->
 
 
-    
-    
-    
+
+
+
     <!--JAVASCRIPT-->
     <!--=================================================-->
 
@@ -2126,12 +2127,12 @@
 
 
     <!--=================================================-->
-    
+
     <!--Demo script [ DEMONSTRATION ]-->
     <script src="js/demo/nifty-demo.min.js"></script>
 
-    
-    
+
+
 
 </body>
 </html>
