@@ -100,6 +100,13 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
 Route::get('/admin/login', function () {
     return view('auth.login');
 });
+
+//shared server clear cache
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('cache:clear');
+    // return what you want
+});
+
 //Route::get('/registerr', function () {
     //return view('auth.register');
 //});
