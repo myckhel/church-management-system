@@ -26,7 +26,7 @@
 	@yield('link')
         @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css" rel="stylesheet">
+        <link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-clockpicker.min.css') }}" rel="stylesheet">
         @endif
 	<!--=================================================-->
 
@@ -79,9 +79,9 @@
 	<!--<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet">-->
 
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css" rel="stylesheet">
-	<link href="https://cdn.datatables.net/1.10.16/css/dataTables.semanticui.min.css" rel="stylesheet">
-	<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.semanticui.min.css" rel="stylesheet">
+	<link href="{{ URL::asset('plugins/datatables/semantic.min.css') }}" rel="stylesheet">
+	<link href="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.css') }}" rel="stylesheet">
+	<link href="{{ URL::asset('plugins/datatables/buttons.semanticui.min.css') }}" rel="stylesheet">
 
 	<link href="{{ URL::asset('plugins/flag-icon-css/css/flag-icon.min.css') }}" rel="stylesheet">
 
@@ -428,9 +428,9 @@
 											<li>
 												<a href="{{route('branch.ho')}}">Head Office Options</a>
 											</li>
-											<!--li>
-												<a href="{{route('branches')}}">Coming Soon</a>
-											</li-->
+											<li>
+												<a href="{{route('branch.tools')}}">Tools</a>
+											</li>
 
 										</ul>
 									</li>
@@ -613,7 +613,7 @@
 	<!--NiftyJS [ RECOMMENDED ]-->
 	<script src="{{ URL::asset('js/nifty.min.js') }}"></script>
         @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.js"></script>
+        <script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-clockpicker.min.js') }}"></script>
         <script type="text/javascript">
     $('.clockpicker').clockpicker();
         </script>
@@ -648,21 +648,21 @@
     <!--DataTables Sample [ SAMPLE ]-->
 	<!--<script src="{{ URL::asset('js/demo/tables-datatables.js') }}"></script>-->
 
-	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.semanticui.min.js"></script>
+	<script src="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.js') }}"></script>
 
-	<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+	<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
 	<!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>-->
 
 
-	<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.semanticui.min.js"></script>
+	<script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-	<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
-	<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+	<script src="{{ URL::asset('plugins/datatables/jszip.min.js') }}"></script>
+	<script src="{{ URL::asset('plugins/datatables/pdfmake.min.js') }}"></script>
+	<script src="{{ URL::asset('plugins/datatables/vfs_fonts.js') }}"></script>
+	<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
+	<script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script>
 
-	<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script>
+	<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
 
 	<script>
 		$(document).ready(function () {
@@ -1537,6 +1537,8 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
 });
 </script>
 @endif
+
 @yield('js')
+
 </body>
 </html>

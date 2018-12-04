@@ -37,6 +37,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/branches/register', 'BranchController@register')->name('branch.register');
     Route::get('/branches/head_office_options', 'BranchController@ho')->name('branch.ho');
     Route::post('/branches/head_office_options', 'BranchController@ho_up')->name('branch.ho.up');
+    Route::get('/branches/tools', 'BranchController@tools')->name('branch.tools');
 
     Route::get('/attendance', 'AttendanceController@mark')->name('attendance');
     Route::post('/attendance/mark', 'AttendanceController@mark_it')->name('attendance.mark');
