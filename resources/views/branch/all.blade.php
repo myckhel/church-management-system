@@ -94,3 +94,55 @@
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
 @endsection
+
+@section('js')
+<!--DataTables [ OPTIONAL ]-->
+<script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+<!--<script src="{{ URL::asset('plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>-->
+
+<!--DataTables Sample [ SAMPLE ]-->
+<!--<script src="{{ URL::asset('js/demo/tables-datatables.js') }}"></script>-->
+
+<script src="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.js') }}"></script>
+
+<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
+<!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>-->
+
+
+<script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
+
+<script src="{{ URL::asset('plugins/datatables/jszip.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/pdfmake.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/vfs_fonts.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script>
+
+<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
+
+<script>
+$(document).ready(function () {
+
+  if ($.fn.dataTable.isDataTable('.datatable')) {
+    table = $('.datatable').DataTable()
+  } else {
+    /*$('.datatable').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+      ]
+    });*/
+
+    var table = $('.datatable').DataTable({
+      dom: 'Bfrtip',
+      lengthChange: false,
+      buttons: ['copy', 'excel', 'pdf', 'colvis']
+    });
+
+    table.buttons().container()
+      .appendTo($('div.eight.column:eq(0)', table.table().container()));
+
+  }
+});
+</script>
+@endsection

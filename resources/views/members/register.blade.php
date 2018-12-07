@@ -62,7 +62,7 @@
 						<div class=""  style="border:1pt solid #090c5e; border-radius:25px;">
 							<!-- BASIC FORM ELEMENTS -->
 							<!--===================================================-->
-							<form method="POST" action="{{route('member.register')}}" class="panel-body form-horizontal form-padding" enctype="multipart/form-data">
+							<form id="register-form" method="POST" action="{{route('member.register')}}" class="panel-body form-horizontal form-padding" enctype="multipart/form-data">
 							@csrf
 								<div class="col-md-6">
 								<!--Static-->
@@ -536,7 +536,12 @@
 								<div class="form-group" style="padding-top:50px">
 									<div class="col-md-9">
 										<span class=" pull-right">
-											<button class="btn btn-info pull-center" type="submit">REGISTER MEMBER</button>
+											<button id="submit" class="btn btn-info pull-center" type="submit">REGISTER MEMBER</button>
+										</span>
+									</div>
+									<div class="col-md-3">
+										<span class=" pull-left">
+											<button class="btn-danger" onclick="resetForm('#register-form')" >reset</button>
 										</span>
 									</div>
 								</div>
@@ -546,9 +551,6 @@
 					</div>
 					<!--===================================================-->
 					<!-- END BASIC FORM ELEMENTS -->
-
-
-
 					<!--Default Bootstrap Modal-->
 					<!--===================================================-->
 					<div class="modal fade" id="demo-default-modal" role="dialog" tabindex="-1" aria-labelledby="demo-default-modal" aria-hidden="true">
@@ -590,12 +592,9 @@
 				</div>
 			</div>
 		</div>
-
-
 	</div>
 	<!--===================================================-->
 	<!--End page content-->
-
 </div>
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
@@ -605,6 +604,19 @@
 @section('js')
 <script>
 	$(document).ready(function(){
+		// toggle Anniversary
+		$('input:radio[name="marital_status"]').change(
+			function(){
+				if(this.checked && this.value == 'married'){
+					$('#wedding').show();
+					$("#anniversary").prop('required',true);
+				}
+				else{
+					$('#wedding').hide();
+					$("#anniversary").prop('required',false);
+				}
+			});
+			// toggle member since date
 		$('#member_since').change(function(){
 			let today = new Date();
 			let member_date = this.value;
@@ -621,6 +633,32 @@
 				$('#member_status_div').show();
 			}
 		});
+		// handle register form submission
+		$('#register-form').submit((e) => {
+			e.preventDefault()
+			toggleAble('#submit', true)
+			let data = {}
+			$.each($('#register-form').serializeArray(), (i, field) => {
+				data[field.name] = field.value
+			})
+			//send to db route
+			$.ajax({url: "{{route('member.register')}}", data, type: 'POST'})
+			.done((res) => {
+				if (res.status) {
+					swal("Success!", res.text, "success");
+					resetForm('#register-form')
+					toggleAble('#submit', false)
+				}else {
+					swal("Oops", res.text, "error");
+					toggleAble('#submit', false)
+				}
+			})
+			.fail((e) => {
+				swal("Oops", "Internal Server Error", "error");
+				toggleAble('#submit', false)
+				console.log(e);
+			})
+		})
 	});
 </script>
 @endsection

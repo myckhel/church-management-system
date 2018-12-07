@@ -39,10 +39,10 @@
 	<!--Font Awesome [ OPTIONAL ]-->
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-
+	@if(Route::currentRouteName() != "members.all")
     <!--Bootstrap Timepicker [ OPTIONAL ]-->
     <link href="{{ URL::asset('plugins/bootstrap-timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet">
-
+	@endif
 
     @if (Route::currentRouteName() == ('member.register' || 'attendance.mark' || 'collection.offering' || 'calendar')  || Route::currentRouteName() == ('ticket'))
 	<!--Bootstrap Datepicker [ OPTIONAL ]-->
@@ -66,6 +66,10 @@
     <!--Full Calendar [ OPTIONAL ]-->
     <link href="{{ URL::asset('plugins/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css') }}" rel="stylesheet">
+	@endif
+
+	@if (Route::currentRouteName() === 'member.register.form')
+	<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
 	@endif
 
 	    <!--Morris.js [ OPTIONAL ]-->
@@ -321,15 +325,13 @@
 									<!--<li class="list-header">Components</li>-->
 
 									<!--Menu list item-->
-                                    <li class="{{ Route::currentRouteName() === 'members.all' || Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : ''}}
-
-                                    {{Route::currentRouteName() === 'member.profile' ? 'active-sub' : ''}}">
+                  <li class="{{ (Route::currentRouteName() === 'members.all' || 'member.register.form') ? 'active-sub active' : ''}}
+                  	{{Route::currentRouteName() === 'member.profile' ? 'active-sub' : ''}}">
 										<a href="{{route('members.all')}}">
 											<i class="fa fa-users"></i>
 											<span class="menu-title">Members</span>
 											<i class="arrow"></i>
 										</a>
-
 
 										<ul class="collapse">
 											<li class="{{ Route::currentRouteName() === 'members.all' ? 'active-sub active' : '' }}">
@@ -619,6 +621,14 @@
         </script>
         @endif
 
+				@if (Route::currentRouteName() === 'member.register.form')
+				<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
+				@endif
+
+				@if (Route::currentRouteName() === 'member.register.form')
+				<script src="{{ URL::asset('js/functions.js') }}"></script>
+				@endif
+
 	<!--Bootstrap Datepicker [ OPTIONAL ]-->
 	<script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 	    <!--Bootstrap Timepicker [ OPTIONAL ]-->
@@ -639,7 +649,7 @@
     <!--<script src="{{ URL::asset('js/demo/nifty-demo.min.js') }}"></script>-->
 
 
-    @if (Route::currentRouteName() == 'members.all' || Route::currentRouteName() == 'branches' || 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form')
+    @if (Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form')
     <!--DataTables [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
 	<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
@@ -1366,25 +1376,6 @@ function calculateSum() {
 			$(this).next().val('no');
 		}
 	});
-</script>
-@endif
-
-@if(Route::currentRouteName() == "member.register.form")
-<script>
-$(document).ready(function(){
-	$('input:radio[name="marital_status"]').change(
-		function(){
-			if(this.checked && this.value == 'married'){
-				$('#wedding').show();
-				$("#anniversary").prop('required',true);
-			}
-			else{
-							$('#wedding').hide();
-							$("#anniversary").prop('required',false);
-						}
-		});
-});
-
 </script>
 @endif
 
