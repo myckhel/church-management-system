@@ -68,7 +68,7 @@
 	<link href="{{ URL::asset('plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css') }}" rel="stylesheet">
 	@endif
 
-	@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view.form'))
+	@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view.form' || 'collection.offering'))
 	<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
 	@endif
 
@@ -621,7 +621,7 @@
         </script>
         @endif
 
-				@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view.form'))
+				@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view.form' || 'collection.offering'))
 				<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
 				@endif
 
@@ -704,14 +704,10 @@
 
 
 
-        @if (Route::currentRouteName() == ('member.profile' || 'attendance.analysis' || 'collection.offering'))
+        @if (Route::currentRouteName() == ('member.profile' || 'attendance.analysis'))
     <!--Morris.js [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/morris-js/morris.min.js') }}"></script>
 	<script src="{{ URL::asset('plugins/morris-js/raphael-js/raphael.min.js') }}"></script>
-
-
-    <!--Morris.js Sample [ SAMPLE ]-->
-    <!--<script src="{{ URL::asset('js/demo/morris-js.js') }}"></script>-->
 	@endif
     <!--Flot Chart [ OPTIONAL ]-->
 		@if(1 == 1)
@@ -877,45 +873,6 @@ function dele(input){
 
 	    <!--Icons [ SAMPLE ]-->
 		<script src="{{ URL::asset('js/demo/icons.js') }}"></script>
-
-
-    <!--Icons [ SAMPLE ]-->
-	<script >
-
-		// MORRIS BAR CHART
-		// =================================================================
-		// Require MorrisJS Chart
-		// -----------------------------------------------------------------
-		// http://morrisjs.github.io/morris.js/
-		// =================================================================
-		Morris.Bar({
-			element: 'demo-morris-bar',
-			data: [
-				{ y: 'Jan', a: 1, b: 3 },
-				{ y: 'Feb', a: 3,  b: 4 },
-				{ y: 'Mar', a: 2,  b: 5 },
-				{ y: 'Apr', a: 5,  b: 4 },
-				{ y: 'May', a: 7,  b: 5 },
-				{ y: 'Jun', a: 0,  b: 5 },
-				{ y: 'July', a: 7,  b: 1 },
-				{ y: 'Aug', a: 1, b: 7 },
-				{ y: 'Sept', a: 5, b: 7 },
-				{ y: 'Oct', a: 2, b: 1 },
-				{ y: 'Nov', a: 4, b: 9 },
-				{ y: 'Dec', a: 2, b: 5 }
-			],
-			xkey: 'y',
-			ykeys: ['a', 'b'],
-			labels: ['Absent', 'Present'],
-			gridEnabled: true,
-			gridLineColor: 'rgba(0,0,0,.1)',
-			gridTextColor: '#8f9ea6',
-			gridTextSize: '11px',
-			barColors: ['red', 'green'],
-			resize:true,
-			hideHover: 'auto'
-		});
-                </script>
 
 @if (Route::currentRouteName() == 'member.profile')
 <?php require_once 'js/views/members/profile.php'; ?>
@@ -1138,50 +1095,6 @@ e">Select Relative</button></div>
 
 @endif
 </script>
-
-@if(Route::currentRouteName() == "collection.offering")
-<script>
-
-$(document).ready(function(){
-	$(".saisie").each(function() {
-			 $(this).keyup(function(){calculateTotal($(this).parent().index());
-			 });
-	 });
-});
-
-function calculateTotal(index)
-{
-	var total = 0;
-	 $('table tr td').filter(function(){
-			 if($(this).index()==index)
-			 {
-			 total += parseFloat($(this).find('.saisie').val())||0;
-			 }
-	 }
-	 );
-	 $('table tr td.totalCol:eq('+index+')').html(total);
-	calculateSum();
-	 calculateRowSum();
-}
-function calculateRowSum()
-{
-	 $('table tr:has(td):not(:last)').each(function(){
-			var sum = 0; $(this).find('td').each(function(){
-				 sum += parseFloat($(this).find('.saisie').val()) || 0;
-			 });
-					$(this).find('td:last').html(sum);
-					$('#hidden-total').val(sum);
-	 });
-}
-function calculateSum() {
-	 var sum = 0;
-	 $("td.totalCol").each(function() {
-					 sum += parseFloat($(this).html())||0;
-	 });
-	 $("#sum").html(sum.toFixed(2));
-}
-</script>
-@endif
 
 @if(Route::currentRouteName() == "attendance")
 <!-- mark attendance -->
