@@ -112,7 +112,7 @@ li {
                     </div>
                     <!--Block Styled Form -->
                     <!--===================================================-->
-                    <form method="POST" action="{{route('attendance.view')}}">
+                    <form id="viewByDate" method="POST" action="{{route('attendance.view')}}">
                         @csrf
                         <input name="branch_id" value="3" type="text" hidden="hidden"/>
                         <div class="panel-body">
@@ -120,7 +120,7 @@ li {
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Choose Specific Date</label>
-                                        <input type="date" value="<?php if (isset($request_date)) echo $request_date;?>" name="date" class="form-control" required>
+                                        <input id="yearDate" type="date" name="date" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +135,6 @@ li {
                 </div>
 
             </div>
-            <?php if (!isset($addedVariables)){ ?>
             <div class="col-md-offset-1 col-md-10" style="margin-bottom:50px">
                 <div class="panel rounded-top" style="background-color: #e8ddd3;">
                   <div class="panel-heading text-center">
@@ -173,7 +172,7 @@ li {
                         <td>{{$list->male + $list->female + $list->children}}</td>
                         <td>{{$list->attendance_date}}</td>
                         <td>{{$list->created_at}}</td>
-                        <td><button id="{{$list->attendance_date}}" type="submit" class="btn btn-primary" onclick="view(this);">View</button></td>
+                        <td><button id="{{$list->attendance_date}}" type="submit" class="btn btn-primary viewBtn" onclick="view(this);">View</button></td>
                     </tr>
                     <?php $count++;?>
                     @endforeach
@@ -183,42 +182,7 @@ li {
           </div>
         </div>
 
-      <?php }else{ ?>
-            <div class="col-md-offset-3 col-md-6" style="margin-bottom:350px">
-                <div class="panel rounded-top" style="background-color: #e8ddd3;">
-                    <div class="panel-body text-center clearfix">
-                        <div class="col-sm-4 pad-top">
-                            <div class="text-lg">
-                                <p class="text-5x text-thin text-main">{{$attendance->getTotal()}}</p>
-                            </div>
-                            <p class="text-sm text-bold text-uppercase">Total Attendance</p>
-                        </div>
-                        <div class="col-sm-8">
-                            <!--<button class="btn btn-pink mar-ver">View Details</button>
-                            <p class="text-xs">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>-->
-                            <ul class="list-unstyled text-center bord-to pad-top mar-no row">
-                                <li class="col-xs-4">
-                                    <span class="text-lg text-semibold text-main">{{$attendance->male}}</span>
-                                    <p class="text-sm text-muted mar-no">Men</p>
-                                </li>
-                                <li class="col-xs-4">
-                                    <span class="text-lg text-semibold text-main">{{$attendance->female}}</span>
-                                    <p class="text-sm text-muted mar-no">Women</p>
-                                </li>
-                                <li class="col-xs-4">
-                                    <span class="text-lg text-semibold text-main">{{$attendance->children}}</span>
-                                    <p class="text-sm text-muted mar-no">Children</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <a style="float:right;" href="{{route('attendance.view.form')}}" class="btn btn-success">View Attendance History</a>
-            </div>
-            <?php } ?>
-
             <!-- MEMBERS ATTENDANCE -->
-            <?php if (!isset($addedVariables)){ ?>
             <div class="col-md-offset-1 col-md-10" style="margin-bottom:50px">
                 <div class="panel rounded-top" style="background-color: #e8ddd3;">
                   <div class="panel-heading">
@@ -265,13 +229,106 @@ li {
           </div>
           </div>
         </div>
-      <?php }?>
+
+          <!-- Modal -->
+          <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog" style="width: 50%; margin: 0 auto;">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header bg-warning">
+                  <button type="button" class="close" data-dismiss="modal"><h1>&times;</h1></button>
+                  <div class="d-inline pull-left"><h1 class="">Date: </h1></div>
+                  <div class="d-inline text-center text-white"><h1 id="date-title"></h1></div>
+                </div>
+                <div id="modal-body" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
     </div>
     <!--===================================================-->
     <!--End page content-->
-
 </div>
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
+@endsection
+
+@section('js')
+<script>
+$(document).ready(() => {
+  //Attnedance Module
+  $('#view-year').click(function (){
+  	$('#show-year').show();
+  });
+
+  $('#viewByDate').submit((e) => {
+    e.preventDefault()
+    let date = $('#yearDate').val()
+    let h1 = document.createElement('h1')
+    $(h1).attr('id')
+    h1.setAttribute("id", date);
+  	view(h1)
+  });
+  //END Attnedance Module
+})
+const viewAttendance = (attendance) => {
+return  `
+  <div class="col-md-12">
+      <div class="panel rounded-top" style="background-color: #e8ddd3;">
+          <div class="panel-body text-center clearfix">
+              <div class="col-sm-4 pad-top">
+                  <div class="text-lg">
+                      <p class="text-5x text-thin text-main">${attendance.male + attendance.female + attendance.children}</p>
+                  </div>
+                  <p class="text-sm text-bold text-uppercase">Total Attendance</p>
+              </div>
+              <div class="col-sm-8">
+                  <!--<button class="btn btn-pink mar-ver">View Details</button>
+                  <p class="text-xs">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>-->
+                  <ul class="list-unstyled text-center bord-to pad-top mar-no row">
+                      <li class="col-xs-4">
+                          <span class="text-lg text-semibold text-main">${attendance.male}</span>
+                          <p class="text-sm text-muted mar-no">Men</p>
+                      </li>
+                      <li class="col-xs-4">
+                          <span class="text-lg text-semibold text-main">${attendance.female}</span>
+                          <p class="text-sm text-muted mar-no">Women</p>
+                      </li>
+                      <li class="col-xs-4">
+                          <span class="text-lg text-semibold text-main">${attendance.children}</span>
+                          <p class="text-sm text-muted mar-no">Children</p>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>`
+}
+function showe(date){
+  $('#date-title').html(date)
+  $('#myModal').modal('show')
+}
+function view(d){
+  var id = $(d).attr('id');
+  $.ajax({url: "{{route('attendance.view')}}", data: {'date': id, '_token' : '{{ csrf_token() }}'}, type: 'POST'})
+  .done((res) => {
+    if (res.status) {
+      $('#modal-body').html(viewAttendance(res.attendance))
+      showe(res.attendance.attendance_date)
+    }else {
+      swal("Oops", res.text, "error");
+    }
+  })
+  .fail((e) => {
+    swal("Oops", "internal server error", "error");
+    console.log(e);
+  })
+}
+</script>
 @endsection

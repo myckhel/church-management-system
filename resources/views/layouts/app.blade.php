@@ -68,7 +68,7 @@
 	<link href="{{ URL::asset('plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css') }}" rel="stylesheet">
 	@endif
 
-	@if (Route::currentRouteName() === 'member.register.form')
+	@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view.form'))
 	<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
 	@endif
 
@@ -325,7 +325,7 @@
 									<!--<li class="list-header">Components</li>-->
 
 									<!--Menu list item-->
-                  <li class="{{ (Route::currentRouteName() === 'members.all' || 'member.register.form') ? 'active-sub active' : ''}}
+                  <li class="{{ (Route::currentRouteName() === ('members.all' || 'member.register.form')) ? 'active-sub active' : ''}}
                   	{{Route::currentRouteName() === 'member.profile' ? 'active-sub' : ''}}">
 										<a href="{{route('members.all')}}">
 											<i class="fa fa-users"></i>
@@ -621,7 +621,7 @@
         </script>
         @endif
 
-				@if (Route::currentRouteName() === 'member.register.form')
+				@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view.form'))
 				<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
 				@endif
 
@@ -714,10 +714,13 @@
     <!--<script src="{{ URL::asset('js/demo/morris-js.js') }}"></script>-->
 	@endif
     <!--Flot Chart [ OPTIONAL ]-->
-    <script src="{{ URL::asset('plugins/flot-charts/jquery.flot.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.resize.min.js') }}"></script>
+		@if(1 == 1)
+    <!-- <script src="{{ URL::asset('plugins/flot-charts/jquery.flot.min.js') }}"></script> -->
+
+	<!-- <script src="{{ URL::asset('plugins/flot-charts/jquery.flot.resize.min.js') }}"></script>
 	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.pie.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.tooltip.min.js') }}"></script>
+	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.tooltip.min.js') }}"></script> -->
+	@endif
 
 	@if (Route::currentRouteName() == ('calendar') )
 
@@ -725,31 +728,21 @@
 	<script src="plugins/fullcalendar/lib/moment.min.js"></script>
 	<script src="plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
 	<script src="plugins/fullcalendar/fullcalendar.min.js"></script>
-
-
     <!--Full Calendar [ SAMPLE ]-->
         <script>
-
 // Misc-FullCalendar.js
 // ====================================================================
 // This file should not be included in your project.
 // This is just a sample how to initialize plugins or components.
 //
 // - ThemeOn.net -
-
-
-
 $(document).on('nifty.ready', function() {
-
-
 // Calendar
 // =================================================================
 // Require Full Calendar
 // -----------------------------------------------------------------
 // http://fullcalendar.io/
 // =================================================================
-
-
 // initialize the external events
 // -----------------------------------------------------------------
 $('#demo-external-events .fc-event').each(function() {
@@ -759,7 +752,6 @@ $('#demo-external-events .fc-event').each(function() {
                 stick: true, // maintain when user navigates (see docs on the renderEvent method)
                 className : $(this).data('class')
         });
-
 
         // make the event draggable using jQuery UI
         $(this).draggable({
@@ -925,98 +917,6 @@ function dele(input){
 		});
                 </script>
 
-@if (Route::currentRouteName() == ('collection.offering'))
-                <script>
-
-    // FLOT LINE CHART
-    // =================================================================
-    // Require Flot Charts
-    // -----------------------------------------------------------------
-    // http://www.flotcharts.org/
-    // =================================================================
-
-    var pageviews = [ [1, 1436], [2, 1395], [3, 1479], [4, 1595], [5, 1509], [6, 1550], [7, 1480], [8, 1390], [9, 1550], [10, 1400], [11, 1590], [12, 1436]],
-                visitor = [ [1, 1124], [2, 1183], [3, 1126], [4, 887], [5, 754], [6, 865], [7, 889], [8, 854], [9, 958], [10, 925], [11, 1056], [12, 984]],
-                women = [ [1, 1024], [2, 1283], [3, 1126], [4, 487], [5, 754], [6, 565], [7, 889], [8, 814], [9, 918], [10, 825], [11, 456], [12, 1084]];;
-
-    var plot = $.plot('#demo-flot-line', [
-        {
-            label: 'Men',
-            data: pageviews,
-            lines: {
-                show: true,
-                lineWidth: 1,
-                fill: false
-            },
-            points: {
-                show: true,
-                radius: 2
-            }
-            },
-        {
-            label: 'Women',
-            data: women,
-            lines: {
-                show: true,
-                lineWidth: 1,
-                fill: false
-            },
-            points: {
-                show: true,
-                radius: 2
-            }
-                        },
-                        {
-            label: 'Children',
-            data: visitor,
-            lines: {
-                show: true,
-                lineWidth: 1,
-                fill: false
-            },
-            points: {
-                show: true,
-                radius: 2
-            }
-            }
-        ], {
-        series: {
-            lines: {
-                show: true
-            },
-            points: {
-                show: true
-            },
-            shadowSize: 0 // Drawing is faster without shadows
-        },
-        colors: ['#b5bfc5', 'red','#177bbb'],
-        legend: {
-            show: true,
-            position: 'nw',
-            margin: [15, 0]
-        },
-        grid: {
-            borderWidth: 0,
-            hoverable: true,
-            clickable: true
-        },
-        yaxis: {
-            ticks: 5,
-            tickColor: 'rgba(0,0,0,.1)'
-        },
-        xaxis: {
-            ticks: 7,
-            tickColor: 'transparent'
-        },
-        tooltip: {
-            show: true,
-            content: 'x: %x, y: %y'
-        }
-    });
-	</script>
-	@endif
-
-
 @if (Route::currentRouteName() == 'member.profile')
 <?php require_once 'js/views/members/profile.php'; ?>
 @endif
@@ -1041,59 +941,6 @@ function dele(input){
 @endif
 <!-- FOR ATTENDANCE MARK -->
 
-	@if ( Route::currentRouteName() ==  'member.profile'))
-	<script>
-
-
-		   // FLOT BAR CHART
-    // =================================================================
-    // Require Flot Charts
-    // -----------------------------------------------------------------
-    // http://www.flotcharts.org/
-    // =================================================================
-    var data = [[1, 10], [2, 8], [3, 4], [4, 13], [5, 17], [6, 9], [7, 12], [8, 15], [9, 9], [10, 15]];
-
-    $.plot('#demo-flot-bar', [data], {
-        series: {
-            bars: {
-                show: true,
-                barWidth: 0.6,
-                fill: true,
-                fillColor: {
-                    colors: [{
-                        opacity: 0.9
-                    }, {
-                        opacity: 0.9
-                    }]
-                }
-            }
-        },
-        colors: ['#9B59B6'],
-        yaxis: {
-            ticks: 5,
-            tickColor: 'rgba(0,0,0,.1)'
-        },
-        xaxis: {
-            ticks: 7,
-            tickColor: 'transparent'
-        },
-        grid: {
-            hoverable: true,
-            clickable: true,
-            tickColor: '#eeeeee',
-            borderWidth: 0
-        },
-        legend: {
-            show: true,
-            position: 'nw'
-        },
-        tooltip: {
-            show: true,
-            content: 'x: %x, y: %y'
-        }
-    });
-	</script>
-        @endif
 	<script>
     $('.datepicker').datepicker();
 
@@ -1292,36 +1139,6 @@ e">Select Relative</button></div>
 @endif
 </script>
 
-@if (Route::currentRouteName() == ('attendance.view.form') || Route::currentRouteName() == ('attendance.view') )
-<script src="{{URL::asset('js/jquery.redirect.js')}}"></script>
-<script>
-//Attnedance Module
-$('#view-year').click(function (){
-	$('#show-year').show();
-});
-//END Attnedance Module
-function view(d){
-		var confirmed = confirm('confirm to view');
-		console.log(confirmed);
-		console.log(d);
-		if(confirmed){
-				var id = $(d).attr('id');
-				console.log(id);
-				/*$.ajax({
-					type        : 'POST',
-					url: "{{route('attendance.view')}}",
-					data        : id, // our data object
-					dataType    : 'json', // what type of data do we expect back from the server
-					encode          : true
-				}).done(function(){
-						location.reload();
-				});*/
-				$.redirect("{{route('attendance.view')}}", {'date': id, '_token' : '{{ csrf_token() }}'});
-
-		}//{{route("branch.destroy",' + id + ')}}
-}
-</script>
-@endif
 @if(Route::currentRouteName() == "collection.offering")
 <script>
 
