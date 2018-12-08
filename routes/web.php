@@ -40,7 +40,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
 
     Route::get('/attendance', 'AttendanceController@mark')->name('attendance');
     Route::post('/attendance/mark', 'AttendanceController@mark_it')->name('attendance.mark');
-    Route::post('/attendance', 'AttendanceController@store')->name('attendance.selectDate');
+    // Route::post('/attendance', 'AttendanceController@store')->name('attendance.selectDate');
     Route::post('/attendance/submit', 'AttendanceController@store')->name('attendance.submit');
     //Route::post('/attendance/mark/submit', 'AttendanceController@store')->name('attendance.mark.submit');
     Route::get('/attendance/analysis', 'AttendanceController@analysis')->name('attendance.analysis');

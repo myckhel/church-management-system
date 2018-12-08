@@ -58,7 +58,7 @@
 
                     <!--Block Styled Form -->
                     <!--===================================================-->
-                    <form method="POST" action="{{route('attendance.selectDate')}}">
+                    <form id="b-attendance-form" method="POST" action="{{route('attendance.submit')}}">
                         @csrf
                         <input name="branch_id" value="3" type="text" hidden="hidden"/>
                         <div class="panel-body">
@@ -66,7 +66,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Date</label>
-                                        <input id="mark-date" type="date" name="date" class="form-control">
+                                        <input id="mark-date" type="date" name="date" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -74,27 +74,27 @@
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Male</label>
-                                        <input type="number" min=0 name="male" class="form-control">
+                                        <input type="number" min=0 name="male" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Female</label>
-                                        <input type="number" min=0 name="female" class="form-control">
+                                        <input type="number" min=0 name="female" class="form-control" required>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Children</label>
-                                        <input type="number" min=0 name="children" class="form-control">
+                                        <input type="number" min=0 name="children" class="form-control" required>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                       <label class="control-label">Attendance Type</label>
-                                        <select name="type" id="mark-select" class="selectpicker" data-style="btn-success">
+                                        <select name="type" id="mark-select" class="selectpicker" data-style="btn-success" required>
                                             <option value="sunday service" selected>Sunday Service</option>
                                             <option value="monday service">Monday Service</option>
                                             <option value="tuesday service">Tuesday Service</option>
@@ -111,14 +111,10 @@
                                       <input type="text" name="custom_type" class="form-control">
                                   </div>
                               </div>
-
-
                             <div class="row">
                             </div>
                             <div class="row">
-
                                 </div>
-
                             </div>
                         </div>
                         <div class="panel-footer text-right bg-dark">
@@ -136,7 +132,7 @@
                         <h3 class="panel-title text-center">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
                     </div>
                     <div class="panel-body">
-                    <form action="{{route('attendance.mark')}}" method="post" >
+                    <form id="m-attendance" action="{{route('attendance.mark')}}" method="post" >
                       @csrf
                     <table id="demo-dt-basic" class="table table-striped table-bordered datatable text-dark" cellspacing="0" width="100%" >
                         <thead>
@@ -206,8 +202,6 @@
                   </form>
                 </div>
             </div>
-
-
         </div>
         </div>
     </div>
@@ -219,5 +213,49 @@
 @endsection
 
 @section('js')
-
+<script>
+$(document).ready(() => {
+  // Branch Attendnace
+  $('#b-attendance-form').submit((e) => {
+    e.preventDefault()
+    data = $('#b-attendance-form').serializeArray()
+    sender("{{route('attendance.submit')}}", data, () => {
+      $('#b-attendance-form').trigger('reset')
+    })
+    console.log(data);
+  })
+  //member Attendnace
+  $(":checkbox").change(function() {
+		if($(this).is(':checked')){
+			$(this).next().val('yes');
+		}else{
+			$(this).next().val('no');
+		}
+	});
+  $('#m-attendance').submit((e) => {
+    e.preventDefault()
+    let data = $('#m-attendance').serializeArray()
+    sender("{{route('attendance.mark')}}", data, () => {
+      location.reload()
+    })
+  })
+})
+const sender = (url, data, fn) => {
+  $.ajax({url, data, type: 'POST'})
+  .done((res) => {
+    if (res.status) {
+      swal("Success!", res.text, "success");
+      if (typeof(fn) === 'function') {
+        fn(res)
+      }
+    } else {
+      swal("Oops", res.text, "error");
+    }
+  })
+  .fail((e) => {
+    swal("Oops", "Internal Server Error", "error");
+    console.log(e);
+  })
+}
+</script>
 @endsection
