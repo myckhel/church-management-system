@@ -1335,7 +1335,20 @@ scrollToBottom();
 
 </script>
 @endif
-
+<script>
+function toggleAble(element,bool, text){
+	$(element).prop('disabled', bool);
+	// $(element).find('#loader').show();
+	let $this = $(element);
+	if (bool) {
+		var loadingText = `<i class="fa fa-circle-o-notch fa-spin"></i> ${text || ' loading... '}`;
+		$this.data('original-text', $($this).html());
+		$this.html(loadingText);
+	}else{
+		$this.html($this.data('original-text'))
+	}
+}
+</script>
 @if(Route::currentRouteName() == "gallery")
 <script>
 function readURL(input) {

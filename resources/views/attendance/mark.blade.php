@@ -194,7 +194,7 @@
                       <div class="col-md-3 form-group pull-right" style="">
                         <h3><label for="date">Submit Attendance</label></h3>
                         <div class="input-group" style="width:100%">
-                          <input type="submit" name="save" value="Submit" class="btn btn-primary form-control"/>
+                          <input id="m-submit-btn" type="submit" name="save" value="Submit" class="btn btn-primary form-control"/>
                         </div>
                       </div>
 
@@ -217,12 +217,17 @@
 $(document).ready(() => {
   // Branch Attendnace
   $('#b-attendance-form').submit((e) => {
+    toggleAble($('#btn-mark'), true, 'submitting...')
     e.preventDefault()
     data = $('#b-attendance-form').serializeArray()
-    sender("{{route('attendance.submit')}}", data, () => {
+    url = "{{route('attendance.submit')}}"
+    const result = sender({url, data}, () => {
+      toggleAble($('#btn-mark'), false)
       $('#b-attendance-form').trigger('reset')
     })
-    console.log(data);
+    if (!result) {
+      toggleAble($('#btn-mark'), false)
+    }
   })
   //member Attendnace
   $(":checkbox").change(function() {
@@ -233,14 +238,20 @@ $(document).ready(() => {
 		}
 	});
   $('#m-attendance').submit((e) => {
+    toggleAble($('#m-submit-btn'), true, 'submitting...')
     e.preventDefault()
     let data = $('#m-attendance').serializeArray()
-    sender("{{route('attendance.mark')}}", data, () => {
+    url = "{{route('attendance.mark')}}"
+    const result = sender({url, data}, () => {
+      toggleAble($('#m-submit-btn'), false)
       location.reload()
     })
+    if (!result) {
+      toggleAble($('#m-submit-btn'), false)
+    }
   })
 })
-const sender = (url, data, fn) => {
+const sender = ({url, data}, fn) => {
   $.ajax({url, data, type: 'POST'})
   .done((res) => {
     if (res.status) {
@@ -248,12 +259,15 @@ const sender = (url, data, fn) => {
       if (typeof(fn) === 'function') {
         fn(res)
       }
+      return true
     } else {
       swal("Oops", res.text, "error");
+      return false
     }
   })
   .fail((e) => {
     swal("Oops", "Internal Server Error", "error");
+    return false
     console.log(e);
   })
 }
