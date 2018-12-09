@@ -8,34 +8,24 @@
 	<title>@yield('title') - {{config('app.name')}}</title>
 	<!--STYLESHEET-->
 	<!--=================================================-->
-
 	<!--Open Sans Font [ OPTIONAL ]-->
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-
-
 	<!--Bootstrap Stylesheet [ REQUIRED ]-->
 	<link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
-
-
 	<!--Nifty Stylesheet [ REQUIRED ]-->
 	<link href="{{ URL::asset('css/nifty.min.css') }}" rel="stylesheet">
-
-
 	<!--Nifty Premium Icon [ DEMONSTRATION ]-->
 	<link href="{{ URL::asset('css/demo/nifty-demo-icons.min.css') }}" rel="stylesheet">
 	@yield('link')
         @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
-
         <link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-clockpicker.min.css') }}" rel="stylesheet">
         @endif
 	<!--=================================================-->
-
 @if(Route::currentRouteName() == "gallery")
 <link href="{{ URL::asset('plugins/gallery/ekko-lightbox.css') }}" rel="stylesheet">
 @endif
 	<!--Demo [ DEMONSTRATION ]-->
 	<link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet">
-
 	<!--Font Awesome [ OPTIONAL ]-->
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -75,11 +65,6 @@
 	    <!--Morris.js [ OPTIONAL ]-->
 		<link href="{{ URL::asset('plugins/morris-js/morris.min.css') }}" rel="stylesheet">
 
-	@if (Route::currentRouteName() == 'branch.ho')
-	<!--link href="{{ URL::asset('css/bootstrap-editable.css') }}" rel="stylesheet">
-    <script src="{{ URL::asset('js/bootstrap-editable.min.js') }}"></script-->
-	@endif
-
 	<!--<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet">-->
 
@@ -89,39 +74,12 @@
 
 	<link href="{{ URL::asset('plugins/flag-icon-css/css/flag-icon.min.css') }}" rel="stylesheet">
 
+	@if(Route::currentRouteName() == ('attendance'))
+	<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
+	@endif
 	    <!--Ion Icons [ OPTIONAL ]-->
-		<link href="{{ URL::asset('plugins/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
-
-	<!--=================================================
-
-    REQUIRED
-    You must include this in your project.
-
-
-    RECOMMENDED
-    This category must be included but you may modify which plugins or components which should be included in your project.
-
-
-    OPTIONAL
-    Optional plugins. You may choose whether to include it in your project or not.
-
-
-    DEMONSTRATION
-    This is to be removed, used for demonstration purposes only. This category must not be included in your project.
-
-
-    SAMPLE
-    Some script samples which explain how to initialize plugins or components. This category should not be included in your project.
-
-
-    Detailed information and more samples can be found in the document.
-
-    =================================================-->
-
+	<link href="{{ URL::asset('plugins/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
 </head>
-
-<!--TIPS-->
-<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
 
 <body>
 	<div id="container" class="effect aside-float aside-bright mainnav-lg">
@@ -130,7 +88,6 @@
 		<!--===================================================-->
 		<header id="navbar">
 			<div id="navbar-container" class="boxed">
-
 				<!--Brand logo & name-->
 				<!--================================-->
 				<div class="navbar-header">
@@ -143,13 +100,10 @@
 				</div>
 				<!--================================-->
 				<!--End brand logo & name-->
-
-
 				<!--Navbar Dropdown-->
 				<!--================================-->
 				<div class="navbar-content">
 					<ul class="nav navbar-top-links">
-
 						<!--Navigation toogle button-->
 						<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 						<li class="tgl-menu-btn">
@@ -159,9 +113,6 @@
 						</li>
 						<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 						<!--End Navigation toogle button-->
-
-
-
 						<!--Search-->
 						<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 						<li>
@@ -178,12 +129,8 @@
 						</li>
 						<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 						<!--End Search-->
-
 					</ul>
 					<ul class="nav navbar-top-links">
-
-
-
 						<!--User dropdown-->
 						<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 						<li id="dropdown-user" class="dropdown">
@@ -200,12 +147,9 @@
 								<!--<div class="username hidden-xs">Aaron Chavez</div>-->
 								<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 							</a>
-
-
 							<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right panel-default">
 								<ul class="head-list">
 									<li>
-
 	                  <form method="POST" action="{{route('logout')}}">
 	                  @csrf
 	                  <button type="submit"><i class="demo-pli-unlock icon-lg icon-fw"></i> Logout</button>
@@ -220,37 +164,25 @@
 				</div>
 				<!--================================-->
 				<!--End Navbar Dropdown-->
-
 			</div>
 		</header>
 		<!--===================================================-->
 		<!--END NAVBAR-->
-
 		<div class="boxed">
-
 			<!--CONTENT CONTAINER-->
 			<!--===================================================-->
-
-
-
             @yield('content')
-
-
 			<!--===================================================-->
 			<!--END CONTENT CONTAINER-->
-
-
 			<!--MAIN NAVIGATION-->
 			<!--===================================================-->
 			<nav id="mainnav-container">
 				<div id="mainnav">
-
 					<!--Menu-->
 					<!--================================-->
 					<div id="mainnav-menu-wrap">
 						<div class="nano">
 							<div class="nano-content">
-
 								<!--Profile Widget-->
 								<!--================================-->
 								<div id="mainnav-profile" class="mainnav-profile">
@@ -267,8 +199,6 @@
 										</a>
 									</div>
 								</div>
-
-
                                                                 <!--Shortcut buttons-->                                                                <!--================================-->                                                                <div id="mainnav-shortcut" class="hidden">
 									<ul class="list-unstyled shortcut-wrap">
 										<li class="col-xs-3" data-content="My Profile">
@@ -303,13 +233,9 @@
 								</div>
 								<!--================================-->
 								<!--End shortcut buttons-->
-
-
 								<ul id="mainnav-menu" class="list-group">
-
 									<!--Category name-->
 									<li class="list-header">Navigation</li>
-
 									<!--Menu list item-->
 									<li class="{{ Route::currentRouteName() === 'dashboard' ? 'active-sub active' : '' }}">
 										<a href="{{route('dashboard')}}">
@@ -317,22 +243,20 @@
 											<span class="menu-title">Dashboard</span>
 											<!--<i class="arrow"></i>-->
 										</a>
-
 									</li>
 									<li class="list-divider"></li>
-
 									<!--Category name-->
 									<!--<li class="list-header">Components</li>-->
-
 									<!--Menu list item-->
+
                   <li class="{{ (Route::currentRouteName() === ('members.all' || 'member.register.form')) ? 'active-sub active' : ''}}
                   	{{Route::currentRouteName() === 'member.profile' ? 'active-sub' : ''}}">
+
 										<a href="{{route('members.all')}}">
 											<i class="fa fa-users"></i>
 											<span class="menu-title">Members</span>
 											<i class="arrow"></i>
 										</a>
-
 										<ul class="collapse">
 											<li class="{{ Route::currentRouteName() === 'members.all' ? 'active-sub active' : '' }}">
 												<a href="{{ route('members.all') }}">All Members</a>
@@ -342,7 +266,6 @@
                                             </li>
 										</ul>
 									</li>
-
 									<!--Menu list item-->
                                                                         <li class="{{ Route::currentRouteName() === 'attendance' || Route::currentRouteName() === 'attendance.analysis' || Route::currentRouteName() === 'attendance.view.form' ? 'active-sub active' : ''}}
 									{{Route::currentRouteName() === 'attendance' ? 'active-sub' : ''}}">
@@ -351,8 +274,6 @@
 											<span class="menu-title">Attendance</span>
 											<i class="arrow"></i>
 										</a>
-
-
 										<ul class="collapse">
 											<li class="{{ Route::currentRouteName() === 'attendance' ? 'active-sub active' : '' }}">
 												<a href="{{route('attendance')}}">Mark Attendance</a>
@@ -365,7 +286,6 @@
 											</li>
 										</ul>
 									</li>
-
 									<!--Menu list item-->
 									<li>
 										<a href="#">
@@ -528,27 +448,17 @@
 									<!--Menu list item-->
 
 									<li class="list-divider"></li>
-
-
 								</ul>
-
-
-
-
 							</div>
 						</div>
 					</div>
 					<!--================================-->
 					<!--End menu-->
-
 				</div>
 			</nav>
 			<!--===================================================-->
 			<!--END MAIN NAVIGATION-->
 		</div>
-
-
-
 		<!-- FOOTER -->
 		<!--===================================================-->
 		<footer id="footer">
@@ -560,58 +470,33 @@
 				<a href="forms-general.html#" class="text-main">
 					<span class="badge badge-danger">3</span> pending action.</a>
 			</div>
-
-
-
 			<!-- Visible when footer positions are static -->
 			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 			<div class="hide-fixed pull-right pad-rgt">
 			Powered By <a href="https://hoffenheimtechnologies.com" style="color:#274868;font-weight:bolder">Hoffenheim Technologies </a>
 			</div>
-
-
-
 			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 			<!-- Remove the class "show-fixed" and "hide-fixed" to make the content always appears. -->
 			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-
 			<p class="pad-lft">&#0169; 2018 {{config('app.name')}}</p>
-
-
-
 		</footer>
 		<!--===================================================-->
 		<!-- END FOOTER -->
-
-
 		<!-- SCROLL PAGE BUTTON -->
 		<!--===================================================-->
 		<button class="scroll-top btn">
 			<i class="pci-chevron chevron-up"></i>
 		</button>
 		<!--===================================================-->
-
-
-
 	</div>
 	<!--===================================================-->
 	<!-- END OF CONTAINER -->
-
-
-
-
-
 	<!--JAVASCRIPT-->
 	<!--=================================================-->
-
 	<!--jQuery [ REQUIRED ]-->
 	<script src="{{ URL::asset('js/jquery.min.js') }}"></script>
-
-
 	<!--BootstrapJS [ RECOMMENDED ]-->
 	<script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
-
-
 	<!--NiftyJS [ RECOMMENDED ]-->
 	<script src="{{ URL::asset('js/nifty.min.js') }}"></script>
         @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
@@ -702,8 +587,6 @@
 	@endif
 
 
-
-
         @if (Route::currentRouteName() == ('member.profile' || 'attendance.analysis'))
     <!--Morris.js [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/morris-js/morris.min.js') }}"></script>
@@ -719,7 +602,6 @@
 	@endif
 
 	@if (Route::currentRouteName() == ('calendar') )
-
 	<!--Full Calendar [ OPTIONAL ]-->
 	<script src="plugins/fullcalendar/lib/moment.min.js"></script>
 	<script src="plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
@@ -1222,7 +1104,20 @@ scrollToBottom();
 
 </script>
 @endif
-
+<script>
+function toggleAble(element,bool, text){
+	$(element).prop('disabled', bool);
+	// $(element).find('#loader').show();
+	let $this = $(element);
+	if (bool) {
+		var loadingText = `<i class="fa fa-circle-o-notch fa-spin"></i> ${text || ' loading... '}`;
+		$this.data('original-text', $($this).html());
+		$this.html(loadingText);
+	}else{
+		$this.html($this.data('original-text'))
+	}
+}
+</script>
 @if(Route::currentRouteName() == "gallery")
 <script>
 function readURL(input) {

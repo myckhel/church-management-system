@@ -48,19 +48,18 @@ class AttendanceController extends Controller
             'female' => 'required|numeric|min:0',
             'children' => 'required|numeric|min:0',
             'date' => 'required|date ',
-
         ]);
 
         $split_date_array = explode("-",$request->get('date'));
         if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
         {
-            return redirect()->back()->with('status', "**You can't save attendance for a future date!");
+            return response()->json(['status' => false, 'text' => "**You can't save attendance for a future date!"]);
         }
 
         // check if attendnace has already been marked for that date
         $attendance = Attendance::where('attendance_date', date('Y-m-d',strtotime($request->get('date'))) )->where('branch_id',$user->branchcode )->get(['id'])->count();
         if ($attendance > 0){
-            return redirect()->route('attendance')->with('status', "**Attendance for {$this->get_date_in_words($request->get('date'))} has been saved before!");
+            return response()->json(['status' => false, 'text' => "**Attendance for {$this->get_date_in_words($request->get('date'))} has been saved before!"]);
         }
 
 
@@ -74,13 +73,11 @@ class AttendanceController extends Controller
             'children' => $request->get('children'),
             'service_type' => $request->get('type'),
             'other' => $request->get('custom_type'),
-
-
             'attendance_date' => $dateToSave,
         ));
         $attendance->save();
 
-        return redirect()->route('attendance.view.custom', $dateToSave )->with('status', 'Attendance successfully saved');
+        return response()->json(['status' => true, 'text' => 'Attendance successfully saved']);
     }
     private function get_date_in_words($date)
     {
@@ -218,7 +215,16 @@ class AttendanceController extends Controller
     }
 
     public function mark_it(Request $request){
-      $offer = $request->except(['_token']);
+      $split_date_array = explode("-", date('Y-m-d', strtotime($request->date)));
+      if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
+      {
+          return response()->json(['status' => false, 'text' => "**You can't save attendance for a future date!"]);
+      }
+      if ($check = \DB::table('members_attendance')->where('attendance_date', date('Y-m-d', strtotime($request->date)))->first()) {
+        // code...
+        return response()->json(['status' => false, 'text' => "Member Attendance for {$this->get_date_in_words($check->attendance_date)} Already Marked"]);
+      }
+      $offer = $request;
       for($i = 0; $i < count($offer['member_id']); $i++) {
         // code...
         $present = isset($offer['attendance'][$i]) ? $offer['attendance'][$i] : 'no';
@@ -235,6 +241,7 @@ class AttendanceController extends Controller
         ];
             \DB::table('members_attendance')->insert($value);
       }
-      return redirect()->back()->with('status', 'Attendance Marked');
+      return response()->json(['status' => true, 'text' => 'Attendance Marked']);
+      // return redirect()->back()->with('status', 'Attendance Marked');
     }
 }
