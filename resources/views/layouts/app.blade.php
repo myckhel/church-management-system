@@ -41,7 +41,7 @@
     <link href="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
     @endif
 
-    @if (Route::currentRouteName() == 'members.all' || 'collection.report')
+    @if (Route::currentRouteName() == 'members.all' || 'collection.report' || 'collecton.offering')
     <!--DataTables [ OPTIONAL ]-->
     <link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css') }}" rel="stylesheet">
@@ -534,7 +534,7 @@
     <!--<script src="{{ URL::asset('js/demo/nifty-demo.min.js') }}"></script>-->
 
 
-    @if (Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form')
+    @if (Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == ('attendance.view.form' || 'collecton.offering'))
     <!--DataTables [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
 	<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
@@ -1138,13 +1138,9 @@ $("#imgInp").change(function() {
 });
 
 $('#imgInp').filestyle({
-
 iconName : 'glyphicon glyphicon-file',
-
 buttonText : 'Select File',
-
 buttonName : 'btn-warning'
-
 });
 
 $(document).on('click', '[data-toggle="lightbox"]', function(event) {
