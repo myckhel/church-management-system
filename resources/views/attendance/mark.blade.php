@@ -58,7 +58,7 @@
 
                     <!--Block Styled Form -->
                     <!--===================================================-->
-                    <form method="POST" action="{{route('attendance.selectDate')}}">
+                    <form id="b-attendance-form" method="POST" action="{{route('attendance.submit')}}">
                         @csrf
                         <input name="branch_id" value="3" type="text" hidden="hidden"/>
                         <div class="panel-body">
@@ -66,7 +66,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Date</label>
-                                        <input id="mark-date" type="date" name="date" class="form-control">
+                                        <input id="mark-date" type="date" name="date" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -74,27 +74,27 @@
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Male</label>
-                                        <input type="number" min=0 name="male" class="form-control">
+                                        <input type="number" min=0 name="male" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Female</label>
-                                        <input type="number" min=0 name="female" class="form-control">
+                                        <input type="number" min=0 name="female" class="form-control" required>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Children</label>
-                                        <input type="number" min=0 name="children" class="form-control">
+                                        <input type="number" min=0 name="children" class="form-control" required>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                       <label class="control-label">Attendance Type</label>
-                                        <select name="type" id="mark-select" class="selectpicker" data-style="btn-success">
+                                        <select name="type" id="mark-select" class="selectpicker" data-style="btn-success" required>
                                             <option value="sunday service" selected>Sunday Service</option>
                                             <option value="monday service">Monday Service</option>
                                             <option value="tuesday service">Tuesday Service</option>
@@ -111,14 +111,10 @@
                                       <input type="text" name="custom_type" class="form-control">
                                   </div>
                               </div>
-
-
                             <div class="row">
                             </div>
                             <div class="row">
-
                                 </div>
-
                             </div>
                         </div>
                         <div class="panel-footer text-right bg-dark">
@@ -136,7 +132,7 @@
                         <h3 class="panel-title text-center">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
                     </div>
                     <div class="panel-body">
-                    <form action="{{route('attendance.mark')}}" method="post" >
+                    <form id="m-attendance" action="{{route('attendance.mark')}}" method="post" >
                       @csrf
                     <table id="demo-dt-basic" class="table table-striped table-bordered datatable text-dark" cellspacing="0" width="100%" >
                         <thead>
@@ -198,7 +194,7 @@
                       <div class="col-md-3 form-group pull-right" style="">
                         <h3><label for="date">Submit Attendance</label></h3>
                         <div class="input-group" style="width:100%">
-                          <input type="submit" name="save" value="Submit" class="btn btn-primary form-control"/>
+                          <input id="m-submit-btn" type="submit" name="save" value="Submit" class="btn btn-primary form-control"/>
                         </div>
                       </div>
 
@@ -206,8 +202,6 @@
                   </form>
                 </div>
             </div>
-
-
         </div>
         </div>
     </div>
@@ -219,5 +213,63 @@
 @endsection
 
 @section('js')
-
+<script>
+$(document).ready(() => {
+  // Branch Attendnace
+  $('#b-attendance-form').submit((e) => {
+    toggleAble($('#btn-mark'), true, 'submitting...')
+    e.preventDefault()
+    data = $('#b-attendance-form').serializeArray()
+    url = "{{route('attendance.submit')}}"
+    const result = sender({url, data}, () => {
+      toggleAble($('#btn-mark'), false)
+      $('#b-attendance-form').trigger('reset')
+    })
+    if (!result) {
+      toggleAble($('#btn-mark'), false)
+    }
+  })
+  //member Attendnace
+  $(":checkbox").change(function() {
+		if($(this).is(':checked')){
+			$(this).next().val('yes');
+		}else{
+			$(this).next().val('no');
+		}
+	});
+  $('#m-attendance').submit((e) => {
+    toggleAble($('#m-submit-btn'), true, 'submitting...')
+    e.preventDefault()
+    let data = $('#m-attendance').serializeArray()
+    url = "{{route('attendance.mark')}}"
+    const result = sender({url, data}, () => {
+      toggleAble($('#m-submit-btn'), false)
+      location.reload()
+    })
+    if (!result) {
+      toggleAble($('#m-submit-btn'), false)
+    }
+  })
+})
+const sender = ({url, data}, fn) => {
+  $.ajax({url, data, type: 'POST'})
+  .done((res) => {
+    if (res.status) {
+      swal("Success!", res.text, "success");
+      if (typeof(fn) === 'function') {
+        fn(res)
+      }
+      return true
+    } else {
+      swal("Oops", res.text, "error");
+      return false
+    }
+  })
+  .fail((e) => {
+    swal("Oops", "Internal Server Error", "error");
+    return false
+    console.log(e);
+  })
+}
+</script>
 @endsection

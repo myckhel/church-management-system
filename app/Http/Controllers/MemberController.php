@@ -49,11 +49,18 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        $member = Member::where('email', $request->email)->get(['id'])->first();
-        if($member){
+      // validate email
+      $member = Member::where('email', $request->email)->get(['id'])->first();
+      if($member){
+        return response()->json(['status' => false, 'text' => "The email ($request->email) already exists for a member."]);
+          // return redirect()->back()->with('status', "The email ($request->email) already exists for a member.");
+      }
+      // validate Phone
+      $member = Member::where('phone', $request->phone)->get(['id'])->first();
+      if($member){
+        return response()->json(['status' => false, 'text' => "The phone ($request->phone) already exists for a member."]);
+      }
 
-            return redirect()->back()->with('status', "The email ($request->email) already exists for a memeber.");
-        }
         $user = \Auth::user();
 
         $relatives = null;
@@ -66,8 +73,6 @@ class MemberController extends Controller
                                 },
                                 ARRAY_FILTER_USE_KEY
                                 );
-
-
         if (count($array_of_relations_id) > 0) {
             $relatives = [];
             foreach ($array_of_relations_id as $relative_id){
@@ -125,7 +130,8 @@ class MemberController extends Controller
             'member_status' => $request->member_status
         ));
         $member->save();
-        return redirect()->route('member.register.form')->with('status', 'Member Successfully registered');
+        return response()->json(['status' => true, 'text' => "Member Successfully registered"]);
+        // return redirect()->route('member.register.form')->with('status', 'Member Successfully registered');
     }
 
     /**
