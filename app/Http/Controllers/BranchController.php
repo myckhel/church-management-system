@@ -250,4 +250,8 @@ class BranchController extends Controller
 
         return redirect('/branches/head_office_options');
     }
+
+    public function tools(){
+      return view('branch.tools');
+    }
 }

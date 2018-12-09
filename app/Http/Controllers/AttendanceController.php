@@ -118,14 +118,14 @@ class AttendanceController extends Controller
         if ($attendance)
         {
             $addedVariables = ['formatted_date'=>$thedate, 'date_in_words'=>"{$this->get_date_in_words($attendance->attendance_date)}",'request_date'=>$request->date];
-            return view('attendance.view', compact('attendance','addedVariables' ) );
+            return response()->json(['status' => true, 'attendance' => $attendance]);
+            // return view('attendance.view', compact('attendance','addedVariables' ) );
         }
         else
         {
-            return redirect()->route('attendance.view.form')->with('status',"{$thedate} No attendance for {$this->get_date_in_words($request->get('date'))}");
+          return response()->json(['status' => false, 'text' => "No attendance for {$this->get_date_in_words($request->get('date'))}"]);
+            // return redirect()->route('attendance.view.form')->with('status',"{$thedate} No attendance for {$this->get_date_in_words($request->get('date'))}");
         }
-
-
     }
 
     /**

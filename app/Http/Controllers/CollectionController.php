@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Collection;
 use Illuminate\Http\Request;
 use DB;
+use Carbon\Carbon;
 
 class CollectionController extends Controller
 {
@@ -43,14 +44,23 @@ class CollectionController extends Controller
 
         $offer = $request;
         $this->validate($request, [
-            //'branch_id' => 'required|string|min:0',
-            //'amount' => 'required|numeric|min:0',
             'date_collected' => 'required|string|min:0',
             'type' => 'required|string|min:0',
-
         ]);
 
+        $user = \Auth::user();
 
+        $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date_collected'))));
+        if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
+        {
+            return response()->json(['status' => false, 'text' => "**You can't save collection for a future date!"]);
+        }
+
+        // check if collectio has already been marked for that date
+        $attendance = \App\Collection::where('date_collected', date('Y-m-d',strtotime($request->get('date_collected'))) )->where('branch_id',$user->branchcode )->get(['id'])->count();
+        if ($attendance > 0){
+            return response()->json(['status' => false, 'text' => "**Branch Collection for {$this->get_date_in_words(date('Y-m-d',strtotime($request->get('date_collected'))))} has been saved before!"]);
+        }
 
         // register collection
         //$collection = new Collection(array(
@@ -76,7 +86,8 @@ class CollectionController extends Controller
         DB::table('collections')->insert($value);
         //$collection->save();
 
-        return redirect()->route('collection.offering')->with('success', 'collection successfully saved');
+        return response()->json(['status' => true, 'text' => 'Branch Collection Successfully Saved']);
+        // return redirect()->route('collection.offering')->with('success', 'collection successfully saved');
     }
 
     /**
@@ -144,8 +155,29 @@ class CollectionController extends Controller
         return view('collection.report', compact('collections', 'collectionss'));
     }
 
+    private function get_date_in_words($date)
+    {
+        $split_date_array = explode("-",$date);
+        return Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->format('l, jS \\of F Y');
+
+    }
+
     public function member(Request $request){
-      $offer = $request->except(['_token']);
+      $user = \Auth::user();
+
+      $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date'))));
+      if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
+      {
+          return response()->json(['status' => false, 'text' => "**You can't save collection for a future date!"]);
+      }
+
+      // check if collectio has already been marked for that date
+      $attendance = DB::table('members_collection')->where('date_added', date('Y-m-d',strtotime($request->get('date'))) )->where('branch_id',$user->branchcode )->get(['id'])->count();
+      if ($attendance > 0){
+          return response()->json(['status' => false, 'text' => "**Member Collection for {$this->get_date_in_words(date('Y-m-d',strtotime($request->get('date'))))} has been saved before!"]);
+      }
+
+      $offer = $request;
       for($i = 0; $i < count($offer['member_id']); $i++) {
         // code...
         $value = [
@@ -172,13 +204,9 @@ class CollectionController extends Controller
         ];
             DB::table('members_collection')->insert($value);
       }
-      /*DB::table("members_collections")->(function(){
-        foreach ($request as $offer) {
-          // code...
 
-        }
-      });*/
-      return redirect()->back()->with(['success' => 'Successful']);
+      return response()->json(['status' => true, 'text' => 'Member Collection Successfully Saved']);
+      // return redirect()->back()->with(['success' => 'Successful']);
     }
     public function analysis()
     {

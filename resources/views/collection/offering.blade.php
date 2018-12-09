@@ -16,8 +16,6 @@
         </div>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <!--End page title-->
-
-
         <!--Breadcrumb-->
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <ol class="breadcrumb">
@@ -28,10 +26,7 @@
         </ol>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <!--End breadcrumb-->
-
     </div>
-
-
     <!--Page content-->
     <!--===================================================-->
     <div id="page-content">
@@ -72,7 +67,7 @@
                       <h3 class="panel-title text-center">Members Collection</h3>
                   </div>
                     <div class="panel-body demo-nifty-btn" style="overflow:scroll">
-                      <form action="{{route('collection.save.member')}}" method="post" >
+                      <form id="member-collection-form" action="{{route('collection.save.member')}}" method="post" >
                       <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="1800px" >
                           <thead>
                               <tr>
@@ -173,11 +168,6 @@
                                       <input type="number" value="0" name="other[]" class="form-control saisie" />
                                     </div>
                                   </td>
-                                  <!--td>
-                                    <div id="" class="input-group">
-                                      <input id="" type="number" name="date_added[]" value="<?php echo now(); ?>" class="form-control saisie"/>
-                                    </div>
-                                  </td-->
                                   <td></td>
                               </tr>
                               <?php $count++; ?>
@@ -225,7 +215,7 @@
                   </div>
                     <div class="panel-body demo-nifty-btn" style="overflow:scroll">
                         <style>th{width: 300px; text-align: center;}</style>
-                        <form class="form-inline" method="POST" action="{{route('collection.save')}}">
+                        <form id="branch-collection-form" class="form-inline" method="POST" action="{{route('collection.save')}}">
                         @csrf
                         <table id="table2" class="table table-striped table-bordered datatable" cellspacing="0" width="1800px" >
                             <thead>
@@ -371,9 +361,6 @@
 
                             </td>
                         </tr>
-
-
-
                     </tbody>
                 </table>
             </div>
@@ -381,13 +368,83 @@
         <!--===================================================-->
         <!-- End Striped Table -->
         </div>
-
-
     </div>
     <!--===================================================-->
     <!--End page content-->
-
 </div>
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
+@endsection
+
+@section('js')
+<script>
+
+$(document).ready(function(){
+  $('#member-collection-form').submit((e) => {
+    e.preventDefault()
+    let data = $('#member-collection-form').serializeArray()
+    poster("{{route('collection.save.member')}}", data)
+  })
+
+  $('#branch-collection-form').submit((e) => {
+    e.preventDefault()
+    let data = $('#branch-collection-form').serializeArray()
+    poster("{{route('collection.save')}}", data)
+  })
+
+	$(".saisie").each(function() {
+			 $(this).keyup(function(){calculateTotal($(this).parent().index());
+			 });
+	 });
+});
+
+const poster = (url, data) => {
+  $.ajax({url: url, data: data, type: "POST"})
+  .done((res) => {
+    if (res.status) {
+      $('table tr td').find('.saisie').val(0)
+      $("table:first tr td:last-child").html(0)
+      swal("Success!", res.text, "success");
+    } else {
+      swal("Oops", res.text, "error");
+    }
+  })
+  .fail((e) => {
+    swal("Oops", "Internal Server Error", "error");
+    console.log(e);
+  })
+}
+
+function calculateTotal(index)
+{
+	var total = 0;
+	 $('table tr td').filter(function(){
+			 if($(this).index()==index)
+			 {
+			 total += parseFloat($(this).find('.saisie').val())||0;
+			 }
+	 }
+	 );
+	 $('table tr td.totalCol:eq('+index+')').html(total);
+	calculateSum();
+	 calculateRowSum();
+}
+function calculateRowSum()
+{
+	 $('table tr:has(td):not(:last)').each(function(){
+			var sum = 0; $(this).find('td').each(function(){
+				 sum += parseFloat($(this).find('.saisie').val()) || 0;
+			 });
+					$(this).find('td:last').html(sum);
+					$('#hidden-total').val(sum);
+	 });
+}
+function calculateSum() {
+	 var sum = 0;
+	 $("td.totalCol").each(function() {
+					 sum += parseFloat($(this).html())||0;
+	 });
+	 $("#sum").html(sum.toFixed(2));
+}
+</script>
 @endsection

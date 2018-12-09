@@ -18,7 +18,7 @@
 	<link href="{{ URL::asset('css/demo/nifty-demo-icons.min.css') }}" rel="stylesheet">
 	@yield('link')
         @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css" rel="stylesheet">
+        <link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-clockpicker.min.css') }}" rel="stylesheet">
         @endif
 	<!--=================================================-->
 @if(Route::currentRouteName() == "gallery")
@@ -28,8 +28,12 @@
 	<link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet">
 	<!--Font Awesome [ OPTIONAL ]-->
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+	@if(Route::currentRouteName() != "members.all")
     <!--Bootstrap Timepicker [ OPTIONAL ]-->
     <link href="{{ URL::asset('plugins/bootstrap-timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet">
+	@endif
+
     @if (Route::currentRouteName() == ('member.register' || 'attendance.mark' || 'collection.offering' || 'calendar')  || Route::currentRouteName() == ('ticket'))
 	<!--Bootstrap Datepicker [ OPTIONAL ]-->
 	<link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
@@ -53,15 +57,20 @@
     <link href="{{ URL::asset('plugins/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css') }}" rel="stylesheet">
 	@endif
+
+	@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view.form' || 'collection.offering'))
+	<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
+	@endif
+
 	    <!--Morris.js [ OPTIONAL ]-->
 		<link href="{{ URL::asset('plugins/morris-js/morris.min.css') }}" rel="stylesheet">
 
 	<!--<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet">-->
 
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css" rel="stylesheet">
-	<link href="https://cdn.datatables.net/1.10.16/css/dataTables.semanticui.min.css" rel="stylesheet">
-	<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.semanticui.min.css" rel="stylesheet">
+	<link href="{{ URL::asset('plugins/datatables/semantic.min.css') }}" rel="stylesheet">
+	<link href="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.css') }}" rel="stylesheet">
+	<link href="{{ URL::asset('plugins/datatables/buttons.semanticui.min.css') }}" rel="stylesheet">
 
 	<link href="{{ URL::asset('plugins/flag-icon-css/css/flag-icon.min.css') }}" rel="stylesheet">
 
@@ -239,8 +248,10 @@
 									<!--Category name-->
 									<!--<li class="list-header">Components</li>-->
 									<!--Menu list item-->
-                                    <li class="{{ Route::currentRouteName() === 'members.all' || Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : ''}}
-                                    {{Route::currentRouteName() === 'member.profile' ? 'active-sub' : ''}}">
+
+                  <li class="{{ (Route::currentRouteName() === ('members.all' || 'member.register.form')) ? 'active-sub active' : ''}}
+                  	{{Route::currentRouteName() === 'member.profile' ? 'active-sub' : ''}}">
+
 										<a href="{{route('members.all')}}">
 											<i class="fa fa-users"></i>
 											<span class="menu-title">Members</span>
@@ -339,9 +350,9 @@
 											<li>
 												<a href="{{route('branch.ho')}}">Head Office Options</a>
 											</li>
-											<!--li>
-												<a href="{{route('branches')}}">Coming Soon</a>
-											</li-->
+											<li>
+												<a href="{{route('branch.tools')}}">Tools</a>
+											</li>
 
 										</ul>
 									</li>
@@ -489,15 +500,20 @@
 	<!--NiftyJS [ RECOMMENDED ]-->
 	<script src="{{ URL::asset('js/nifty.min.js') }}"></script>
         @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.js"></script>
+        <script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-clockpicker.min.js') }}"></script>
         <script type="text/javascript">
     $('.clockpicker').clockpicker();
         </script>
         @endif
 
-				@if (Route::currentRouteName() == 'attendance')
+				@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view.form' || 'collection.offering'))
 				<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
 				@endif
+
+				@if (Route::currentRouteName() === 'member.register.form')
+				<script src="{{ URL::asset('js/functions.js') }}"></script>
+				@endif
+
 	<!--Bootstrap Datepicker [ OPTIONAL ]-->
 	<script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 	    <!--Bootstrap Timepicker [ OPTIONAL ]-->
@@ -512,20 +528,37 @@
 		<script src="{{ URL::asset('plugins/gallery/ekko-lightbox.min.js') }}"></script>
 		@endif
 
-    @if (Route::currentRouteName() == 'members.all' || Route::currentRouteName() == 'branches' || 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form')
+	<!--=================================================-->
+
+	<!--Demo script [ DEMONSTRATION ]-->
+    <!--<script src="{{ URL::asset('js/demo/nifty-demo.min.js') }}"></script>-->
+
+
+    @if (Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form')
     <!--DataTables [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
 	<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
-	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.semanticui.min.js"></script>
-	<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+    <!--<script src="{{ URL::asset('plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>-->
+
+    <!--DataTables Sample [ SAMPLE ]-->
+	<!--<script src="{{ URL::asset('js/demo/tables-datatables.js') }}"></script>-->
+
+	<script src="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.js') }}"></script>
+
+	<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
 	<!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>-->
-	<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.semanticui.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-	<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
-	<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
-	<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script>
+
+
+	<script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
+
+	<script src="{{ URL::asset('plugins/datatables/jszip.min.js') }}"></script>
+	<script src="{{ URL::asset('plugins/datatables/pdfmake.min.js') }}"></script>
+	<script src="{{ URL::asset('plugins/datatables/vfs_fonts.js') }}"></script>
+	<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
+	<script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script>
+
+	<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
+
 	<script>
 		$(document).ready(function () {
 
@@ -553,18 +586,20 @@
 	</script>
 	@endif
 
-        @if (Route::currentRouteName() == ('member.profile' || 'attendance.analysis' || 'collection.offering'))
+
+        @if (Route::currentRouteName() == ('member.profile' || 'attendance.analysis'))
     <!--Morris.js [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/morris-js/morris.min.js') }}"></script>
 	<script src="{{ URL::asset('plugins/morris-js/raphael-js/raphael.min.js') }}"></script>
-    <!--Morris.js Sample [ SAMPLE ]-->
-    <!--<script src="{{ URL::asset('js/demo/morris-js.js') }}"></script>-->
 	@endif
     <!--Flot Chart [ OPTIONAL ]-->
-    <script src="{{ URL::asset('plugins/flot-charts/jquery.flot.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.resize.min.js') }}"></script>
+		@if(1 == 1)
+    <!-- <script src="{{ URL::asset('plugins/flot-charts/jquery.flot.min.js') }}"></script> -->
+
+	<!-- <script src="{{ URL::asset('plugins/flot-charts/jquery.flot.resize.min.js') }}"></script>
 	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.pie.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.tooltip.min.js') }}"></script>
+	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.tooltip.min.js') }}"></script> -->
+	@endif
 
 	@if (Route::currentRouteName() == ('calendar') )
 	<!--Full Calendar [ OPTIONAL ]-->
@@ -579,20 +614,13 @@
 // This is just a sample how to initialize plugins or components.
 //
 // - ThemeOn.net -
-
-
-
 $(document).on('nifty.ready', function() {
-
-
 // Calendar
 // =================================================================
 // Require Full Calendar
 // -----------------------------------------------------------------
 // http://fullcalendar.io/
 // =================================================================
-
-
 // initialize the external events
 // -----------------------------------------------------------------
 $('#demo-external-events .fc-event').each(function() {
@@ -602,7 +630,6 @@ $('#demo-external-events .fc-event').each(function() {
                 stick: true, // maintain when user navigates (see docs on the renderEvent method)
                 className : $(this).data('class')
         });
-
 
         // make the event draggable using jQuery UI
         $(this).draggable({
@@ -729,137 +756,6 @@ function dele(input){
 	    <!--Icons [ SAMPLE ]-->
 		<script src="{{ URL::asset('js/demo/icons.js') }}"></script>
 
-
-    <!--Icons [ SAMPLE ]-->
-	<script >
-
-		// MORRIS BAR CHART
-		// =================================================================
-		// Require MorrisJS Chart
-		// -----------------------------------------------------------------
-		// http://morrisjs.github.io/morris.js/
-		// =================================================================
-		Morris.Bar({
-			element: 'demo-morris-bar',
-			data: [
-				{ y: 'Jan', a: 1, b: 3 },
-				{ y: 'Feb', a: 3,  b: 4 },
-				{ y: 'Mar', a: 2,  b: 5 },
-				{ y: 'Apr', a: 5,  b: 4 },
-				{ y: 'May', a: 7,  b: 5 },
-				{ y: 'Jun', a: 0,  b: 5 },
-				{ y: 'July', a: 7,  b: 1 },
-				{ y: 'Aug', a: 1, b: 7 },
-				{ y: 'Sept', a: 5, b: 7 },
-				{ y: 'Oct', a: 2, b: 1 },
-				{ y: 'Nov', a: 4, b: 9 },
-				{ y: 'Dec', a: 2, b: 5 }
-			],
-			xkey: 'y',
-			ykeys: ['a', 'b'],
-			labels: ['Absent', 'Present'],
-			gridEnabled: true,
-			gridLineColor: 'rgba(0,0,0,.1)',
-			gridTextColor: '#8f9ea6',
-			gridTextSize: '11px',
-			barColors: ['red', 'green'],
-			resize:true,
-			hideHover: 'auto'
-		});
-                </script>
-
-@if (Route::currentRouteName() == ('collection.offering'))
-                <script>
-
-    // FLOT LINE CHART
-    // =================================================================
-    // Require Flot Charts
-    // -----------------------------------------------------------------
-    // http://www.flotcharts.org/
-    // =================================================================
-
-    var pageviews = [ [1, 1436], [2, 1395], [3, 1479], [4, 1595], [5, 1509], [6, 1550], [7, 1480], [8, 1390], [9, 1550], [10, 1400], [11, 1590], [12, 1436]],
-                visitor = [ [1, 1124], [2, 1183], [3, 1126], [4, 887], [5, 754], [6, 865], [7, 889], [8, 854], [9, 958], [10, 925], [11, 1056], [12, 984]],
-                women = [ [1, 1024], [2, 1283], [3, 1126], [4, 487], [5, 754], [6, 565], [7, 889], [8, 814], [9, 918], [10, 825], [11, 456], [12, 1084]];;
-
-    var plot = $.plot('#demo-flot-line', [
-        {
-            label: 'Men',
-            data: pageviews,
-            lines: {
-                show: true,
-                lineWidth: 1,
-                fill: false
-            },
-            points: {
-                show: true,
-                radius: 2
-            }
-            },
-        {
-            label: 'Women',
-            data: women,
-            lines: {
-                show: true,
-                lineWidth: 1,
-                fill: false
-            },
-            points: {
-                show: true,
-                radius: 2
-            }
-                        },
-                        {
-            label: 'Children',
-            data: visitor,
-            lines: {
-                show: true,
-                lineWidth: 1,
-                fill: false
-            },
-            points: {
-                show: true,
-                radius: 2
-            }
-            }
-        ], {
-        series: {
-            lines: {
-                show: true
-            },
-            points: {
-                show: true
-            },
-            shadowSize: 0 // Drawing is faster without shadows
-        },
-        colors: ['#b5bfc5', 'red','#177bbb'],
-        legend: {
-            show: true,
-            position: 'nw',
-            margin: [15, 0]
-        },
-        grid: {
-            borderWidth: 0,
-            hoverable: true,
-            clickable: true
-        },
-        yaxis: {
-            ticks: 5,
-            tickColor: 'rgba(0,0,0,.1)'
-        },
-        xaxis: {
-            ticks: 7,
-            tickColor: 'transparent'
-        },
-        tooltip: {
-            show: true,
-            content: 'x: %x, y: %y'
-        }
-    });
-	</script>
-	@endif
-
-
 @if (Route::currentRouteName() == 'member.profile')
 <?php require_once 'js/views/members/profile.php'; ?>
 @endif
@@ -878,59 +774,12 @@ function dele(input){
 @endif
 <!-- FOR ATTENDANCE ANALYSIS -->
 
-	@if ( Route::currentRouteName() ==  'member.profile'))
-	<script>
+<!-- FOR ATTENDANCE MARK -->
+@if (Route::currentRouteName() == ('attendance'))
+<?php require_once 'js/views/attendance/mark.php';?>
+@endif
+<!-- FOR ATTENDANCE MARK -->
 
-
-		   // FLOT BAR CHART
-    // =================================================================
-    // Require Flot Charts
-    // -----------------------------------------------------------------
-    // http://www.flotcharts.org/
-    // =================================================================
-    var data = [[1, 10], [2, 8], [3, 4], [4, 13], [5, 17], [6, 9], [7, 12], [8, 15], [9, 9], [10, 15]];
-
-    $.plot('#demo-flot-bar', [data], {
-        series: {
-            bars: {
-                show: true,
-                barWidth: 0.6,
-                fill: true,
-                fillColor: {
-                    colors: [{
-                        opacity: 0.9
-                    }, {
-                        opacity: 0.9
-                    }]
-                }
-            }
-        },
-        colors: ['#9B59B6'],
-        yaxis: {
-            ticks: 5,
-            tickColor: 'rgba(0,0,0,.1)'
-        },
-        xaxis: {
-            ticks: 7,
-            tickColor: 'transparent'
-        },
-        grid: {
-            hoverable: true,
-            clickable: true,
-            tickColor: '#eeeeee',
-            borderWidth: 0
-        },
-        legend: {
-            show: true,
-            position: 'nw'
-        },
-        tooltip: {
-            show: true,
-            content: 'x: %x, y: %y'
-        }
-    });
-	</script>
-        @endif
 	<script>
     $('.datepicker').datepicker();
 
@@ -1129,96 +978,16 @@ e">Select Relative</button></div>
 @endif
 </script>
 
-@if (Route::currentRouteName() == ('attendance.view.form') || Route::currentRouteName() == ('attendance.view') )
-<script src="{{URL::asset('js/jquery.redirect.js')}}"></script>
+@if(Route::currentRouteName() == "attendance")
+<!-- mark attendance -->
 <script>
-//Attnedance Module
-$('#view-year').click(function (){
-	$('#show-year').show();
-});
-//END Attnedance Module
-function view(d){
-		var confirmed = confirm('confirm to view');
-		console.log(confirmed);
-		console.log(d);
-		if(confirmed){
-				var id = $(d).attr('id');
-				console.log(id);
-				/*$.ajax({
-					type        : 'POST',
-					url: "{{route('attendance.view')}}",
-					data        : id, // our data object
-					dataType    : 'json', // what type of data do we expect back from the server
-					encode          : true
-				}).done(function(){
-						location.reload();
-				});*/
-				$.redirect("{{route('attendance.view')}}", {'date': id, '_token' : '{{ csrf_token() }}'});
-
-		}//{{route("branch.destroy",' + id + ')}}
-}
-</script>
-@endif
-@if(Route::currentRouteName() == "collection.offering")
-<script>
-
-$(document).ready(function(){
-	$(".saisie").each(function() {
-			 $(this).keyup(function(){calculateTotal($(this).parent().index());
-			 });
-	 });
-});
-
-function calculateTotal(index)
-{
-	var total = 0;
-	 $('table tr td').filter(function(){
-			 if($(this).index()==index)
-			 {
-			 total += parseFloat($(this).find('.saisie').val())||0;
-			 }
-	 }
-	 );
-	 $('table tr td.totalCol:eq('+index+')').html(total);
-	calculateSum();
-	 calculateRowSum();
-}
-function calculateRowSum()
-{
-	 $('table tr:has(td):not(:last)').each(function(){
-			var sum = 0; $(this).find('td').each(function(){
-				 sum += parseFloat($(this).find('.saisie').val()) || 0;
-			 });
-					$(this).find('td:last').html(sum);
-					$('#hidden-total').val(sum);
-	 });
-}
-function calculateSum() {
-	 var sum = 0;
-	 $("td.totalCol").each(function() {
-					 sum += parseFloat($(this).html())||0;
-	 });
-	 $("#sum").html(sum.toFixed(2));
-}
-</script>
-@endif
-
-@if(Route::currentRouteName() == "member.register.form")
-<script>
-$(document).ready(function(){
-	$('input:radio[name="marital_status"]').change(
-		function(){
-			if(this.checked && this.value == 'married'){
-				$('#wedding').show();
-				$("#anniversary").prop('required',true);
-			}
-			else{
-							$('#wedding').hide();
-							$("#anniversary").prop('required',false);
-						}
-		});
-});
-
+	$(":checkbox").change(function() {
+		if($(this).is(':checked')){
+			$(this).next().val('yes');
+		}else{
+			$(this).next().val('no');
+		}
+	});
 </script>
 @endif
 
@@ -1384,6 +1153,8 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
 });
 </script>
 @endif
+
 @yield('js')
+
 </body>
 </html>
