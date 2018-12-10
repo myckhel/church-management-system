@@ -510,7 +510,7 @@
 				<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
 				@endif
 
-				@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view' || 'collection.offering'))
+				@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view' || 'collection.offering' || "members.all"))
 				<script src="{{ URL::asset('js/functions.js') }}"></script>
 				@endif
 

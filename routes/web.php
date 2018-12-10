@@ -112,6 +112,14 @@ Route::get('/clear-cache', function() {
     //return view('auth.register');
 //});
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
+
+Route::get('/test', function(){
+  return response()->json([]);
+})->name('test');
+
+Route::get('/users', 'BranchController@users')->name('users');
+
+
 Route::post('/recover', 'Auth\RecoverPasswordController@recover');
 Route::get('/password/reset/{token}', 'Auth\RecoverPasswordController@reset')->name('password.reset');
 Route::post('/password/reset/{token}', 'Auth\RecoverPasswordController@reset')->name('password.reset');

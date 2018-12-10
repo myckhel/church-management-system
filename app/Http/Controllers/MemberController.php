@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Member;
+use Yajra\Datatables\Datatables;
 
 use Illuminate\Http\Request;
 
@@ -23,12 +24,18 @@ class MemberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = \Auth::user();
         $members = \App\Member::where('branch_id', $user->branchcode)->get();
         //$members = Member::all();
-        return view('members.all', compact('members'));
+        if ($request->draw) {
+          // code...
+          return Datatables::of($members)->make(true);
+        } else {
+          // code...
+          return view('members.all', compact('members'));
+        }
     }
 
     /**
@@ -286,7 +293,9 @@ class MemberController extends Controller
     }
 
     public function upgrade(Request $request){
+      $status = false;
       $user = Member::where('id', $request->id)->first()->upgrade();
-      return response()->json(['status' => $user]);
+      if ($user) { $status = true; $text = "$user is now a full member"; } else { $text = "Error occured Please try again"; }
+      return response()->json(['status' => $status, 'text' => $text]);
     }
 }

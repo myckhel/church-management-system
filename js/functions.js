@@ -25,3 +25,61 @@ const toggleAble = (element, bool, text) => {
     $this.html($this.data('original-text'))
   }
 }
+
+const divLoader = () => (
+  `<style>
+  #circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  	width: 150px;
+      height: 150px;
+  }
+
+  .loader {
+      width: calc(100% - 0px);
+  	height: calc(100% - 0px);
+  	border: 8px solid #162534;
+  	border-top: 8px solid #09f;
+  	border-radius: 50%;
+  	animation: rotate 5s linear infinite;
+  }
+
+  @keyframes rotate {
+  100% {transform: rotate(360deg);}
+  }
+  </style>
+  <div id="circle">
+    <div class="loader">
+      <div class="loader">
+          <div class="loader">
+             <div class="loader">
+
+             </div>
+          </div>
+      </div>
+    </div>
+  </div> `
+)
+
+const poster = ({url, data}, fn) => {
+  $.ajax({url, data, type: 'POST'})
+  .done((res) => {
+    if (res.status) {
+      swal("Success!", res.text, "success");
+    } else {
+      swal("Oops", res.text, "error");
+    }
+    if (typeof(fn) === 'function') {
+      fn(res)
+    }
+  })
+  .fail((e) => {
+    swal("Oops", "Internal Server Error", "error");
+    if (typeof(fn) === 'function') {
+      fn(res, e)
+    }
+    console.log(e);
+  })
+}
