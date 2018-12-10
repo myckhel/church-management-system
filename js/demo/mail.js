@@ -6,18 +6,11 @@
 //
 // - ThemeOn.net -
 
-
-
 $(document).on('nifty.ready', function() {
-
-
-
     // MAILBOX-COMPOSE.HTML
     // =================================================================
 
     if ($('#demo-mail-compose').length) {
-
-
         // SUMMERNOTE
         // =================================================================
         // Require Summernote
@@ -27,14 +20,11 @@ $(document).on('nifty.ready', function() {
             height:500
         });
 
-
         // Show The CC Input Field
         // =================================================================
         $('#demo-toggle-cc').on('click', function(){
             $('#demo-cc-input').toggleClass('hide');
         });
-
-
 
         // Show The BCC Input Field
         // =================================================================
@@ -42,21 +32,14 @@ $(document).on('nifty.ready', function() {
             $('#demo-bcc-input').toggleClass('hide');
         });
 
-
-
         // Attachment button.
         // =================================================================
         $('.btn-file :file').on('fileselect', function(event, numFiles, label, fileSize) {
             $('#demo-attach-file').html('<strong class="box-block text-capitalize"><i class="fa fa-paperclip fa-fw"></i> '+label+'</strong><small class="text-muted">'+fileSize+'</small>');
         });
 
-
         return;
     }
-
-
-
-
 
     // MAILBOX-MESSAGE.HTML
     // =================================================================
@@ -82,9 +65,4 @@ $(document).on('nifty.ready', function() {
         console.log(this.html())
     })
 
-
-
-
-
 });
-

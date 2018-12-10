@@ -15,8 +15,6 @@
         </div>
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <!--End page title-->
-
-
         <!--Breadcrumb-->
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <ol class="breadcrumb">
@@ -111,8 +109,8 @@
         }
         ?>
 
-        <div class="col-md-12 col-md-offset-0" style="margin-bottom:20px">
-          <div class="panel" style="background-color: #e8ddd3;">
+        <div class="col-md-12 col-md-offset-0" style="margin-bottom:20px;" >
+          <div class="panel" style="background-color: #e8ddd3; overflow:scroll">
               <div class="panel-heading">
                   <h3 class="panel-title"><strong>Last 10 <i>Years</i> Gender</strong> Registration Report</h3>
               </div>

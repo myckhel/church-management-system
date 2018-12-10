@@ -90,8 +90,6 @@
 					                            Susan Sun
 					                        </a>
 					                    </div>
-
-
 					                </div>
 					                <div class="fluid">
 					                    <!-- COMPOSE EMAIL -->
@@ -238,7 +236,7 @@ $('#message-textarea').html(message);
 
 shouldSubmit = true;
 
-$('#send-mail-form').trigger('submit');
+$('#send-mail-form').trigger('reset');
 
 })
 
