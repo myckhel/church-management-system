@@ -217,17 +217,18 @@
 $(document).ready(() => {
   // Branch Attendnace
   $('#b-attendance-form').submit((e) => {
-    // toggleAble($('#btn-mark'), true, 'submitting...')
+    toggleAble($('#btn-mark'), true, 'submitting...')
     e.preventDefault()
     data = $('#b-attendance-form').serializeArray()
     url = "{{route('attendance.submit')}}"
-    const result = sender({url, data}, () => {
-      // toggleAble($('#btn-mark'), false)
-      $('#b-attendance-form').trigger('reset')
+    sender({url, data}, (res) => {
+      if (res.status) {
+        // toggleAble($('#btn-mark'), false)
+        $('#b-attendance-form').trigger('reset')
+      }else {
+        toggleAble($('#btn-mark'), false)
+      }
     })
-    // if (!result) {
-    //   toggleAble($('#btn-mark'), false)
-    // }
   })
   //member Attendnace
   $(":checkbox").change(function() {
@@ -238,17 +239,18 @@ $(document).ready(() => {
 		}
 	});
   $('#m-attendance').submit((e) => {
-    // toggleAble($('#m-submit-btn'), true, 'submitting...')
+    toggleAble($('#m-submit-btn'), true, 'marking...')
     e.preventDefault()
     let data = $('#m-attendance').serializeArray()
     url = "{{route('attendance.mark')}}"
-    const result = sender({url, data}, () => {
-      // toggleAble($('#m-submit-btn'), false)
-      location.reload()
+    sender({url, data}, (res) => {
+      if (res.status) {
+        toggleAble($('#m-submit-btn'), false)
+        location.reload()
+      }else {
+        toggleAble($('#m-submit-btn'), false)
+      }
     })
-    // if (!result) {
-    //   toggleAble($('#m-submit-btn'), false)
-    // }
   })
 })
 const sender = ({url, data}, fn) => {
@@ -256,18 +258,18 @@ const sender = ({url, data}, fn) => {
   .done((res) => {
     if (res.status) {
       swal("Success!", res.text, "success");
-      if (typeof(fn) === 'function') {
-        fn(res)
-      }
-      return true
     } else {
       swal("Oops", res.text, "error");
-      return false
+    }
+    if (typeof(fn) === 'function') {
+      fn(res)
     }
   })
   .fail((e) => {
     swal("Oops", "Internal Server Error", "error");
-    return false
+    if (typeof(fn) === 'function') {
+      fn(res, e)
+    }
     console.log(e);
   })
 }

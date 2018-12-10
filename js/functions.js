@@ -14,11 +14,11 @@ function loadElement(element,bool){
   }
 }
 
-const toggleAble = (element,bool) => {
+const toggleAble = (element, bool, text) => {
   $(element).prop('disabled', bool);
   let $this = $(element);
-  var loadingText = '<i class="fa fa-circle-o-notch fa-spin"></i> loading...';
   if (bool) {
+  	var loadingText = `<i class="fa fa-circle-o-notch fa-spin"></i> ${text || ' loading... '}`;
     $this.data('original-text', $($this).html());
     $this.html(loadingText);
   }else{

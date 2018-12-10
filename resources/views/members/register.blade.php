@@ -9,7 +9,6 @@
 <!--===================================================-->
 <div id="content-container">
 	<div id="page-head">
-
 		<!--Page Title-->
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<div id="page-title">
@@ -17,8 +16,6 @@
 		</div>
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<!--End page title-->
-
-
 		<!--Breadcrumb-->
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<ol class="breadcrumb">
@@ -29,10 +26,7 @@
 		</ol>
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<!--End breadcrumb-->
-
 	</div>
-
-
 	<!--Page content-->
 	<!--===================================================-->
 	<div id="page-content">
@@ -636,7 +630,7 @@
 		// handle register form submission
 		$('#register-form').submit((e) => {
 			e.preventDefault()
-			toggleAble('#submit', true)
+			toggleAble('#submit', true, 'registering member...')
 			let data = {}
 			$.each($('#register-form').serializeArray(), (i, field) => {
 				data[field.name] = field.value
