@@ -252,28 +252,25 @@ class MemberController extends Controller
      */
     public function destroy(Member $member, $id)
     {
-        //Validator::make(['id'=>$id], [
-            //'id' => 'required|integer|max:10',
-        //])->validate();
-        $member = Member::whereId($id)->firstOrFail();
-        $member->delete();
-        return redirect()->back()->with('status', 'Member has been deleted!');
+      $member = Member::whereId($id)->firstOrFail();
+      $member->delete();
+      return response()->json(['status' => true, 'text' => "$member->firstname has been deleted!"]);
     }
 
     public function delete(Request $request){
-      $failed = [];
+      $failed = 0;
+      $text = "All selected members deleted successfully";
       foreach ($request->id as $key => $value) {
         # code...
-        try {
-          $member = Member::whereId($value)->firstOrFail();
-          if($member){
-            $member->delete();
-          }
-        } catch (Exception $e) {
-          array_push($failed, $value.' error: '.$e);
+        $member = Member::whereId($value)->first();
+        if($member){
+          $member->delete();
+        } else {
+          $failed++;
+          $text = "$failed Operations could not be performed";
         }
       }
-      return response()->json(['status' => true, 'failed' => $failed]);
+      return response()->json(['status' => true, 'text' => $text]);
     }
 
     public function getRelative(Request $request, $search_term){

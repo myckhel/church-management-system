@@ -125,7 +125,7 @@ $(document).ready(function () {
             { title: "Action", data: 'id', name: 'action', render: (id) => (`
               <div class="btn-group">
                 <a style="background-color:green" class="btn text-light" href="../member/profile/${id}">View Profile</a>
-                <a id="d-member" value="${id}" style="background-color:#8c0e0e" class="d-member btn text-light"><i class="fa fa-trash"></i> Delete Member</a></td>
+                <a id="${id}" style="background-color:#8c0e0e" class="d-member btn text-light"><i class="fa fa-trash"></i> Delete Member</a></td>
               </div>
               `)
             },
@@ -135,17 +135,24 @@ $(document).ready(function () {
         buttons: ['copy', 'excel', 'pdf', 'colvis']
     });
     //for delete member
-    $('#d-member').click((e) => {
+    $('#users-table').on('click', '.d-member', (e) => {
       // e.preventDefault()
+      $this = $(e.target)
+      toggleAble($this, true, "deleting")
       confirmation = confirm('Are you sure you want to delete the member?')
       if(confirmation){
         data = {}
-        data.id = $(this).val()
+        data.id = e.target.id
         data._token = "{{csrf_token()}}"
-        console.log(data);
-        return
-        url = `../member/delete/${id}`
-        poster({data, url})
+        url = `../member/delete/${data.id}`
+        poster({data, url}, (res) => {
+          if (res.status) {
+            users_table.ajax.reload(null, false)
+          } else {
+            swal('Oops', res.text, "error")
+          }
+          toggleAble($this, false)
+        })
       }
     })
 
@@ -164,27 +171,26 @@ $(document).ready(function () {
       }
     });
     $('#apply').click(function(){
+      loadElement($('#apply'), true)
       var example = $('input[name=member\\[\\]]').map(function(){
         if($(this).is(':checked')){return this.value;}
       }).get();
       if(example.length == 0){return;}
-      if($('#action').find(":selected[value=delete]").length == 0){return;}
+      if($('#action').find(":selected[value=delete]").length == 0){loadElement($('#apply'), false); return;}
       let confirmed = confirm('Are you sure you want to delete selected items?');
       if(confirmed){
         var values = {'id': example, '_token': '{{ csrf_token() }}' };
         $.ajax({type: "POST", url: "{{route('member.delete.multi')}}", data: values, dataType: "json", encode: true})
           .done(function(response){
-            if(response.status){
-              alert('Selected Members Has Been Deleted Successfully');
-              if(response.failed.length > 0){
-                alert('Couldnt Delete'+response.failed);
-              }
-              window.location.reload();
-            }else{
-              alert('Error Occured');
-            }
+            // if(response.status){
+            swal('Success', response.text, 'success')
+            // }else{
+            //   swal('Oops', 'Error Occured', 'error');
+            // }
+            users_table.ajax.reload(null, false)
         });
       }
+      loadElement($('#apply'), false)
     });
   });
 function makeMember(element, fn){
