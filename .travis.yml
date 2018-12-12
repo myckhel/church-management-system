@@ -1,7 +1,18 @@
 language: php
 php:
-  - 7.0
   - 7.1
-script: phpunit
 before_script:
-    - composer install
+  - cp .env.travis .env
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+  - php artisan migrate
+
+before_install:
+  - mysql -e 'create database homestead_test;'
+  
+script:
+  - vendor/bin/phpunit
+  
+services:
+  - mysql
