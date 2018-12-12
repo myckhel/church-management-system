@@ -1,1 +1,7 @@
 language: php
+php:
+  - 7.0
+  - 7.1
+script: phpunit
+before_script:
+    - composer install
