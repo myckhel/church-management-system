@@ -2,6 +2,10 @@
 
 @section('title') All Members @endsection
 
+@section('link')
+<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
@@ -39,70 +43,15 @@
             <div class="panel-heading card-block text-center">
                 <h1 class="panel-title text-primary text-bold">List of Members In {{\Auth::user()->branchname}}</h1>
             </div>
-            <div class="col-lg-10 col-lg-offset-2">
-            @if (session('status'))
-
-                          <div class="alert alert-success">
-                              {{ session('status') }}
-                          </div>
-                      @endif
-                      @if (count($errors) > 0)
-                          @foreach ($errors->all() as $error)
-
-                              <div class="alert alert-danger">{{ $error }}</div>
-
-                          @endforeach
-
-                      @endif
-            </div>
             <div class="panel-body" style="overflow:scroll">
                 <!--div style="height:100px;border:1px solid green">
                 Sort by Newest Members, Gender
               </div-->
-              <form id="members" onsubmit="return false;" >
-                <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
+              <form id="" onsubmit="return false;" >
+                <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%" >
                     <thead>
-                        <tr>
-                            <th><input id="select-all" type="checkbox" /> Select all</th>
-                            <th>S/N</th>
-                            <th>Photo</th>
-                            <th>Position</th>
-                            <th>Full Name</th>
-                            <th>Occupation</th>
-                            <th class="min-tablet">Member Status</th>
-                            <th class="min-tablet">Marital Status</th>
-                            <th class="min-tablet">Phone Number</th>
-                            <th class="min-desktop">Birthday</th>
-                            <th class="min-desktop">Member Since</th>
-                            <th class="min-desktop">Action</th>
-                        </tr>
                     </thead>
                     <tbody>
-                        <?php $count=1;?>
-                        @foreach($members as $member)
-                        <tr>
-                            <th><input type="checkbox" name="member[]" value="{{$member->id}}" /></th>
-                            <th>{{$count}}</th>
-                            <th><img src="{{url('/public/images/')}}/{{$member->photo}}"  class="img-md img-circle" alt="Profile Picture"></th>
-                            <td><strong>{{strtoupper($member->position)}}</strong></td>
-                            <td>{{ucwords($member->getFullname())}}</td>
-                            <td>{{$member->occupation}}</td>
-                            <td><?php
-                              echo $member->member_status == 'new' ? 'First Timer ' : 'Full Member ';
-                              echo $member->member_status == 'new' ? '<button onClick="makeMember('. $member->id .')" class="btn-info" data-placement="up" title="Make '.$member->getFullname().' a Full Member"><i class="fa fa-level-up"></i> <i class="fa fa-user"></i></button>' : '';
-                            ?></td>
-                            <td>{{$member->marital_status}}</td>
-                            <td>{{$member->phone}}</td>
-                            <td>{{$member->dob}}</td>
-                            <td>{{$member->member_since}}</td>
-                            <td style='white-space: nowrap'>
-                              <div class="btn-group">
-                                <a style="background-color:green" class="btn text-light" href="{{route('member.profile', $member->id)}}">View Profile</a><!--a style="margin-left:5px;" class="btn btn-primary" href="{{route('member.edit', $member->id)}}">Edit Profile</a-->
-                                <a style="background-color:#8c0e0e" class="btn text-light" href="{{route('member.delete', $member->id)}}" onclick="return confirm('Are you sure you want to delete the member?')"><i class="fa fa-trash"></i> Delete Member</a></td>
-                              </div>
-                        </tr>
-                        <?php $count++;?>
-                        @endforeach
                     </tbody>
                 </table>
                 <select id="action" name="action">
@@ -115,12 +64,9 @@
         </div>
         <!--===================================================-->
         <!-- End Striped Table -->
-
-
     </div>
     <!--===================================================-->
     <!--End page content-->
-
 </div>
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
@@ -150,26 +96,71 @@
 <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script>
 
 <script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
+<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
 
 <script>
+var users_table = null
 $(document).ready(function () {
-
-  if ($.fn.dataTable.isDataTable('.datatable')) {
-    table = $('.datatable').DataTable()
-  } else {
-    var table_buttons = $('.datatable').DataTable({
-      dom: 'Bfrtip',
-      lengthChange: false,
-      buttons: ['copy', 'excel', 'pdf', 'colvis']
+    var i = 1
+    users_table = $('#users-table').DataTable({
+        processing: true,
+        serverSide: true,
+        "columnDefs": [
+          { "orderable": false, "targets": 0 }
+        ],
+        oLanguage: {sProcessing: divLoader()},
+        ajax: "{{route('members.all')}}",
+        columns: [
+            { title: '<input id="select-all" type="checkbox" /> Select all', data: 'id', render : ( data ) => (`<input type="checkbox" name="member[]" value="${data}" />`)
+            , name: 'id' },
+            { title: "S/N", render: () => (i++), name: 'id' },
+            { title: "Photo", data: 'photo', render: (photo) => (`<img src="{{url('/public/images/')}}/${photo}"  class="img-md img-circle" alt="Profile Picture">`), name: 'photo' },
+            { title: "Full Name", data: {firstname: 'firstname', lastname: 'lastname'}, name: 'fullname', render: (data) => (`${data.firstname + ' ' + data.lastname}`) },
+            { title: "Occupation", data: 'occupation', name: 'occupation' },
+            { title: "Member Status", data: {member_status: 'member_status', id: 'id', firstname: 'firstname', lastname: 'lastname'}, name: 'member_status',
+             render: (data) => (`${data.member_status == 'new' ? 'First Timer ' : 'Full Member '}
+             ${data.member_status == 'new' ? '<button value="' + data.id + '" onClick="makeMember(this, users_table.ajax.reload)" class="btn-info" data-placement="up" title="Make ' + data.firstname + ' ' + data.lastname +
+             ' a Full Member"><i class="fa fa-level-up"></i> <i class="fa fa-user"></i></button>' : ''}`)
+            },
+            { title: "Marital Status", data: 'marital_status', name: 'marital_status' },
+            { title: "phone Number", data: 'phone', name: 'phone' },
+            { title: "Email", data: 'email', name: 'email' },
+            { title: "Birthdate", data: 'dob', name: 'dob' },
+            { title: "Member Since", data: 'member_since', name: 'member_since' },
+            { title: "Action", data: 'id', name: 'action', render: (id) => (`
+              <div class="btn-group">
+                <a style="background-color:green" class="btn text-light" href="../member/profile/${id}">View Profile</a>
+                <a id="${id}" style="background-color:#8c0e0e" class="d-member btn text-light"><i class="fa fa-trash"></i> Delete Member</a></td>
+              </div>
+              `)
+            },
+        ],
+        dom: 'Bfrtip',
+        lengthChange: false,
+        buttons: ['copy', 'excel', 'pdf', 'colvis']
     });
+    //for delete member
+    $('#users-table').on('click', '.d-member', (e) => {
+      // e.preventDefault()
+      $this = $(e.target)
+      toggleAble($this, true, "deleting")
+      confirmation = confirm('Are you sure you want to delete the member?')
+      if(confirmation){
+        data = {}
+        data.id = e.target.id
+        data._token = "{{csrf_token()}}"
+        url = `../member/delete/${data.id}`
+        poster({data, url}, (res) => {
+          if (res.status) {
+            users_table.ajax.reload(null, false)
+          } else {
+            swal('Oops', res.text, "error")
+          }
+          toggleAble($this, false)
+        })
+      }
+    })
 
-    table_buttons.buttons().container()
-      .appendTo($('div.eight.column:eq(0)', table_buttons.table().container()));
-  }
-});
-</script>
-<script>
-  $(document).ready(function(){
     //for bulk delete
     $('#select-all').click(function(){
       if(this.checked){
@@ -185,56 +176,55 @@ $(document).ready(function () {
       }
     });
     $('#apply').click(function(){
+      loadElement($('#apply'), true)
       var example = $('input[name=member\\[\\]]').map(function(){
         if($(this).is(':checked')){return this.value;}
       }).get();
       if(example.length == 0){return;}
-      if($('#action').find(":selected[value=delete]").length == 0){return;}
+      if($('#action').find(":selected[value=delete]").length == 0){loadElement($('#apply'), false); return;}
       let confirmed = confirm('Are you sure you want to delete selected items?');
       if(confirmed){
         var values = {'id': example, '_token': '{{ csrf_token() }}' };
         $.ajax({type: "POST", url: "{{route('member.delete.multi')}}", data: values, dataType: "json", encode: true})
           .done(function(response){
-            if(response.status){
-              alert('Selected Members Has Been Deleted Successfully');
-              if(response.failed.length > 0){
-                alert('Couldnt Delete'+response.failed);
-              }
-              window.location.reload();
-            }else{
-              alert('Error Occured');
-            }
+            // if(response.status){
+            swal('Success', response.text, 'success')
+            // }else{
+            //   swal('Oops', 'Error Occured', 'error');
+            // }
+            users_table.ajax.reload(null, false)
         });
       }
+      loadElement($('#apply'), false)
     });
   });
-function makeMember(member_id){
+function makeMember(element, fn){
   var confirmed = confirm('Are you sure you make this member a full member?');
-  var values = {'id': member_id, '_token': '{{ csrf_token() }}' };
-  // process the form
-  $.ajax({
-      type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-      url         : "{{route('member.upgrade')}}", // the url where we want to POST
-      data        : values, // our data object
-      dataType    : 'json', // what type of data do we expect back from the server
-      encode      : true
-  })
-  // using the done promise callback
-  .done(function(data) {
-    if(data.status){
-      // log data to the console so we can see
-      // data.name +
-      alert(data.status + ' is now a full member');
-      window.location.reload();
-    }
-    // else if (!data.status) {
-    //   alert(data.reason);
-    // }
-    else{
-      alert('Error occured Please try again');
-      window.location.reload();
-    }
-  });
+  if (confirmed){
+    loadElement($(element), true)
+    var values = {'id': $(element).val(), '_token': '{{ csrf_token() }}' };
+    // process the form
+    $.ajax({
+        type        : 'POST',
+        url         : "{{route('member.upgrade')}}",
+        data        : values,
+        dataType    : 'json',
+        encode      : true
+    })
+    // using the done promise callback
+    .done(function(data) {
+      if(data.status){
+        swal("Success!", data.text, "success");
+      }
+      else{
+        swal("Oops", data.text, "error");
+      }
+      if (typeof(fn) === 'function') {
+        fn(null, false);
+      }
+      loadElement($(element), false)
+    });
+  }
 }
 </script>
 @endsection

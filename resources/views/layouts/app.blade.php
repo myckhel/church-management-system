@@ -15,7 +15,7 @@
 	<!--Nifty Stylesheet [ REQUIRED ]-->
 	<link href="{{ URL::asset('css/nifty.min.css') }}" rel="stylesheet">
 	<!--Nifty Premium Icon [ DEMONSTRATION ]-->
-	<link href="{{ URL::asset('css/demo/nifty-demo-icons.min.css') }}" rel="stylesheet">
+	<!-- <link href="{{ URL::asset('css/demo/nifty-demo-icons.min.css') }}" rel="stylesheet"> -->
 	@yield('link')
         @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
         <link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-clockpicker.min.css') }}" rel="stylesheet">
@@ -25,27 +25,21 @@
 <link href="{{ URL::asset('plugins/gallery/ekko-lightbox.css') }}" rel="stylesheet">
 @endif
 	<!--Demo [ DEMONSTRATION ]-->
-	<link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet">
+	<!-- <link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet"> -->
 	<!--Font Awesome [ OPTIONAL ]-->
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="{{ URL::asset('css/font-awesome.min.css')}}" rel="stylesheet">
 
 	@if(Route::currentRouteName() != "members.all")
     <!--Bootstrap Timepicker [ OPTIONAL ]-->
-    <link href="{{ URL::asset('plugins/bootstrap-timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet">
+    <!-- <link href="{{ URL::asset('plugins/bootstrap-timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet"> -->
 	@endif
 
-    @if (Route::currentRouteName() == ('member.register' || 'attendance.mark' || 'collection.offering' || 'calendar')  || Route::currentRouteName() == ('ticket'))
+    @if (Route::currentRouteName() == 'member.register.form' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.mark' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == 'calendar'  || Route::currentRouteName() == ('ticket'))
 	<!--Bootstrap Datepicker [ OPTIONAL ]-->
 	<link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <!--Bootstrap Select [ OPTIONAL ]-->
     <link href="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
     @endif
-
-    @if (Route::currentRouteName() == 'members.all' || 'collection.report')
-    <!--DataTables [ OPTIONAL ]-->
-    <link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css') }}" rel="stylesheet">
-	@endif
 
 	@if (Route::currentRouteName() == 'inbox')
 	<!--CHAT [ OPTIONAL ]-->
@@ -58,27 +52,30 @@
 	<link href="{{ URL::asset('plugins/fullcalendar/nifty-skin/fullcalendar-nifty.min.css') }}" rel="stylesheet">
 	@endif
 
-	@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view.form' || 'collection.offering'))
+	@if (Route::currentRouteName() == 'member.register.form' || Route::currentRouteName() == 'attendance.view.form' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == 'attendance')
 	<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
 	@endif
 
-	    <!--Morris.js [ OPTIONAL ]-->
+    <!--Morris.js [ OPTIONAL ]-->
+		@if (Route::currentRouteName() == 'member.profile' || Route::currentRouteName() == 'attendance.analysis' || Route::currentRouteName() == 'collection.analysis')
 		<link href="{{ URL::asset('plugins/morris-js/morris.min.css') }}" rel="stylesheet">
+		@endif
 
 	<!--<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet">-->
 
-	<link href="{{ URL::asset('plugins/datatables/semantic.min.css') }}" rel="stylesheet">
+	@if (Route::currentRouteName() == 'members.all' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form' )
 	<link href="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('plugins/datatables/buttons.semanticui.min.css') }}" rel="stylesheet">
-
-	<link href="{{ URL::asset('plugins/flag-icon-css/css/flag-icon.min.css') }}" rel="stylesheet">
-
-	@if(Route::currentRouteName() == ('attendance'))
-	<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
+	<!--DataTables [ OPTIONAL ]-->
+	<link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
+	<link href="{{ URL::asset('plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css') }}" rel="stylesheet">
 	@endif
+
+	<link href="{{ URL::asset('plugins/datatables/semantic.min.css') }}" rel="stylesheet">
+	<!-- <link href="{{ URL::asset('plugins/flag-icon-css/css/flag-icon.min.css') }}" rel="stylesheet"> -->
 	    <!--Ion Icons [ OPTIONAL ]-->
-	<link href="{{ URL::asset('plugins/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
+	<!-- <link href="{{ URL::asset('plugins/ionicons/css/ionicons.min.css') }}" rel="stylesheet"> -->
 </head>
 
 <body>
@@ -131,6 +128,17 @@
 						<!--End Search-->
 					</ul>
 					<ul class="nav navbar-top-links">
+						<li class="dropdown">
+								<a href="{{ route('notification') }}">
+									<i class="fa fa-bullhorn fa-3x" aria-hidden="true"></i> Announcement &nbsp;&nbsp;&nbsp
+										<span class="badge badge-header badge-danger"></span>
+								</a>
+
+
+
+								<!--Notification dropdown menu-->
+
+						</li>
 						<!--User dropdown-->
 						<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 						<li id="dropdown-user" class="dropdown">
@@ -235,21 +243,22 @@
 								<!--End shortcut buttons-->
 								<ul id="mainnav-menu" class="list-group">
 									<!--Category name-->
-									<li class="list-header">Navigation</li>
+									<li class="list-header text-center">Navigation</li>
+									<li class="list-divider"></li>
 									<!--Menu list item-->
 									<li class="{{ Route::currentRouteName() === 'dashboard' ? 'active-sub active' : '' }}">
 										<a href="{{route('dashboard')}}">
+											<i class="fa fa-dashboard"></i>
 											<!--<i class="demo-pli-home"></i>-->
 											<span class="menu-title">Dashboard</span>
 											<!--<i class="arrow"></i>-->
 										</a>
 									</li>
-									<li class="list-divider"></li>
 									<!--Category name-->
 									<!--<li class="list-header">Components</li>-->
 									<!--Menu list item-->
 
-                  <li class="{{ (Route::currentRouteName() === ('members.all' || 'member.register.form')) ? 'active-sub active' : ''}}
+                  <li class="{{ (Route::currentRouteName() == 'members.all' || Route::currentRouteName() ==  'member.register.form') ? 'active-sub active' : ''}}
                   	{{Route::currentRouteName() === 'member.profile' ? 'active-sub' : ''}}">
 
 										<a href="{{route('members.all')}}">
@@ -259,99 +268,99 @@
 										</a>
 										<ul class="collapse">
 											<li class="{{ Route::currentRouteName() === 'members.all' ? 'active-sub active' : '' }}">
-												<a href="{{ route('members.all') }}">All Members</a>
+												<a href="{{ route('members.all') }}"><i class="fa fa-list"></i> All Members</a>
 											</li>
 											<li class="{{ Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : '' }}">
-												<a href="{{route('member.register.form')}}">Registration</a>
-                                            </li>
+												<a href="{{route('member.register.form')}}"><i class="fa fa-registered"></i> Registration</a>
+                      </li>
 										</ul>
 									</li>
 									<!--Menu list item-->
-                                                                        <li class="{{ Route::currentRouteName() === 'attendance' || Route::currentRouteName() === 'attendance.analysis' || Route::currentRouteName() === 'attendance.view.form' ? 'active-sub active' : ''}}
-									{{Route::currentRouteName() === 'attendance' ? 'active-sub' : ''}}">
-										<a href="dashboard">
+                  <li class="{{Route::currentRouteName() === 'attendance.analysis' || Route::currentRouteName() === 'attendance.view.form' ? 'active-sub active' : ''}}
+									{{Route::currentRouteName() === 'attendance' ? 'active-sub active' : ''}}">
+										<a href="#">
 											<i class="fa fa-check"></i>
 											<span class="menu-title">Attendance</span>
 											<i class="arrow"></i>
 										</a>
 										<ul class="collapse">
 											<li class="{{ Route::currentRouteName() === 'attendance' ? 'active-sub active' : '' }}">
-												<a href="{{route('attendance')}}">Mark Attendance</a>
+												<a href="{{route('attendance')}}"><i class="fa fa-save"></i> Mark Attendance</a>
 											</li>
                       <li class="{{ Route::currentRouteName() === 'attendance.view.form' ? 'active-sub active' : '' }}">
-                              <a href="{{route('attendance.view.form')}}">View Attendance</a>
+	                      <a href="{{route('attendance.view.form')}}"><i class="fa fa-eye"></i> View Attendance</a>
 											</li>
 											<li class="{{ Route::currentRouteName() === 'attendance.analysis' ? 'active-sub active' : '' }}">
-												<a href="{{route('attendance.analysis')}}">Attendance Analysis</a>
+												<a href="{{route('attendance.analysis')}}"><i class="fa fa-signal"></i> Analysis</a>
 											</li>
 										</ul>
 									</li>
 									<!--Menu list item-->
-									<li>
+									<li class="{{ (Route::currentRouteName() === 'collection.offering' || Route::currentRouteName() === 'collection.report' || Route::currentRouteName() === 'collection.analysis') ? 'active-sub active' : ''}}">
 										<a href="#">
-											<i class="fa fa-mars"></i>
+											<i class="fa fa-money"></i>
 											<span class="menu-title">Collection</span>
 											<i class="arrow"></i>
 										</a>
 										<ul class="collapse">
-											<li>
-												<a href="{{route('collection.offering')}}">Save Collection</a>
+											<li class="{{Route::currentRouteName() === 'collection.offering' ? 'active-sub active' : '' }}">
+												<a href="{{route('collection.offering')}}"><i class="fa fa-save"></i> Save Collection</a>
 											</li>
-											<li>
-												<a href="{{route('collection.report')}}">View Collection</a>
+											<li class="{{ Route::currentRouteName() === 'collection.report' ? 'active-sub active' : '' }}">
+												<a href="{{route('collection.report')}}"><i class="fa fa-eye"></i> View Collection</a>
 											</li>
-											<li>
-												<a href="{{route('collection.analysis')}}">Collection Analysis</a>
+											<li class="{{ Route::currentRouteName() === 'collection.analysis' ? 'active-sub active' : '' }}">
+												<a href="{{route('collection.analysis')}}"><i class="fa fa-signal"></i> Analysis</a>
 											</li>
 
 										</ul>
 
 									</li>
-									<li class="{{Route::currentRouteName() === 'groups' ? 'active-sub' : ''}}">
+									<li class="{{Route::currentRouteName() === 'groups' || Route::currentRouteName() === 'group.view' ? 'active-sub' : ''}}">
 										<a href="{{ route('groups') }}">
 											<i class="fa fa-users"></i>
 											<span class="menu-title">Small Groups</span>
 
 										</a>
 									</li>
-									<li class="{{Route::currentRouteName() === 'messaging' ? 'active-sub' : ''}}">
+									<li class="{{Route::currentRouteName() === 'email' || Route::currentRouteName() === 'sms' || Route::currentRouteName() === 'inbox' ? 'active-sub active' : ''}}">
 										<a href="#">
-											<i class="fa fa-envelope"></i>
+											<i class="fa fa-comments-o"></i>
 											<span class="menu-title">Messaging</span>
 											<i class="arrow"></i>
 										</a>
 										<ul class="collapse">
-											<li>
-												<a href="{{route('email')}}">Email</a>
+											<li class="{{Route::currentRouteName() === 'email' ? 'active-sub active' : ''}}">
+												<a href="{{route('email')}}"><i class="fa fa-envelope"></i> Email</a>
 											</li>
-											<li>
-												<a href="{{route('sms')}}">Bulk SMS</a>
+											<li class="{{Route::currentRouteName() === 'sms' ? 'active-sub active' : ''}}">
+												<a href="{{route('sms')}}"><i class="fa fa-mobile"></i> Bulk SMS</a>
 											</li>
-											<li>
-												<a href="{{route('inbox')}}">Communicator</a>
+											<li class="{{Route::currentRouteName() === 'inbox' ? 'active-sub active' : ''}}">
+												<a href="{{route('inbox')}}"><i class="fa fa-comments"></i> Communicator</a>
 											</li>
 
 										</ul>
 									</li>
 									@if (\Auth::user()->isAdmin())
-									<li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
+									<li class="{{Route::currentRouteName() === 'branch.tools' || Route::currentRouteName() === 'branch.ho' || Route::currentRouteName() === 'branch.register' || Route::currentRouteName() === 'branches' ? 'active-sub active' : ''}}">
 										<a href="#">
 											<i class="fa fa-building-o"></i>
 											<span class="menu-title">Admin Tools</span>
 											<i class="arrow"></i>
 										</a>
 										<ul class="collapse">
-											<li>
-												<a href="{{route('branches')}}">Branches</a>
+											<li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
+												<a href="{{route('branches')}}"><i class="fa fa-tree"></i> Branches</a>
 											</li>
-											<li>
-												<a href="{{route('branch.register')}}">Add New Branch</a>
+											<li class="{{Route::currentRouteName() === 'branch.register' ? 'active-sub' : ''}}">
+												<a href="{{route('branch.register')}}"><i class="fa fa-plus"></i> Add New Branch</a>
 											</li>
-											<li>
-												<a href="{{route('branch.ho')}}">Head Office Options</a>
+											<li class="{{Route::currentRouteName() === 'branch.ho' ? 'active-sub' : ''}}">
+												<a href="{{route('branch.ho')}}"><i class="fa fa-cog"></i> Options</a>
 											</li>
-											<li>
-												<a href="{{route('branch.tools')}}">Tools</a>
+											<li class="{{Route::currentRouteName() === 'branch.tools' ? 'active-sub' : ''}}">
+												<a href="{{route('branch.tools')}}"><i class="fa fa-wrench"></i> Tools</a>
 											</li>
 
 										</ul>
@@ -364,7 +373,7 @@
 											<!--<i class="arrow"></i>-->
 										</a>
 									</li>
-									<li class="{{Route::currentRouteName() === 'report.membership' || Route::currentRouteName() === 'report.collections' || Route::currentRouteName() === 'report.attendance' ? 'active-sub' : ''}}">
+									<li class="{{Route::currentRouteName() == 'report.membership.all' || Route::currentRouteName() == 'report.membership' || Route::currentRouteName() == 'report.collections' || Route::currentRouteName() == 'report.collections.all' || Route::currentRouteName() == 'report.attendance' || Route::currentRouteName() == 'report.attendance.all' ? 'active-sub active' : ''}}">
 										<a href="#">
 											<i class="fa fa-signal"></i>
 											<span class="menu-title">Reports</span>
@@ -372,59 +381,59 @@
 										</a>
 										<ul class="collapse">
 											@if(!(\Auth::user()->isAdmin()))
-											<li>
+											<li class="{{ Route::currentRouteName() === 'report.membership' ? 'active-sub active' : '' }}">
 												<a href="{{route('report.membership')}}">Membership</a>
 											</li>
-											<li>
+											<li class="{{ Route::currentRouteName() === 'report.collections' ? 'active-sub active' : '' }}">
 												<a href="{{route('report.collections')}}">Collections</a>
 											</li>
-											<li>
+											<li class="{{ Route::currentRouteName() === 'report.attendance' ? 'active-sub active' : '' }}">
 												<a href="{{route('report.attendance')}}">Attendance</a>
 											</li>
 											@else
-											<li>
-												<li>
+											<li class="{{Route::currentRouteName() == 'report.membership.all' || Route::currentRouteName() == 'report.membership' || Route::currentRouteName() == 'report.collections' || Route::currentRouteName() == 'report.collections.all' || Route::currentRouteName() == 'report.attendance' || Route::currentRouteName() == 'report.attendance.all' ? 'active-sub active' : ''}}">
+												<li class="{{Route::currentRouteName() == 'report.membership.all' || Route::currentRouteName() === 'report.membership' ? 'active-sub active' : '' }}">
 													<a href="#">
-														<i class="fa fa-envelope"></i>
+														<i class="fa fa-users"></i>
 														<span class="menu-title">Membership</span>
 														<i class="arrow"></i>
 													</a>
 													<ul class="collapse">
-														<li>
-															<a href="{{route('report.membership.all')}}">All Branches</a>
+														<li class="{{ Route::currentRouteName() == 'report.membership.all' ? 'active-sub active' : '' }}">
+															<a href="{{route('report.membership.all')}}"><i class="fa fa-level-up"></i> All Branches</a>
 														</li>
-														<li>
-															<a href="{{route('report.membership')}}">This Branch</a>
-														</li>
-													</ul>
-												</li>
-												<li>
-													<a href="#">
-														<i class="fa fa-envelope"></i>
-														<span class="menu-title">Collections</span>
-														<i class="arrow"></i>
-													</a>
-													<ul class="collapse">
-														<li>
-															<a href="{{route('report.collections.all')}}">All Branches</a>
-														</li>
-														<li>
-															<a href="{{route('report.collections')}}">This Branch</a>
+														<li class="{{ Route::currentRouteName() == 'report.membership' ? 'active-sub active' : '' }}">
+															<a href="{{route('report.membership')}}"><i class="fa fa-map-marker"></i> This Branch</a>
 														</li>
 													</ul>
 												</li>
-												<li>
+												<li class="{{Route::currentRouteName() == 'report.collections' || Route::currentRouteName() == 'report.collections.all' ? 'active-sub active' : '' }}">
 													<a href="#">
-														<i class="fa fa-envelope"></i>
-														<span class="menu-title">Attendance</span>
+														<i class="fa fa-money"></i>
+														<span class="menu-money">Collections</span>
 														<i class="arrow"></i>
 													</a>
 													<ul class="collapse">
-														<li>
-															<a href="{{route('report.attendance.all')}}">All Branches</a>
+														<li class="{{Route::currentRouteName() == 'report.collections.all' ? 'active-sub active' : '' }}">
+															<a href="{{route('report.collections.all')}}"><i class="fa fa-level-up"></i> All Branches</a>
 														</li>
-														<li>
-															<a href="{{route('report.attendance')}}">This Branch</a>
+														<li class="{{ Route::currentRouteName() === 'report.collections' ? 'active-sub active' : '' }}">
+															<a href="{{route('report.collections')}}"><i class="fa fa-map-marker"></i> This Branch</a>
+														</li>
+													</ul>
+												</li>
+												<li class="{{Route::currentRouteName() == 'report.attendance' || Route::currentRouteName() == 'report.attendance.all' ? 'active-sub active' : '' }}">
+													<a href="#">
+														<i class="fa fa-check"></i>
+														<span class="menu-mark">Attendance</span>
+														<i class="arrow"></i>
+													</a>
+													<ul class="collapse">
+														<li class="{{ Route::currentRouteName() == 'report.attendance.all' ? 'active-sub active' : '' }}">
+															<a href="{{route('report.attendance.all')}}"><i class="fa fa-level-up"></i> All Branches</a>
+														</li>
+														<li class="{{ Route::currentRouteName() == 'report.attendance' ? 'active-sub active' : '' }}">
+															<a href="{{route('report.attendance')}}"><i class="fa fa-map-marker"></i> This Branch</a>
 														</li>
 													</ul>
 												</li>
@@ -434,20 +443,16 @@
 											@endif
 										</ul>
 									</li>
-									 <li class="{{Route::currentRouteName() === 'ticket' ? 'active-sub' : ''}}">
-                                        <a href="{{ route('ticket') }}">
-                                            <i class="fa fa-users"></i>
-                                            <span class="menu-title">Ticket</span>
-
-                                        </a>
-                                    </li>
+									<li class="{{Route::currentRouteName() == 'ticket' ? 'active-sub' : ''}}">
+	                  <a href="{{ route('ticket') }}">
+                      <i class="fa fa-life-ring"></i>
+                      <span class="menu-title">Ticket</span>
+	                  </a>
+	                </li>
 									<!--Menu list item-->
 									<li class="list-divider"></li>
-
 									<!--Category name-->
 									<!--Menu list item-->
-
-									<li class="list-divider"></li>
 								</ul>
 							</div>
 						</div>
@@ -499,32 +504,34 @@
 	<script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 	<!--NiftyJS [ RECOMMENDED ]-->
 	<script src="{{ URL::asset('js/nifty.min.js') }}"></script>
-        @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
+        @if (Route::currentRouteName() == 'calendar'  || Route::currentRouteName() == 'notification'  || Route::currentRouteName() == 'ticket')
         <script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-clockpicker.min.js') }}"></script>
         <script type="text/javascript">
     $('.clockpicker').clockpicker();
         </script>
         @endif
 
-				@if (Route::currentRouteName() == ('member.register.form' || 'attendance.view.form' || 'collection.offering'))
+				@if (Route::currentRouteName() == 'member.register.form' || Route::currentRouteName() == 'attendance.view.form' || Route::currentRouteName() == 'collection.offering')
 				<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
 				@endif
 
-				@if (Route::currentRouteName() === 'member.register.form')
+				@if (Route::currentRouteName() == 'member.register.form' || Route::currentRouteName() == 'attendance.view' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == "members.all")
 				<script src="{{ URL::asset('js/functions.js') }}"></script>
 				@endif
 
-	<!--Bootstrap Datepicker [ OPTIONAL ]-->
-	<script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+		@if (Route::currentRouteName() == 'w')
 	    <!--Bootstrap Timepicker [ OPTIONAL ]-->
 		<script src="{{ URL::asset('plugins/bootstrap-timepicker/bootstrap-timepicker.min.js') }}"></script>
+		@endif
 
-    @if (Route::currentRouteName() == ('member.register' || 'attendance.mark' || 'collection.offering'))
+		@if (Route::currentRouteName() == 'member.register.form' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.mark' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == 'calendar'  || Route::currentRouteName() == ('ticket'))
     <!--Bootstrap Select [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
+		<script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+		<script> $('.datepicker').datepicker(); </script>
     @endif
 
-		@if (Route::currentRouteName() == ('gallery'))
+		@if (Route::currentRouteName() == 'gallery')
 		<script src="{{ URL::asset('plugins/gallery/ekko-lightbox.min.js') }}"></script>
 		@endif
 
@@ -534,7 +541,7 @@
     <!--<script src="{{ URL::asset('js/demo/nifty-demo.min.js') }}"></script>-->
 
 
-    @if (Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form')
+		@if (Route::currentRouteName() == 'members.all' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form' )
     <!--DataTables [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
 	<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
@@ -565,33 +572,24 @@
 			if ($.fn.dataTable.isDataTable('.datatable')) {
 				table = $('.datatable').DataTable()
 			} else {
-				/*$('.datatable').DataTable({
-					dom: 'Bfrtip',
-					buttons: [
-						'copy', 'csv', 'excel', 'pdf', 'print'
-					]
-				});*/
-
 				var table = $('.datatable').DataTable({
 					dom: 'Bfrtip',
 					lengthChange: false,
 					buttons: ['copy', 'excel', 'pdf', 'colvis']
 				});
-
 				table.buttons().container()
 					.appendTo($('div.eight.column:eq(0)', table.table().container()));
-
 			}
 		});
 	</script>
 	@endif
 
 
-        @if (Route::currentRouteName() == ('member.profile' || 'attendance.analysis'))
+    @if (Route::currentRouteName() == 'member.profile' || Route::currentRouteName() == 'attendance.analysis' || Route::currentRouteName() == 'collection.analysis')
     <!--Morris.js [ OPTIONAL ]-->
     <script src="{{ URL::asset('plugins/morris-js/morris.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/morris-js/raphael-js/raphael.min.js') }}"></script>
-	@endif
+		<script src="{{ URL::asset('plugins/morris-js/raphael-js/raphael.min.js') }}"></script>
+		@endif
     <!--Flot Chart [ OPTIONAL ]-->
 		@if(1 == 1)
     <!-- <script src="{{ URL::asset('plugins/flot-charts/jquery.flot.min.js') }}"></script> -->
@@ -601,7 +599,7 @@
 	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.tooltip.min.js') }}"></script> -->
 	@endif
 
-	@if (Route::currentRouteName() == ('calendar') )
+	@if (Route::currentRouteName() == 'calendar' )
 	<!--Full Calendar [ OPTIONAL ]-->
 	<script src="plugins/fullcalendar/lib/moment.min.js"></script>
 	<script src="plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
@@ -670,8 +668,10 @@ $('#demo-calendar').fullCalendar({
 								$i = 0;
 									foreach($emails as $email){
 										$name = App\Member::getNameByEmail($email);
-										$pastors[$i] = $name;
-										$i++;
+										if ($name) {
+											$pastors[$i] = $name;
+											$i++;
+										}
 									}
 									$pastors = implode(',',$pastors);
 								}else{$pastors = '';}
@@ -750,12 +750,6 @@ function dele(input){
         </script>
 	@endif
 
-    <!--Flot Sample [ SAMPLE ]-->
-    <!--<script src="{{ URL::asset('js/demo/flot-charts.js') }}"></script>-->
-
-	    <!--Icons [ SAMPLE ]-->
-		<script src="{{ URL::asset('js/demo/icons.js') }}"></script>
-
 @if (Route::currentRouteName() == 'member.profile')
 <?php require_once 'js/views/members/profile.php'; ?>
 @endif
@@ -779,87 +773,6 @@ function dele(input){
 <?php require_once 'js/views/attendance/mark.php';?>
 @endif
 <!-- FOR ATTENDANCE MARK -->
-
-	<script>
-    $('.datepicker').datepicker();
-
-</script>
-
-<script>
-let html = `<div class="form-group">
-				<label class="col-md-3 control-label">Relative</label>
-				<div class="col-md-9">
-				<button id="add-relative-btn"  class="btn btn-danger"type="button">Add Relative</button>
-				</div>
-			</div>`;
-$('#add-relative-btn').on('click', function () {
-
-	$('#open-modal-btn').trigger('click');
-
-
-	//$('#add-relative-btn').parents('.form-group').after(html)
-})
-
-function remove_relative(id) {
-
-	$(`#container_relative_${id}`).remove()
-}
-
-function add_relative(id, name) {
-	$('#add-relative-btn').parents('.form-group').after(`<div class="form-group" id="container_relative_${id}">
-				<label class="col-md-3 control-label">Added Relative</label>
-				<div class="col-md-9">
-                                <input  value="${name}" readonly>
-                                <input name="relative_${id}" value="${id}" hidden=hidden>
-				<select name="relationship_${id}" class="selectpicker" style="border:1px solid #ccc;display:inline !important;outline:none" data-style="btn-success" required>
-				<option value="relative">Relationship</option>
-					<option value="husband">Husband</option>
-					<option value="wife">Wife</option>
-					<option value="brother">Brother</option>
-					<option value="sister">Sister</option>
-					<option value="father">Father</option>
-					<option value="mother">Mother</option>
-					<option value="son">Son</option>
-					<option value="daughter">Daughter</option>
-				</select>
-				<button  class="btn btn-xs btn-danger"type="button" onClick="remove_relative(${id})">Remove Relative</button>
-				</div>
-			</div>`)
-
-	$('#close-modal-btn').trigger('click');
-	$('#relatives-result-container').html('')
-	$('#search-relative-input').val('')
-
-}
-$('#search-relative-input').on('keyup', function () {
-	//alert('hello')
-	$('#relatives-result-container').html('<img class="center-block" width="50" height="50" src="../images/spinner.gif"/>')
-	let search_term = $('#search-relative-input').val()
-	$.ajax({
-		url: `../get-relative/${search_term}`,
-
-	}).done(function (data) {
-		console.log(data.result)
-		//console.log(typeof data)
-		$('#relatives-result-container').html('')
-
-		if (typeof data.result == 'string' || data.result.message) {
-			$('#relatives-result-container').html('<span style="height:50px" class="text-info">No result found</span>')
-			return
-		}
-		console.log(typeof data.result)
-		for (let person in data.result) {
-			console.log(data.result[person])
-			let table = `<div class="col-md-12" style="margin-bottom:10px"><span class="text-info" style="margin-right:30px;width:100px !important">${data.result[person].firstname} ${data.result[person].lastname}</span> <button onClick="add_relative(${data.result[person].id},'${data.result[person].firstname} ${data.result[person].lastname}' )" type="button" class="btn-sm btn btn-info select-relativ
-e">Select Relative</button></div>
-						`;
-			$('#relatives-result-container').append(table)
-		}
-	}).fail(function () {
-		$('#relatives-result-container').html('<span style="height:50px" class="text-info">No result found</span>')
-	})
-})
-</script>
 
 <!-- branch delete -->
 @if (Route::currentRouteName() == ('branches'))
@@ -908,47 +821,9 @@ e">Select Relative</button></div>
 				$('#save-ho').hide();
 			});
 
-    /*$('.editable').on('click', function() {
-        var that = $(this);
-        if (that.find('input').length > 0) {
-            return;
-        }
-        var currentText = that.text();
-
-        var $input = $('<input>').val(currentText)
-        .css({
-            'position': 'absolute',
-            top: '0px',
-            left: '0px',
-            width: that.width(),
-            height: that.height(),
-            opacity: 0.9,
-            padding: '10px'
-        });
-
-        $(this).append($input);
-
-        // Handle outside click
-        $(document).click(function(event) {
-            if(!$(event.target).closest('.editable').length) {
-                if ($input.val()) {
-                    that.text($input.val());
-                }
-                that.find('input').remove();
-            }
-        });
-    });*/
-
     // process the form
     $('#update_hog').submit(function(event) {
         var confirmed = confirm('confirm to update');
-        // get the form data
-        // there are many ways to get this data using jQuery (you can use the class or id also)
-        /*var value = {
-            'name'              : $('input[name=name]').val(),
-            'email'             : $('input[name=email]').val(),
-            'superheroAlias'    : $('input[name=superheroAlias]').val()
-        };*/
         var values = {};
         $.each($('#update_ho').serializeArray(), function(i, field) {
             values[field.name] = field.value;
@@ -974,9 +849,9 @@ e">Select Relative</button></div>
         event.preventDefault();
     });
 });
-
-@endif
 </script>
+@endif
+
 
 @if(Route::currentRouteName() == "attendance")
 <!-- mark attendance -->
@@ -1104,20 +979,6 @@ scrollToBottom();
 
 </script>
 @endif
-<script>
-function toggleAble(element,bool, text){
-	$(element).prop('disabled', bool);
-	// $(element).find('#loader').show();
-	let $this = $(element);
-	if (bool) {
-		var loadingText = `<i class="fa fa-circle-o-notch fa-spin"></i> ${text || ' loading... '}`;
-		$this.data('original-text', $($this).html());
-		$this.html(loadingText);
-	}else{
-		$this.html($this.data('original-text'))
-	}
-}
-</script>
 @if(Route::currentRouteName() == "gallery")
 <script>
 function readURL(input) {
@@ -1138,13 +999,9 @@ $("#imgInp").change(function() {
 });
 
 $('#imgInp').filestyle({
-
 iconName : 'glyphicon glyphicon-file',
-
 buttonText : 'Select File',
-
 buttonName : 'btn-warning'
-
 });
 
 $(document).on('click', '[data-toggle="lightbox"]', function(event) {

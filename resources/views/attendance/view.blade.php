@@ -172,7 +172,7 @@ li {
                         <td>{{$list->male + $list->female + $list->children}}</td>
                         <td>{{$list->attendance_date}}</td>
                         <td>{{$list->created_at}}</td>
-                        <td><button id="{{$list->attendance_date}}" type="submit" class="btn btn-primary viewBtn" onclick="view(this);">View</button></td>
+                        <td><button id="{{$list->attendance_date}}" type="submit" class="btn btn-primary viewBtn" onclick="viewer(this);">View</button></td>
                     </tr>
                     <?php $count++;?>
                     @endforeach
@@ -260,23 +260,35 @@ li {
 @endsection
 
 @section('js')
+<script src="{{ URL::asset('js/functions.js') }}"></script>
 <script>
 $(document).ready(() => {
   //Attnedance Module
   $('#view-year').click(function (){
   	$('#show-year').show();
+    // loadElement($('#viewByDate').find(':submit'), true, 'fetching')
   });
 
   $('#viewByDate').submit((e) => {
     e.preventDefault()
+    submit = $('#viewByDate').find(':submit')
+    toggleAble(submit, true, 'fetching')
     let date = $('#yearDate').val()
     let h1 = document.createElement('h1')
     $(h1).attr('id')
     h1.setAttribute("id", date);
-  	view(h1)
+  	view(h1, () => {
+      toggleAble(submit, false)
+    })
   });
   //END Attnedance Module
 })
+const viewer = (element) => {
+  loadElement($(element), true)
+  view(element, () => {
+    loadElement($(element), false)
+  })
+}
 const viewAttendance = (attendance) => {
 return  `
   <div class="col-md-12">
@@ -314,7 +326,7 @@ function showe(date){
   $('#date-title').html(date)
   $('#myModal').modal('show')
 }
-function view(d){
+function view(d, fn){
   var id = $(d).attr('id');
   $.ajax({url: "{{route('attendance.view')}}", data: {'date': id, '_token' : '{{ csrf_token() }}'}, type: 'POST'})
   .done((res) => {
@@ -323,6 +335,9 @@ function view(d){
       showe(res.attendance.attendance_date)
     }else {
       swal("Oops", res.text, "error");
+    }
+    if (typeof(fn) === 'function') {
+      fn(res)
     }
   })
   .fail((e) => {

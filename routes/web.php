@@ -27,7 +27,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/members/all', 'MemberController@index')->name('members.all');
     Route::get('/member/profile/{id}', 'MemberController@show')->name('member.profile');
     Route::get('/member/edit/{id}', 'MemberController@modify')->name('member.edit');
-    Route::get('/member/delete/{id}', 'MemberController@destroy')->name('member.delete');
+    Route::post('/member/delete/{id}', 'MemberController@destroy')->name('member.delete');
     Route::post('/member/delete', 'MemberController@delete')->name('member.delete.multi');
     Route::post('/member/upgrade', 'MemberController@upgrade')->name('member.upgrade');
 
@@ -49,8 +49,8 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     //function () {        return view('attendance.view');});
     Route::post('/attendance/view', 'AttendanceController@show')->name('attendance.view');
     Route::get('/attendance/view/{date}', 'AttendanceController@show')->name('attendance.view.custom');
+
     Route::get('/collection/offering', 'CollectionController@index')->name('collection.offering');
-         //function () { return view('collection.offering');  })->name('collection.offering');
     Route::post('/collection/save', 'CollectionController@store')->name('collection.save');
     Route::post('/collection/member', 'CollectionController@member')->name('collection.save.member');
     Route::get('/collection/report', 'CollectionController@report')->name('collection.report');
@@ -112,6 +112,14 @@ Route::get('/clear-cache', function() {
     //return view('auth.register');
 //});
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
+
+Route::get('/test', function(){
+  return response()->json([]);
+})->name('test');
+
+Route::get('/users', 'BranchController@users')->name('users');
+
+
 Route::post('/recover', 'Auth\RecoverPasswordController@recover');
 Route::get('/password/reset/{token}', 'Auth\RecoverPasswordController@reset')->name('password.reset');
 Route::post('/password/reset/{token}', 'Auth\RecoverPasswordController@reset')->name('password.reset');

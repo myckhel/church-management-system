@@ -159,7 +159,6 @@ class CollectionController extends Controller
     {
         $split_date_array = explode("-",$date);
         return Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->format('l, jS \\of F Y');
-
     }
 
     public function member(Request $request){

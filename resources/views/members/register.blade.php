@@ -9,7 +9,6 @@
 <!--===================================================-->
 <div id="content-container">
 	<div id="page-head">
-
 		<!--Page Title-->
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<div id="page-title">
@@ -17,8 +16,6 @@
 		</div>
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<!--End page title-->
-
-
 		<!--Breadcrumb-->
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<ol class="breadcrumb">
@@ -29,10 +26,7 @@
 		</ol>
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<!--End breadcrumb-->
-
 	</div>
-
-
 	<!--Page content-->
 	<!--===================================================-->
 	<div id="page-content">
@@ -636,7 +630,7 @@
 		// handle register form submission
 		$('#register-form').submit((e) => {
 			e.preventDefault()
-			toggleAble('#submit', true)
+			toggleAble('#submit', true, 'registering member...')
 			let data = {}
 			$.each($('#register-form').serializeArray(), (i, field) => {
 				data[field.name] = field.value
@@ -660,5 +654,78 @@
 			})
 		})
 	});
+	let html = `<div class="form-group">
+					<label class="col-md-3 control-label">Relative</label>
+					<div class="col-md-9">
+					<button id="add-relative-btn"  class="btn btn-danger"type="button">Add Relative</button>
+					</div>
+				</div>`;
+	$('#add-relative-btn').on('click', function () {
+
+		$('#open-modal-btn').trigger('click');
+
+
+		//$('#add-relative-btn').parents('.form-group').after(html)
+	})
+
+	function remove_relative(id) {
+
+		$(`#container_relative_${id}`).remove()
+	}
+
+	function add_relative(id, name) {
+		$('#add-relative-btn').parents('.form-group').after(`<div class="form-group" id="container_relative_${id}">
+					<label class="col-md-3 control-label">Added Relative</label>
+					<div class="col-md-9">
+	        <input  value="${name}" readonly>
+	        <input name="relative_${id}" value="${id}" hidden=hidden>
+					<select name="relationship_${id}" class="selectpicker" style="border:1px solid #ccc;display:inline !important;outline:none" data-style="btn-success" required>
+					<option value="relative">Relationship</option>
+						<option value="husband">Husband</option>
+						<option value="wife">Wife</option>
+						<option value="brother">Brother</option>
+						<option value="sister">Sister</option>
+						<option value="father">Father</option>
+						<option value="mother">Mother</option>
+						<option value="son">Son</option>
+						<option value="daughter">Daughter</option>
+					</select>
+					<button  class="btn btn-xs btn-danger"type="button" onClick="remove_relative(${id})">Remove Relative</button>
+					</div>
+				</div>`)
+
+		$('#close-modal-btn').trigger('click');
+		$('#relatives-result-container').html('')
+		$('#search-relative-input').val('')
+
+	}
+	$('#search-relative-input').on('keyup', function () {
+		//alert('hello')
+		$('#relatives-result-container').html('<img class="center-block" width="50" height="50" src="../images/spinner.gif"/>')
+		let search_term = $('#search-relative-input').val()
+		$.ajax({
+			url: `../get-relative/${search_term}`,
+
+		}).done(function (data) {
+			console.log(data.result)
+			//console.log(typeof data)
+			$('#relatives-result-container').html('')
+
+			if (typeof data.result == 'string' || data.result.message) {
+				$('#relatives-result-container').html('<span style="height:50px" class="text-info">No result found</span>')
+				return
+			}
+			console.log(typeof data.result)
+			for (let person in data.result) {
+				console.log(data.result[person])
+				let table = `<div class="col-md-12" style="margin-bottom:10px"><span class="text-info" style="margin-right:30px;width:100px !important">${data.result[person].firstname} ${data.result[person].lastname}</span> <button onClick="add_relative(${data.result[person].id},'${data.result[person].firstname} ${data.result[person].lastname}' )" type="button" class="btn-sm btn btn-info select-relativ
+	e">Select Relative</button></div>
+							`;
+				$('#relatives-result-container').append(table)
+			}
+		}).fail(function () {
+			$('#relatives-result-container').html('<span style="height:50px" class="text-info">No result found</span>')
+		})
+	})
 </script>
 @endsection

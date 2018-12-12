@@ -10,6 +10,7 @@ use App\H_O_Options;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use Yajra\Datatables\Datatables;
 
 class BranchController extends Controller
 {
@@ -32,6 +33,10 @@ class BranchController extends Controller
 
         return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard') : view('branch.all',compact('users'));
 
+    }
+
+    public function users(){
+      return Datatables::of(User::all())->make(true);
     }
 
     /**
