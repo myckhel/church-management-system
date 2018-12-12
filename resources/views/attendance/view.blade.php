@@ -260,6 +260,7 @@ li {
 @endsection
 
 @section('js')
+<script src="{{ URL::asset('js/functions.js') }}"></script>
 <script>
 $(document).ready(() => {
   //Attnedance Module

@@ -2,6 +2,15 @@
 
 @section('title') Messaging - Email @endsection
 
+@section('link')
+<!--Bootstrap Datepicker [ OPTIONAL ]-->
+<link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+<!--Bootstrap Select [ OPTIONAL ]-->
+<link href="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
+<!--Summernote [ OPTIONAL ]-->
+<link href="{{ URL::asset('plugins/summernote/summernote.min.css')}}" rel="stylesheet">
+@endsection
+
 @section('content')
             <!--CONTENT CONTAINER-->
             <!--===================================================-->
@@ -210,15 +219,12 @@
             <!--===================================================-->
             <!--END CONTENT CONTAINER-->
             @endsection
-@section('link')
-  <!--Summernote [ OPTIONAL ]-->
-<link href="{{ URL::asset('plugins/summernote/summernote.min.css')}}" rel="stylesheet">
-@endsection
 @section('js')
 <!--Summernote [ OPTIONAL ]-->
 <script src="{{ URL::asset('plugins/summernote/summernote.min.js')}}"></script>
-
-
+<script src="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script> $('.datepicker').datepicker(); </script>
 <!--Mail [ SAMPLE ]-->
 <script src="{{ URL::asset('js/demo/mail.js')}}"></script>
 

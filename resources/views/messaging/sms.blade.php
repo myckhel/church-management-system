@@ -2,6 +2,13 @@
 
 @section('title') All Members @endsection
 
+@section('link')
+<!--Bootstrap Datepicker [ OPTIONAL ]-->
+<link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+<!--Bootstrap Select [ OPTIONAL ]-->
+<link href="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
@@ -133,6 +140,10 @@
 @endsection
 
 @section('js')
+<script src="{{ URL::asset('plugins/summernote/summernote.min.js')}}"></script>
+<script src="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script> $('.datepicker').datepicker(); </script>
 <!-- for email manual number input -->
 <script>
 $(document).ready(function(){

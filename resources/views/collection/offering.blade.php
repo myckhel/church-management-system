@@ -307,18 +307,18 @@
                       <input style="border:1px solid rgba(0,0,0,0.07);height: 33px; font-size: 13px; border-radius: 3px;display: block;color: #555; background-color: #fff;outline:none; padding:2px 10px"
                       type="text" placeholder="Choose Date" name="date" class="datepicker form-control" required/>
                     </div>
-                  </div>
-                  <div class="col-md-4 form-group">
-                    <h3><label for="date">Service Type</label></h3>
-                    <select style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
-                      <option value="sunday service" selected>Sunday Service</option>
-                      <option value="monday service">Monday Service</option>
-                      <option value="tuesday service">Tuesday Service</option>
-                      <option value="wednessday service">Wednessday Service</option>
-                      <option value="thursday service">Thursday Service</option>
-                      <option value="friday service">Friday Service</option>
-                      <option value="saturday service">Saturday Service</option>
-                    </select>
+                    <div class="col-md-4 form-group">
+                      <h3><label for="date">Service Type</label></h3>
+                      <select style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
+                        <option value="sunday service" selected>Sunday Service</option>
+                        <option value="monday service">Monday Service</option>
+                        <option value="tuesday service">Tuesday Service</option>
+                        <option value="wednessday service">Wednessday Service</option>
+                        <option value="thursday service">Thursday Service</option>
+                        <option value="friday service">Friday Service</option>
+                        <option value="saturday service">Saturday Service</option>
+                      </select>
+                    </div>
                   </div>
                 </tbody>
               </table>
@@ -366,26 +366,6 @@ $(document).ready(function(){
 			 });
 	 });
 });
-
-const poster = (url, data, fn) => {
-  $.ajax({url: url, data: data, type: "POST"})
-  .done((res) => {
-    if (res.status) {
-      $('table tr td').find('.saisie').val(0)
-      $("table:first tr td:last-child").html(0)
-      swal("Success!", res.text, "success");
-    } else {
-      swal("Oops", res.text, "error");
-    }
-    if (typeof(fn) === 'function') {
-      fn(res)
-    }
-  })
-  .fail((e) => {
-    swal("Oops", "Internal Server Error", "error");
-    console.log(e);
-  })
-}
 
 function calculateTotal(index)
 {

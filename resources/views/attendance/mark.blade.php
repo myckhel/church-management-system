@@ -2,6 +2,10 @@
 
 @section('title') Mark Attendance @endsection
 
+@section('link')
+<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
@@ -213,6 +217,8 @@
 @endsection
 
 @section('js')
+<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
+<script src="{{ URL::asset('js/functions.js') }}"></script>
 <script>
 $(document).ready(() => {
   // Branch Attendnace

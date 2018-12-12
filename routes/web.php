@@ -49,8 +49,8 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     //function () {        return view('attendance.view');});
     Route::post('/attendance/view', 'AttendanceController@show')->name('attendance.view');
     Route::get('/attendance/view/{date}', 'AttendanceController@show')->name('attendance.view.custom');
+
     Route::get('/collection/offering', 'CollectionController@index')->name('collection.offering');
-         //function () { return view('collection.offering');  })->name('collection.offering');
     Route::post('/collection/save', 'CollectionController@store')->name('collection.save');
     Route::post('/collection/member', 'CollectionController@member')->name('collection.save.member');
     Route::get('/collection/report', 'CollectionController@report')->name('collection.report');

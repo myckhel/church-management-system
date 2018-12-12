@@ -26,9 +26,11 @@ class Member extends Model
     }
 
     public static function getNameByEmail($email){
-      $std = \DB::table('members')->select('firstname','lastname')->where('email',$email)->orderby('firstname','lastname')->first();
-      $name = $std->firstname.' '.$std->lastname;
-      return $name;
+      if($std = Member::select('firstname','lastname')->where('email',$email)->orderby('firstname','lastname')->first()){
+        $name = $std->firstname.' '.$std->lastname;
+        return $name;
+      }
+      return null;
     }
 
   public function upgrade(){

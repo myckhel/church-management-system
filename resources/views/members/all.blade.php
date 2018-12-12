@@ -2,6 +2,10 @@
 
 @section('title') All Members @endsection
 
+@section('link')
+<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
@@ -92,6 +96,7 @@
 <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script>
 
 <script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
+<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
 
 <script>
 var users_table = null
