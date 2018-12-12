@@ -128,6 +128,17 @@
 						<!--End Search-->
 					</ul>
 					<ul class="nav navbar-top-links">
+						<li class="dropdown">
+								<a href="{{ route('notification') }}">
+									<i class="fa fa-bullhorn fa-3x" aria-hidden="true"></i> Announcement &nbsp;&nbsp;&nbsp
+										<span class="badge badge-header badge-danger"></span>
+								</a>
+
+
+
+								<!--Notification dropdown menu-->
+
+						</li>
 						<!--User dropdown-->
 						<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 						<li id="dropdown-user" class="dropdown">

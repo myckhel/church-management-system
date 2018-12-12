@@ -176,7 +176,7 @@
             				</select>
             			</div>
             		</div>
-              <button id="b-save" class="btn btn-primary" type="submit">SAVE</button>
+              <button id="b-save" class="btn btn-primary" type="submit"><i class='fa fa-save'></i> SAVE</button>
             </form>
           </div>
         </div>
@@ -323,7 +323,7 @@
                 </tbody>
               </table>
             <div class="input-group pull-right " style="margin-right:100">
-              <input id="m-save" type="submit" name="save" value="Submit" class="btn btn-primary form-control" />
+              <button id="m-save" type="submit" name="save" value="Submit" class="btn btn-primary form-control"><i class='fa fa-save'></i> Submit</button>
             </form>
             </div>
           </div>
