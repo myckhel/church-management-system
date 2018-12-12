@@ -7,12 +7,6 @@ before_script:
   - composer install --no-interaction
   - php artisan key:generate
   - php artisan migrate
-
-before_install:
-  - mysql -e 'create database homestead_test;'
   
 script:
   - vendor/bin/phpunit
-  
-services:
-  - mysql
