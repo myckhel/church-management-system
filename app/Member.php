@@ -33,6 +33,10 @@ class Member extends Model
       return null;
     }
 
+    public static function getPhotoByEmail($email){
+      return $std = Member::select('photo')->where('email',$email)->first()->photo;
+    }
+
   public function upgrade(){
     $this->member_status = 'old';
     $this->save();

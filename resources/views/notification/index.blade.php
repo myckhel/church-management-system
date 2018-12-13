@@ -3,6 +3,10 @@
 
 @section('title') General Announcements @endsection
 
+@section('link')
+<link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 
 
@@ -18,8 +22,6 @@
     </div>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <!--End page title-->
-
-
     <!--Breadcrumb-->
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <ol class="breadcrumb">
@@ -171,9 +173,6 @@
           <!--===================================================-->
           <!-- END BASIC FORM ELEMENTS -->
 
-
-
-
         </div>
       </div>
     </div>
@@ -187,4 +186,9 @@
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
 
+@endsection
+
+@section('js')
+<script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script> $('.datepicker').datepicker(); </script>
 @endsection
