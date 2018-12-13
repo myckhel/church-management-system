@@ -64,7 +64,7 @@
 	<!--<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet">-->
 
-	@if (Route::currentRouteName() == 'members.all' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form' )
+	@if(Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance.view.form' )
 	<link href="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('plugins/datatables/buttons.semanticui.min.css') }}" rel="stylesheet">
 	<!--DataTables [ OPTIONAL ]-->
@@ -541,30 +541,22 @@
     <!--<script src="{{ URL::asset('js/demo/nifty-demo.min.js') }}"></script>-->
 
 
-		@if (Route::currentRouteName() == 'members.all' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form' )
+		@if (Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance.view.form' )
     <!--DataTables [ OPTIONAL ]-->
-    <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
-	<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
-    <!--<script src="{{ URL::asset('plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>-->
-
-    <!--DataTables Sample [ SAMPLE ]-->
-	<!--<script src="{{ URL::asset('js/demo/tables-datatables.js') }}"></script>-->
-
-	<script src="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.js') }}"></script>
-
-	<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
-	<!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>-->
-
-
-	<script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
-
-	<script src="{{ URL::asset('plugins/datatables/jszip.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/datatables/pdfmake.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/datatables/vfs_fonts.js') }}"></script>
-	<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script>
-
-	<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+		<!--<script src="{{ URL::asset('plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>-->
+		<!--<script src="{{ URL::asset('js/demo/tables-datatables.js') }}"></script>-->
+		<!-- <script src="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.js') }}"></script> -->
+		<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
+		<!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>-->
+		<script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/jszip.min.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/pdfmake.min.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/vfs_fonts.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
+		<!-- <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script> -->
+		<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
 
 	<script>
 		$(document).ready(function () {

@@ -138,7 +138,7 @@
                     <div class="panel-body">
                     <form id="m-attendance" action="{{route('attendance.mark')}}" method="post" >
                       @csrf
-                    <table id="demo-dt-basic" class="table table-striped table-bordered datatable text-dark" cellspacing="0" width="100%" >
+                    <table id="mTable" class="table table-striped table-bordered datatable text-dark" cellspacing="0" width="100%" >
                         <thead>
                             <tr>
                                 <th>S/N</th>
@@ -219,8 +219,30 @@
 @section('js')
 <script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
 <script src="{{ URL::asset('js/functions.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/jszip.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/vfs_fonts.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
+
+<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
 <script>
 $(document).ready(() => {
+  //configure member table
+  if ($.fn.dataTable.isDataTable('.datatable')) {
+    table = $('#mTable').DataTable()
+  } else {
+    var table = $('.datatable').DataTable({
+      dom: 'Bfrtip',
+      lengthChange: false,
+      "paging": false,
+      buttons: ['colvis']
+    });
+    table.buttons().container()
+      .appendTo($('div.eight.column:eq(0)', table.table().container()));
+  }
   // Branch Attendnace
   $('#b-attendance-form').submit((e) => {
     toggleAble($('#btn-mark'), true, 'submitting...')

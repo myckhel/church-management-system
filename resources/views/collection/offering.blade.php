@@ -3,6 +3,10 @@
 
 @section('title') Collections @endsection
 
+@section('link')
+<link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
@@ -340,14 +344,34 @@
 @endsection
 
 @section('js')
+<script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
 <script>
 
-$(document).ready(function(){
+$(document).ready(() => {
+  if ($.fn.dataTable.isDataTable('.datatable')) {
+    table = $('.datatable').DataTable()
+  } else {
+    var table = $('.datatable').DataTable({
+      dom: 'Bfrtip',
+      lengthChange: false,
+      "paging": false,
+      buttons: ['colvis']
+    });
+    table.buttons().container()
+      .appendTo($('div.eight.column:eq(0)', table.table().container()));
+  }
   $('#member-collection-form').submit((e) => {
+    //
     toggleAble('#m-save', true, 'saving')
     e.preventDefault()
     let data = $('#member-collection-form').serializeArray()
-    poster("{{route('collection.save.member')}}", data, () => {
+    let url = "{{route('collection.save.member')}}"
+    poster({url, data}, () => {
       toggleAble('#m-save', false)
     })
   })
@@ -355,8 +379,9 @@ $(document).ready(function(){
   $('#branch-collection-form').submit((e) => {
     toggleAble('#b-save', true, 'saving')
     e.preventDefault()
+    let url = "{{route('collection.save')}}"
     let data = $('#branch-collection-form').serializeArray()
-    poster("{{route('collection.save')}}", data, () => {
+    poster({url, data}, () => {
       toggleAble('#b-save', false)
     })
   })
