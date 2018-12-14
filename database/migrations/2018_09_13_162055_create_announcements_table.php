@@ -11,25 +11,25 @@ class CreateAnnouncementsTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('announcement', function (Blueprint $table) {
-            $table->increments('id');
-             $table->bigInteger('branch_id');
-            $table->string('branchcode');
-            $table->string('details');
-            $table->string('by_who');
-            $table->string('date');
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('announcements');
-    }
+    // public function up()
+    // {
+    //     Schema::create('announcement', function (Blueprint $table) {
+    //         $table->increments('id');
+    //          $table->bigInteger('branch_id');
+    //         $table->string('branchcode');
+    //         $table->string('details');
+    //         $table->string('by_who');
+    //         $table->string('date');
+    //     });
+    // }
+    //
+    // /**
+    //  * Reverse the migrations.
+    //  *
+    //  * @return void
+    //  */
+    // public function down()
+    // {
+    //     Schema::dropIfExists('announcements');
+    // }
 }

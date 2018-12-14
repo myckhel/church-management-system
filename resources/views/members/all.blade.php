@@ -4,6 +4,11 @@
 
 @section('link')
 <link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
+<!-- <link href="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.css') }}" rel="stylesheet"> -->
+<!-- <link href="{{ URL::asset('plugins/datatables/buttons.semanticui.min.css') }}" rel="stylesheet"> -->
+<!--DataTables [ OPTIONAL ]-->
+<link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
+<!-- <link href="{{ URL::asset('plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css') }}" rel="stylesheet"> -->
 @endsection
 
 @section('content')

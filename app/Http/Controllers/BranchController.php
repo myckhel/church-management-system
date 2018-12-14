@@ -259,4 +259,8 @@ class BranchController extends Controller
     public function tools(){
       return view('branch.tools');
     }
+
+    public function toolsPost(){
+      return response()->json(['status' => true]);
+    }
 }

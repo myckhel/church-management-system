@@ -11,19 +11,19 @@ class MembersAttendance extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        //
-        Schema::create('members_attendance', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('title');
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->date('date');
-            $table->enum('attendance',['yes','no']);
-            $table->enum('service_type', ['sunday service', 'thursday service', 'wednesday service', 'monday service', 'tuesday service', 'saturday service', 'friday service']);
-          });
-    }
+    // public function up()
+    // {
+    //     //
+    //     Schema::create('members_attendance', function (Blueprint $table) {
+    //         $table->bigIncrements('id');
+    //         $table->string('title');
+    //         $table->string('firstname');
+    //         $table->string('lastname');
+    //         $table->date('date');
+    //         $table->enum('attendance',['yes','no']);
+    //         $table->enum('service_type', ['sunday service', 'thursday service', 'wednesday service', 'monday service', 'tuesday service', 'saturday service', 'friday service']);
+    //       });
+    // }
 
     /**
      * Reverse the migrations.

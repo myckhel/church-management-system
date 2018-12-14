@@ -38,6 +38,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/branches/head_office_options', 'BranchController@ho')->name('branch.ho');
     Route::post('/branches/head_office_options', 'BranchController@ho_up')->name('branch.ho.up');
     Route::get('/branches/tools', 'BranchController@tools')->name('branch.tools');
+    Route::post('/branches/tools/post', 'BranchController@toolsPost')->name('branch.toolsPost');
 
     Route::get('/attendance', 'AttendanceController@mark')->name('attendance');
     Route::post('/attendance/mark', 'AttendanceController@mark_it')->name('attendance.mark');
@@ -96,6 +97,14 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/notification/announcement', 'EventController@add')->name('calendar.announcement');
     Route::get('/ticket', 'MessagingController@indexticket')->name('ticket');
     Route::post('/ticket/email/ticket', 'MessagingController@sendTicket')->name('sendTicket');
+
+    // OPTIONS
+    Route::get('/options/get', 'OptionController@getOption')->name('option.get');
+    Route::get('/options/branch/get', 'OptionController@getBranchOption')->name('option.branch.get');
+    Route::post('/options/branch/put', 'OptionController@putBranchOption')->name('option.branch.post');
+    // test
+    Route::get('/branches/tools/group', 'OptionController@test')->name('option.test');
+
 });
 
 Route::get('/admin/login', function () {

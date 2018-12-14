@@ -60,4 +60,8 @@ class User extends Authenticatable
     public function member(){
       return $this->hasMany(Member::class);
     }
+
+    public function option(){
+      $this->hasMany(Options::class);
+    }
 }
