@@ -15,11 +15,6 @@
 @endsection
 
 @section('content')
-<!-- <link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
-<link href="{{ URL::asset('plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css') }}" rel="stylesheet">
-<link href="{{ URL::asset('plugins/datatables/semantic.min.css') }}" rel="stylesheet">
-<link href="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.css') }}" rel="stylesheet">
-<link href="{{ URL::asset('plugins/datatables/buttons.semanticui.min.css') }}" rel="stylesheet"> -->
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
 <div id="content-container">
@@ -109,20 +104,57 @@
 					                        <td width="65%"><a href="#" id="branchname"></a></td>
 					                    </tr>
                               <tr>
-					                        <td width="35%">Branch Logo</td>
-					                        <td width="65%"><a href="#" id="branchlogo"></a></td>
+					                        <td width="35%">Branch Address</td>
+					                        <td width="65%"><a href="#" id="branchaddress"></a></td>
+					                    </tr>
+                              <tr>
+					                        <td width="35%">Branch City</td>
+					                        <td width="65%"><a href="#" id="branchcity"></a></td>
+					                    </tr>
+                              <tr>
+					                        <td width="35%">Branch State</td>
+					                        <td width="65%"><a href="#" id="branchstate"></a></td>
+					                    </tr>
+                              <tr>
+					                        <td width="35%">Branch Country</td>
+					                        <td width="65%"><a href="#" id="branchcountry"></a></td>
 					                    </tr>
 					                    <tr>
+					                        <td>Branch Logo</td>
+					                        <td>
+                                    <div class="row">
+                                       <div class="col-md-3">
+                                         <form id="upload-form" action="{{route('branch.toolsPost')}}" method="post" enctype="multipart/form-data">
+                                           <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                           <input id="img-logo-input" style="display:none" name="branchlogo" type="file" accept=".jpg,.gif,.png"  class="form-control" value="">
+                                           <img id="img-logo" class="img-responsive" src="{{url('/images/')}}/church-logo.png">
+                                           <button id="edit-ho" type='button' class="btn btn-danger" onclick="">Edit</button>
+                                           <button style="display:none" id="save-ho" type='submit' name="update" class="btn btn-danger" onclick="">Save</button>
+                                           <button style="display:none" id="cancel-ho" type='button' class="btn btn-warning" onclick="">Cancel</button>
+                                          </form>
+                                        </div>
+                                    </div>
+                                  </td>
+					                    </tr>
+					                    <tr>
+					                        <td>Branch Currency Symbol</td>
+					                        <td><a href="#" id="currency" data-type="select" data-pk="1" data-source="{{route('option.test')}}" data-title="Select currency Symbol"></a></td>
+					                    </tr>
+                              <tr>
+					                        <td>Branch Line 1</td>
+					                        <td><a href="#" id="branchline1" data-type="number" data-pk="1" data-placement="right" data-placeholder="e.g, 081100000000" data-title="Enter Branch's Line 1"></a></td>
+					                    </tr>
+                              <tr>
+					                        <td>Branch Line 2</td>
+					                        <td><a href="#" id="branchline2" data-type="number" data-pk="1" data-placement="right" data-placeholder="e.g, 081100000000" data-title="Enter Branch's Line 2"></a></td>
+					                    </tr>
+					                    <!-- <tr>
 					                        <td>Empty text field, required</td>
 					                        <td><a href="#" id="demo-editable-firstname" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="Enter your firstname"></a></td>
 					                    </tr>
 					                    <tr>
 					                        <td>Sex</td>
 					                        <td><a href="#" id="demo-editable-sex" data-type="select" data-pk="1" data-value="" data-title="Select currency Symbol"></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Branch Currency Symbol</td>
-					                        <td><a href="#" id="currency" data-type="select" data-pk="1" data-source="{{route('option.test')}}" data-title="Select currency Symbol"></a></td>
 					                    </tr>
 					                    <tr>
 					                        <td>Select, error while loading</td>
@@ -151,7 +183,7 @@
 					                    <tr>
 					                        <td>Custom input, several fields</td>
 					                        <td><a href="#" id="demo-editable-address" data-type="address" data-pk="1" data-title="Please, fill address"></a></td>
-					                    </tr>
+					                    </tr> -->
 					                </tbody>
 					            </table>
 					     </div>
@@ -198,12 +230,20 @@ $.ajax({url: "{{route('option.branch.get')}}"})
       dt[index.name] = index.value
     })
     console.log(dt);
+    const opt = "setValue"
+  	$("#smsapi").editable(opt, dt.smsapi)
+    $("#branchname").editable(opt, dt.branchname)
+    $("#currency").editable(opt, dt.currency)
+    $("#branchaddress").editable(opt, dt.branchaddress)
+    $("#branchline1").editable(opt, dt.branchline1)
+    $("#branchline2").editable(opt, dt.branchline2)
+    $("#branchcity").editable(opt, dt.branchcity)
+    $("#branchstate").editable(opt, dt.branchstate)
+    $("#branchcountry").editable(opt, dt.branchcountry)
   }
 })
 .fail((e) => {console.log(e);})
 $(document).ready( () => {
-
-
       // datas
       var dT = {sex: {male: {value: 1, text: 'Male'}, female: { value: 1, text: "Female"} } }
 			//defaults
@@ -217,37 +257,81 @@ $(document).ready( () => {
 			//enable / disable
 			$("#demo-editable-enable").click(function() {
 			    $("#demo-editable-table .editable").editable("toggleDisabled");
-
 			});
 
-			//editables
+			//smsapi
 			$("#smsapi").editable({
 			    type: "text",
 			    pk: 1,
 			    name: "smsapi",
-          value: dt.smsapi,
-			    title: "Enter Your SMS Api Url"
+          // value: dt.smsapi,
+			    title: "Enter Your SMS Api Url",
+          validate: function(value) {
+			       if($.trim(value) == "") return "This field is required";
+			    }
 			});
 
-      //editables
+      //branchname
 			$("#branchname").editable({
         type: "text",
         pk: 1,
         name: "branchname",
-        value: 'dt.branchname',
-        title: "Enter Your Branchname"
+        // value: 'dt.branchname',
+        title: "Enter Your Branchname",
+        validate: function(value) {
+           if($.trim(value) == "") return "This field is required";
+        }
 			});
 
-      //editables
-			$("#branchlogo").editable({
+      //branch address
+			$("#branchaddress").editable({
+        validate: function(value) {
+           if($.trim(value) == "") return "This field is required";
+        },
         type: "text",
         pk: 1,
-        name: "logo",
-        // value: 'dt.branchlogo',
-        title: "Upload Your Branch Logo",
-        display: function (value, sourceData) {
-          $(this).html(`<img class="d-flex mr-3 img-circle img-60 img-thumbnail" src="{{url('/images/')}}/church-logo.png" alt="{{'$member->firstname'}} image">`)
-        }
+        title: "Input Branch Address",
+			});
+
+      //branch city
+			$("#branchcity").editable({
+        validate: function(value) {
+           if($.trim(value) == "") return "This field is required";
+        },
+        type: "text",
+        pk: 1,
+        title: "Input Branch City",
+			});
+
+      //branch state
+			$("#branchstate").editable({
+        validate: function(value) {
+           if($.trim(value) == "") return "This field is required";
+        },
+        type: "text",
+        pk: 1,
+        title: "Input Branch State",
+			});
+
+      // branch country
+      $("#branchcountry").editable({
+			    validate: function(value) {
+			       if($.trim(value) == "") return "This field is required";
+			    }
+			});
+
+      // branch line 1
+      $("#branchline1").editable({
+			    validate: function(value) {
+			       if($.trim(value) == "") return "This field is required";
+			    }
+			});
+
+      // branch line 2
+      $("#branchline2").editable({
+			    validate: function(value) {
+			       if($.trim(value) == "") return "This field is required";
+			    }
 			});
 
 			$("#demo-editable-firstname").editable({
@@ -278,7 +362,7 @@ $(document).ready( () => {
 
 			$("#currency").editable({
 			    // showbuttons: false,
-          value: '₦',
+          // value: '₦',
 			});
 
 			$("#demo-editable-vacation").editable({
@@ -376,26 +460,62 @@ $(document).ready( () => {
 			    }
 			});
 
-  // if ($.fn.dataTable.isDataTable('.datatable')) {
-  //   table = $('.datatable').DataTable()
-  // } else {
-  //   /*$('.datatable').DataTable({
-  //     dom: 'Bfrtip',
-  //     buttons: [
-  //       'copy', 'csv', 'excel', 'pdf', 'print'
-  //     ]
-  //   });*/
-  //
-  //   var table = $('.datatable').DataTable({
-  //     dom: 'Bfrtip',
-  //     lengthChange: false,
-  //     buttons: ['copy', 'excel', 'pdf', 'colvis']
-  //   });
-  //
-  //   table.buttons().container()
-  //     .appendTo($('div.eight.column:eq(0)', table.table().container()));
-  //
-  // }
+      //head office module
+			$('#save-ho').click(function (){
+        // saveClick()
+			});
+			$('#edit-ho').click(function (){
+        editClick()
+			});
+
+			$('#cancel-ho').click(function (){
+				cancelClick()
+			});
+
+    // process the form
+    $('#upload-formss').submit(function(event) {
+      // stop the form from submitting the normal way and refreshing the page
+      event.preventDefault();
+      var confirmed = confirm('confirm to update');
+      var values = $('#upload-form').serializeArray()
+      console.log(values);
+      console.log($('#img-logo-input'));
+      return
+      // process the form
+      $.ajax({type: 'POST', url: "{{route('branch.ho.up')}}", data: values})
+      .done(function(data) {
+        saveClick()
+        console.log(data);
+        // location.reload();
+      });
+    });
 });
+const saveClick = () => {
+  $('#mod').hide();
+  $('#def').show();
+  $('#save-ho').hide();
+  $('#cancel-ho').hide();
+  $('#edit-ho').show();
+  $('#img-logo').show();
+  $('#img-logo-input').hide();
+}
+const editClick = () => {
+  $('#img-logo').hide();
+  $('#mod').show();
+  $('#img-logo-input').show();
+  $('#cancel-ho').show();
+  $('#def').hide();
+  $('#edit-ho').hide();
+  $('#save-ho').show();
+}
+const cancelClick = () => {
+  $('#mod').hide();
+  $('#cancel-ho').hide();
+  $('#img-logo').show();
+  $('#def').show();
+  $('#img-logo-input').hide();
+  $('#edit-ho').show();
+  $('#save-ho').hide();
+}
 </script>
 @endsection

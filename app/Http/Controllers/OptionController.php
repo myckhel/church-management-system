@@ -29,8 +29,24 @@ class OptionController extends Controller
       $branch = Auth::user();
       $status = false;
       $text = "Option Name Not Valid";
-      if (in_array($request->name, array('smsapi', 'currency') ) ){
+      if (in_array($request->name, array('smsapi', 'currency', 'branchname', 'branchaddress', 'branchline1', 'branchline2', 'branchcity', 'branchstate', 'branchcountry', 'branchlogo') ) ){
         // code...
+        if ($request->name == 'branchlogo') {
+          # code...
+          if ($request->hasFile('branchlogo'))
+          {
+              $image = $request->file('branchlogo');
+
+              $input['imagename'] = time().'.'.$image->getClientOriginalExtension();
+
+              $destinationPath = public_path('/images');
+
+              $image->move($destinationPath, $input['imagename']);
+
+              $request->value = $input['imagename'];
+          }
+        }
+
         $text = Options::putBranchOption($request, $branch);
         $text = "Created"; $status = true;
       }
