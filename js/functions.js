@@ -66,7 +66,7 @@ const divLoader = () => (
 const poster = ({url, data}, fn) => {
   $.ajax({url, data, type: 'POST'})
   .done((res) => {
-    if (res.status) {
+    if(res.status){
       swal("Success!", res.text, "success");
     } else {
       swal("Oops", res.text, "error");
@@ -78,7 +78,7 @@ const poster = ({url, data}, fn) => {
   .fail((e) => {
     swal("Oops", "Internal Server Error", "error");
     if (typeof(fn) === 'function') {
-      fn(res, e)
+      fn(e)
     }
     console.log(e);
   })

@@ -343,7 +343,7 @@
 										</ul>
 									</li>
 									@if (\Auth::user()->isAdmin())
-									<li class="{{Route::currentRouteName() === 'branch.tools' || Route::currentRouteName() === 'branch.ho' || Route::currentRouteName() === 'branch.register' || Route::currentRouteName() === 'branches' ? 'active-sub active' : ''}}">
+									<li class="{{Route::currentRouteName() === 'branch.tools' || Route::currentRouteName() === 'branch.options' || Route::currentRouteName() === 'branch.register' || Route::currentRouteName() === 'branches' ? 'active-sub active' : ''}}">
 										<a href="#">
 											<i class="fa fa-building-o"></i>
 											<span class="menu-title">Admin Tools</span>
@@ -356,8 +356,8 @@
 											<li class="{{Route::currentRouteName() === 'branch.register' ? 'active-sub' : ''}}">
 												<a href="{{route('branch.register')}}"><i class="fa fa-plus"></i> Add New Branch</a>
 											</li>
-											<li class="{{Route::currentRouteName() === 'branch.ho' ? 'active-sub' : ''}}">
-												<a href="{{route('branch.ho')}}"><i class="fa fa-cog"></i> Options</a>
+											<li class="{{Route::currentRouteName() === 'branch.options' ? 'active-sub' : ''}}">
+												<a href="{{route('branch.options')}}"><i class="fa fa-cog"></i> Options</a>
 											</li>
 											<li class="{{Route::currentRouteName() === 'branch.tools' ? 'active-sub' : ''}}">
 												<a href="{{route('branch.tools')}}"><i class="fa fa-wrench"></i> Tools</a>
@@ -787,7 +787,7 @@ function dele(input){
 @endif
 <!-- end branch delete -->
 <!-- Head Office -->
-@if (Route::currentRouteName() == ('branch.ho'))
+@if (Route::currentRouteName() == ('branch.options'))
 <script>
     $(document).ready(function() {
 			//head office module
@@ -823,7 +823,7 @@ function dele(input){
         // process the form
         $.ajax({
             type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : "{{route('branch.ho.up')}}", // the url where we want to POST
+            url         : "{{route('branch.optionsPost')}}", // the url where we want to POST
             data        : values, // our data object
             dataType    : 'json', // what type of data do we expect back from the server
                         encode          : true

@@ -35,10 +35,10 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/branches/{id}/destroy', 'BranchController@destroy')->name('branch.destroy');
     Route::get('/branches/register', 'BranchController@registerForm')->name('branch.register');
     Route::post('/branches/register', 'BranchController@register')->name('branch.register');
-    Route::get('/branches/head_office_options', 'BranchController@ho')->name('branch.ho');
-    Route::post('/branches/head_office_options', 'BranchController@ho_up')->name('branch.ho.up');
-    Route::get('/branches/tools', 'BranchController@tools')->name('branch.tools');
-    Route::post('/branches/tools/post', 'BranchController@toolsPost')->name('branch.toolsPost');
+    // depre
+    Route::get('/old/branches/head_office_options', 'BranchController@ho')->name('branch.ho');
+    Route::post('/old/branches/head_office_options', 'BranchController@ho_up')->name('branch.ho.up');
+    // depre
 
     Route::get('/attendance', 'AttendanceController@mark')->name('attendance');
     Route::post('/attendance/mark', 'AttendanceController@mark_it')->name('attendance.mark');
@@ -102,6 +102,18 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/options/get', 'OptionController@getOption')->name('option.get');
     Route::get('/options/branch/get', 'OptionController@getBranchOption')->name('option.branch.get');
     Route::post('/options/branch/put', 'OptionController@putBranchOption')->name('option.branch.post');
+    Route::get('/branches/options', 'BranchController@options')->name('branch.options');
+    Route::post('/branches/options', 'OptionController@optionsPost')->name('branch.optionsPost');
+    // TOOLS
+    Route::get('/branches/tools', 'BranchController@tools')->name('branch.tools');
+    Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
+    Route::get('/branches/tools/collection-type', 'OptionController@collectionTypeGet')->name('collection.type');
+    Route::get('/branches/tools/service-type', 'OptionController@serviceTypeGet')->name('service.type');
+    Route::post('/branches/tools/collection-type/delete', 'OptionController@deletecollectionType')->name('delete.collection.type');
+    Route::post('/branches/tools/service-type/delete', 'OptionController@deleteServiceType')->name('delete.service.type');
+    Route::post('/branches/tools/service-type/update', 'OptionController@updateServiceType')->name('update.service.type');
+    Route::post('/branches/tools/collection-type/update', 'OptionController@updateCollectionType')->name('update.collection.type');
+    // Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
     // test
     Route::get('/branches/tools/group', 'OptionController@test')->name('option.test');
 

@@ -64,4 +64,12 @@ class User extends Authenticatable
     public function option(){
       $this->hasMany(Options::class);
     }
+
+    public function collections_types(){
+      $this->hasMany(CollectionsType::class);
+    }
+
+    public function service_type(){
+      $this->hasMany(ServiceType::class);
+    }
 }

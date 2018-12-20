@@ -260,7 +260,7 @@ class BranchController extends Controller
       return view('branch.tools');
     }
 
-    public function toolsPost(){
-      return response()->json(['status' => true]);
+    public function options(){
+      return view('branch.options');
     }
 }

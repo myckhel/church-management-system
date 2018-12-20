@@ -54,10 +54,10 @@
               </div-->
               <form id="" onsubmit="return false;" >
                 <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%" >
-                    <thead>
-                    </thead>
-                    <tbody>
-                    </tbody>
+                  <thead>
+                  </thead>
+                  <tbody>
+                  </tbody>
                 </table>
                 <select id="action" name="action">
                   <option>with selected</option>
@@ -141,10 +141,10 @@ $(document).ready(function () {
     $('#users-table').on('click', '.d-member', (e) => {
       // e.preventDefault()
       $this = $(e.target)
-      toggleAble($this, true, "deleting")
       confirmation = confirm('Are you sure you want to delete the member?')
       if(confirmation){
         data = {}
+        toggleAble($this, true, "deleting")
         data.id = e.target.id
         data._token = "{{csrf_token()}}"
         url = `../member/delete/${data.id}`

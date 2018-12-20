@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Options;
 use Auth;
+use Yajra\Datatables\Datatables;
 
 class OptionController extends Controller
 {
@@ -31,7 +32,7 @@ class OptionController extends Controller
       $text = "Option Name Not Valid";
       if (in_array($request->name, array('smsapi', 'currency', 'branchname', 'branchaddress', 'branchline1', 'branchline2', 'branchcity', 'branchstate', 'branchcountry', 'branchlogo') ) ){
         // code...
-        if ($request->name == 'branchlogo') {
+        if (isset($request->branchlogo)) {
           # code...
           if ($request->hasFile('branchlogo'))
           {
@@ -53,6 +54,29 @@ class OptionController extends Controller
       return response()->json(['status' => $status, 'text' => $text]);
     }
 
+    public function toolsPost(Request $request){
+      $status = false;
+      $text = "Action Not Valid";
+      $branch_id = Auth::user()->id;
+      if (isset($request->c_type_c)) {
+        # code...
+        \App\CollectionsType::create(['name' => $request->name, 'branch_id' => $branch_id]);
+        $status = true;
+        $text = "Created";
+      } elseif(isset($request->s_type_c)) {
+        # code...
+        \App\ServiceType::create(['name' => $request->name, 'branch_id' => $branch_id]);
+        $status = true;
+        $text = "Created";
+      }
+
+      return response()->json(['status' => $status, 'text' => $text]);
+    }
+
+    public function optionsPost(){
+      return response()->json(['status' => true]);
+    }
+
     public function test(){
       $array = [];
       $sql = "SELECT currency_symbol, ID FROM country WHERE currency_name != '' AND currency_symbol != ''";
@@ -62,5 +86,43 @@ class OptionController extends Controller
         array_push($array, $value->currency_symbol);
       }
       return response()->json($array);
+    }
+
+    public function collectionTypeGet(Request $request){
+      $branch_id = Auth::user()->id;
+      $types = \App\CollectionsType::where('branch_id', $branch_id)->get();
+      return Datatables::of($types)->make(true);
+    }
+
+    public function serviceTypeGet(Request $request){
+      $branch_id = Auth::user()->id;
+      $types = \App\ServiceType::where('branch_id', $branch_id)->get();
+      return Datatables::of($types)->make(true);
+    }
+
+    public function deleteCollectionType(Request $request){
+      $collection = \App\CollectionsType::whereId($request->id)->first();
+      if($collection) $collection->delete(); else return response()->json(['status' => false, 'text' => "Collection does not exist"]);
+      return response()->json(['status' => true, 'text' => "$collection->name has been deleted!"]);
+    }
+
+    public function deleteServiceType(Request $request){
+      $service = \App\ServiceType::whereId($request->id)->first();
+      if($service) $service->delete(); else return response()->json(['status' => false, 'text' => "Service does not exist"]);
+      return response()->json(['status' => true, 'text' => "$service->name has been deleted!"]);
+    }
+
+    public function updateServiceType(Request $request){
+      $service = \App\ServiceType::whereId($request->id)->first();
+      if($service) { $service->name = $request->name; $service->save();}
+      else {return response()->json(['status' => false, 'text' => "Service does not exist"]);}
+      return response()->json(['status' => true, 'text' => "service has been updated!"]);
+    }
+
+    public function updateCollectionType(Request $request){
+      $collection = \App\CollectionsType::whereId($request->id)->first();
+      if($collection) { $collection->name = $request->name; $collection->save();}
+      else {return response()->json(['status' => false, 'text' => "collection does not exist"]);}
+      return response()->json(['status' => true, 'text' => "collection has been updated!"]);
     }
 }
