@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class ServiceType extends Model
 {
@@ -14,4 +15,10 @@ class ServiceType extends Model
     public function user(){
       $this->belongsTo(User::class);
     }
+
+    public static function getTypes(){
+      return ServiceType::all();
+    }
+
+    
 }

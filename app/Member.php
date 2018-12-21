@@ -9,9 +9,7 @@ class Member extends Model
     protected $guarded = ['id'];
 
     public function getFullname(){
-
-        return "$this->firstname $this->lastname";
-
+      return "$this->firstname $this->lastname";
     }
 
     public function InGroup($group_id){

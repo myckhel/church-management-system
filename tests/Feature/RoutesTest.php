@@ -12,7 +12,7 @@ class RoutesTest extends TestCase
      *
      * @return void
      */
-    public function getTest()
+    public function testGet()
     {
         $response = $this->get('/');
 

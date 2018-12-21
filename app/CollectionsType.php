@@ -14,4 +14,8 @@ class CollectionsType extends Model
     public function user(){
       $this->belongsTo(User::class);
     }
+
+    public static function getTypes(){
+      return CollectionsType::all();
+    }
 }

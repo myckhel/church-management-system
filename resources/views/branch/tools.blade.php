@@ -42,6 +42,7 @@
           <div class="pad-all">
             <form id="collection_type_form" method="POST" action="{{route('branch.toolsPost')}}">
               @csrf
+              <label>Create Collection Type</label>
               <input type=text name=branch_id value="{{\Auth::user()->branchcode}}" hidden=hidden />
               <input type=text name=c_type_c value="{{\Auth::user()->branchcode}}" hidden=hidden />
               <input style="border:1px solid #ddd; padding:7px;outline:none" name="name" type=text Placeholder="Collection Name" required/>
@@ -61,6 +62,7 @@
           <div class="pad-all">
             <form id="service_type_form" method="POST" action="{{route('branch.toolsPost')}}">
               @csrf
+              <label>Create Service Type</label>
               <input type=text name=branch_id value="{{\Auth::user()->branchcode}}" hidden=hidden />
               <input type=text name=s_type_c value="{{\Auth::user()->branchcode}}" hidden=hidden />
               <input style="border:1px solid #ddd; padding:7px;outline:none" name="name" type=text Placeholder="Service Name" required/>
@@ -91,12 +93,13 @@
 <script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
 <script>
 $(document).ready(() => {
+  $.fn.dataTable.ext.errMode = () => alert('Error while loading the table data. Please refresh');
   $('#collection_type_form').submit((e) => {
     e.preventDefault()
     $this = $('#collection_type_form')
     data = $($this).serializeArray()
     url = $($this).attr('action')
-    poster({url,data}, () => {collection_table.ajax.reload(null, false)})
+    poster({url,data}, () => {collection_table.ajax.reload(null, false); resetForm('#collection_type_form')})
   })
   //
   $('#service_type_form').submit((e) => {
@@ -104,7 +107,7 @@ $(document).ready(() => {
     $this = $('#service_type_form')
     data = $($this).serializeArray()
     url = $($this).attr('action')
-    poster({url,data}, () => {service_table.ajax.reload(null, false)})
+    poster({url,data}, () => {service_table.ajax.reload(null, false); resetForm('#service_type_form')})
   })
   // tables
   var collection_table = $('#c-type-table').DataTable({
