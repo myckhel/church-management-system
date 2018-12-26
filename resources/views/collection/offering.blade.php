@@ -65,93 +65,28 @@
           <div class="panel-heading">
               <h1 class="text-center panel-title">Branch Collection</h1>
           </div>
-          <div class="panel-body demo-nifty-btn" style="overflow:scroll">
+          <div class="panel-body demo-nifty-btn table-responsive">
             <style>th{width: 300px; text-align: center;}</style>
               <form id="branch-collection-form" class="form-inline" method="POST" action="{{route('collection.save')}}">
                 @csrf
-                <table id="table2" class="table table-striped table-bordered datatable" cellspacing="0" width="1800px" >
+                <table id="table2" class="table table-striped table-bordered datatable" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Special Offering</th>
-                      <th>Seed Offering</th>
-                      <th>Tithe</th>
-                      <th>Offering</th>
-                      <th>Donation</th>
-                      <th>First Fruit</th>
-                      <th>Covenant Seed</th>
-                      <th>Love Seed</th>
-                      <th>Sacrifice</th>
-                      <th>Thanksgiving</th>
-                      <th>Thanksgiving Seed</th>
-                      <th>Other</th>
+                      @foreach($collections as $collection)
+                      <th>{{ucwords($collection->name)}}</th>
+                      @endforeach
                       <th>Total</th>
                     </tr>
                   </thead>
                   <tbody>
                       <tr>
+                        @foreach($collections as $collection)
                         <td>
                           <div id="" class="input-group">
-                            <input id="" type="number" name="special_offering" value="0" class="form-control saisie"/>
+                            <input id="" type="number" name="{{$collection->name}}" value="0" class="form-control saisie"/>
                           </div>
                         </td>
-                        <td>
-                          <div id="" class="input-group">
-                            <input id="" type="number" name="seed_offering" value="0" class="form-control saisie"/>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="input-group">
-                            <input id="" type="number" name="tithe" value="0" class="form-control saisie" />
-                          </div>
-                        </td>
-                        <td>
-                          <div class="input-group">
-                            <input id="" type="number" name="offering" value="0" class="form-control saisie" />
-                          </div>
-                        </td>
-                        <td>
-                          <div class="input-group">
-                            <input id="" type="number" name="donation" value="0" class="form-control saisie" />
-                          </div>
-                        </td>
-                        <td>
-                          <div class="input-group">
-                            <input id="" type="number" name="first_fruit" value="0" class="form-control saisie" />
-                          </div>
-                        </td>
-                          <input id="" type="hidden" value="<?php if(isset($member->id)){echo $member->id;} ?>" name="member_id" class="" />
-                          <input id="" type="hidden" value="<?php if(isset($member->branch_id)){echo $member->branch_id;} ?>" name="branch_id" class="" />
-                          @csrf
-                        <td>
-                          <div class="input-group">
-                            <input id="" type="number" name="covenant_seed" value="0" class="form-control saisie" />
-                          </div>
-                        </td>
-                        <td>
-                          <div class="input-group">
-                            <input id="" type="number" name="love_seed" value="0" class="form-control saisie" />
-                          </div>
-                        </td>
-                        <td>
-                          <div class="input-group">
-                            <input id="" type="number" name="sacrifice" value="0" class="form-control saisie" />
-                          </div>
-                        </td>
-                        <td>
-                          <div class="input-group">
-                            <input id="" type="number" name="thanksgiving" value="0" class="form-control saisie" />
-                          </div>
-                        </td>
-                        <td>
-                          <div class="input-group">
-                            <input type="number" name="thanksgiving_seed" value="0" class="form-control saisie" />
-                          </div>
-                        </td>
-                        <td>
-                          <div class="input-group">
-                            <input type="number" name="other" value="0" class="form-control saisie" />
-                          </div>
-                        </td>
+                        @endforeach
                         <div style="display:none">
                           <input id="hidden-total" type="number" name="amount" value="" type="text" />
                         </div>
@@ -169,18 +104,15 @@
                   </div>
                  <div class="form-group">
                    <div>
-			              <select style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
-                      <option value="sunday service" selected>Sunday Service</option>
-                      <option value="monday service">Monday Service</option>
-                      <option value="tuesday service">Tuesday Service</option>
-                      <option value="wednessday service">Wednessday Service</option>
-                      <option value="thursday service">Thursday Service</option>
-                      <option value="friday service">Friday Service</option>
-                      <option value="saturday service">Saturday Service</option>
+			              <select required style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
+                      <option selected disabled value="">Choose Service Type</option>
+                      @foreach($services as $service)
+                      <option value="{{$service->id}}">{{$service->name}}</option>
+                      @endforeach
             				</select>
             			</div>
             		</div>
-              <button id="b-save" class="btn btn-primary" type="submit"><i class='fa fa-save'></i> SAVE</button>
+              <button id="b-save" class="btn btn-primary" type="submit"><i class='visible-xs fa fa-save'></i> <span class="hidden-xs">SAVE</span></button>
             </form>
           </div>
         </div>
@@ -191,114 +123,42 @@
           <div class="panel-heading">
             <h3 class="panel-title text-center">Members Collection</h3>
           </div>
-          <div class="panel-body demo-nifty-btn" style="overflow:scroll">
+          <div class="panel-body demo-nifty-btn table-responsive">
             <form id="member-collection-form" action="{{route('collection.save.member')}}" method="post" >
-              <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="1800px" >
+            @csrf
+              <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0">
                 <thead>
                   <tr>
                     <th>S/N</th>
                     <th>Title</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Special Offering</th>
-                    <th>Seed Offering</th>
-                    <th>Tithe</th>
-                    <th>Offering</th>
-                    <th>Donation</th>
-                    <th>First Fruit</th>
-                    <th>Covenant Seed</th>
-                    <th>Love Seed</th>
-                    <th>Sacrifice</th>
-                    <th>Thanksgiving</th>
-                    <th>Thanksgiving Seed</th>
-                    <th>Other</th>
-                    <!--th>Date</th-->
+                    <th>Name</th>
+                    @foreach($collections as $collection)
+                    <th>{{ucwords($collection->name)}}</th>
+                    @endforeach
                     <th>Total</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php $count = 1; ?>
-                  <?php $class = ['normal', 'alt']; $i = 0; $size = sizeof($members); ?>
+                  <?php $count = 1; $class = ['normal', 'alt']; $i = 0; $size = sizeof($members); ?>
                   @if(isset($members))
                   @foreach ($members as $member)
                   <?php if($i == 1){ $num = 0; $i = 0; }else{ $num = 1; $i = 1;} ?>
-                  <tr class="<?php echo $class[$num]; ?>" id="row,{{$count}}" onMouseOver="this.className='highlight'" onMouseOut="this.className='<?php echo $class[$num]; ?>'">
+                  <tr class="{{$class[$num]}}" id="row,{{$count}}" onMouseOver="this.className='highlight'" onMouseOut="this.className='{{$class[$num]}}'">
                     <td><strong>{{$count}}</strong></td>
-                    <td>{{$member->title}}
-                      <input id="" type="hidden" value="{{$member->title}}" name="title[]" class="" />
-                    </td>
-                    <td>{{$member->firstname}}
-                      <input id="" type="hidden" value="{{$member->firstname}}" name="fname[]" class="" />
-                    </td>
-                    <td>{{$member->lastname}}
-                      <input id="" type="hidden" value="{{$member->lastname}}" name="lname[]" class="" />
-                    </td>
+                    <td>{{$member->title}}</td>
+                    <td>{{$member->firstname}} {{$member->lastname}}</td>
+                    @foreach($collections as $collection)
                     <td>
                       <div id="" class="input-group">
-                        <input id="" type="number" value="0" name="special_offering[]" class="form-control saisie"/>
+                        <input id="" type="number" name="{{$collection->name}}[]" value="0" class="form-control saisie"/>
                       </div>
                     </td>
-                    <td>
-                      <div id="" class="input-group">
-                        <input id="" type="number" value="0" name="seed_offering[]" class="form-control saisie"/>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="input-group">
-                        <input id="" type="number" value="0" name="tithe[]" class="form-control saisie" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="input-group">
-                        <input id="" type="number" value="0" name="offering[]" class="form-control saisie" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="input-group">
-                        <input id="" type="number" value="0" name="donation[]" class="form-control saisie" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="input-group">
-                        <input id="" type="number" value="0" name="first_fruit[]" class="form-control saisie" />
-                      </div>
-                    </td>
-                    <input id="" type="hidden" value="{{$member->id}}" name="member_id[]" class="" />
-                    <input id="" type="hidden" value="{{$member->branch_id}}" name="branch_id[]" class="" />
-                    @csrf
-                    <td>
-                      <div class="input-group">
-                        <input id="" type="number" value="0" name="covenant_seed[]" class="form-control saisie" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="input-group">
-                        <input id="" type="number" value="0" name="love_seed[]" class="form-control saisie" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="input-group">
-                        <input id="" type="number" value="0" name="sacrifice[]" class="form-control saisie" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="input-group">
-                        <input id="" type="number" value="0" name="thanksgiving[]" class="form-control saisie" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="input-group">
-                        <input type="number" value="0" name="thanksgiving_seed[]" class="form-control saisie" />
-                      </div>
-                    </td>
-                    <td>
-                      <div class="input-group">
-                        <input type="number" value="0" name="other[]" class="form-control saisie" />
-                      </div>
-                    </td>
+                    @endforeach
                     <td></td>
+                    <input id="" type="hidden" value="{{$member->id}}" name="member_id[]" class="" />
                   </tr>
                   <?php $count++; ?>
+                  <input id="" type="hidden" value="{{$member->branch_id}}" name="branch_id[]" class="" />
                   @endforeach
                   @else
                   <tr>
@@ -309,18 +169,15 @@
                     <div class="col-md-4">
                       <h3><label for="date">Choose Date</label></h3>
                       <input style="border:1px solid rgba(0,0,0,0.07);height: 33px; font-size: 13px; border-radius: 3px;display: block;color: #555; background-color: #fff;outline:none; padding:2px 10px"
-                      type="text" placeholder="Choose Date" name="date" class="datepicker form-control" required/>
+                      type="text" placeholder="Choose Date" name="date_collected" class="datepicker form-control" required/>
                     </div>
                     <div class="col-md-4 form-group">
                       <h3><label for="date">Service Type</label></h3>
-                      <select style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
-                        <option value="sunday service" selected>Sunday Service</option>
-                        <option value="monday service">Monday Service</option>
-                        <option value="tuesday service">Tuesday Service</option>
-                        <option value="wednessday service">Wednessday Service</option>
-                        <option value="thursday service">Thursday Service</option>
-                        <option value="friday service">Friday Service</option>
-                        <option value="saturday service">Saturday Service</option>
+                      <select required style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
+                        <option selected disabled value="">Choose Service Type</option>
+                        @foreach($services as $service)
+                        <option value="{{$service->id}}">{{$service->name}}</option>
+                        @endforeach
                       </select>
                     </div>
                   </div>
@@ -371,8 +228,11 @@ $(document).ready(() => {
     e.preventDefault()
     let data = $('#member-collection-form').serializeArray()
     let url = "{{route('collection.save.member')}}"
-    poster({url, data}, () => {
+    poster({url, data}, (res) => {
       toggleAble('#m-save', false)
+      if (res.status) {
+        resetForm('#member-collection-form')
+      }
     })
   })
 
@@ -381,8 +241,11 @@ $(document).ready(() => {
     e.preventDefault()
     let url = "{{route('collection.save')}}"
     let data = $('#branch-collection-form').serializeArray()
-    poster({url, data}, () => {
+    poster({url, data}, (res) => {
       toggleAble('#b-save', false)
+      if (res.status) {
+        resetForm('#branch-collection-form')
+      }
     })
   })
 
