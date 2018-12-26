@@ -60,6 +60,16 @@
         box-sizing: border-box;
       }
       </style>
+      @if(sizeof($collections) == 0)
+      <div class="col-sm-12 col-md-12 col-md-offset-0">
+        <div class="panel" style="background-color: #e8ddd3;">
+          <div class="panel-body bg-danger demo-nifty-btn table-responsive">
+            <h1 class="text-center text-light">Ooops! No collection type.</h1>
+            <h1 class="text-center text-light">Please <?php if( Auth::user()->isAdmin() ) echo '<a class="btn btn-primary" href="'.route('branch.tools').'" > add collection types </a>'; else echo 'add collection types from admin level'; ?> to be able to save collection.</h1>
+          </div>
+        </div>
+      </div>
+      @else
       <div class="col-sm-12 col-md-12 col-md-offset-0">
         <div class="panel" style="background-color: #e8ddd3;">
           <div class="panel-heading">
@@ -97,6 +107,9 @@
                       </tr>
                     </tbody>
                   </table>
+                  @if(sizeof($services) == 0)
+                  <h1 class="text-danger">Please Add service type to be able to save the collection</h1>
+                  @else
                   <div class="form-group">
                     <input style="border:1px solid rgba(0,0,0,0.07);height: 33px; font-size: 13px; border-radius: 3px;display: block;
                      color: #555; background-color: #fff;outline:none; padding:2px 10px"
@@ -113,6 +126,7 @@
             			</div>
             		</div>
               <button id="b-save" class="btn btn-primary" type="submit"><i class='visible-xs fa fa-save'></i> <span class="hidden-xs">SAVE</span></button>
+              @endif
             </form>
           </div>
         </div>
@@ -183,13 +197,18 @@
                   </div>
                 </tbody>
               </table>
+              @if(sizeof($services) == 0)
+              <h1 class="text-danger">Please Add service type to be able to save the collection</h1>
+              @else
             <div class="input-group pull-right " style="margin-right:100">
               <button id="m-save" type="submit" name="save" value="Submit" class="btn btn-primary form-control"><i class='fa fa-save'></i> Submit</button>
             </form>
             </div>
+            @endif
           </div>
         </div>
       </div>
+      @endif
 
     </div>
     <!--===================================================-->
