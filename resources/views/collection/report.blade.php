@@ -3,6 +3,11 @@
 
 @section('title') View Collection Report @endsection
 
+@section('link')
+<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
+<link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
@@ -46,6 +51,16 @@
           </div>
             <?php $currency = \Auth::user()->getCurrencySymbol()->currency_symbol; ?>
             <div class="panel-body" style="overflow:scroll">
+              <table id="b-history" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                  <th>Collection Type</th>
+                  <th>Special Offering</th>
+                  <th>Seed Offering</th>
+                  <th>Tithe</th>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
                 <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                     <thead>
                         <tr>
@@ -114,6 +129,12 @@
                   <h1 class="text-center panel-title">Members Collection History</h1>
               </div>
             <div class="panel-body text-center clearfix" style="overflow:scroll">
+              <table id="m-history" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
             <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
             <thead>
                 <tr>
@@ -180,4 +201,77 @@
 </div>
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
+@endsection
+
+@section('js')
+<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
+<script src="{{ URL::asset('js/functions.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
+<script>
+var dataSet = null
+$.ajax( {url: "{{route('collection.history')}}", data: {'branch': 1} })
+.done((res) => { setup(res) })
+var setup = (data) => {
+  rows = toRow(data)
+  var columns = [{title: 'sn'}]
+  var branchTable = $('#b-history').DataTable({
+    processing: true,
+    data: rows,
+    // serverSide: true,
+    "columnDefs": [
+      { "orderable": false, "targets": 0 }
+    ],
+    oLanguage: {sProcessing: divLoader()},
+    // ajax: {url: "{{route('collection.history')}}", data: {'branch': 1},
+    // },
+    columns: ((data) => {
+      cols = data.map((v) => (
+        {data: 'amount'}
+      ))
+      // console.log(cols);
+      return cols
+    })(rows),
+
+    dom: 'Bfrtip',
+    lengthChange: false,
+    buttons: ['copy', 'excel', 'pdf', 'colvis']
+  });
+  branchTable.on('xhr', () => {
+    // branchTable.ajax.json().forEach((v) => {
+      columns = branchTable.ajax.json()
+      // console.log(columns);
+    // })
+  })
+  function col (){
+    console.log(columns);
+    return columns
+  }
+}
+var toRow = (data) => {
+  let row = []
+  let dates = []
+  let i = 0
+  data.data.forEach((v) => {
+    dates.push(v.date_collected)
+    if(v.date_collected === dates[i-1]){
+        row[v.date_collected]['amounts'][v.collections_types.name] = v.amount
+    } else {
+      obj = {}
+      obj.collections_types = v.collections_types.name
+      obj.service_types = v.service_types.name
+      obj.date_collected = v.date_collected
+      obj.amounts = []
+      obj.amounts[v.collections_types.name] = v.amount
+      row[v.date_collected] = obj
+    }
+    i++
+  })
+  console.log(row);
+  return row
+}
+</script>
 @endsection

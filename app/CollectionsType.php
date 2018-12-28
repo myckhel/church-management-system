@@ -18,4 +18,8 @@ class CollectionsType extends Model
     public static function getTypes(){
       return CollectionsType::all();
     }
+
+    public function savings(){
+      $this->hasMany(Savings::class);
+    }
 }

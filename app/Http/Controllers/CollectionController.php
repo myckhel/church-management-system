@@ -6,6 +6,7 @@ use App\Collection;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
+use Yajra\Datatables\Datatables;
 
 class CollectionController extends Controller
 {
@@ -202,4 +203,20 @@ class CollectionController extends Controller
 
         return view('collection.analysis', compact('collections','collections2','collections3','collections4'));
     }
+
+  public function history(Request $request){
+    $branch = \Auth::user();
+    $history = collect(new \App\Savings);//[];
+    if (isset($request->branch)) {
+      // code...
+      $history = \App\Savings::where('branch_id', $branch->id)
+      // ->groupBy('date_collected', 'id', 'branch_id', 'collections_types_id', 'service_types_id', 'amount', 'created_at', 'updated_at')
+      ->with('collections_types')->with('service_types')->get();
+    } elseif(isset($request->member)) {
+      // code...
+      $history = \App\members_collection::where('branch_id', $branch)->get();
+    }
+
+    return Datatables::of($history)->make(true);
+  }
 }

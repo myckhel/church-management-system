@@ -16,10 +16,18 @@ class Savings extends Model
     }
 
     public function member_savings(){
-      $this->hasMany(MemberSavings::class);
+      return $this->hasMany(MemberSavings::class);
+    }
+
+    public function service_types(){
+      return $this->belongsTo(ServiceType::class);
+    }
+
+    public function collections_types(){
+      return $this->belongsTo(CollectionsType::class);
     }
 
     public function user(){
-      $this->belongsTo(User::class);
+      return $this->belongsTo(User::class);
     }
 }
