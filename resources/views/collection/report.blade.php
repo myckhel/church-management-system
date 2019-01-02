@@ -47,75 +47,21 @@
         <!--===================================================-->
         <div class="panel" style="background-color: #e8ddd3;">
           <div class="panel-heading">
-              <h1 class="text-center panel-title">Collection History</h1>
+              <h1 class="text-center panel-title">Branch Collection History</h1>
           </div>
             <?php $currency = \Auth::user()->getCurrencySymbol()->currency_symbol; ?>
             <div class="panel-body" style="overflow:scroll">
               <table id="b-history" class="table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
-                  <th>Collection Type</th>
-                  <th>Special Offering</th>
-                  <th>Seed Offering</th>
-                  <th>Tithe</th>
+                  <th>Service Type</th>
+                  @foreach($c_types as $types)
+                  <th>{{ucwords($types->name)}}</th>
+                  @endforeach
+                  <th>Collection Date</th>
                 </thead>
                 <tbody>
                 </tbody>
               </table>
-                <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                          <th>S/N</th>
-                          <th>Collection Type</th>
-                          <th>Special Offering</th>
-                          <th>Seed Offering</th>
-                          <th>Tithe</th>
-                          <th class="min-tablet">Offering</th>
-                          <th class="min-tablet">Donation</th>
-                          <th class="min-desktop">First Fruit</th>
-                          <th class="min-desktop">Covenant Seed</th>
-                          <th class="min-desktop">Love Seed</th>
-                          <th class="min-desktop">Sacrifice</th>
-                          <th class="min-desktop">Thanksgiving</th>
-                          <th class="min-desktop">Thanksgiving Seed</th>
-                          <th class="min-desktop">Other</th>
-                          <th class="min-desktop">Total</th>
-                          <!--th class="min-desktop">Date Saved</th-->
-                          <th class="min-desktop">Transaction Date</th>
-                          <th class="min-desktop">Processed Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      <?php $count=1;?>
-                        @foreach($collections as $list)
-                        <?php
-                          $date = $list->date_collected;
-                          $d = date("F,Y,D", strtotime($date));
-                          $p = explode(',',$d);
-                        ?>
-                        <tr>
-                          <td>{{$count}}</td>
-                          <td>{{$list->type}}</td>
-                          <td>{{$currency.number_format($list->special_offering)}}</td>
-                          <td>{{$currency.number_format($list->seed_offering)}}</td>
-                          <td>{{$currency.number_format($list->tithe)}}</td>
-                          <td>{{$currency.number_format($list->offering)}}</td>
-                          <td>{{$currency.number_format($list->donation)}}</td>
-                          <td>{{$currency.number_format($list->first_fruit)}}</td>
-                          <td>{{$currency.number_format($list->covenant_seed)}}</td>
-                          <td>{{$currency.number_format($list->love_seed)}}</td>
-                          <td>{{$currency.number_format($list->sacrifice)}}</td>
-                          <td>{{$currency.number_format($list->thanksgiving)}}</td>
-                          <td>{{$currency.number_format($list->thanksgiving_seed)}}</td>
-                          <td>{{$currency.number_format($list->other)}}</td>
-                          <td>{{$currency.number_format($list->amount)}}</td>
-                          <!--td>{{$list->date_collected}}</td-->
-                          <td>{{$date}}</td>
-                          <td>{{$list->created_at}}</td>
-                        </tr>
-                        <?php $count++;?>
-                        @endforeach
-                    </tbody>
-                </table>
             </div>
         </div>
 
@@ -131,6 +77,12 @@
             <div class="panel-body text-center clearfix" style="overflow:scroll">
               <table id="m-history" class="table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
+                  <th>Member Name</th>
+                  <th>Service Type</th>
+                  @foreach($c_types as $types)
+                  <th>{{ucwords($types->name)}}</th>
+                  @endforeach
+                  <th>Collection Date</th>
                 </thead>
                 <tbody>
                 </tbody>
@@ -140,7 +92,6 @@
                 <tr>
                   <th>S/N</th>
                   <th>Name</th>
-                  <th>Collection Type</th>
                   <th>Special Offering</th>
                   <th>Seed Offering</th>
                   <th>Tithe</th>
@@ -212,66 +163,66 @@
 <script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
 <script>
-var dataSet = null
-$.ajax( {url: "{{route('collection.history')}}", data: {'branch': 1} })
-.done((res) => { setup(res) })
-var setup = (data) => {
-  rows = toRow(data)
-  var columns = [{title: 'sn'}]
+// for branch
+$.ajax( {url: "{{route('collection.type')}}" })
+.done((res) => { setup(res.data) })
+var setup = (types) => {
+  $.fn.dataTable.ext.errMode = (e) => console.log(e,'Error while loading the table data. Please refresh');
   var branchTable = $('#b-history').DataTable({
     processing: true,
-    data: rows,
-    // serverSide: true,
+    serverSide: true,
     "columnDefs": [
       { "orderable": false, "targets": 0 }
     ],
     oLanguage: {sProcessing: divLoader()},
-    // ajax: {url: "{{route('collection.history')}}", data: {'branch': 1},
-    // },
-    columns: ((data) => {
-      cols = data.map((v) => (
-        {data: 'amount'}
+    ajax: {url: "{{route('collection.history')}}", data: {'branch': 1},
+    },
+    columns: ((types) => {
+      let cols = []
+      cols.push({data: 'service_types'})
+      types.forEach((v) => (
+        cols.push({data: 'amounts.'+v.name, render: (data) => (
+          `{{\Auth::user()->getCurrencySymbol()->currency_symbol}}${data ? data : 0}`
+        )})
       ))
-      // console.log(cols);
+      cols.push({data: 'date_collected'})
       return cols
-    })(rows),
-
+    })(types),
     dom: 'Bfrtip',
     lengthChange: false,
     buttons: ['copy', 'excel', 'pdf', 'colvis']
   });
-  branchTable.on('xhr', () => {
-    // branchTable.ajax.json().forEach((v) => {
-      columns = branchTable.ajax.json()
-      // console.log(columns);
-    // })
-  })
-  function col (){
-    console.log(columns);
-    return columns
-  }
 }
-var toRow = (data) => {
-  let row = []
-  let dates = []
-  let i = 0
-  data.data.forEach((v) => {
-    dates.push(v.date_collected)
-    if(v.date_collected === dates[i-1]){
-        row[v.date_collected]['amounts'][v.collections_types.name] = v.amount
-    } else {
-      obj = {}
-      obj.collections_types = v.collections_types.name
-      obj.service_types = v.service_types.name
-      obj.date_collected = v.date_collected
-      obj.amounts = []
-      obj.amounts[v.collections_types.name] = v.amount
-      row[v.date_collected] = obj
-    }
-    i++
-  })
-  console.log(row);
-  return row
+// for member
+$.ajax( {url: "{{route('collection.type')}}" })
+.done((res) => { MemberSetup(res.data) })
+var MemberSetup = (types) => {
+  // $.fn.dataTable.ext.errMode = (e) => console.log(e,'Error while loading the table data. Please refresh');
+  var m_HistoryTable = $('#m-history').DataTable({
+    processing: true,
+    serverSide: true,
+    "columnDefs": [
+      { "orderable": false, "targets": 0 }
+    ],
+    oLanguage: {sProcessing: divLoader()},
+    ajax: {url: "{{route('collection.history')}}", data: {'member': 1},
+    },
+    columns: ((types) => {
+      let cols = []
+      cols.push({data: 'name'})
+      cols.push({data: 'service_types'})
+      types.forEach((v) => (
+        cols.push({data: 'amounts.'+v.name, render: (data) => (
+          `{{\Auth::user()->getCurrencySymbol()->currency_symbol}}${data ? data : 0}`
+        )})
+      ))
+      cols.push({data: 'date_collected'})
+      return cols
+    })(types),
+    dom: 'Bfrtip',
+    lengthChange: false,
+    buttons: ['copy', 'excel', 'pdf', 'colvis']
+  });
 }
 </script>
 @endsection

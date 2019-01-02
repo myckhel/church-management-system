@@ -22,4 +22,8 @@ class CollectionsType extends Model
     public function savings(){
       $this->hasMany(Savings::class);
     }
+
+    public function MemberSavings(){
+      $this->hasMany(MemberSavings::class);
+    }
 }

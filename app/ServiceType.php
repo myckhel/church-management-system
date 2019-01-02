@@ -24,4 +24,7 @@ class ServiceType extends Model
       $this->hasMany(Savings::class);
     }
 
+    public function member_savings(){
+      $this->hasMany(MemberSavings::class);
+    }
 }

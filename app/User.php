@@ -87,7 +87,7 @@ class User extends Authenticatable
       $this->hasMany(Savings::class);
     }
 
-    public function member_savings(){
+    public function MemberSavings(){
       $this->hasMany(MemberSavings::class);
     }
 }

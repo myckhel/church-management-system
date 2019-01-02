@@ -161,13 +161,15 @@ class CollectionController extends Controller
         //$sql = 'SELECT SUM(amount) AS amount, MONTH(date_collected) AS month, count(*) AS entries FROM `collections` WHERE branch_id = '.\Auth::user()->branchcode.' GROUP BY month';
         //$collections = \DB::select($sql);
         $code = \Auth::user()->branchcode;
+        $user = \Auth::user();
         $sql = "SELECT * FROM collections WHERE branch_id = '$code'";
         $collections = \DB::select($sql);
 
         $sqll = "SELECT * FROM members_collection WHERE branch_id = '$code'";
         $collectionss = \DB::select($sqll);
+        $c_types = $user->getCollectionTypes();
 
-        return view('collection.report', compact('collections', 'collectionss'));
+        return view('collection.report', compact('c_types', 'collections', 'collectionss'));
     }
 
     private function get_date_in_words($date)
@@ -209,12 +211,16 @@ class CollectionController extends Controller
     $history = collect(new \App\Savings);//[];
     if (isset($request->branch)) {
       // code...
-      $history = \App\Savings::where('branch_id', $branch->id)
+      $history = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $branch->id)
       // ->groupBy('date_collected', 'id', 'branch_id', 'collections_types_id', 'service_types_id', 'amount', 'created_at', 'updated_at')
-      ->with('collections_types')->with('service_types')->get();
-    } elseif(isset($request->member)) {
+      ->with('collections_types')->with('service_types')->get());
+    }
+    if(isset($request->member)) {
       // code...
-      $history = \App\members_collection::where('branch_id', $branch)->get();
+      $history = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $branch->id)
+      ->with('member')->with('collections_types')->with('service_types')->get());
+      // $history = \App\MemberSavings::with('collections_types')->with('service_types')->with('member')->get();
+
     }
 
     return Datatables::of($history)->make(true);

@@ -48,4 +48,8 @@ class Member extends Model
   public function user(){
     return $this->belongsTo(User::class);
   }
+
+  public function member_savings(){
+    return $this->hasMany(MemberSavings::class);
+  }
 }
