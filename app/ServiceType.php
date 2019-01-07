@@ -27,4 +27,12 @@ class ServiceType extends Model
     public function member_savings(){
       $this->hasMany(MemberSavings::class);
     }
+
+    public function members_attendances(){
+      $this->hasMany(members_attendance::class);
+    }
+
+    public function attendance(){
+      return $this->hasMany(Attendance::class);
+    }
 }

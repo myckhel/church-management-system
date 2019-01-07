@@ -165,7 +165,7 @@ li {
                     ?>
                     <tr>
                         <td><strong>{{$count}}</strong></td>
-                        <td>{{$list->service_type}}</td>
+                        <td>{{$list->service_types->name}}</td>
                         <td>{{$list->male}}</td>
                         <td>{{$list->female}}</td>
                         <td>{{$list->children}}</td>
@@ -213,13 +213,13 @@ li {
                     ?>
                     <tr>
                         <td><strong>{{$count}}</strong></td>
-                        <td>{{$li->title}}</td>
-                        <td>{{$li->firstname}}</td>
-                        <td>{{$li->lastname}}</td>
+                        <td>{{$li->members->title or ''}}</td>
+                        <td>{{$li->members->firstname or ''}}</td>
+                        <td>{{$li->members->lastname or ''}}</td>
                         <td>{{$li->attendance}}</td>
-                        <td>{{$li->service_type}}</td>
+                        <td>{{$li->service_types->name}}</td>
                         <td >{{$li->attendance_date}}</td>
-                        <td >{{$li->date_submitted}}</td>
+                        <td >{{$li->updated_at}}</td>
                         <!--td><button id="{{$li->attendance_date}}" type="submit" class="btn btn-primary" onclick="view(this);">View</button></td-->
                     </tr>
                     <?php $count++;?>

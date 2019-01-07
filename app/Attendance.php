@@ -12,4 +12,8 @@ class Attendance extends Model
 
         return $this->male + $this->female + $this->children ;
     }
+
+    public function service_types(){
+      return $this->belongsTo(ServiceType::class);
+    }
 }

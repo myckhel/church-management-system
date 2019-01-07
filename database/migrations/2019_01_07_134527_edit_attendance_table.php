@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddDateCollectedToSavings extends Migration
+class EditAttendanceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,9 @@ class AddDateCollectedToSavings extends Migration
     public function up()
     {
         //
-      Schema::table('savings', function($table) {
-        $table->date('date_collected');
-      });
+        Schema::table('attendances', function (Blueprint $table) {
+            $table->foreign('service_types_id')->references('id')->on('service_types')->onDelete('cascade');
+        });
     }
 
     /**
@@ -27,8 +27,5 @@ class AddDateCollectedToSavings extends Migration
     public function down()
     {
         //
-        Schema::table('savings', function($table) {
-        $table->dropColumn('date_collected');
-        });
     }
 }

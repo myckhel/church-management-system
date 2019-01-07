@@ -17,7 +17,6 @@ class AttendanceController extends Controller
     public function index(Request $request)
     {
         $user = \Auth::user();
-        //$members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branchcode)->get();
         $date = $request->date;
         return view('attendance.mark', compact('members', 'date'));
     }
@@ -42,14 +41,6 @@ class AttendanceController extends Controller
     {
         $user = \Auth::user();
 
-        $this->validate($request, [
-            'branch_id' => 'required|string|min:0',
-            'male' => 'required|numeric|min:0',
-            'female' => 'required|numeric|min:0',
-            'children' => 'required|numeric|min:0',
-            'date' => 'required|date ',
-        ]);
-
         $split_date_array = explode("-",$request->get('date'));
         if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
         {
@@ -61,8 +52,6 @@ class AttendanceController extends Controller
         if ($attendance > 0){
             return response()->json(['status' => false, 'text' => "**Attendance for {$this->get_date_in_words($request->get('date'))} has been saved before!"]);
         }
-
-
         // convert date to acceptable mysql format
         $dateToSave = date('Y-m-d',strtotime($request->get('date')));
         // register attendance
@@ -71,7 +60,7 @@ class AttendanceController extends Controller
             'male' => $request->get('male'),
             'female' => $request->get('female'),
             'children' => $request->get('children'),
-            'service_type' => $request->get('type'),
+            'service_types_id' => $request->get('type'),
             'other' => $request->get('custom_type'),
             'attendance_date' => $dateToSave,
         ));
@@ -166,16 +155,6 @@ class AttendanceController extends Controller
     public function analysis(){
 
         $user = \Auth::user();
-
-        /*$sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, MONTH(attendance_date) AS month FROM `attendances` WHERE branch_id = '.$user->branchcode.' GROUP BY month';
-        $attendances = \DB::select($sql);
-        $sql = 'SELECT SUM(male + female + children) AS total, MONTH(attendance_date) AS month FROM `attendances` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
-        $attendances2 = \DB::select($sql);
-        $sql = 'SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, WEEK(attendance_date) AS week FROM `attendances` WHERE branch_id = '.$user->branchcode.' GROUP BY week';
-        $attendances3 = \DB::select($sql);
-        $sql = 'SELECT SUM(male + female + children) AS total, MONTH(attendance_date) AS month FROM `attendances` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
-        $attendances4 = \DB::select($sql);*/
-        //month
         $sql = "SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
         MONTH(attendance_date) AS month FROM `attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND branch_id = '$user->branchcode' GROUP BY month";
         $attendances = \DB::select($sql);
@@ -196,22 +175,19 @@ class AttendanceController extends Controller
 
         return view('attendance.analysis', compact('attendances', 'attendances2', 'attendances3', 'attendances4'));
     }
-//WEEK(attendance_date) = (WEEK(attendance_date, 3) -
-//WEEK(attendance_date - INTERVAL DAY(attendance_date)-1 DAY, 3) + 1)  YEAR(attendance_date) = YEAR(CURDATE())
     //form view
     public function view(){
       $user = \Auth::user();
-      $sql = "SELECT * FROM attendances WHERE branch_id = '$user->branchcode' ORDER BY attendance_date DESC";
-      $attendance = \DB::select($sql);
-      $sqll = "SELECT * FROM members_attendance WHERE branch_id ='$user->branchcode'";
-      $attendances = \DB::select($sqll);
+      $attendance = Attendance::where('branch_id', $user->branchcode)->with('service_types')->orderBy('attendance_date', 'DESC')->get();
+      $attendances = \App\members_attendance::where('branch_id', $user->branchcode)->with('service_types')->with('members')->get();
       return view('attendance.view', compact('attendance', 'attendances'));
     }
 
     public function mark(){
       $user = \Auth::user();
+      $services = $user->getServiceTypes();
       $members = \App\Member::where('branch_id', $user->branchcode)->get();
-      return view('attendance.mark', compact('members'));
+      return view('attendance.mark', compact('members', 'services'));
     }
 
     public function mark_it(Request $request){
@@ -220,7 +196,7 @@ class AttendanceController extends Controller
       {
           return response()->json(['status' => false, 'text' => "**You can't save attendance for a future date!"]);
       }
-      if ($check = \DB::table('members_attendance')->where('attendance_date', date('Y-m-d', strtotime($request->date)))->first()) {
+      if ($check = \App\members_attendance::where('attendance_date', date('Y-m-d', strtotime($request->date)))->first()) {
         // code...
         return response()->json(['status' => false, 'text' => "Member Attendance for {$this->get_date_in_words($check->attendance_date)} Already Marked"]);
       }
@@ -230,18 +206,13 @@ class AttendanceController extends Controller
         $present = isset($offer['attendance'][$i]) ? $offer['attendance'][$i] : 'no';
         $value = [
         'member_id' => $offer['member_id'][$i],
-        'title' => $offer['title'][$i],
-        'firstname' => $offer['fname'][$i],
-        'lastname' => $offer['lname'][$i],
         'attendance' => $present,
         'attendance_date' => date('Y-m-d',strtotime($offer['date'])),
         'branch_id' => $offer['branch_id'][$i],
-        'date_submitted' => now(),
-        'service_type' => $offer['type'],
+        'service_types_id' => $offer['type'],
         ];
-            \DB::table('members_attendance')->insert($value);
+            \App\members_attendance::create($value);
       }
       return response()->json(['status' => true, 'text' => 'Attendance Marked']);
-      // return redirect()->back()->with('status', 'Attendance Marked');
     }
 }

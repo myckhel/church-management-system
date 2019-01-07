@@ -99,13 +99,9 @@
                                     <div class="form-group">
                                       <label class="control-label">Attendance Type</label>
                                         <select name="type" id="mark-select" class="selectpicker" data-style="btn-success" required>
-                                            <option value="sunday service" selected>Sunday Service</option>
-                                            <option value="monday service">Monday Service</option>
-                                            <option value="tuesday service">Tuesday Service</option>
-                                            <option value="wednessday service">Wednessday Service</option>
-                                            <option value="thursday service">Thursday Service</option>
-                                            <option value="friday service">Friday Service</option>
-                                            <option value="saturday service">Saturday Service</option>
+                                          @foreach($services as $service)
+                                          <option value="{{$service->id}}">{{$service->name}}</option>
+                                          @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -156,11 +152,8 @@
                             <tr class="<?php echo $class[$num]; ?>" id="row,{{$count}}">
                                 <td><strong>{{$count}}</strong></td>
                                 <td>{{$member->title}}
-                                <input id="" type="hidden" value="{{$member->title}}" name="title[]" class="" /></td>
                                 <td>{{$member->firstname}}
-                                <input id="" type="hidden" value="{{$member->firstname}}" name="fname[]" class="" /></td>
                                 <td>{{$member->lastname}}
-                                <input id="" type="hidden" value="{{$member->lastname}}" name="lname[]" class="" /></td>
                                 <td>
                                   <div id="" class="input-group">
                                     <div class="checkbox">
@@ -186,13 +179,9 @@
                         <div class="form-group col-md-3">
                           <h3><label for="date">Choose Service Type</label></h3>
                             <select style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
-                            <option value="sunday service" selected>Sunday Service</option>
-                            <option value="monday service">Monday Service</option>
-                            <option value="tuesday service">Tuesday Service</option>
-                            <option value="wednessday service">Wednessday Service</option>
-                            <option value="thursday service">Thursday Service</option>
-                            <option value="friday service">Friday Service</option>
-                            <option value="saturday service">Saturday Service</option>
+                              @foreach($services as $service)
+                              <option value="{{$service->id}}">{{$service->name}}</option>
+                              @endforeach
                             </select>
                         </div>
                       <div class="col-md-3 form-group pull-right" style="">
@@ -249,13 +238,12 @@ $(document).ready(() => {
     e.preventDefault()
     data = $('#b-attendance-form').serializeArray()
     url = "{{route('attendance.submit')}}"
-    sender({url, data}, (res) => {
+    poster({url, data}, (res) => {
       if (res.status) {
         // toggleAble($('#btn-mark'), false)
         $('#b-attendance-form').trigger('reset')
-      }else {
-        toggleAble($('#btn-mark'), false)
       }
+      toggleAble($('#btn-mark'), false)
     })
   })
   //member Attendnace
@@ -271,35 +259,13 @@ $(document).ready(() => {
     e.preventDefault()
     let data = $('#m-attendance').serializeArray()
     url = "{{route('attendance.mark')}}"
-    sender({url, data}, (res) => {
+    poster({url, data}, (res) => {
       if (res.status) {
-        toggleAble($('#m-submit-btn'), false)
-        location.reload()
-      }else {
-        toggleAble($('#m-submit-btn'), false)
+        // location.reload()
       }
+      toggleAble($('#m-submit-btn'), false)
     })
   })
 })
-const sender = ({url, data}, fn) => {
-  $.ajax({url, data, type: 'POST'})
-  .done((res) => {
-    if (res.status) {
-      swal("Success!", res.text, "success");
-    } else {
-      swal("Oops", res.text, "error");
-    }
-    if (typeof(fn) === 'function') {
-      fn(res)
-    }
-  })
-  .fail((e) => {
-    swal("Oops", "Internal Server Error", "error");
-    if (typeof(fn) === 'function') {
-      fn(res, e)
-    }
-    console.log(e);
-  })
-}
 </script>
 @endsection
