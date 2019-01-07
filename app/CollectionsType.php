@@ -11,6 +11,36 @@ class CollectionsType extends Model
         'name', 'branch_id'
     ];
 
+    public static function formatString ($input) {
+        $newName = '';
+        for ($l = 0; $l < strlen($input); $l++) {
+          if ($input[$l] == '-' || $input[$l] == ' ') {
+            $newName .= '_';
+          } else {
+            $newName .= $input[$l];
+          }
+        }
+        return $newName;
+    }
+
+    public static function disFormatString ($input) {
+        $newName = '';
+        for ($l = 0; $l < strlen($input); $l++) {
+          if ($input[$l] == '_') {
+            $newName .= ' ';
+          } else {
+            $newName .= $input[$l];
+          }
+        }
+        return ucwords($newName);
+    }
+
+    public static function disFormatStringAll($types){
+      foreach ($types as $key => $value) {
+        $value->name = CollectionsType::disFormatString($value->name);
+      }
+    }
+
     public function user(){
       $this->belongsTo(User::class);
     }

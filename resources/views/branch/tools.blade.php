@@ -45,7 +45,7 @@
               <label>Create Collection Type</label>
               <input type=text name=branch_id value="{{\Auth::user()->branchcode}}" hidden=hidden />
               <input type=text name=c_type_c value="{{\Auth::user()->branchcode}}" hidden=hidden />
-              <input style="border:1px solid #ddd; padding:7px;outline:none" name="name" type=text Placeholder="Collection Name" required/>
+              <input style="border:1px solid #ddd; padding:7px;outline:none" name="name" type=text pattern="[a-zA-Z0-9_ -]+" title="Only letters, numbers, _ and - accepted" Placeholder="Collection Name" required/>
               <button type="submit" class="btn btn-success btn-md"><i class="fa fa-plus"></i> Create Collection</button>
             </form>
           </div>
@@ -65,7 +65,7 @@
               <label>Create Service Type</label>
               <input type=text name=branch_id value="{{\Auth::user()->branchcode}}" hidden=hidden />
               <input type=text name=s_type_c value="{{\Auth::user()->branchcode}}" hidden=hidden />
-              <input style="border:1px solid #ddd; padding:7px;outline:none" name="name" type=text Placeholder="Service Name" required/>
+              <input style="border:1px solid #ddd; padding:7px;outline:none" name="name" type=text Placeholder="Service Name" type=text pattern="[a-zA-Z0-9_ -]+" title="Only letters, numbers, _ and - accepted" required/>
               <button type="submit" class="btn btn-success btn-md"><i class="fa fa-plus"></i> Create Service</button>
             </form>
           </div>
@@ -97,7 +97,7 @@ $(document).ready(() => {
   $('#collection_type_form').submit((e) => {
     e.preventDefault()
     $this = $('#collection_type_form')
-    data = $($this).serializeArray()
+    let data = $($this).serializeArray()
     url = $($this).attr('action')
     poster({url,data}, () => {collection_table.ajax.reload(null, false); resetForm('#collection_type_form')})
   })

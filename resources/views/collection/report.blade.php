@@ -43,7 +43,6 @@
         <div class="panel-heading">
           <h1 class="text-center panel-title">Branch Collection History</h1>
         </div>
-          <?php $currency = \Auth::user()->getCurrencySymbol()->currency_symbol; ?>
           <div class="panel-body" style="overflow:scroll">
             <table id="b-history" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>

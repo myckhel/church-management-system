@@ -22,6 +22,7 @@ class CollectionController extends Controller
         $members = \App\Member::where('branch_id', $user->branchcode)->get();
         $services = $user->getServiceTypes();
         $collections = $user->getCollectionTypes();
+        \App\CollectionsType::disFormatStringAll($collections);
         return view('collection.offering', compact('members', 'services', 'collections'));
     }
 
@@ -157,19 +158,11 @@ class CollectionController extends Controller
      */
     public function report()
     {
-
-        //$sql = 'SELECT SUM(amount) AS amount, MONTH(date_collected) AS month, count(*) AS entries FROM `collections` WHERE branch_id = '.\Auth::user()->branchcode.' GROUP BY month';
-        //$collections = \DB::select($sql);
-        $code = \Auth::user()->branchcode;
-        $user = \Auth::user();
-        $sql = "SELECT * FROM collections WHERE branch_id = '$code'";
-        $collections = \DB::select($sql);
-
-        $sqll = "SELECT * FROM members_collection WHERE branch_id = '$code'";
-        $collectionss = \DB::select($sqll);
-        $c_types = $user->getCollectionTypes();
-
-        return view('collection.report', compact('c_types', 'collections', 'collectionss'));
+      $code = \Auth::user()->branchcode;
+      $user = \Auth::user();
+      $c_types = $user->getCollectionTypes();
+      \App\CollectionsType::disFormatStringAll($c_types);
+      return view('collection.report', compact('c_types'));
     }
 
     private function get_date_in_words($date)
@@ -186,9 +179,6 @@ class CollectionController extends Controller
         MONTH(date_collected) AS month FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND branch_id = '$user->branchcode' GROUP BY month";
         $collections = \DB::select($sql);
 
-        //$sql = 'SELECT SUM(special_offering + seed_offering + offering) AS total, MONTH(date_collected) AS month FROM `collections` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
-        //$attendances2 = \DB::select($sql);
-
         $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
         DAYOFWEEK(date_collected) AS day FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 7 DAY) AND WEEK(date_collected) = WEEK(DATE(NOW())) AND branch_id = '$user->branchcode' GROUP BY day";
         $collections2 = \DB::select($sql);
@@ -197,8 +187,6 @@ class CollectionController extends Controller
         WEEK(date_collected) AS week FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND date_collected >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = '$user->branchcode' GROUP BY week";
         $collections3 = \DB::select($sql);
 
-        //$sql = 'SELECT SUM(special_offering + seed_offering + offering) AS total, MONTH(date_collected) AS month FROM `collections` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
-        //$attendances4 = \DB::select($sql);
         $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
         YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branchcode' GROUP BY year";
         $collections4 = \DB::select($sql);

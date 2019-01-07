@@ -138,7 +138,16 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  return response()->json([]);
+  $input = 'array of-index_elements';
+  $newName = '';
+  for ($l = 0; $l < strlen($input); $l++) {
+    if ($input[$l] == '-' || $input[$l] == ' ') {
+      $newName .= '_';
+    } else {
+      $newName .= $input[$l];
+    }
+  }
+  return ucwords($newName);
 })->name('test');
 
 Route::get('/users', 'BranchController@users')->name('users');

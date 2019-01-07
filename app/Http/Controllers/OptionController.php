@@ -60,7 +60,7 @@ class OptionController extends Controller
       $branch_id = Auth::user()->id;
       if (isset($request->c_type_c)) {
         # code...
-        \App\CollectionsType::create(['name' => $request->name, 'branch_id' => $branch_id]);
+        \App\CollectionsType::create(['name' => \App\CollectionsType::formatString($request->name), 'branch_id' => $branch_id]);
         $status = true;
         $text = "Created";
       } elseif(isset($request->s_type_c)) {
@@ -69,7 +69,6 @@ class OptionController extends Controller
         $status = true;
         $text = "Created";
       }
-
       return response()->json(['status' => $status, 'text' => $text]);
     }
 
