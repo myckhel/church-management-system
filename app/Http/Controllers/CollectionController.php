@@ -212,17 +212,13 @@ class CollectionController extends Controller
     if (isset($request->branch)) {
       // code...
       $history = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $branch->id)
-      // ->groupBy('date_collected', 'id', 'branch_id', 'collections_types_id', 'service_types_id', 'amount', 'created_at', 'updated_at')
       ->with('collections_types')->with('service_types')->get());
     }
     if(isset($request->member)) {
-      // code...
       $history = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $branch->id)
       ->with('member')->with('collections_types')->with('service_types')->get());
-      // $history = \App\MemberSavings::with('collections_types')->with('service_types')->with('member')->get();
 
     }
-
     return Datatables::of($history)->make(true);
   }
 }

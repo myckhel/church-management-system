@@ -18,23 +18,18 @@ class MemberSavings extends Model
       foreach($data as $index => $v) {
         if(isset($dates[$i-1]) && $v->date_collected != $dates[$i-1]) $members = [];
         if(isset($dates[$i-1]) && $v->date_collected == $dates[$i-1] && in_array($v->member->id, $members)) {
-          $index = array_search($v->member->id, $members);
-          // print($index);
-            $row[$index]->amounts[$v->collections_types->name] = $v->amount;
+            $row[$v->member->firstname.''.$v->date_collected]->amounts[$v->collections_types->name] = $v->amount;
         } else {
           $obj = new \stdClass();
-          $obj->collections_types = $v->collections_types->name;
           $obj->service_types = $v->service_types->name;
           $obj->date_collected = $v->date_collected;
           $obj->name = $v->member->firstname;
           $obj->amounts = [];
           $obj->amounts[$v->collections_types->name] = $v->amount;
-          $row[$i] = $obj;
+          $row[$v->member->firstname.''.$v->date_collected] = $obj;
+          array_push($members, $v->member->id);
         }
         array_push($dates, $v->date_collected);
-        array_push($members, $v->member->id);
-        // print($i);
-        // print($v);
         $i++;
       }
       return $row;
