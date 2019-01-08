@@ -213,9 +213,9 @@ li {
                     ?>
                     <tr>
                         <td><strong>{{$count}}</strong></td>
-                        <td>{{$li->members->title or ''}}</td>
-                        <td>{{$li->members->firstname or ''}}</td>
-                        <td>{{$li->members->lastname or ''}}</td>
+                        <td>{{$li->title or ''}}</td>
+                        <td>{{$li->firstname or ''}}</td>
+                        <td>{{$li->lastname or ''}}</td>
                         <td>{{$li->attendance}}</td>
                         <td>{{$li->service_types->name}}</td>
                         <td >{{$li->attendance_date}}</td>

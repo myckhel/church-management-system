@@ -139,7 +139,7 @@ Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
   $user = \Auth::user();
-  return $attendances = \App\members_attendance::where('branch_id', $user->branchcode)->with('members')->with('service_types')->get();
+  return $attendances = \App\members_attendance::where('members_attendances.branch_id', $user->branchcode)->leftJoin('members', 'members_attendances.member_id', '=', 'members.id')->with('service_types')->get();
 })->name('test');
 
 Route::get('/users', 'BranchController@users')->name('users');
