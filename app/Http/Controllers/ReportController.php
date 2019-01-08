@@ -25,18 +25,80 @@ class ReportController extends Controller
 
     public function collections(){
       $user = \Auth::user();
+      $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
+      // dd($savings,now()->toDateString() );
+      function calculateTotal($savings, $type = false){
+        $total = 0;
+        foreach ($savings as $key => $value) {
+          if ($type == 'now') {
+            if ($value->date_collected ==  now()->toDateString() ) {
+              $total += array_sum($value->amounts);
+            }
+          } else {
+            $total += array_sum($value->amounts);
+          }
+        }
+        return $total;
+      }
+      function calculateSingleTotal($savings, $type = false){
+        $obj = new \stdClass();
+        foreach ($savings as $key => $value) {
+          if ($type == 'now') {
+            if ($value->date_collected ==  now()->toDateString() ) {
+              foreach ($value->amounts as $key => $value) {
+                $obj->$key = $value;
+              }
+            }
+          } else {
+            foreach ($value->amounts as $key => $valu) {
+              if (isset($obj->$key)) {
+                $obj->$key += array_sum($value->amounts);
+              } else {
+                $obj->$key = array_sum($value->amounts);
+              }
+            }
+          }
+        }
+        return $obj;
+      }
 
-      $sql = "SELECT SUM(offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS total_collections,
-      SUM(case when date_collected = date(now()) then (offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) end) AS todays_collections,
-      SUM(case when date_collected = date(now()) then (offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) end) AS todays_collectionst,
-      SUM(special_offering) AS so, SUM(seed_offering) AS sdo, SUM(offering) AS o, SUM(donation) AS d, SUM(tithe) AS t, SUM(first_fruit) AS ff,
-      SUM(covenant_seed) AS cs, SUM(love_seed) AS ls, SUM(sacrifice) AS s, SUM(thanksgiving) AS tg, SUM(thanksgiving_seed) AS tgs, SUM(other) AS oth, SUM(amount) AS total,
-      SUM(case when date_collected = date(now()) then special_offering end) AS sot, SUM(case when date_collected = date(now()) then seed_offering end) AS sdot, SUM(case when date_collected = date(now()) then offering end) AS ot,
-      SUM(case when date_collected = date(now()) then donation end) AS dt, SUM(case when date_collected = date(now()) then tithe end) AS tt, SUM(case when date_collected = date(now()) then first_fruit end) AS fft,
-      SUM(case when date_collected = date(now()) then covenant_seed end) AS cst, SUM(case when date_collected = date(now()) then love_seed end) AS lst, SUM(case when date_collected = date(now()) then sacrifice end) AS st, SUM(case when date_collected = date(now()) then thanksgiving end) AS tgt,
-      SUM(case when date_collected = date(now()) then thanksgiving_seed end) AS tgst, SUM(case when date_collected = date(now()) then other end) AS otht, SUM(case when date_collected = date(now()) then amount end) AS total
-      FROM `collections` WHERE branch_id = '$user->branchcode'";
-      $reports = \DB::select($sql);
+      $obj = new \stdClass();
+      $obj->total_collections = calculateTotal($savings);
+      $obj->todays_total_collections = calculateTotal($savings, 'now');
+      $obj->todays_single_collections = calculateSingleTotal($savings, 'now');
+      $obj->total_single_collections = calculateSingleTotal($savings);
+      $c_types = \App\CollectionsType::getTypes();
+      $collects = ['offering','tithe','special_offering','seed_offering','donation','first_fruit','covenant_seed','love_seed','sacrifice','thanksgiving','thanksgiving_seed','other'];
+
+      // dd($obj);
+      function dateSum($types, $date = false){
+        $string = '';
+        $size = sizeof($types);
+        if ($date) {
+          $operation = function($i, $type, $size) {return "SUM(case when date_collected = date(now()) then $type->name end) AS $type->name".'t'.($size != $i ? ',' : ''); };
+        } else {
+          $operation = function($i, $type, $size) {return "SUM($type->name) AS $type->name,"; };
+        }
+        $i = 1;
+        foreach ($types as $type) {
+          $string .= $operation($i, $type, $size);
+          $i++;
+        }
+        return $string;
+      }
+      $operations = '';//sum($c_types);
+      $single = dateSum($c_types);
+      $singleDate = dateSum($c_types, true);
+      $sql = "SUM($operations) AS total_collections,
+      SUM(case when date_collected = date(now()) then ($operations) end) AS todays_collections,
+      SUM(case when date_collected = date(now()) then ($operations) end) AS todays_collectionst,
+      $single
+      $singleDate
+      ";
+      // $reports = \App\Savings::selectRaw($sql)
+      // // ->leftjoin('collections_types', 'collections_types.id', '=', 'savings.collections_types_id')
+      // ->where('branch_id', $user->branchcode)->first();
+      $reports = $obj;
 
       $sql = "SELECT SUM(offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) as total,
       SUM(case when date_added = date(now()) then (offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) end) as totalt,
@@ -55,7 +117,7 @@ class ReportController extends Controller
       $c_years = \DB::select($sql);
       //dd($c_years);
 
-      return view('report.collections', compact('reports', 'm_r', 'ad_rep', 'c_years'));
+      return view('report.collections', compact('reports', 'm_r', 'ad_rep', 'c_years', 'c_types'));
     }
 
     public function attendance(){

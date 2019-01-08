@@ -55,8 +55,19 @@
 
                 @endif
             </div>
+            <!-- {{print_r($reports)}} -->
             <?php $currency = \Auth::user()->getCurrencySymbol()->currency_symbol; ?>
             <?php $name = \Auth::user()->getName() . ' ' .\Auth::user()->branchcode; ?>
+            <?php $collects = ['offering','tithe','special_offering','seed_offering','donation','first_fruit','covenant_seed','love_seed','sacrifice','thanksgiving','thanksgiving_seed','other'];
+            function sumRow($reports, $types){
+              $values = [];
+              foreach ($types as $key => $value) {
+                // code...
+                array_push($values, $reports->$value->name);
+              }
+              return array_sum($values);
+            }
+            ?>
             <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
               <div class="panel" style="background-color: #e8ddd3;">
                   <div class="panel-heading">
@@ -84,10 +95,10 @@
                           Total Amount Collected
                         </th>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format(($reports[0]->so + $reports[0]->sdo + $reports[0]->o + $reports[0]->d + $reports[0]->t + $reports[0]->ff + $reports[0]->cs + $reports[0]->ls + $reports[0]->s + $reports[0]->tg + $reports[0]->tgs + $reports[0]->oth))}}</span>
+                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->total_collections)}}</span>
                         </td>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->todays_collections)}}</span>
+                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->todays_total_collections)}}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -117,138 +128,20 @@
                       </tr>
                     </thead>
                     <tbody>
+                      @foreach($c_types as $collect)
                       <tr>
                         <th>
-                          Special Offering
+                          {{$collect->name}}
                         </th>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->so)}}</span>
+                          <?php $name = $collect->name; ?>
+                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->total_single_collections->$name)}}</span>
                         </td>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->sot)}}</span>
+                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->total_single_collections->$name)}}</span>
                         </td>
                       </tr>
-                      <tr>
-                        <th>
-                          Seed Offering
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->sdo)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->sdot)}}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>
-                          Offering
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->o)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->ot)}}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>
-                          Donation
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->d)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->dt)}}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>
-                          Tithe
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->t)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->tt)}}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>
-                          First Fruit
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->ff)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->fft)}}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>
-                          Covenant Seed
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->cs)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->cst)}}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>
-                          Love Seed
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->ls)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->lst)}}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>
-                          Sacrifice
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->s)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->st)}}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>
-                          Thanksgiving
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->tg)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->tgt)}}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>
-                          Thanksgiving Seed
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->tgs)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->tgst)}}</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>
-                          Other
-                        </th>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->oth)}}</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->otht)}}</span>
-                        </td>
-                      </tr>
+                      @endforeach
                     </tbody>
                     <tfoot class="bg-success">
                       <tr>
@@ -256,10 +149,10 @@
                           Total
                         </th>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format(($reports[0]->so + $reports[0]->sdo + $reports[0]->o + $reports[0]->d + $reports[0]->t + $reports[0]->ff + $reports[0]->cs + $reports[0]->ls + $reports[0]->s + $reports[0]->tg + $reports[0]->tgs + $reports[0]->oth))}}</span>
+                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->total_collections)}}</span>
                         </td>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports[0]->todays_collectionst)}}</span>
+                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->todays_total_collections)}}</span>
                         </td>
                       </tr>
                     </tfoot>
