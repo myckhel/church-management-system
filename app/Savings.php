@@ -27,6 +27,7 @@ class Savings extends Model
           $obj->collections_types = $v->collections_types->name;
           $obj->service_types = $v->service_types->name;
           $obj->date_collected = $v->date_collected;
+          $obj->updated_at = $v['updated_at']->toDateTimeString();
           $obj->amounts = [];
           $obj->amounts[$v->collections_types->name] = $v->amount;
           $row[$v->date_collected] = $obj;

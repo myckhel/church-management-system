@@ -117,7 +117,7 @@
                   </div>
                  <div class="form-group">
                    <div>
-			              <select required style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
+			              <select required style="outline:none;" name="type" class="selectpicker col-md-12" data-style="btn-primary">
                       <option selected disabled value="">Choose Service Type</option>
                       @foreach($services as $service)
                       <option value="{{$service->id}}">{{$service->name}}</option>
@@ -125,7 +125,7 @@
             				</select>
             			</div>
             		</div>
-              <button id="b-save" class="btn btn-primary" type="submit"><i class='visible-xs fa fa-save'></i> <span class="hidden-xs">SAVE</span></button>
+              <button id="b-save" class="btn btn-warning" type="submit"><i class='visible-xs fa fa-save'></i> <span class="hidden-xs">SAVE</span></button>
               @endif
             </form>
           </div>
@@ -187,7 +187,7 @@
                     </div>
                     <div class="col-md-4 form-group">
                       <h3><label for="date">Service Type</label></h3>
-                      <select required style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-info">
+                      <select required style="outline:none" name="type" class="selectpicker col-md-12" data-style="btn-primary">
                         <option selected disabled value="">Choose Service Type</option>
                         @foreach($services as $service)
                         <option value="{{$service->id}}">{{$service->name}}</option>
@@ -201,7 +201,7 @@
               <h1 class="text-danger">Please Add service type to be able to save the collection</h1>
               @else
             <div class="input-group pull-right " style="margin-right:100">
-              <button id="m-save" type="submit" name="save" value="Submit" class="btn btn-primary form-control"><i class='fa fa-save'></i> Submit</button>
+              <button id="m-save" type="submit" name="save" value="Submit" class="btn btn-warning form-control"><i class='fa fa-save'></i> Submit</button>
             </form>
             </div>
             @endif
@@ -294,7 +294,7 @@ function calculateRowSum()
 			var sum = 0; $(this).find('td').each(function(){
 				 sum += parseFloat($(this).find('.saisie').val()) || 0;
 			 });
-					$(this).find('td:last').html(sum);
+					$(this).find('td:last').html(formatMoney(sum));
 					$('#hidden-total').val(sum);
 	 });
 }
@@ -304,6 +304,10 @@ function calculateSum() {
 					 sum += parseFloat($(this).html())||0;
 	 });
 	 $("#sum").html(sum.toFixed(2));
+}
+
+function formatMoney(number) {
+  return number.toLocaleString('en-US', { style: 'currency', currency: '{{$currency->currency_code}}' });
 }
 </script>
 @endsection

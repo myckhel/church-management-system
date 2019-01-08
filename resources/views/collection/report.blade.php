@@ -51,6 +51,7 @@
                 <th>{{ucwords($types->name)}}</th>
                 @endforeach
                 <th>Collection Date</th>
+                <th class="min-tablet">Processed Date</th>
               </thead>
               <tbody>
               </tbody>
@@ -74,6 +75,7 @@
                 <th>{{ucwords($types->name)}}</th>
                 @endforeach
                 <th>Collection Date</th>
+                <th class="min-tablet">Processed Date</th>
               </thead>
               <tbody>
               </tbody>
@@ -126,6 +128,7 @@ var setup = (types) => {
         )})
       ))
       cols.push({data: 'date_collected'})
+      cols.push({data: 'updated_at'})
       return cols
     })(types),
     dom: 'Bfrtip',
@@ -157,6 +160,7 @@ var MemberSetup = (types) => {
         )})
       ))
       cols.push({data: 'date_collected'})
+      cols.push({data: 'updated_at'})
       return cols
     })(types),
     dom: 'Bfrtip',
