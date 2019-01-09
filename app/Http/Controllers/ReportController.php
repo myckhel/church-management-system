@@ -26,7 +26,7 @@ class ReportController extends Controller
     public function collections(){
       $user = \Auth::user();
       $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
-      // dd($savings,now()->toDateString() );
+      // dd($savings,substr(now()->format("Y-m-d"), 0,4) );
       function calculateTotal($savings, $type = false){
         $total = 0;
         foreach ($savings as $key => $value) {
@@ -44,17 +44,29 @@ class ReportController extends Controller
         $obj = new \stdClass();
         foreach ($savings as $key => $value) {
           if ($type == 'now') {
-            if ($value->date_collected ==  now()->toDateString() ) {
-              foreach ($value->amounts as $key => $value) {
-                $obj->$key = $value;
+            foreach ($value->amounts as $ke => $valu) {
+              if ($value->date_collected ==  now()->toDateString() ) {
+                $obj->$ke = $valu;
+              } else {
+                $obj->$ke = 0;
+              }
+            }
+          } elseif ($type == 'year') {
+            $year = substr($value->date_collected, 0,4);
+            foreach ($value->amounts as $ke => $valu) {
+              if (!isset($obj->$ke)) {$obj->$ke = new \stdClass();}
+              if (isset($obj->$year)) {
+                $obj->$ke->$year += $valu;
+              } else {
+                $obj->$ke->$year = $valu;
               }
             }
           } else {
-            foreach ($value->amounts as $key => $valu) {
-              if (isset($obj->$key)) {
-                $obj->$key += array_sum($value->amounts);
+            foreach ($value->amounts as $ke => $valu) {
+              if (isset($obj->$ke)) {
+                $obj->$ke += $valu;
               } else {
-                $obj->$key = array_sum($value->amounts);
+                $obj->$ke = $valu;
               }
             }
           }
@@ -86,18 +98,6 @@ class ReportController extends Controller
         }
         return $string;
       }
-      $operations = '';//sum($c_types);
-      $single = dateSum($c_types);
-      $singleDate = dateSum($c_types, true);
-      $sql = "SUM($operations) AS total_collections,
-      SUM(case when date_collected = date(now()) then ($operations) end) AS todays_collections,
-      SUM(case when date_collected = date(now()) then ($operations) end) AS todays_collectionst,
-      $single
-      $singleDate
-      ";
-      // $reports = \App\Savings::selectRaw($sql)
-      // // ->leftjoin('collections_types', 'collections_types.id', '=', 'savings.collections_types_id')
-      // ->where('branch_id', $user->branchcode)->first();
       $reports = $obj;
 
       $sql = "SELECT SUM(offering + tithe + special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) as total,
@@ -115,7 +115,13 @@ class ReportController extends Controller
       $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
       YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branchcode' GROUP BY year";
       $c_years = \DB::select($sql);
-      //dd($c_years);
+
+      $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
+      YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branchcode' GROUP BY year";
+
+      $obj = calculateSingleTotal($savings, 'year');
+      $c_years = $obj;
+      // dd($c_years);
 
       return view('report.collections', compact('reports', 'm_r', 'ad_rep', 'c_years', 'c_types'));
     }

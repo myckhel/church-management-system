@@ -138,7 +138,7 @@
                           <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->total_single_collections->$name)}}</span>
                         </td>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->total_single_collections->$name)}}</span>
+                          <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->todays_single_collections->$name)}}</span>
                         </td>
                       </tr>
                       @endforeach
@@ -181,9 +181,46 @@
                     <thead class="bg-dark text-white">
                       <tr>
                         <th>Type</th>
-                        <?php $totals = []; $type = ['tithe', 'offering', 'other']; foreach ($years as $key => $value) { $totals[$value] = 0; ?>
+                        @foreach ($years as $key => $value)
                         <th>{{$value}}</th>
+                        @endforeach
+                        <th>Year Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($c_types as $type)
+                    <tr>
+                      <th>{{ucwords($type->name)}}</th>
+                      @foreach($years as $key => $year)
+                      <?php $typeName = $type->name; ?>
+                        @if(isset($c_years->$typeName->$year))
+                          <?php echo '<td>'.$currency.number_format($c_years->$typeName->$year).'</td>'; ?>
+                        @else
+                        <td>No Record</td>
+                        @endif
+                      @endforeach
+                      <td>0</td>
+                      </tr>
+                    @endforeach
+                        <!--th scope="row">3</th-->
+                    </tbody>
+                    <tfoot class="bg-success text-white">
+                      <tr>
+                        <th>Total</th>
+                        <?php foreach ($years as $key => $value) { ?>
+                        <th>{{$currency.number_format(2000)}}</th>
                         <?php } ?>
+                        <td>0</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  <!-- <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
+                    <thead class="bg-dark text-white">
+                      <tr>
+                        <th>Type</th>
+                        <?php //$totals = []; $type = ['tithe', 'offering', 'other']; foreach ($years as $key => $value) { $totals[$value] = 0; ?>
+                        <th>{{$value}}</th>
+                        <?php //} ?>
                       </tr>
                     </thead>
                     <tbody>
@@ -193,31 +230,31 @@
                       @foreach($years as $key => $value)
                       <?php $found = false; ?>
                         @foreach($c_years as $k => $v)
-                        <?php if($v->year == $value){
+                        <?php //if($v->year == $value){
                           $found = true;
-                          if($v->$t){
-                            $totals[$value] += ($v->$t) ? $v->$t : 0;
-                            echo '<td>'.$currency.number_format($v->$t).'</td>';}else{echo $currency.'<td>0</td>';
-                            }
-                          } ?>
+                          //if($v->$t){
+                            //$totals[$value] += ($v->$t) ? $v->$t : 0;
+                            //echo '<td>'.$currency.number_format($v->$t).'</td>';}else{echo $currency.'<td>0</td>';
+                            //}
+                          //} ?>
                         @endforeach
                         @if(!$found)
                         <td>No Record</td>
                         @endif
                         @endforeach
                       </tr>
-                      @endforeach
+                      @endforeach -->
                         <!--th scope="row">3</th-->
-                    </tbody>
+                    <!-- </tbody>
                     <tfoot class="bg-success text-white">
                       <tr>
                         <th>Total</th>
-                        <?php foreach ($totals as $key => $value) { ?>
+                        <?php //foreach ($totals as $key => $value) { ?>
                         <th>{{$currency.number_format($value)}}</th>
-                        <?php } ?>
+                        <?php //} ?>
                       </tr>
                     </tfoot>
-                  </table>
+                  </table> -->
                 </div>
               </div>
             </div>
