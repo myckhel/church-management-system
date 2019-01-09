@@ -173,13 +173,94 @@ class CollectionController extends Controller
         return Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->format('l, jS \\of F Y');
     }
 
+    public function calculateTotal($savings, $type = false){
+      $total = 0;
+      foreach ($savings as $key => $value) {
+        if ($type == 'now') {
+          if ($value->date_collected ==  now()->toDateString() ) {
+            $total += array_sum($value->amounts);
+          }
+        } else {
+          $total += array_sum($value->amounts);
+        }
+      }
+      return $total;
+    }
+
+    public function calculateSingleTotal($savings, $type = false){
+      $obj = ($type == 'memberTotal' || $type == 'branchTotal' || $type == 'month') ? [] : new \stdClass();
+      foreach ($savings as $key => $value) {
+        if ($type == 'now') {
+          foreach ($value->amounts as $ke => $valu) {
+            if ($value->date_collected ==  now()->toDateString() ) {
+              $obj->$ke = $valu;
+            } else {
+              $obj->$ke = 0;
+            }
+          }
+        } elseif ($type == 'month') {
+          $month = (int)substr($value->date_collected, 5,2);
+          $year = (int)substr($value->date_collected, 0,4);
+          // dd($year);
+          if ($month ==  (int)substr(now()->toDateString(), 5,2) && $year ==  (int)substr(now()->toDateString(), 0,4) ) {
+            foreach ($value->amounts as $ke => $valu) {
+              // if (!isset($obj[$month])) {$obj[$month] = new \stdClass();}
+              if (isset($obj[$month])) {
+                if (isset($obj[$month]->$ke)) {  $obj[$month]->$ke += $valu; } else { $obj[$month]->$ke = $valu; }
+              } else {
+                $obj[$month] = new \stdClass();
+                $obj[$month]->$ke = $valu;
+                $obj[$month]->month = $month;
+              }
+            }
+          }
+        } elseif ($type == 'year') {
+          $year = substr($value->date_collected, 0,4);
+          foreach ($value->amounts as $ke => $valu) {
+            if (!isset($obj->$ke)) {$obj->$ke = new \stdClass();}
+            if (isset($obj->$year)) {
+              $obj->$ke->$year += $valu;
+            } else {
+              $obj->$ke->$year = $valu;
+            }
+          }
+        } elseif ($type == 'memberTotal' || $type == 'branchTotal') {
+          $name = ($type == 'memberTotal') ? $value->name : $value->branch_name;
+          $obj[$name]['today'] = ($value->date_collected ==  now()->toDateString()) ? array_sum($value->amounts) : 0;
+          if (isset($obj[$name]['total']) ) {
+            $obj[$name]['total'] += array_sum($value->amounts);
+          } else {
+            $obj[$name]['total'] = array_sum($value->amounts);
+          }
+        } else {
+          foreach ($value->amounts as $ke => $valu) {
+            if (isset($obj->$ke)) {
+              $obj->$ke += $valu;
+            } else {
+              $obj->$ke = $valu;
+            }
+          }
+        }
+      }
+      return $obj;
+    }
+
     public function analysis()
     {
         //
         $user = \Auth::user();
+        $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
+        $mSavings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->get());
+        $c_types = \App\CollectionsType::getTypes();
+
         $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
         MONTH(date_collected) AS month FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND branch_id = '$user->branchcode' GROUP BY month";
         $collections = \DB::select($sql);
+        for ($i = 0; $i <= 9; $i++) {
+          $months[] = date("Y-m", strtotime( date( 'Y-m-01' )." -$i months"));
+        }
+        $collections = $this->calculateSingleTotal($savings, 'month');
+        // dd($collections);
 
         $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
         DAYOFWEEK(date_collected) AS day FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 7 DAY) AND WEEK(date_collected) = WEEK(DATE(NOW())) AND branch_id = '$user->branchcode' GROUP BY day";
@@ -193,7 +274,29 @@ class CollectionController extends Controller
         YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branchcode' GROUP BY year";
         $collections4 = \DB::select($sql);
 
-        return view('collection.analysis', compact('collections','collections2','collections3','collections4'));
+        return view('collection.analysis', compact('collections','collections2','collections3','collections4', 'c_types'));
+    }
+
+    public function test (Request $request){
+      $user = \Auth::user();
+      // Get the number of days to show data for, with a default of 7
+      $days = $request->days;
+
+      $range = Carbon::now()->subDays($days);
+
+      $stats = Collection::
+        where('created_at', '>=', $range)
+        ->where('branch_id', $user->branchcode)
+        ->groupBy('day', 'id', 'branch_id', 'amount', 'date_collected', 'type', 'updated_at', 'created_at', 'tithe', 'offering', 'special_offering','seed_offering','donation','first_fruit','covenant_seed','love_seed','sacrifice','thanksgiving','thanksgiving_seed','other')
+        ->orderBy('date_collected', 'ASC')
+        ->get([
+          DB::raw('*'),
+          DB::raw('Date(date_collected) as date'),
+          DB::raw('DAYNAME(date_collected) AS day'),
+          DB::raw('COUNT(*) as value')
+        ]);
+
+      return response()->json($stats);
     }
 
   public function history(Request $request){

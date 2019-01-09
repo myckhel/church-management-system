@@ -206,47 +206,6 @@
                 </tr>
               </tfoot>
             </table>
-            <!-- <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
-              <thead class="bg-dark text-white">
-                <tr>
-                  <th>Type</th>
-                  <?php //$totals = []; $type = ['tithe', 'offering', 'other']; foreach ($years as $key => $value) { $totals[$value] = 0; ?>
-                  <th>{{$value}}</th>
-                  <?php //} ?>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach($type as $t)
-              <tr>
-                <th>{{ucwords($t)}}</th>
-                @foreach($years as $key => $value)
-                <?php $found = false; ?>
-                  @foreach($c_years as $k => $v)
-                  <?php //if($v->year == $value){
-                    $found = true;
-                    //if($v->$t){
-                      //$totals[$value] += ($v->$t) ? $v->$t : 0;
-                      //echo '<td>'.$currency.number_format($v->$t).'</td>';}else{echo $currency.'<td>0</td>';
-                      //}
-                    //} ?>
-                  @endforeach
-                  @if(!$found)
-                  <td>No Record</td>
-                  @endif
-                  @endforeach
-                </tr>
-                @endforeach -->
-                  <!--th scope="row">3</th-->
-              <!-- </tbody>
-              <tfoot class="bg-success text-white">
-                <tr>
-                  <th>Total</th>
-                  <?php //foreach ($totals as $key => $value) { ?>
-                  <th>{{$currency.number_format($value)}}</th>
-                  <?php //} ?>
-                </tr>
-              </tfoot>
-            </table> -->
           </div>
         </div>
       </div>
@@ -272,18 +231,18 @@
                 </tr>
               </thead>
               <tbody>
-                <?php $total = 0; $totalt = 0;?>
-                @foreach ($m_r as $mc)
-                <?php $total += $mc->total; $totalt += $mc->totalt; ?>
+                <?php $totalTotal = 0; $todayTotal = 0;?>
+                @foreach ($memberTotal as $key => $mc)
+                <?php $totalTotal += $mc['total']; $todayTotal += $mc['today']; ?>
                 <tr>
                   <th>
-                    {{$mc->fname}} {{$mc->lname}}
+                     {{$key}}
                   </th>
                   <td>
-                    <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($mc->total)}}</span>
+                    <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($mc['total'])}}</span>
                   </td>
                   <td>
-                    <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($mc->totalt)}}</span>
+                    <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($mc['today'])}}</span>
                   </td>
                 </tr>
                 @endforeach
@@ -294,10 +253,10 @@
                     Total
                   </th>
                   <td>
-                    <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($total)}}</span>
+                    <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($totalTotal)}}</span>
                   </td>
                   <td>
-                    <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($totalt)}}</span>
+                    <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($todayTotal)}}</span>
                   </td>
                 </tr>
               </tfoot>

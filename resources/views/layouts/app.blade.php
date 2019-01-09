@@ -746,14 +746,6 @@ function dele(input){
 <?php require_once 'js/views/members/profile.php'; ?>
 @endif
 
-<!-- FOR COLLECTION ANALYSIS -->
-
-@if (Route::currentRouteName() == ('collection.analysis'))
-<!-- for demo -->
-<?php require_once 'js/views/collection/analysis.php'; ?>
-@endif
-<!-- END COLLECTION ANALYSIS -->
-
 <!-- FOR ATTENDANCE ANALYSIS -->
 @if (Route::currentRouteName() == ('attendance.analysis'))
 <?php require_once 'js/views/attendance/analysis.php';?>

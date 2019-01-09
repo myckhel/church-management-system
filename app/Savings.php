@@ -15,7 +15,7 @@ class Savings extends Model
       return Savings::where('date_collected', date('Y-m-d',strtotime($date)) )->where('branch_id',$user->id )->get(['id'])->count();
     }
 
-    public static function rowToColumn($data) {
+    public static function rowToColumn($data, $type = false) {
       $row = [];
       $dates = [];
       $i = 0;
@@ -26,6 +26,9 @@ class Savings extends Model
           $obj = new \stdClass();
           // $obj->collections_types = $v->collections_types->name;
           $obj->service_types = $v->service_types->name;
+          if ($type == 'branch') {
+            $obj->branch_name = $v->users->branchname;
+          }
           $obj->date_collected = $v->date_collected;
           $obj->updated_at = $v['updated_at']->toDateTimeString();
           $obj->amounts = [];
@@ -46,7 +49,7 @@ class Savings extends Model
       return $this->belongsTo(CollectionsType::class);
     }
 
-    public function user(){
-      return $this->belongsTo(User::class);
+    public function users(){
+      return $this->belongsTo(User::class, 'branch_id');
     }
 }

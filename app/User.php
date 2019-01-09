@@ -72,22 +72,22 @@ class User extends Authenticatable
     }
 
     public function option(){
-      $this->hasMany(Options::class);
+      return $this->hasMany(Options::class);
     }
 
     public function collections_types(){
-      $this->hasMany(CollectionsType::class);
+      return $this->hasMany(CollectionsType::class);
     }
 
     public function service_type(){
-      $this->hasMany(ServiceType::class);
+      return $this->hasMany(ServiceType::class);
     }
 
     public function savings(){
-      $this->hasMany(Savings::class);
+      return $this->hasMany(Savings::class, 'branchcode');
     }
 
     public function MemberSavings(){
-      $this->hasMany(MemberSavings::class);
+      return $this->hasMany(MemberSavings::class);
     }
 }

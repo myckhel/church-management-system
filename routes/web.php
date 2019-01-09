@@ -119,6 +119,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     // Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
     // test
     Route::get('/branches/tools/group', 'OptionController@test')->name('option.test');
+    Route::get('apis', 'CollectionController@test')->name('apis');
 
 });
 
