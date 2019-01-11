@@ -23,7 +23,8 @@ class CollectionsType extends Model
         return $newName;
     }
 
-    public static function disFormatString ($input) {
+    public function disFormatString () {
+      $input = $this->name;
         $newName = '';
         for ($l = 0; $l < strlen($input); $l++) {
           if ($input[$l] == '_') {
@@ -34,6 +35,17 @@ class CollectionsType extends Model
         }
         return ucwords($newName);
     }
+    // public static function disFormatString ($input) {
+    //     $newName = '';
+    //     for ($l = 0; $l < strlen($input); $l++) {
+    //       if ($input[$l] == '_') {
+    //         $newName .= ' ';
+    //       } else {
+    //         $newName .= $input[$l];
+    //       }
+    //     }
+    //     return ucwords($newName);
+    // }
 
     public static function disFormatStringAll($types){
       foreach ($types as $key => $value) {

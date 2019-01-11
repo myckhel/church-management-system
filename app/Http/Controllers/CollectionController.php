@@ -24,7 +24,6 @@ class CollectionController extends Controller
         $collections = $user->getCollectionTypes();
         $currency = \App\Options::where('name', 'currency')->first();
         $currency = DB::table('country')->where('currency_symbol', $currency->value)->first();
-        \App\CollectionsType::disFormatStringAll($collections);
         return view('collection.offering', compact('members', 'services', 'collections', 'currency'));
     }
 

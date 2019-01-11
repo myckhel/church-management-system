@@ -83,7 +83,7 @@
                   <thead>
                     <tr>
                       @foreach($collections as $collection)
-                      <th>{{ucwords($collection->name)}}</th>
+                      <th>{{ucwords($collection->disFormatString())}}</th>
                       @endforeach
                       <th>Total</th>
                     </tr>
@@ -147,7 +147,7 @@
                     <th>Title</th>
                     <th>Name</th>
                     @foreach($collections as $collection)
-                    <th>{{ucwords($collection->name)}}</th>
+                    <th>{{ucwords($collection->disFormatString())}}</th>
                     @endforeach
                     <th>Total</th>
                   </tr>
