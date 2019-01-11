@@ -322,30 +322,31 @@ element: 'demo-morris-bar-week',
 data: [
 	<?php
 	foreach ($weeks as $key => $value) {
-		// code...
-		$week = $key+1;
+		$week = $value;
 		$found = false;
 		foreach ($collections3 as $collections) {
-			// code...
-			if($value == $collections->week && ($collections->tithe != NULL && $collections->offering != NULL && $collections->other != NULL)){
+			if($value == $collections->week){
+      // && ($collections->tithe != NULL && $collections->offering != NULL && $collections->other != NULL)){
 				$found = true;
-				echo "{y: 'Week " .$value. "', a: " .$collections->tithe.", b: ".$collections->offering.", c: ".$collections->other."},";
+        yData($collections, $c_types, 'week '.$value);
+				// echo "{y: 'Week " .$value. "', a: " .$collections->tithe.", b: ".$collections->offering.", c: ".$collections->other."},";
 			}
 		}
 		if(!$found){
-			echo "{y: 'Week " .$value. "', a: 0, b: 0, c: 0},";
+      noData($c_types, 'week '.$value);
+			// echo "{y: 'Week " .$value. "', a: 0, b: 0, c: 0},";
 		}
 
 	} ?>
 ],
 xkey: 'y',
-ykeys: ['a', 'b', 'c'],
-labels: ['tithe', 'offering', 'other'],
+ykeys: [<?php yKeys($c_types); ?>],
+labels: [<?php labels($c_types); ?>],
 gridEnabled: true,
 gridLineColor: 'rgba(0,0,0,.1)',
 gridTextColor: '#8f9ea6',
 gridTextSize: '11px',
-barColors: ['#8c0e0e', 'green', 'yellow'],
+barColors: [<?php barColors($colors); ?>],
 resize:true,
 hideHover: 'auto'
 });

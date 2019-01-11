@@ -188,7 +188,7 @@ class CollectionController extends Controller
     }
 
     public function calculateSingleTotal($savings, $type = false){
-      $obj = ($type == 'month') ? [] : new \stdClass();
+      $obj = ($type == 'month' || $type = 'week') ? [] : new \stdClass();
       foreach ($savings as $key => $value) {
         if ($type == 'now') {
           foreach ($value->amounts as $ke => $valu) {
@@ -219,11 +219,12 @@ class CollectionController extends Controller
           $week = $week->format("W");
           // dd($week);
           foreach ($value->amounts as $ke => $valu) {
-            if (!isset($obj->$ke)) {$obj->$ke = new \stdClass();}
-            if (isset($obj->$week)) {
-              $obj->$ke->$week += $valu;
+            if (isset($obj[$week])) {
+              if (isset($obj[$week]->$ke)) {  $obj[$week]->$ke += $valu; } else { $obj[$week]->$ke = $valu; }
             } else {
-              $obj->$ke->$week = $valu;
+              $obj[$week] = new \stdClass();
+              $obj[$week]->$ke = $valu;
+              $obj[$week]->week = $week;
             }
           }
         } elseif ($type == 'year') {
@@ -274,8 +275,9 @@ class CollectionController extends Controller
         $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
         WEEK(date_collected) AS week FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = '$user->branchcode' GROUP BY week";
         $collections3 = \DB::select($sql);
+        // dd($collections3);
 
-        // $collections3 = $this->calculateSingleTotal($savings, 'week');
+        $collections3 = $this->calculateSingleTotal($savings, 'week');
         // dd($collections3);
 
         $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
