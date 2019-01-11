@@ -188,7 +188,7 @@ class CollectionController extends Controller
     }
 
     public function calculateSingleTotal($savings, $type = false){
-      $obj = ($type == 'memberTotal' || $type == 'branchTotal' || $type == 'month') ? [] : new \stdClass();
+      $obj = ($type == 'month') ? [] : new \stdClass();
       foreach ($savings as $key => $value) {
         if ($type == 'now') {
           foreach ($value->amounts as $ke => $valu) {
@@ -200,11 +200,11 @@ class CollectionController extends Controller
           }
         } elseif ($type == 'month') {
           $month = (int)substr($value->date_collected, 5,2);
+          $month = date('M', strtotime($value->date_collected));
           $year = (int)substr($value->date_collected, 0,4);
           // dd($year);
-          if ($month ==  (int)substr(now()->toDateString(), 5,2) && $year ==  (int)substr(now()->toDateString(), 0,4) ) {
+          // if ($month ==  (int)substr(now()->toDateString(), 5,2) && $year ==  (int)substr(now()->toDateString(), 0,4) ) {
             foreach ($value->amounts as $ke => $valu) {
-              // if (!isset($obj[$month])) {$obj[$month] = new \stdClass();}
               if (isset($obj[$month])) {
                 if (isset($obj[$month]->$ke)) {  $obj[$month]->$ke += $valu; } else { $obj[$month]->$ke = $valu; }
               } else {
@@ -212,6 +212,18 @@ class CollectionController extends Controller
                 $obj[$month]->$ke = $valu;
                 $obj[$month]->month = $month;
               }
+            }
+          // }
+        } elseif ($type == 'week') {
+          $week = new \Datetime($value->date_collected);
+          $week = $week->format("W");
+          // dd($week);
+          foreach ($value->amounts as $ke => $valu) {
+            if (!isset($obj->$ke)) {$obj->$ke = new \stdClass();}
+            if (isset($obj->$week)) {
+              $obj->$ke->$week += $valu;
+            } else {
+              $obj->$ke->$week = $valu;
             }
           }
         } elseif ($type == 'year') {
@@ -223,14 +235,6 @@ class CollectionController extends Controller
             } else {
               $obj->$ke->$year = $valu;
             }
-          }
-        } elseif ($type == 'memberTotal' || $type == 'branchTotal') {
-          $name = ($type == 'memberTotal') ? $value->name : $value->branch_name;
-          $obj[$name]['today'] = ($value->date_collected ==  now()->toDateString()) ? array_sum($value->amounts) : 0;
-          if (isset($obj[$name]['total']) ) {
-            $obj[$name]['total'] += array_sum($value->amounts);
-          } else {
-            $obj[$name]['total'] = array_sum($value->amounts);
           }
         } else {
           foreach ($value->amounts as $ke => $valu) {
@@ -256,9 +260,10 @@ class CollectionController extends Controller
         $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
         MONTH(date_collected) AS month FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND branch_id = '$user->branchcode' GROUP BY month";
         $collections = \DB::select($sql);
-        for ($i = 0; $i <= 9; $i++) {
+        for ($i = 11; $i >= 0; $i--) {
           $months[] = date("Y-m", strtotime( date( 'Y-m-01' )." -$i months"));
         }
+        // dd($months);
         $collections = $this->calculateSingleTotal($savings, 'month');
         // dd($collections);
 
@@ -267,8 +272,11 @@ class CollectionController extends Controller
         $collections2 = \DB::select($sql);
 
         $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        WEEK(date_collected) AS week FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND date_collected >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = '$user->branchcode' GROUP BY week";
+        WEEK(date_collected) AS week FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = '$user->branchcode' GROUP BY week";
         $collections3 = \DB::select($sql);
+
+        // $collections3 = $this->calculateSingleTotal($savings, 'week');
+        // dd($collections3);
 
         $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
         YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branchcode' GROUP BY year";

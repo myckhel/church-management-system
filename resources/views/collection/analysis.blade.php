@@ -3,17 +3,52 @@
 
 @section('title') Collection Analysis @endsection
 
+@section('link')
+<style media="screen">
+.adaptive-color{
+  width: auto;
+}
+</style>
+@endsection
+
 @section('content')
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
-<?php function random_color_part() {
-    return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
+<?php
+function random_color_part() {
+  return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
 }
 
 function random_color() {
     return random_color_part() . random_color_part() . random_color_part();
 }
- $months =  ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Now','Dec'];
+
+function noData($c_types, $value){
+  $y = "{y: '$value',"; $i=1;
+  foreach ($c_types as $key => $value) { $y .= "'$i':0,"; $i++;}
+  echo $y. "},";
+}
+
+function yKeys($c_types){
+  $i=1; foreach ($c_types as $key => $value) {echo "'$i',"; $i++;}
+}
+
+function labels($c_types){
+  foreach ($c_types as $key => $value) {echo "'$value->name',";}
+}
+
+function yData($collection,$c_types, $value){
+  $y = "{y: '$value', ";  $i = 1; $size = sizeof($c_types);
+  foreach ($c_types as $key => $value) {
+    $name = $value->name;
+    $amount = isset($collection->$name) ? $collection->$name : 0;
+    $y .= "$i: $amount,";
+    $i++;
+  }
+  echo $y . "},";
+}
+$months =  ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
+// $months =  ['Dec','Nov','Oct','Sept','Aug','Jul','Jun','May','Apr', 'Mar', 'Feb', 'Jan'];
  $generateColor = function($c_types){
    $c = [];
    foreach($c_types as $value){
@@ -22,6 +57,10 @@ function random_color() {
    return $c;
  };
  $colors = $generateColor($c_types);
+
+ function barColors($colors){
+   foreach ($colors as $value) {echo "'".$value."',";}
+ }
 ?>
 <div id="content-container">
     <div id="page-head">
@@ -53,7 +92,7 @@ function random_color() {
     <div id="page-content">
       <div class="row">
         <!--/div-->
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
 
             <!-- Line Chart -->
             <!---------------------------------->
@@ -62,7 +101,7 @@ function random_color() {
                   <div class="col-xs-12 panel-title">
                     <?php $i = 0; ?>
                     @foreach($c_types as $type)
-                    <div class="col-xs-2 small" style="background-color:{{$colors[$i]}}">{{$type->name}}</div>
+                    <div class="col-xs-2 small adaptive-color" style="background-color:{{$colors[$i]}}">{{$type->name}}</div>
                     <?php $i++; ?>
                     @endforeach
                   </div>
@@ -80,7 +119,7 @@ function random_color() {
                               <div class="panel rounded-top">
         				                <div class="panel-heading bg-dark">
                                   <div class="col-xs-12 text-center">
-      					                    <h3 class="panel-title">{{date("Y")}} Monthly Collections</h3>
+      					                    <h3 class="panel-title">Last 12 Months Collections</h3>
                                   </div>
       					                </div>
                                 <div class="pad-all" style="background-color: #e8ddd3;">
@@ -97,7 +136,7 @@ function random_color() {
                                 <div class="panel rounded-top">
                                   <div class="panel-heading bg-dark">
                                     <div class="col-xs-12 text-center">
-          					                    <h3 class="panel-title">{{date("Y")}} Last 10 Weeks Collections</h3>
+          					                    <h3 class="panel-title">Last 10 Weeks Collections</h3>
                                       </div>
           					                </div>
                                     <div class="pad-all" style="background-color: #e8ddd3;">
@@ -115,7 +154,7 @@ function random_color() {
                                   <div class="panel rounded-top">
                                     <div class="panel-heading bg-dark">
                                       <div class="col-xs-12 text-center">
-          					                    <h3 class="panel-title">{{date("Y")}} Last 7 Days Collections</h3>
+          					                    <h3 class="panel-title">Last 7 Days Collections</h3>
                                       </div>
           					                </div>
                                     <div class="pad-all" style="background-color: #e8ddd3;">
@@ -231,69 +270,38 @@ Morris.Bar({
 element: 'demo-morris-bar-month',
 data: [
 	<?php
+  $months = [];
+  for ($i = 11; $i >= 0; $i--) {
+    $months[$i] = date('M', strtotime(date('Y-m-01'). "-$i months")); //1 week ago
+  }
+  // dd($months);
 	foreach ($months as $key => $value) {
-		// code...
-		$month = $key+1;
-		$found = false;
+		$month = $value; $found = false;
 		foreach ($collections as $collection) {
-			// code...
-			if($key+1 == $collection->month && ($collection->Offering != NULL && $collection->Favour_Collection != NULL && $collection->sheet != NULL && $collection->Building_Collection != NULL && $collection->Seed_Offering != NULL)){
+			if($value == $collection->month){
 				$found = true;
-				echo "{y: '" .$value. "', 1: " .$collection->Offering.", 2: ".$collection->Favour_Collection.", 3: ".$collection->sheet.", 4: ".$collection->Building_Collection.", 5: ".$collection->Seed_Offering."},";
+        yData($collection, $c_types, $value);
 			}
 		}
 		if(!$found){
-			echo "{y: '" .$value. "', 1: 0, 2: 0, 3: 0, 4: 0, 5: 0},";
+			noData($c_types, $value);
+        //"', 1: 0, 2: 0, 3: 0, 4: 0, 5: 0},";
 		}
 
 	} ?>
 ],
 xkey: 'y',
-ykeys: [<?php $i=1; foreach ($c_types as $key => $value) {echo "'$i',"; $i++;} ?>],
-labels: [<?php foreach ($c_types as $key => $value) {echo "'$value->name',";} ?>],
+ykeys: [<?php yKeys($c_types); ?>],
+labels: [<?php labels($c_types); ?>],
 gridEnabled: true,
 gridLineColor: 'rgba(0,0,0,.1)',
 gridTextColor: '#8f9ea6',
 gridTextSize: '11px',
-barColors: [<?php foreach ($colors as $value) {echo "'".$value."',";} ?>],
+barColors: [<?php barColors($colors); ?>],
 resize:true,
 hideHover: 'auto'
 });
 
-//FOR Day
-<?php $days =  ['Sun', 'Mon', 'Tue', 'Wed','Thur','Fri','Sat']; ?>
-Morris.Bar({
-element: 'demo-morris-bar-day',
-data: [
-	<?php
-	foreach ($days as $key => $value) {
-		// code...
-		$day = $key+1;
-		$found = false;
-		foreach ($collections2 as $collections) {
-			// code...
-			if($key+1 == $collections->day && ($collections->tithe != NULL && $collections->offering != NULL && $collections->other != NULL)){
-				$found = true;
-				echo "{y: '" .$value. "', a: " .$collections->tithe.", b: ".$collections->offering.", c: ".$collections->other."},";
-			}
-		}
-		if(!$found){
-			echo "{y: '" .$value. "', a: 0, b: 0, c: 0},";
-		}
-
-	} ?>
-],
-xkey: 'y',
-ykeys: ['a', 'b', 'c'],
-labels: ['tithe', 'offering', 'other'],
-gridEnabled: true,
-gridLineColor: 'rgba(0,0,0,.1)',
-gridTextColor: '#8f9ea6',
-gridTextSize: '11px',
-barColors: ['#8c0e0e', 'green', 'yellow'],
-resize:true,
-hideHover: 'auto'
-});
 //FOR Week
 <?php
 $weeks = [];
@@ -326,6 +334,41 @@ data: [
 		}
 		if(!$found){
 			echo "{y: 'Week " .$value. "', a: 0, b: 0, c: 0},";
+		}
+
+	} ?>
+],
+xkey: 'y',
+ykeys: ['a', 'b', 'c'],
+labels: ['tithe', 'offering', 'other'],
+gridEnabled: true,
+gridLineColor: 'rgba(0,0,0,.1)',
+gridTextColor: '#8f9ea6',
+gridTextSize: '11px',
+barColors: ['#8c0e0e', 'green', 'yellow'],
+resize:true,
+hideHover: 'auto'
+});
+
+//FOR Day
+<?php $days =  ['Sun', 'Mon', 'Tue', 'Wed','Thur','Fri','Sat']; ?>
+Morris.Bar({
+element: 'demo-morris-bar-day',
+data: [
+	<?php
+	foreach ($days as $key => $value) {
+		// code...
+		$day = $key+1;
+		$found = false;
+		foreach ($collections2 as $collections) {
+			// code...
+			if($key+1 == $collections->day && ($collections->tithe != NULL && $collections->offering != NULL && $collections->other != NULL)){
+				$found = true;
+				echo "{y: '" .$value. "', a: " .$collections->tithe.", b: ".$collections->offering.", c: ".$collections->other."},";
+			}
+		}
+		if(!$found){
+			echo "{y: '" .$value. "', a: 0, b: 0, c: 0},";
 		}
 
 	} ?>
