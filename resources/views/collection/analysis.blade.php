@@ -358,30 +358,31 @@ element: 'demo-morris-bar-day',
 data: [
 	<?php
 	foreach ($days as $key => $value) {
-		// code...
-		$day = $key+1;
+		$day = $value;
 		$found = false;
 		foreach ($collections2 as $collections) {
-			// code...
-			if($key+1 == $collections->day && ($collections->tithe != NULL && $collections->offering != NULL && $collections->other != NULL)){
+			if($value == $collections->day){
+         // && ($collections->tithe != NULL && $collections->offering != NULL && $collections->other != NULL)){
 				$found = true;
-				echo "{y: '" .$value. "', a: " .$collections->tithe.", b: ".$collections->offering.", c: ".$collections->other."},";
+        yData($collections, $c_types, $value);
+				// echo "{y: '" .$value. "', a: " .$collections->tithe.", b: ".$collections->offering.", c: ".$collections->other."},";
 			}
 		}
 		if(!$found){
-			echo "{y: '" .$value. "', a: 0, b: 0, c: 0},";
+      noData($c_types, $value);
+			// echo "{y: '" .$value. "', a: 0, b: 0, c: 0},";
 		}
 
 	} ?>
 ],
 xkey: 'y',
-ykeys: ['a', 'b', 'c'],
-labels: ['tithe', 'offering', 'other'],
+ykeys: [<?php yKeys($c_types); ?>],
+labels: [<?php labels($c_types); ?>],
 gridEnabled: true,
 gridLineColor: 'rgba(0,0,0,.1)',
 gridTextColor: '#8f9ea6',
 gridTextSize: '11px',
-barColors: ['#8c0e0e', 'green', 'yellow'],
+barColors: [<?php barColors($colors); ?>],
 resize:true,
 hideHover: 'auto'
 });
