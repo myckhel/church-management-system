@@ -111,101 +111,101 @@ $months =  ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov'
           <!---------------------------------->
         </div>
     <div class="row">
-                          <!--/div-->
-                          <div class="col-md-6">
+      <!--/div-->
+      <div class="col-md-6">
 
-                              <!-- Line Chart -->
-                              <!---------------------------------->
-                              <div class="panel rounded-top">
-        				                <div class="panel-heading bg-dark">
-                                  <div class="col-xs-12 text-center">
-      					                    <h3 class="panel-title">Last 12 Months Collections</h3>
-                                  </div>
-      					                </div>
-                                <div class="pad-all" style="background-color: #e8ddd3;">
-                                    <div id="demo-morris-bar-month" class="legendInline" style="height:250px"></div>
-                                </div>
-                              </div>
-                              <!---------------------------------->
-                            </div>
-                            <!-- week -->
-                            <div class="col-md-6">
+          <!-- Line Chart -->
+          <!---------------------------------->
+          <div class="panel rounded-top">
+            <div class="panel-heading bg-dark">
+              <div class="col-xs-12 text-center">
+                <h3 class="panel-title">Last 12 Months Collections</h3>
+              </div>
+            </div>
+            <div class="pad-all" style="background-color: #e8ddd3;">
+                <div id="demo-morris-bar-month" class="legendInline" style="height:250px"></div>
+            </div>
+          </div>
+          <!---------------------------------->
+        </div>
+        <!-- week -->
+        <div class="col-md-6">
 
-                                <!-- Line Chart -->
-                                <!---------------------------------->
-                                <div class="panel rounded-top">
-                                  <div class="panel-heading bg-dark">
-                                    <div class="col-xs-12 text-center">
-          					                    <h3 class="panel-title">Last 10 Weeks Collections</h3>
-                                      </div>
-          					                </div>
-                                    <div class="pad-all" style="background-color: #e8ddd3;">
-                                        <div id="demo-morris-bar-week" class="legendInline" style="height:250px"></div>
-                                    </div>
-                                </div>
-                                <!---------------------------------->
-                              </div>
+            <!-- Line Chart -->
+            <!---------------------------------->
+            <div class="panel rounded-top">
+              <div class="panel-heading bg-dark">
+                <div class="col-xs-12 text-center">
+                    <h3 class="panel-title">Last 10 Weeks Collections</h3>
+                  </div>
+                </div>
+                <div class="pad-all" style="background-color: #e8ddd3;">
+                    <div id="demo-morris-bar-week" class="legendInline" style="height:250px"></div>
+                </div>
+            </div>
+            <!---------------------------------->
+          </div>
 
-                              <!-- day -->
-                              <div class="col-md-6">
+          <!-- day -->
+          <div class="col-md-6">
 
-                                  <!-- Line Chart -->
-                                  <!---------------------------------->
-                                  <div class="panel rounded-top">
-                                    <div class="panel-heading bg-dark">
-                                      <div class="col-xs-12 text-center">
-          					                    <h3 class="panel-title">Last 7 Days Collections</h3>
-                                      </div>
-          					                </div>
-                                    <div class="pad-all" style="background-color: #e8ddd3;">
-                                        <div id="demo-morris-bar-day" class="legendInline" style="height:250px"></div>
-                                    </div>
-                                  </div>
-                                  <!---------------------------------->
-                                </div>
+              <!-- Line Chart -->
+              <!---------------------------------->
+              <div class="panel rounded-top">
+                <div class="panel-heading bg-dark">
+                  <div class="col-xs-12 text-center">
+                    <h3 class="panel-title">Last 7 Days Collections</h3>
+                  </div>
+                </div>
+                <div class="pad-all" style="background-color: #e8ddd3;">
+                    <div id="demo-morris-bar-day" class="legendInline" style="height:250px"></div>
+                </div>
+              </div>
+              <!---------------------------------->
+            </div>
 
-                                <!-- year -->
-                                <div class="col-md-6">
+            <!-- year -->
+            <div class="col-md-6">
 
-                                    <!-- Line Chart -->
-                                    <!---------------------------------->
-                                    <div class="panel rounded-top">
-                                      <div class="panel-heading bg-dark">
-                                        <div class="col-xs-12 text-center">
-              					                    <h3 class="panel-title">Yearly Collections</h3>
-                                          </div>
-              					                </div>
-                                        <div class="pad-all" style="background-color: #e8ddd3;">
-                                            <div id="demo-morris-bar-year" class="legendInline" style="height:250px"></div>
-                                        </div>
-                                    </div>
-                                    <!---------------------------------->
-                                  </div>
+                <!-- Line Chart -->
+                <!---------------------------------->
+                <div class="panel rounded-top">
+                  <div class="panel-heading bg-dark">
+                    <div class="col-xs-12 text-center">
+  	                    <h3 class="panel-title">Yearly Collections</h3>
+                      </div>
+  	                </div>
+                    <div class="pad-all" style="background-color: #e8ddd3;">
+                        <div id="demo-morris-bar-year" class="legendInline" style="height:250px"></div>
+                    </div>
+                </div>
+                <!---------------------------------->
+              </div>
 
-                                  <!-- stats -->
-                                  <div class="col-md-12">
+              <!-- stats -->
+              <div class="col-md-12">
 
-                                      <!-- Line Chart -->
-                                      <!---------------------------------->
-                                      <div class="panel rounded-top">
-                                        <div class="panel-heading bg-dark">
-                                          <div class="col-xs-12 text-center">
-                					                    <h3 class="panel-title">Daily Collections</h3>
-                                            </div>
-                					                </div>
-                                          <div class="pad-all" style="background-color: #e8ddd3;">
-                                          <ul class="nav nav-pills ranges">
-                                            <li class="active"><a href="#" data-range='7'>7 Days</a></li>
-                                            <li><a href="#" data-range='30'>30 Days</a></li>
-                                            <li><a href="#" data-range='60'>60 Days</a></li>
-                                            <li><a href="#" data-range='90'>90 Days</a></li>
-                                          </ul>
-                                            <div id="stats-container" style="height: 250px;"></div>
-                                          </div>
-                                      </div>
-                                      <!---------------------------------->
-                                    </div>
-                  					    </div>
+                  <!-- Line Chart -->
+                  <!---------------------------------->
+                  <div class="panel rounded-top">
+                    <div class="panel-heading bg-dark">
+                      <div class="col-xs-12 text-center">
+  		                    <h3 class="panel-title">Daily Collections</h3>
+                        </div>
+  		                </div>
+                      <div class="pad-all" style="background-color: #e8ddd3;">
+                      <ul class="nav nav-pills ranges">
+                        <li class="active"><a href="#" data-range='7'>7 Days</a></li>
+                        <li><a href="#" data-range='30'>30 Days</a></li>
+                        <li><a href="#" data-range='60'>60 Days</a></li>
+                        <li><a href="#" data-range='90'>90 Days</a></li>
+                      </ul>
+                        <div id="stats-container" style="height: 250px;"></div>
+                      </div>
+                  </div>
+                  <!---------------------------------->
+                </div>
+  			    </div>
 
     </div>
     <!--===================================================-->
@@ -408,29 +408,32 @@ data: [
 	<?php
 	foreach ($years as $key => $value) {
 		// code...
-		$year = $key+1;
+		$year = $value;
 		$found = false;
 		foreach ($collections4 as $collections) {
 			// code...
-			if($value == $collections->year && ($collections->tithe != NULL && $collections->offering != NULL && $collections->other != NULL)){
+			if($value == $collections->year){
+         // && ($collections->tithe != NULL && $collections->offering != NULL && $collections->other != NULL)){
 				$found = true;
-				echo "{y: '" .$value. "', a: " .$collections->tithe.", b: ".$collections->offering.", c: ".$collections->other."},";
+        yData($collections, $c_types, $value);
+				// echo "{y: '" .$value. "', a: " .$collections->tithe.", b: ".$collections->offering.", c: ".$collections->other."},";
 			}
 		}
 		if(!$found){
-			echo "{y: '" .$value. "', a: 0, b: 0, c: 0},";
+      noData($c_types, $value);
+			// echo "{y: '" .$value. "', a: 0, b: 0, c: 0},";
 		}
 
 	} ?>
 ],
 xkey: 'y',
-ykeys: ['a', 'b', 'c'],
-labels: ['tithe', 'offering', 'other'],
+ykeys: [<?php yKeys($c_types); ?>],
+labels: [<?php labels($c_types); ?>],
 gridEnabled: true,
 gridLineColor: 'rgba(0,0,0,.1)',
 gridTextColor: '#8f9ea6',
 gridTextSize: '11px',
-barColors: ['#8c0e0e', 'green', 'yellow'],
+barColors: [<?php barColors($colors); ?>],
 resize:true,
 hideHover: 'auto'
 });

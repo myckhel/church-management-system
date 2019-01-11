@@ -241,21 +241,16 @@ class CollectionController extends Controller
             }
           }
         } elseif ($type == 'year') {
-          $year = substr($value->date_collected, 0,4);
+          $year = new \Datetime($value->date_collected);
+          $year = $year->format("Y");
+          // dd($year);
           foreach ($value->amounts as $ke => $valu) {
-            if (!isset($obj->$ke)) {$obj->$ke = new \stdClass();}
-            if (isset($obj->$year)) {
-              $obj->$ke->$year += $valu;
+            if (isset($obj[$year])) {
+              if (isset($obj[$year]->$ke)) {  $obj[$year]->$ke += $valu; } else { $obj[$year]->$ke = $valu; }
             } else {
-              $obj->$ke->$year = $valu;
-            }
-          }
-        } else {
-          foreach ($value->amounts as $ke => $valu) {
-            if (isset($obj->$ke)) {
-              $obj->$ke += $valu;
-            } else {
-              $obj->$ke = $valu;
+              $obj[$year] = new \stdClass();
+              $obj[$year]->$ke = $valu;
+              $obj[$year]->year = $year;
             }
           }
         }
@@ -271,35 +266,18 @@ class CollectionController extends Controller
         $mSavings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->get());
         $c_types = \App\CollectionsType::getTypes();
 
-        $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        MONTH(date_collected) AS month FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND branch_id = '$user->branchcode' GROUP BY month";
-        $collections = \DB::select($sql);
         for ($i = 11; $i >= 0; $i--) {
           $months[] = date("Y-m", strtotime( date( 'Y-m-01' )." -$i months"));
         }
         // dd($months);
         $collections = $this->calculateSingleTotal($savings, 'month');
-        // dd($collections);
-
-        $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        DAYOFWEEK(date_collected) AS day FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 7 DAY) AND WEEK(date_collected) = WEEK(DATE(NOW())) AND branch_id = '$user->branchcode' GROUP BY day";
-        $collections2 = \DB::select($sql);
-        // dd($collections2);
-
         $collections2 = $this->calculateSingleTotal($savings, 'day');
-        // dd($collections2);
-
-        $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        WEEK(date_collected) AS week FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = '$user->branchcode' GROUP BY week";
-        $collections3 = \DB::select($sql);
-        // dd($collections3);
-
         $collections3 = $this->calculateSingleTotal($savings, 'week');
-        // dd($collections3);
 
         $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
         YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branchcode' GROUP BY year";
         $collections4 = \DB::select($sql);
+        $collections4 = $this->calculateSingleTotal($savings, 'year');
 
         return view('collection.analysis', compact('collections','collections2','collections3','collections4', 'c_types'));
     }
