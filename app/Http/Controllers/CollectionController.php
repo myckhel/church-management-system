@@ -186,71 +186,24 @@ class CollectionController extends Controller
       return $total;
     }
 
-    public function calculateSingleTotal($savings, $type = false){
+    public function calculateSingleTotal($savings, $type){
       $obj = [];
       foreach ($savings as $key => $value) {
-        if ($type == 'now') {
-          foreach ($value->amounts as $ke => $valu) {
-            if ($value->date_collected ==  now()->toDateString() ) {
-              $obj->$ke = $valu;
-            } else {
-              $obj->$ke = 0;
-            }
-          }
-        } elseif ($type == 'day') {
-          $day = date('D', strtotime($value->date_collected));
-          $year = (int)substr($value->date_collected, 0,4);
-          // dd($year);
-          // if ($month ==  (int)substr(now()->toDateString(), 5,2) && $year ==  (int)substr(now()->toDateString(), 0,4) ) {
-            foreach ($value->amounts as $ke => $valu) {
-              if (isset($obj[$day])) {
-                if (isset($obj[$day]->$ke)) {  $obj[$day]->$ke += $valu; } else { $obj[$day]->$ke = $valu; }
-              } else {
-                $obj[$day] = new \stdClass();
-                $obj[$day]->$ke = $valu;
-                $obj[$day]->day = $day;
-              }
-            }
-          // }
-        } elseif ($type == 'month') {
-          $month = date('M', strtotime($value->date_collected));
-          // dd($year);
-          // if ($month ==  (int)substr(now()->toDateString(), 5,2) && $year ==  (int)substr(now()->toDateString(), 0,4) ) {
-            foreach ($value->amounts as $ke => $valu) {
-              if (isset($obj[$month])) {
-                if (isset($obj[$month]->$ke)) {  $obj[$month]->$ke += $valu; } else { $obj[$month]->$ke = $valu; }
-              } else {
-                $obj[$month] = new \stdClass();
-                $obj[$month]->$ke = $valu;
-                $obj[$month]->month = $month;
-              }
-            }
-          // }
-        } elseif ($type == 'week') {
-          $week = new \Datetime($value->date_collected);
-          $week = $week->format("W");
-          // dd($week);
-          foreach ($value->amounts as $ke => $valu) {
-            if (isset($obj[$week])) {
-              if (isset($obj[$week]->$ke)) {  $obj[$week]->$ke += $valu; } else { $obj[$week]->$ke = $valu; }
-            } else {
-              $obj[$week] = new \stdClass();
-              $obj[$week]->$ke = $valu;
-              $obj[$week]->week = $week;
-            }
-          }
-        } elseif ($type == 'year') {
-          $year = new \Datetime($value->date_collected);
-          $year = $year->format("Y");
-          // dd($year);
-          foreach ($value->amounts as $ke => $valu) {
-            if (isset($obj[$year])) {
-              if (isset($obj[$year]->$ke)) {  $obj[$year]->$ke += $valu; } else { $obj[$year]->$ke = $valu; }
-            } else {
-              $obj[$year] = new \stdClass();
-              $obj[$year]->$ke = $valu;
-              $obj[$year]->year = $year;
-            }
+        switch ($type) {
+          case 'day': $t = 'D'; break;
+          case 'week': $t = 'W'; break;
+          case 'month': $t = 'M'; break;
+          case 'year': $t = 'Y'; break;
+        }
+        $date = date($t, strtotime($value->date_collected));
+        $year = (int)substr($value->date_collected, 0,4);
+        foreach ($value->amounts as $ke => $valu) {
+          if (isset($obj[$date])) {
+            if (isset($obj[$date]->$ke)) {  $obj[$date]->$ke += $valu; } else { $obj[$date]->$ke = $valu; }
+          } else {
+            $obj[$date] = new \stdClass();
+            $obj[$date]->$ke = $valu;
+            $obj[$date]->$type = $date;
           }
         }
       }
@@ -259,48 +212,94 @@ class CollectionController extends Controller
 
     public function analysis()
     {
-        //
-        $user = \Auth::user();
-        $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
-        $mSavings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->get());
-        $c_types = \App\CollectionsType::getTypes();
+      $user = \Auth::user();
+      $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
+      $mSavings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->get());
+      $c_types = \App\CollectionsType::getTypes();
 
-        for ($i = 11; $i >= 0; $i--) {
-          $months[] = date("Y-m", strtotime( date( 'Y-m-01' )." -$i months"));
-        }
-        // dd($months);
-        $collections = $this->calculateSingleTotal($savings, 'month');
-        $collections2 = $this->calculateSingleTotal($savings, 'day');
-        $collections3 = $this->calculateSingleTotal($savings, 'week');
+      $collections = $this->calculateSingleTotal($savings, 'month');
+      $collections2 = $this->calculateSingleTotal($savings, 'day');
+      $collections3 = $this->calculateSingleTotal($savings, 'week');
+      $collections4 = $this->calculateSingleTotal($savings, 'year');
 
-        $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branchcode' GROUP BY year";
-        $collections4 = \DB::select($sql);
-        $collections4 = $this->calculateSingleTotal($savings, 'year');
-
-        return view('collection.analysis', compact('collections','collections2','collections3','collections4', 'c_types'));
+      return view('collection.analysis', compact('collections','collections2','collections3','collections4', 'c_types'));
     }
+
+    public function yData($collection,$c_types, $value){
+      $y = new \stdClass();
+      $y->y = $value;  $i = 1; $size = sizeof($c_types);
+      foreach ($c_types as $key => $value) {
+        $name = $value->name;
+        $amount = isset($collection->$name) ? $collection->$name : 0;
+        $y->$name = $amount;
+        $i++;
+      }
+      return $y; //. "},";
+    }
+
+    public function noData($c_types, $value){
+        $y = new \stdClass();
+        $y->y = $value; $i=1;
+        foreach ($c_types as $key => $value) {
+          $name = $value->name;
+          $y->$name = 0;
+          $i++;
+        }
+        return $y;//. "},";
+      }
 
     public function test (Request $request){
       $user = \Auth::user();
+      $c_types = \App\CollectionsType::getTypes();
+      $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
+      $interval = $request->interval;
+      $group = $request->group;
+      $months = [];
+      for ($i = $interval-1; $i >= 0; $i--) {
+        $t = 'M';
+        switch ($group) {
+          case 'day': $t = 'D'; break;
+          case 'week': $t = 'W'; break;
+          case 'month': $t = 'M'; break;
+          case 'year': $t = 'Y'; break;
+        }
+        $dateOrNot = $group == 'month' ? date('Y-m-01') : '';
+        $months[$i] = date($t, strtotime($dateOrNot. "-$i $group")); //1 week ago
+      }
+      $collections2 = $this->calculateSingleTotal($savings, $group);
+      $dt = (function($savings, $c_types, $months, $group){
+        $output = [];
+        foreach ($months as $key => $value) {
+    		$month = $value; $found = false;
+    		foreach ($savings as $collection) {
+    			if($value == $collection->$group){
+    				$found = true;
+            $output[] = $this->yData($collection, $c_types, $value);
+    			}
+    		}
+    		if(!$found){
+    			$output[] = $this->noData($c_types, $value);
+            //"', 1: 0, 2: 0, 3: 0, 4: 0, 5: 0},";
+    		}
+
+    	}return $output;})($collections2, $c_types, $months, $group);
+      // dd($dt);
       // Get the number of days to show data for, with a default of 7
-      $days = $request->days;
 
-      $range = Carbon::now()->subDays($days);
+      // $range = Carbon::now()->subDays('$days');
+      //
+      // $stats = Collection::
+      //   where('created_at', '>=', $range)
+      //   ->where('branch_id', $user->branchcode)
+      //   ->groupBy('day', 'date_collected')
+      //   ->orderBy('date_collected', 'ASC')
+      //   ->get([
+      //     DB::raw('Date(date_collected) as date'),
+      //     DB::raw('DAYNAME(date_collected) AS day'),
+      //     DB::raw('COUNT(*) as value')
+      //   ]);
 
-      $stats = Collection::
-        where('created_at', '>=', $range)
-        ->where('branch_id', $user->branchcode)
-        ->groupBy('day', 'id', 'branch_id', 'amount', 'date_collected', 'type', 'updated_at', 'created_at', 'tithe', 'offering', 'special_offering','seed_offering','donation','first_fruit','covenant_seed','love_seed','sacrifice','thanksgiving','thanksgiving_seed','other')
-        ->orderBy('date_collected', 'ASC')
-        ->get([
-          DB::raw('*'),
-          DB::raw('Date(date_collected) as date'),
-          DB::raw('DAYNAME(date_collected) AS day'),
-          DB::raw('COUNT(*) as value')
-        ]);
-
-      return response()->json($stats);
+      return response()->json($dt);
     }
 
   public function history(Request $request){
