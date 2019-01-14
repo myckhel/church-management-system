@@ -6,6 +6,7 @@ use App\Collection;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
+use Yajra\Datatables\Datatables;
 
 class CollectionController extends Controller
 {
@@ -19,8 +20,11 @@ class CollectionController extends Controller
         //
         $user = \Auth::user();
         $members = \App\Member::where('branch_id', $user->branchcode)->get();
-        //$by_member = DB::table('members_collection')->where('branch_id', $user->branchcode)->select();
-        return view('collection.offering', compact('members'));
+        $services = $user->getServiceTypes();
+        $collections = $user->getCollectionTypes();
+        $currency = \App\Options::where('name', 'currency')->first();
+        $currency = DB::table('country')->where('currency_symbol', $currency->value)->first();
+        return view('collection.offering', compact('members', 'services', 'collections', 'currency'));
     }
 
     /**
@@ -41,99 +45,67 @@ class CollectionController extends Controller
      */
     public function store(Request $request)
     {
+      $branch = \Auth::user();
+      // validate date
+      $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date_collected'))));
+      if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
+      {
+          return response()->json(['status' => false, 'text' => "**You can't save collection for a future date!"]);
+      }
+      // check if collection has already been saved for that date
+      $savings = \App\Savings::getByDate($branch, $request->get('date_collected'));
+      if ($savings > 0){
+          return response()->json(['status' => false, 'text' => "**Branch Collection for {$this->get_date_in_words(date('Y-m-d',strtotime($request->get('date_collected'))))} has been saved before!"]);
+      }
 
-        $offer = $request;
-        $this->validate($request, [
-            'date_collected' => 'required|string|min:0',
-            'type' => 'required|string|min:0',
+      $c_type = \App\CollectionsType::all();
+      foreach ($c_type as $key => $type) {
+        // code...
+        $name = $type->name;
+        $savings = \App\Savings::create([
+          'branch_id' => $branch->id,
+          'collections_types_id' => $type->id,
+          'service_types_id' => $request->type,
+          'amount' => $request->$name,
+          'date_collected' => date('Y-m-d',strtotime($request->date_collected))
         ]);
+      }
+      return response()->json(['status' => true, 'text' => 'Branch Collection Successfully Saved']);
+    }
 
-        $user = \Auth::user();
+    public function member(Request $request){
+      $branch = \Auth::user();
+      // validate date
+      $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date_collected'))));
+      if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
+      {
+          return response()->json(['status' => false, 'text' => "**You can't save collection for a future date!"]);
+      }
+      // check if collection has already been saved for that date
+      $savings = \App\MemberSavings::getByDate($branch, $request->get('date_collected'));
+      if ($savings > 0){
+          return response()->json(['status' => false, 'text' => "**Member Collection for {$this->get_date_in_words(date('Y-m-d',strtotime($request->get('date_collected'))))} has been saved before!"]);
+      }
 
-        $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date_collected'))));
-        if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
-        {
-            return response()->json(['status' => false, 'text' => "**You can't save collection for a future date!"]);
+      $c_type = \App\CollectionsType::all();
+      foreach ($c_type as $key => $type) {
+        // code...
+        $name = $type->name;
+        for($i = 0; $i < count($request['member_id']); $i++){
+          $savings = \App\MemberSavings::create([
+            'branch_id' => $branch->id,
+            'member_id' => $request['member_id'][$i],
+            'collections_types_id' => $type->id,
+            'service_types_id' => $request->type,
+            'amount' => $request->$name[$i],
+            'date_collected' => date('Y-m-d',strtotime($request->date_collected))
+          ]);
         }
+      }
 
-        // check if collectio has already been marked for that date
-        $attendance = \App\Collection::where('date_collected', date('Y-m-d',strtotime($request->get('date_collected'))) )->where('branch_id',$user->branchcode )->get(['id'])->count();
-        if ($attendance > 0){
-            return response()->json(['status' => false, 'text' => "**Branch Collection for {$this->get_date_in_words(date('Y-m-d',strtotime($request->get('date_collected'))))} has been saved before!"]);
-        }
-
-        // register collection
-        //$collection = new Collection(array(
-        $value = [
-            'branch_id' => $user = \Auth::user()->branchcode,
-            //'amount' => $request->get('amount'),
-            'date_collected' => date('Y-m-d',strtotime($offer['date_collected'])),
-            'type' => $offer['type'],
-            'special_offering' => $offer['special_offering'],
-            'seed_offering' => $offer['seed_offering'],
-            'offering' => $offer['offering'],
-            'donation' => $offer['donation'],
-            'tithe' => $offer['tithe'],
-            'first_fruit' => $offer['first_fruit'],
-            'covenant_seed' => $offer['covenant_seed'],
-            'love_seed' => $offer['love_seed'],
-            'sacrifice' => $offer['sacrifice'],
-            'thanksgiving' => $offer['thanksgiving'],
-            'thanksgiving_seed' => $offer['thanksgiving_seed'],
-            'other' => $offer['other'],
-            'amount' => $offer['amount'],
-        ];
-        DB::table('collections')->insert($value);
-        //$collection->save();
-
-        return response()->json(['status' => true, 'text' => 'Branch Collection Successfully Saved']);
-        // return redirect()->route('collection.offering')->with('success', 'collection successfully saved');
+      return response()->json(['status' => true, 'text' => 'Member Collection Successfully Saved']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Collection  $collection
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Collection $collection)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Collection  $collection
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Collection $collection)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Collection  $collection
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Collection $collection)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Collection  $collection
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Collection $collection)
-    {
-        //
-    }
     /**
      * Show Collection report.
      *
@@ -142,17 +114,11 @@ class CollectionController extends Controller
      */
     public function report()
     {
-
-        //$sql = 'SELECT SUM(amount) AS amount, MONTH(date_collected) AS month, count(*) AS entries FROM `collections` WHERE branch_id = '.\Auth::user()->branchcode.' GROUP BY month';
-        //$collections = \DB::select($sql);
-        $code = \Auth::user()->branchcode;
-        $sql = "SELECT * FROM collections WHERE branch_id = '$code'";
-        $collections = \DB::select($sql);
-
-        $sqll = "SELECT * FROM members_collection WHERE branch_id = '$code'";
-        $collectionss = \DB::select($sqll);
-
-        return view('collection.report', compact('collections', 'collectionss'));
+      $code = \Auth::user()->branchcode;
+      $user = \Auth::user();
+      $c_types = $user->getCollectionTypes();
+      \App\CollectionsType::disFormatStringAll($c_types);
+      return view('collection.report', compact('c_types'));
     }
 
     private function get_date_in_words($date)
@@ -161,77 +127,134 @@ class CollectionController extends Controller
         return Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->format('l, jS \\of F Y');
     }
 
-    public function member(Request $request){
-      $user = \Auth::user();
-
-      $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date'))));
-      if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
-      {
-          return response()->json(['status' => false, 'text' => "**You can't save collection for a future date!"]);
+    public function calculateTotal($savings, $type = false){
+      $total = 0;
+      foreach ($savings as $key => $value) {
+        if ($type == 'now') {
+          if ($value->date_collected ==  now()->toDateString() ) {
+            $total += array_sum($value->amounts);
+          }
+        } else {
+          $total += array_sum($value->amounts);
+        }
       }
-
-      // check if collectio has already been marked for that date
-      $attendance = DB::table('members_collection')->where('date_added', date('Y-m-d',strtotime($request->get('date'))) )->where('branch_id',$user->branchcode )->get(['id'])->count();
-      if ($attendance > 0){
-          return response()->json(['status' => false, 'text' => "**Member Collection for {$this->get_date_in_words(date('Y-m-d',strtotime($request->get('date'))))} has been saved before!"]);
-      }
-
-      $offer = $request;
-      for($i = 0; $i < count($offer['member_id']); $i++) {
-        // code...
-        $value = [
-        'member_id' => $offer['member_id'][$i],
-        'title' => $offer['title'][$i],
-        'fname' => $offer['fname'][$i],
-        'lname' => $offer['lname'][$i],
-        'special_offering' => $offer['special_offering'][$i],
-        'seed_offering' => $offer['seed_offering'][$i],
-        'date_added' => date('Y-m-d',strtotime($offer['date'])),
-        'offering' => $offer['offering'][$i],
-        'donation' => $offer['donation'][$i],
-        'tithe' => $offer['tithe'][$i],
-        'first_fruit' => $offer['first_fruit'][$i],
-        'covenant_seed' => $offer['covenant_seed'][$i],
-        'love_seed' => $offer['love_seed'][$i],
-        'sacrifice' => $offer['sacrifice'][$i],
-        'thanksgiving' => $offer['thanksgiving'][$i],
-        'thanksgiving_seed' => $offer['thanksgiving_seed'][$i],
-        'other' => $offer['other'][$i],
-        'branch_id' => $offer['branch_id'][$i],
-        'date_submitted' => now(),
-        'service_type' => $offer['type'],
-        ];
-            DB::table('members_collection')->insert($value);
-      }
-
-      return response()->json(['status' => true, 'text' => 'Member Collection Successfully Saved']);
-      // return redirect()->back()->with(['success' => 'Successful']);
+      return $total;
     }
+
+    public function calculateSingleTotal($savings, $type){
+      $obj = [];
+      foreach ($savings as $key => $value) {
+        switch ($type) {
+          case 'day': $t = 'D'; break;
+          case 'week': $t = 'W'; break;
+          case 'month': $t = 'M'; break;
+          case 'year': $t = 'Y'; break;
+        }
+        $date = date($t, strtotime($value->date_collected));
+        $year = (int)substr($value->date_collected, 0,4);
+        foreach ($value->amounts as $ke => $valu) {
+          if (isset($obj[$date])) {
+            if (isset($obj[$date]->$ke)) {  $obj[$date]->$ke += $valu; } else { $obj[$date]->$ke = $valu; }
+          } else {
+            $obj[$date] = new \stdClass();
+            $obj[$date]->$ke = $valu;
+            $obj[$date]->$type = $date;
+          }
+        }
+      }
+      return $obj;
+    }
+
     public function analysis()
     {
-        //
-        $user = \Auth::user();
-        $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        MONTH(date_collected) AS month FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND branch_id = '$user->branchcode' GROUP BY month";
-        $collections = \DB::select($sql);
+      $user = \Auth::user();
+      $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
+      $mSavings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->get());
+      $c_types = \App\CollectionsType::getTypes();
 
-        //$sql = 'SELECT SUM(special_offering + seed_offering + offering) AS total, MONTH(date_collected) AS month FROM `collections` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
-        //$attendances2 = \DB::select($sql);
+      $collections = $this->calculateSingleTotal($savings, 'month');
+      $collections2 = $this->calculateSingleTotal($savings, 'day');
+      $collections3 = $this->calculateSingleTotal($savings, 'week');
+      $collections4 = $this->calculateSingleTotal($savings, 'year');
 
-        $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        DAYOFWEEK(date_collected) AS day FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 7 DAY) AND WEEK(date_collected) = WEEK(DATE(NOW())) AND branch_id = '$user->branchcode' GROUP BY day";
-        $collections2 = \DB::select($sql);
-
-        $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        WEEK(date_collected) AS week FROM `collections` WHERE YEAR(date_collected) = YEAR(CURDATE()) AND date_collected >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = '$user->branchcode' GROUP BY week";
-        $collections3 = \DB::select($sql);
-
-        //$sql = 'SELECT SUM(special_offering + seed_offering + offering) AS total, MONTH(date_collected) AS month FROM `collections` WHERE branch_id = '.$user->branchcode.'  GROUP BY month';
-        //$attendances4 = \DB::select($sql);
-        $sql = "SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-        YEAR(date_collected) AS year FROM `collections` WHERE date_collected >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branchcode' GROUP BY year";
-        $collections4 = \DB::select($sql);
-
-        return view('collection.analysis', compact('collections','collections2','collections3','collections4'));
+      return view('collection.analysis', compact('collections','collections2','collections3','collections4', 'c_types'));
     }
+
+    public function yData($collection,$c_types, $value){
+      $y = new \stdClass();
+      $y->y = $value;  $i = 1; $size = sizeof($c_types);
+      foreach ($c_types as $key => $value) {
+        $name = $value->name;
+        $amount = isset($collection->$name) ? $collection->$name : 0;
+        $y->$name = $amount;
+        $i++;
+      }
+      return $y; //. "},";
+    }
+
+    public function noData($c_types, $value){
+        $y = new \stdClass();
+        $y->y = $value; $i=1;
+        foreach ($c_types as $key => $value) {
+          $name = $value->name;
+          $y->$name = 0;
+          $i++;
+        }
+        return $y;//. "},";
+      }
+
+    public function test (Request $request){
+      $user = \Auth::user();
+      $c_types = \App\CollectionsType::getTypes();
+      $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
+      $interval = $request->interval;
+      $group = $request->group;
+      $months = [];
+      for ($i = $interval-1; $i >= 0; $i--) {
+        $t = 'M';
+        switch ($group) {
+          case 'day': $t = 'D'; break;
+          case 'week': $t = 'W'; break;
+          case 'month': $t = 'M'; break;
+          case 'year': $t = 'Y'; break;
+        }
+        $dateOrNot = $group == 'month' ? date('Y-m-01') : '';
+        $months[$i] = date($t, strtotime($dateOrNot. "-$i $group")); //1 week ago
+      }
+      $collections2 = $this->calculateSingleTotal($savings, $group);
+      $dt = (function($savings, $c_types, $months, $group){
+        $output = [];
+        foreach ($months as $key => $value) {
+    		$month = $value; $found = false;
+    		foreach ($savings as $collection) {
+    			if($value == $collection->$group){
+    				$found = true;
+            $output[] = $this->yData($collection, $c_types, $value);
+    			}
+    		}
+    		if(!$found){
+    			$output[] = $this->noData($c_types, $value);
+            //"', 1: 0, 2: 0, 3: 0, 4: 0, 5: 0},";
+    		}
+    	}
+      return $output;
+    })($collections2, $c_types, $months, $group);
+      // dd($dt);
+      return response()->json($dt);
+    }
+
+  public function history(Request $request){
+    $branch = \Auth::user();
+    $history = collect(new \App\Savings);//[];
+    if (isset($request->branch)) {
+      $history = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $branch->id)
+      ->with('collections_types')->with('service_types')->get());
+    }
+    if(isset($request->member)) {
+      $history = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $branch->id)
+      ->with('member')->with('collections_types')->with('service_types')->get());
+
+    }
+    return Datatables::of($history)->make(true);
+  }
 }

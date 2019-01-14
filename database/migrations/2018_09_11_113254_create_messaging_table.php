@@ -11,25 +11,25 @@ class CreateMessagingTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('messaging', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps('date');
-            $table->string('msg_to');
-            $table->string('msg_from');
-            $table->string('subject');
-            $table->text('msg');
-        });
-    }
+    // public function up()
+    // {
+    //     Schema::create('messaging', function (Blueprint $table) {
+    //         $table->increments('id');
+    //         $table->timestamps('date');
+    //         $table->string('msg_to');
+    //         $table->string('msg_from');
+    //         $table->string('subject');
+    //         $table->text('msg');
+    //     });
+    // }
 
     /**
      * Reverse the migrations.
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('messaging');
-    }
+    // public function down()
+    // {
+    //     Schema::dropIfExists('messaging');
+    // }
 }

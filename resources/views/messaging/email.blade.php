@@ -8,7 +8,7 @@
 <!--Bootstrap Select [ OPTIONAL ]-->
 <link href="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
 <!--Summernote [ OPTIONAL ]-->
-<link href="{{ URL::asset('plugins/summernote/summernote.min.css')}}" rel="stylesheet">
+<link href="{{ URL::asset('css/summernote.css')}}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -184,13 +184,6 @@
                                         </ul>
                                       </div>
                                     </div>
-
-											<div class="form-group" style="display:none">
-					                            <label class="col-lg-1 control-label text-left" for="inputSubject">Message</label>
-					                            <div class="col-lg-11">
-					                                <textarea name="message" id="message-textarea"></textarea>
-					                            </div>
-					                        </div>
 					                    <!--Wysiwyg editor : Summernote placeholder-->
 					                    <div id="demo-mail-compose"></div>
 
@@ -221,7 +214,7 @@
             @endsection
 @section('js')
 <!--Summernote [ OPTIONAL ]-->
-<script src="{{ URL::asset('plugins/summernote/summernote.min.js')}}"></script>
+<script src="{{ URL::asset('js/summernote.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 <script> $('.datepicker').datepicker(); </script>

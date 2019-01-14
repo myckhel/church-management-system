@@ -35,9 +35,10 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/branches/{id}/destroy', 'BranchController@destroy')->name('branch.destroy');
     Route::get('/branches/register', 'BranchController@registerForm')->name('branch.register');
     Route::post('/branches/register', 'BranchController@register')->name('branch.register');
-    Route::get('/branches/head_office_options', 'BranchController@ho')->name('branch.ho');
-    Route::post('/branches/head_office_options', 'BranchController@ho_up')->name('branch.ho.up');
-    Route::get('/branches/tools', 'BranchController@tools')->name('branch.tools');
+    // depre
+    Route::get('/old/branches/head_office_options', 'BranchController@ho')->name('branch.ho');
+    Route::post('/old/branches/head_office_options', 'BranchController@ho_up')->name('branch.ho.up');
+    // depre
 
     Route::get('/attendance', 'AttendanceController@mark')->name('attendance');
     Route::post('/attendance/mark', 'AttendanceController@mark_it')->name('attendance.mark');
@@ -49,12 +50,15 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     //function () {        return view('attendance.view');});
     Route::post('/attendance/view', 'AttendanceController@show')->name('attendance.view');
     Route::get('/attendance/view/{date}', 'AttendanceController@show')->name('attendance.view.custom');
-
+    // collection
     Route::get('/collection/offering', 'CollectionController@index')->name('collection.offering');
     Route::post('/collection/save', 'CollectionController@store')->name('collection.save');
     Route::post('/collection/member', 'CollectionController@member')->name('collection.save.member');
     Route::get('/collection/report', 'CollectionController@report')->name('collection.report');
     Route::get('/collection/analysis', 'CollectionController@analysis')->name('collection.analysis');
+    Route::get('/collection/history', 'CollectionController@history')->name('collection.history');
+
+    // calendar
     Route::get('/calendar', 'EventController@index')->name('calendar');
     Route::post('/calendar', 'EventController@store')->name('calendar.update');
     Route::get('/calendar/{id}/delete', 'EventController@destroy')->name('calendar.delete');
@@ -96,6 +100,27 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/notification/announcement', 'EventController@add')->name('calendar.announcement');
     Route::get('/ticket', 'MessagingController@indexticket')->name('ticket');
     Route::post('/ticket/email/ticket', 'MessagingController@sendTicket')->name('sendTicket');
+
+    // OPTIONS
+    Route::get('/options/get', 'OptionController@getOption')->name('option.get');
+    Route::get('/options/branch/get', 'OptionController@getBranchOption')->name('option.branch.get');
+    Route::post('/options/branch/put', 'OptionController@putBranchOption')->name('option.branch.post');
+    Route::get('/branches/options', 'BranchController@options')->name('branch.options');
+    Route::post('/branches/options', 'OptionController@optionsPost')->name('branch.optionsPost');
+    // TOOLS
+    Route::get('/branches/tools', 'BranchController@tools')->name('branch.tools');
+    Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
+    Route::get('/branches/tools/collection-type', 'OptionController@collectionTypeGet')->name('collection.type');
+    Route::get('/branches/tools/service-type', 'OptionController@serviceTypeGet')->name('service.type');
+    Route::post('/branches/tools/collection-type/delete', 'OptionController@deletecollectionType')->name('delete.collection.type');
+    Route::post('/branches/tools/service-type/delete', 'OptionController@deleteServiceType')->name('delete.service.type');
+    Route::post('/branches/tools/service-type/update', 'OptionController@updateServiceType')->name('update.service.type');
+    Route::post('/branches/tools/collection-type/update', 'OptionController@updateCollectionType')->name('update.collection.type');
+    // Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
+    // test
+    Route::get('/branches/tools/group', 'OptionController@test')->name('option.test');
+    Route::get('apis', 'CollectionController@test')->name('apis');
+
 });
 
 Route::get('/admin/login', function () {
@@ -114,7 +139,8 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  return response()->json([]);
+  $user = \Auth::user();
+  return $attendances = \App\members_attendance::where('members_attendances.branch_id', $user->branchcode)->with('service_types')->leftJoin('members', 'members_attendances.member_id', '=', 'members.id')->get();
 })->name('test');
 
 Route::get('/users', 'BranchController@users')->name('users');

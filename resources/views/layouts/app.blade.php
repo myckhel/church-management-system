@@ -64,12 +64,12 @@
 	<!--<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet">-->
 
-	@if (Route::currentRouteName() == 'members.all' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form' )
-	<link href="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.css') }}" rel="stylesheet">
-	<link href="{{ URL::asset('plugins/datatables/buttons.semanticui.min.css') }}" rel="stylesheet">
+	@if(Route::currentRouteName() == 'attendance.view.form' )
+	<!-- <link href="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.css') }}" rel="stylesheet"> -->
+	<!-- <link href="{{ URL::asset('plugins/datatables/buttons.semanticui.min.css') }}" rel="stylesheet"> -->
 	<!--DataTables [ OPTIONAL ]-->
 	<link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
-	<link href="{{ URL::asset('plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css') }}" rel="stylesheet">
+	<!-- <link href="{{ URL::asset('plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css') }}" rel="stylesheet"> -->
 	@endif
 
 	<link href="{{ URL::asset('plugins/datatables/semantic.min.css') }}" rel="stylesheet">
@@ -343,7 +343,7 @@
 										</ul>
 									</li>
 									@if (\Auth::user()->isAdmin())
-									<li class="{{Route::currentRouteName() === 'branch.tools' || Route::currentRouteName() === 'branch.ho' || Route::currentRouteName() === 'branch.register' || Route::currentRouteName() === 'branches' ? 'active-sub active' : ''}}">
+									<li class="{{Route::currentRouteName() === 'branch.tools' || Route::currentRouteName() === 'branch.options' || Route::currentRouteName() === 'branch.register' || Route::currentRouteName() === 'branches' ? 'active-sub active' : ''}}">
 										<a href="#">
 											<i class="fa fa-building-o"></i>
 											<span class="menu-title">Admin Tools</span>
@@ -356,8 +356,8 @@
 											<li class="{{Route::currentRouteName() === 'branch.register' ? 'active-sub' : ''}}">
 												<a href="{{route('branch.register')}}"><i class="fa fa-plus"></i> Add New Branch</a>
 											</li>
-											<li class="{{Route::currentRouteName() === 'branch.ho' ? 'active-sub' : ''}}">
-												<a href="{{route('branch.ho')}}"><i class="fa fa-cog"></i> Options</a>
+											<li class="{{Route::currentRouteName() === 'branch.options' ? 'active-sub' : ''}}">
+												<a href="{{route('branch.options')}}"><i class="fa fa-cog"></i> Options</a>
 											</li>
 											<li class="{{Route::currentRouteName() === 'branch.tools' ? 'active-sub' : ''}}">
 												<a href="{{route('branch.tools')}}"><i class="fa fa-wrench"></i> Tools</a>
@@ -541,30 +541,22 @@
     <!--<script src="{{ URL::asset('js/demo/nifty-demo.min.js') }}"></script>-->
 
 
-		@if (Route::currentRouteName() == 'members.all' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == 'collection.report' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.view.form' )
+		@if (Route::currentRouteName() == 'attendance.view.form' )
     <!--DataTables [ OPTIONAL ]-->
-    <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
-	<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
-    <!--<script src="{{ URL::asset('plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>-->
-
-    <!--DataTables Sample [ SAMPLE ]-->
-	<!--<script src="{{ URL::asset('js/demo/tables-datatables.js') }}"></script>-->
-
-	<script src="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.js') }}"></script>
-
-	<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
-	<!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>-->
-
-
-	<script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
-
-	<script src="{{ URL::asset('plugins/datatables/jszip.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/datatables/pdfmake.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/datatables/vfs_fonts.js') }}"></script>
-	<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script>
-
-	<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+		<!--<script src="{{ URL::asset('plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>-->
+		<!--<script src="{{ URL::asset('js/demo/tables-datatables.js') }}"></script>-->
+		<!-- <script src="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.js') }}"></script> -->
+		<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
+		<!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>-->
+		<script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/jszip.min.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/pdfmake.min.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/vfs_fonts.js') }}"></script>
+		<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
+		<!-- <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script> -->
+		<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
 
 	<script>
 		$(document).ready(function () {
@@ -754,14 +746,6 @@ function dele(input){
 <?php require_once 'js/views/members/profile.php'; ?>
 @endif
 
-<!-- FOR COLLECTION ANALYSIS -->
-
-@if (Route::currentRouteName() == ('collection.analysis'))
-<!-- for demo -->
-<?php require_once 'js/views/collection/analysis.php'; ?>
-@endif
-<!-- END COLLECTION ANALYSIS -->
-
 <!-- FOR ATTENDANCE ANALYSIS -->
 @if (Route::currentRouteName() == ('attendance.analysis'))
 <?php require_once 'js/views/attendance/analysis.php';?>
@@ -795,7 +779,7 @@ function dele(input){
 @endif
 <!-- end branch delete -->
 <!-- Head Office -->
-@if (Route::currentRouteName() == ('branch.ho'))
+@if (Route::currentRouteName() == ('branch.options'))
 <script>
     $(document).ready(function() {
 			//head office module
@@ -831,7 +815,7 @@ function dele(input){
         // process the form
         $.ajax({
             type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : "{{route('branch.ho.up')}}", // the url where we want to POST
+            url         : "{{route('branch.optionsPost')}}", // the url where we want to POST
             data        : values, // our data object
             dataType    : 'json', // what type of data do we expect back from the server
                         encode          : true

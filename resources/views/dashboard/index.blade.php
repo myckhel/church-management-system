@@ -5,6 +5,8 @@
 @section('link')
 <!--custom.css [ OPTIONAL ]-->
 <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet">
+<link href="{{ URL::asset('css/stylemashable.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{URL::asset('css/icofont.min.css')}}">
 @endsection
 
 @section('content')
@@ -29,7 +31,7 @@
       </div>
       @endif
       <style>
-      .img-center {        display: block;        margin-left: auto;        margin-right: auto;        width: 50%;      }
+      .img-center {        display: block;        margin-left: auto;        margin-right: auto;        width: 80%;      }
       </style>
      <div class="text-center col-md-10 col-md-offset-1" style="background-color: #e8ddd3;">
       <img src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="img-center img-responsive" alt="Cinque Terre">
@@ -103,38 +105,81 @@
       <br>  <br>  <br>
     </div>
   </div>
+
+
+
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       <div clas="row">
         <div class="col-md-12">
             <div class="panel" style="background-color: #e8ddd3;">
-              <div class="panel-body text-center clearfix">
-                  <div class="col-sm-4 pad-top">
-                      <div class="text-lg">
-                          <p class="text-5x text-thin text-main">{{\App\User::all()->count()}}</p>
-                      </div>
-                      <p class="text-sm text-bold text-uppercase">Total Number of Our Branches</p>
-                  </div>
-                  <div class="col-sm-8">
-                    <div class="col-sm-4 pad-top">
-                        <div class="text-lg">
-                            <p class="text-5x text-thin text-main">{{$total['members']}}</p>
-                        </div>
-                        <p class="text-sm text-bold text-uppercase">Total Number of Our Members</p>
-                    </div>
-                    <div class="col-sm-4 pad-top">
-                        <div class="text-lg">
-                            <p class="text-5x text-thin text-main">{{$total['workers']}}</p>
-                        </div>
-                        <p class="text-sm text-bold text-uppercase">Total Number of  Our Workers</p>
-                    </div>
-                    <div class="col-sm-4 pad-top">
-                        <div class="text-lg">
-                            <p class="text-5x text-thin text-main">{{$total['pastors']}}</p>
-                        </div>
-                        <p class="text-sm text-bold text-uppercase">Total Number of Our Pastors</p>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-6 col-xl-3">
+              <div class="card client-blocks dark-primary-border">
+              <div class="card-block">
+              <h5>Number of Our Branches</h5>
+              <ul>
+              <li>
+              <i class="icofont icofont-building-alt"></i>
+              </li>
+              <li class="text-right">
+              {{\App\User::all()->count()}}
+              </li>
+              </ul>
+              </div>
+              </div>
+              </div>
+
+
+              <div class="col-md-6 col-xl-3">
+              <div class="card client-blocks warning-border">
+              <div class="card-block">
+              <h5>Number of Our Members</h5>
+              <ul>
+              <li>
+              <i class="icofont icofont-ui-user-group text-warning"></i>
+              </li>
+              <li class="text-right text-warning">
+              {{$total['members']}}
+              </li>
+              </ul>
+              </div>
+              </div>
+              </div>
+
+
+              <div class="col-md-6 col-xl-3">
+              <div class="card client-blocks success-border">
+              <div class="card-block">
+              <h5>Number of  Our Workers</h5>
+              <ul>
+              <li>
+              <i class="icofont-workers-group text-success"></i>
+              </li>
+              <li class="text-right text-success">
+              {{$total['workers']}}
+              </li>
+              </ul>
+              </div>
+              </div>
+              </div>
+
+
+              <div class="col-md-6 col-xl-3">
+              <div class="card client-blocks">
+              <div class="card-block">
+              <h5>Number of Our Pastors</h5>
+              <ul>
+              <li>
+              <i class="icofont-man-in-glasses text-primary"></i>
+              </li>
+              <li class="text-right text-primary">
+              {{$total['pastors']}}
+              </li>
+              </ul>
+              </div>
+              </div>
+              </div>
               </div>
           </div>
         </div>
@@ -146,38 +191,63 @@
             <!--===================================================-->
             <div class="panel" style="background-color: #e8ddd3;"> <!--panel-dark panel-colorful" -->
               <div class="panel-heading"> <!--body text-center"-->
-                  <h3 class="panel-title"><strong>Upcoming Birthdays For <?php echo date('F Y'); ?></strong> </h3>
+                  <h3 class="panel-title"><strong>Birthdays For <?php echo date('F Y'); ?></strong> </h3>
                   <!--i class="demo-pli-coin icon-4x"></i-->
               </div>
               <!-- Striped Table -->
               <!--===================================================-->
+              <?php
+              $celebs = [];
+              foreach ($members as $key => $member) {
+                // code...
+                if (date('F', (strtotime($member->dob))) == date('F') || date('F', (strtotime($member->wedding_anniversary))) == date('F')  ) {
+                  array_push($celebs, $member); }
+              }
+              ?>
               <div class="panel-body">
-                <div class="table-responsive t1">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Birth Date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <div class="ex1">
-                        @if (count($members) > 0)
-                        @foreach ($members as $member)
-                        @if (date('F', (strtotime($member->dob))) == date('F') && (int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->dob)), 0,2) )
-                        <tr>
-                          <td><a href="#" class="btn-link">{{$member->getFullname()}}</a></td>
-                          <td>{{date('jS', strtotime($member->dob))}}</td>
-                        </tr>
-                        @endif
-                        @endforeach
-                        <tr class="no-data">
-                          <td colspan="4">No Upcoming Birthday</td>
-                        </tr>
-                        @endif
-                     </div>
-                    </tbody>
+                <div class="col-lg-12">
+                  @if(count($celebs) > 0)
+                  <div class="card table-1-card">
+                  <div class="card-block">
+                  <div class="table-responsive">
+                  <table class="table">
+                  <thead>
+                  <tr class="text-capitalize">
+                  <th>  </th>
+                  <th>Type</th>
+                  <th>Celebrant Name</th>
+                  <th>Position</th>
+                  <th>Date</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($celebs as $member)
+                    @if(date('F', (strtotime($member->dob))) == date('F'))
+                    <tr>
+                    <td>
+                      <img class="d-flex mr-3 img-circle img-40 img-thumbnail" src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image">
+                    </td>
+                    <td>
+                      @if((int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->dob)), 0,2))
+                      <a href="#!">Upcoming</a>
+                      @else
+                      <a class="text-danger" href="#!">Past</a>
+                      @endif
+                    </td>
+                    <td>{{ucwords($member->getFullname())}}</td>
+                    <td>{{ucwords($member->position)}}</td>
+                    <td>{{date('jS', strtotime($member->dob))}}</td>
+                    </tr>
+                    @endif
+                    @endforeach
+                  </tbody>
                   </table>
+                  </div>
+                   </div>
+                  </div>
+                  @else
+                  <p class="text-danger"> No Birthday </p>
+                  @endif
                 </div>
               </div>
             </div>
@@ -190,37 +260,56 @@
               <!--===================================================-->
               <div class="panel" style="background-color: #e8ddd3;"> <!--panel-dark panel-colorful" -->
                   <div class="panel-heading"> <!--body text-center"-->
-                      <h3 class="panel-title"><strong>Upcoming Anniversaries For <?php echo date('F Y'); ?></strong> </h3>
+                      <h3 class="panel-title"><strong>Anniversaries For <?php echo date('F Y'); ?></strong> </h3>
                       <!--i class="demo-pli-coin icon-4x"></i-->
                   </div>
                   <!-- Striped Table -->
                   <!--===================================================-->
                     <div class="panel-body">
-                          <div class="table-responsive t2">
-                              <table class="table table-striped">
-                                  <thead>
-                                      <tr>
-                                        <th>Name</th>
-                                        <th>Anniversary Date</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                    @if (count($members) > 0)
-                              @foreach ($members as $member)
-                              @if (date('F', (strtotime($member->wedding_anniversary))) == date('F')  && (int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->wedding_anniversary)), 0,2))
-                                                  <tr>
-                                  <td><a href="#" class="btn-link">{{$member->getFullname()}}</a></td>
-                                  <td>{{date('jS', strtotime($member->wedding_anniversary))}}</td>
-                                                  </tr>
-                              @endif
-                              @endforeach
-                                <tr class="no-data">
-                                    <td colspan="4">No Upcoming Anniversary</td>
-                                </tr>
-                                @endif
-                                  </tbody>
-                              </table>
-                          </div>
+                      <div class="col-lg-12">
+                        @if(count($celebs) > 0)
+                        <div class="card table-1-card">
+                        <div class="card-block">
+                        <div class="table-responsive">
+                        <table class="table">
+                        <thead>
+                        <tr class="text-capitalize">
+                        <th>  </th>
+                        <th>Type</th>
+                        <th>Celebrant Name</th>
+                        <th>Position</th>
+                        <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($celebs as $member)
+                          @if(date('F', (strtotime($member->wedding_anniversary))) == date('F'))
+                          <tr>
+                          <td>
+                            <img class="d-flex mr-3 img-circle img-40 img-thumbnail" src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image">
+                          </td>
+                          <td>
+                            @if((int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->wedding_anniversary)), 0,2))
+                            <a href="#!">Upcoming</a>
+                            @else
+                            <a class="text-danger" href="#!">Past</a>
+                            @endif
+                          </td>
+                          <td>{{ucwords($member->getFullname())}}</td>
+                          <td>{{ucwords($member->position)}}</td>
+                          <td>{{date('jS', strtotime($member->wedding_anniversary))}}</td>
+                          </tr>
+                          @endif
+                          @endforeach
+                        </tbody>
+                        </table>
+                        </div>
+                         </div>
+                        </div>
+                        @else
+                        <p class="text-danger"> No Anniversary </p>
+                        @endif
+                      </div>
                     </div>
               </div>
               <!--===================================================-->
@@ -233,54 +322,67 @@
                   <div class="panel-heading">
                       <h3 class="panel-title"><strong>Upcoming Events for {{strtoupper(\Auth::user()->branchname)}}</strong></h3>
                   </div>
-
+                  <?php $eventss = []; foreach ($events as $event)
+                    if($event->date >= now())
+                      array_push($eventss, $event)
+                  ?>
                   <!-- Striped Table -->
                   <!--===================================================-->
                   <div class="panel-body">
-                      <div class="table-responsive t3">
-                          <table class="table table-striped">
-                              <thead>
-                                  <tr>
-                                      <th>Title</th>
-                                      <th>Location</th>
-                                      <th>Time</th>
-                                      <th>By</th>
-                                      <th>Assigned Pastor(s)</th>
-                                      <th>Date</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                @if (count($events) > 0)
-                                @foreach ($events as $event)
-                                @if ($event->date >= now())
-                                <tr>
-                                    <td><a href="#" class="btn-link">{{$event->title}}</a></td>
-                                    <td>{{$event->location}}</td>
-                                    <td>{{$event->time}}</td>
-                                    <td>{{$event->by_who}}</td>
-                                    <?php
-                                    if(isset($event->assign_to)){
-                                      $emails = explode(',',$event->assign_to);
-                                      echo '<td>';
-                                      foreach($emails as $email){
-                                        echo App\Member::getNameByEmail($email).', ';
-                                      }
-                                      echo '</td>';
-                                  }else{
-                                    echo '<td>None</td>';
-                                  }
-                                    ?>
-                                    <td>{{$event->date}}</td>
-                                </tr>
-                                @endif
-                                @endforeach
-                                  <tr class="no-data">
-                                      <td colspan="4">No Upcoming Event</td>
-                                  </tr>
-                                  @endif
-                              </tbody>
-                          </table>
+                    <div class="col-lg-12">
+                      @if(count($eventss) > 0)
+                      <div class="card table-1-card">
+                      <div class="card-block">
+                      <div class="table-responsive">
+                      <table class="table">
+                      <thead>
+                      <tr class="text-capitalize">
+                        <th>Title</th>
+                        <th>Location</th>
+                        <th>Time</th>
+                        <th>By</th>
+                        <th>Assigned Pastor(s)</th>
+                        <th>Date</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        @foreach ($eventss as $event)
+                        <tr>
+                          <td><a href="#" class="btn-link">{{$event->title}}</a></td>
+                          <td>{{$event->location}}</td>
+                          <td>{{$event->time}}</td>
+                          <td>{{$event->by_who}}</td>
+                          <?php
+                          if(isset($event->assign_to)){
+                            $emails = explode(',',$event->assign_to);
+                            echo '<td>';
+                            foreach($emails as $email){
+                              $name = App\Member::getNameByEmail($email);
+                              if($name){
+                                echo "<a href='#'><img class='img-fluid img-circle d-flex mr-3 img-30 img-thumbnail' src='".url('/public/images/')."/".App\Member::getPhotoByEmail($email)."' alt='".ucwords($name)."'></a>";
+                              }
+                            }
+                            echo '</td>';
+                        }else{
+                          echo '<td>None</td>';
+                        }
+                          ?>
+                          <td>{{$event->date}}</td>
+                        </tr>
+                        @endforeach
+                      </tbody>
+                      </table>
                       </div>
+                       </div>
+                      </div>
+                      @else
+                      <div class="text-center">
+                        <p class="text-danger"> No Event </p>
+                        <a href="{{route('calendar')}}" class="btn btn-primary"><i class="icofont icofont-plus m-r-0"></i></a>
+                      </div>
+                      @endif
+                    </div>
+
                   </div>
                   <!--===================================================-->
                   <!-- End Striped Table -->
@@ -297,4 +399,8 @@
     <!--End page content-->
 
 </div>
+@endsection
+
+@section('js')
+
 @endsection

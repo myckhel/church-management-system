@@ -255,7 +255,7 @@
                       <?php $total += $mc->total; $totalt += $mc->totalt; ?>
                       <tr>
                         <th>
-                          {{$mc->fname}} {{$mc->lname}}
+                          {{$mc->firstname}} {{$mc->lastname}}
                         </th>
                         <td>
                           <span class="badge badge-primary badge-pill">{{number_format($mc->total)}}</span>

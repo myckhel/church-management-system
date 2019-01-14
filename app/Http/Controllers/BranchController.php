@@ -18,9 +18,7 @@ class BranchController extends Controller
 
     public function __construct()
     {
-        $this->user = \Auth::user();
-
-
+      $this->user = \Auth::user();
     }
     /**
      * Display a listing of the resource.
@@ -30,9 +28,8 @@ class BranchController extends Controller
     public function index()
     {
         $users = User::select()->join('country', 'country.ID', '=', 'users.currency')->get();
-
-        return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard') : view('branch.all',compact('users'));
-
+        $user = \Auth::user();
+        return ($user->isAdmin()) ? view('branch.all',compact('users')) : redirect()->route('dashboard');//\Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard') : view('branch.all',compact('users'));
     }
 
     public function users(){
@@ -104,32 +101,20 @@ class BranchController extends Controller
     {
         //
         $id = $request->id;
-        //DB::delete('delete * from')
-
-        //return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard') :
-            //$branch->delete();
-           // view('branch.all',compact('users'));
         $user = \Auth::user();
-
-        //$sql = 'DELETE * from users WHERE id = "?"';
         DB::table('users')->where('id', '=', $id)->delete();
-        //DB::delete($sql,$id);
-
-
-        //return view('branch.all');
          return response()->json(['success' => true,]);
     }
 
     public function registerForm()
     {
         //
-        $users = User::all();
+        $user = \Auth::user();
 
         $sql = "SELECT currency_name, currency_symbol, ID FROM country WHERE currency_name != ''";
         $currencies = \DB::select($sql);
 
-        return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard'):
-        view('branch.register', compact('currencies'));
+        return ($user->isAdmin()) ? view('branch.register', compact('currencies')) : redirect()->route('dashboard');
     }
 
 
@@ -258,5 +243,9 @@ class BranchController extends Controller
 
     public function tools(){
       return view('branch.tools');
+    }
+
+    public function options(){
+      return view('branch.options');
     }
 }

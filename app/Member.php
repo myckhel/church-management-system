@@ -9,9 +9,7 @@ class Member extends Model
     protected $guarded = ['id'];
 
     public function getFullname(){
-
-        return "$this->firstname $this->lastname";
-
+      return "$this->firstname $this->lastname";
     }
 
     public function InGroup($group_id){
@@ -33,6 +31,10 @@ class Member extends Model
       return null;
     }
 
+    public static function getPhotoByEmail($email){
+      return $std = Member::select('photo')->where('email',$email)->first()->photo;
+    }
+
   public function upgrade(){
     $this->member_status = 'old';
     $this->save();
@@ -45,5 +47,13 @@ class Member extends Model
 
   public function user(){
     return $this->belongsTo(User::class);
+  }
+
+  public function member_savings(){
+    return $this->hasMany(MemberSavings::class);
+  }
+
+  public function members_attendances(){
+    return $this->hasMany(members_attendance::class);
   }
 }

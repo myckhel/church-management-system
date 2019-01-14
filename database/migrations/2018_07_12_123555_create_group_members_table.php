@@ -11,23 +11,23 @@ class CreateGroupMembersTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('group_members', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('member_id');
-            $table->bigInteger('group_id');
-            $table->timestamps();
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('group_members');
-    }
+    // public function up()
+    // {
+    //     Schema::create('group_members', function (Blueprint $table) {
+    //         $table->bigIncrements('id');
+    //         $table->bigInteger('member_id');
+    //         $table->bigInteger('group_id');
+    //         $table->timestamps();
+    //     });
+    // }
+    //
+    // /**
+    //  * Reverse the migrations.
+    //  *
+    //  * @return void
+    //  */
+    // public function down()
+    // {
+    //     Schema::dropIfExists('group_members');
+    // }
 }

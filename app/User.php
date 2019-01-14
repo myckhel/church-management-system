@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Cache;
+use App\ServiceType;
+use App\CollectionsType;
 
 class User extends Authenticatable
 {
@@ -44,6 +46,14 @@ class User extends Authenticatable
       return \DB::table('country')->select('currency_symbol')->where('ID', '=', $currency)->first();
     }
 
+    public function getServiceTypes(){
+      return ServiceType::getTypes();
+    }
+
+    public function getCollectionTypes(){
+      return CollectionsType::getTypes();
+    }
+
     public function isOnline()
     {
       return Cache::has('user-is-online-' . $this->id);
@@ -59,5 +69,25 @@ class User extends Authenticatable
 
     public function member(){
       return $this->hasMany(Member::class);
+    }
+
+    public function option(){
+      return $this->hasMany(Options::class);
+    }
+
+    public function collections_types(){
+      return $this->hasMany(CollectionsType::class);
+    }
+
+    public function service_type(){
+      return $this->hasMany(ServiceType::class);
+    }
+
+    public function savings(){
+      return $this->hasMany(Savings::class, 'branchcode');
+    }
+
+    public function MemberSavings(){
+      return $this->hasMany(MemberSavings::class);
     }
 }

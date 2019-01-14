@@ -4,6 +4,7 @@
 
 @section('link')
 <link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
+<link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -49,10 +50,10 @@
               </div-->
               <form id="" onsubmit="return false;" >
                 <table id="users-table" class="table table-striped table-bordered" cellspacing="0" width="100%" >
-                    <thead>
-                    </thead>
-                    <tbody>
-                    </tbody>
+                  <thead>
+                  </thead>
+                  <tbody>
+                  </tbody>
                 </table>
                 <select id="action" name="action">
                   <option>with selected</option>
@@ -77,25 +78,18 @@
 <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
 <!--<script src="{{ URL::asset('plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>-->
-
-<!--DataTables Sample [ SAMPLE ]-->
 <!--<script src="{{ URL::asset('js/demo/tables-datatables.js') }}"></script>-->
-
-<script src="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.js') }}"></script>
-
+<!-- <script src="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.js') }}"></script> -->
 <script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
 <!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>-->
-
-
 <script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
-
 <script src="{{ URL::asset('plugins/datatables/jszip.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/pdfmake.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/vfs_fonts.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
-<script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script>
-
+<!-- <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script> -->
 <script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
+
 <script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
 
 <script>
@@ -143,10 +137,10 @@ $(document).ready(function () {
     $('#users-table').on('click', '.d-member', (e) => {
       // e.preventDefault()
       $this = $(e.target)
-      toggleAble($this, true, "deleting")
       confirmation = confirm('Are you sure you want to delete the member?')
       if(confirmation){
         data = {}
+        toggleAble($this, true, "deleting")
         data.id = e.target.id
         data._token = "{{csrf_token()}}"
         url = `../member/delete/${data.id}`
