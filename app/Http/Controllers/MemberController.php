@@ -27,10 +27,9 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         $user = \Auth::user();
-        $members = \App\Member::where('branch_id', $user->branchcode)->get();
         //$members = Member::all();
         if ($request->draw) {
-          // code...
+          $members = \App\Member::where('branch_id', $user->branchcode)->get();
           return Datatables::of($members)->make(true);
         } else {
           // code...

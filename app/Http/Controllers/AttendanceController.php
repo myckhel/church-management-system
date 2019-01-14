@@ -179,7 +179,12 @@ class AttendanceController extends Controller
     public function view(){
       $user = \Auth::user();
       $attendance = Attendance::where('branch_id', $user->branchcode)->with('service_types')->orderBy('attendance_date', 'DESC')->get();
-      $attendances = \App\members_attendance::where('members_attendances.branch_id', $user->branchcode)->with('service_types')->leftJoin('members', 'members_attendances.member_id', '=', 'members.id')->get();
+      $attendances = \App\members_attendance::where('members_attendances.branch_id', $user->branchcode)
+      ->with(array('service_types' => function($query){
+        $query->select('*');
+      }))
+      ->leftJoin('members', 'members_attendances.member_id', '=', 'members.id')->get();
+      // dd($attendances);
       return view('attendance.view', compact('attendance', 'attendances'));
     }
 
