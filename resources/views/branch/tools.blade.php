@@ -120,7 +120,13 @@ $(document).ready(() => {
     ajax: "{{route('collection.type')}}",
     columns: [
       { title: "Name", data: 'name', name: 'name' },
-      { title: "Actions", data: {id: 'id'}, name: 'name', render: (data) => (`
+      { title: "Actions", data: {id: 'id'}, /*name: 'name'*/
+      render: (data) => (
+        `
+        ${data.name}
+        `
+      ),
+      render: (data) => (`
         <div class="btn-group">
           <button style="background-color:green" class="btn text-light edit" data-id="${data.id}"><i class="fa fa-edit"></i></button>
           <button id="${data.id}" style="background-color:#8c0e0e" class="d-collection btn text-light"><i class="fa fa-trash"></i></button></td>

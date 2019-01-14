@@ -104,51 +104,6 @@ class CollectionController extends Controller
       }
 
       return response()->json(['status' => true, 'text' => 'Member Collection Successfully Saved']);
-
-      $user = \Auth::user();
-
-      $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date'))));
-      if (Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2])->isFuture())
-      {
-          return response()->json(['status' => false, 'text' => "**You can't save collection for a future date!"]);
-      }
-
-      // check if collectio has already been marked for that date
-      $attendance = DB::table('members_collection')->where('date_added', date('Y-m-d',strtotime($request->get('date'))) )->where('branch_id',$user->branchcode )->get(['id'])->count();
-      if ($attendance > 0){
-          return response()->json(['status' => false, 'text' => "**Member Collection for {$this->get_date_in_words(date('Y-m-d',strtotime($request->get('date'))))} has been saved before!"]);
-      }
-
-      $offer = $request;
-      for($i = 0; $i < count($offer['member_id']); $i++) {
-        // code...
-        $value = [
-        'member_id' => $offer['member_id'][$i],
-        'title' => $offer['title'][$i],
-        'fname' => $offer['fname'][$i],
-        'lname' => $offer['lname'][$i],
-        'special_offering' => $offer['special_offering'][$i],
-        'seed_offering' => $offer['seed_offering'][$i],
-        'date_added' => date('Y-m-d',strtotime($offer['date'])),
-        'offering' => $offer['offering'][$i],
-        'donation' => $offer['donation'][$i],
-        'tithe' => $offer['tithe'][$i],
-        'first_fruit' => $offer['first_fruit'][$i],
-        'covenant_seed' => $offer['covenant_seed'][$i],
-        'love_seed' => $offer['love_seed'][$i],
-        'sacrifice' => $offer['sacrifice'][$i],
-        'thanksgiving' => $offer['thanksgiving'][$i],
-        'thanksgiving_seed' => $offer['thanksgiving_seed'][$i],
-        'other' => $offer['other'][$i],
-        'branch_id' => $offer['branch_id'][$i],
-        'date_submitted' => now(),
-        'service_type' => $offer['type'],
-        ];
-            DB::table('members_collection')->insert($value);
-      }
-
-      return response()->json(['status' => true, 'text' => 'Member Collection Successfully Saved']);
-      // return redirect()->back()->with(['success' => 'Successful']);
     }
 
     /**
@@ -281,24 +236,10 @@ class CollectionController extends Controller
     			$output[] = $this->noData($c_types, $value);
             //"', 1: 0, 2: 0, 3: 0, 4: 0, 5: 0},";
     		}
-
-    	}return $output;})($collections2, $c_types, $months, $group);
+    	}
+      return $output;
+    })($collections2, $c_types, $months, $group);
       // dd($dt);
-      // Get the number of days to show data for, with a default of 7
-
-      // $range = Carbon::now()->subDays('$days');
-      //
-      // $stats = Collection::
-      //   where('created_at', '>=', $range)
-      //   ->where('branch_id', $user->branchcode)
-      //   ->groupBy('day', 'date_collected')
-      //   ->orderBy('date_collected', 'ASC')
-      //   ->get([
-      //     DB::raw('Date(date_collected) as date'),
-      //     DB::raw('DAYNAME(date_collected) AS day'),
-      //     DB::raw('COUNT(*) as value')
-      //   ]);
-
       return response()->json($dt);
     }
 
@@ -306,7 +247,6 @@ class CollectionController extends Controller
     $branch = \Auth::user();
     $history = collect(new \App\Savings);//[];
     if (isset($request->branch)) {
-      // code...
       $history = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $branch->id)
       ->with('collections_types')->with('service_types')->get());
     }

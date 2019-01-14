@@ -115,7 +115,7 @@
                   @foreach($c_types as $collect)
                   <tr>
                     <th>
-                      {{$collect->name}}
+                      {{$collect->disFormatString()}}
                     </th>
                     <td>
                       <?php $name = $collect->name; ?>
@@ -172,7 +172,7 @@
                 <tbody>
                 @foreach($c_types as $type)
                 <tr>
-                  <th>{{ucwords($type->name)}}</th>
+                  <th>{{ucwords($type->disFormatString())}}</th>
                   @foreach($years as $key => $year)
                   <?php $typeName = $type->name; ?>
                     @if(isset($c_years->$typeName->$year))
@@ -209,6 +209,7 @@
             </div>
           </div>
         </div>
+
         <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
           <div class="panel" style="background-color: #e8ddd3;">
               <div class="panel-heading">

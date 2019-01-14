@@ -49,7 +49,7 @@ class CollectionsType extends Model
 
     public static function disFormatStringAll($types){
       foreach ($types as $key => $value) {
-        $value->name = CollectionsType::disFormatString($value->name);
+        $value->name = $value->disFormatString();
       }
     }
 

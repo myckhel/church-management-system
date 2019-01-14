@@ -200,9 +200,9 @@ $months =  ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov'
 		                    <h3 class="panel-title">Manual Collections Analysis</h3>
                       </div>
 		                </div>
-                      <div class="pad-all" style="background-color: #e8ddd3;">
+                      <div class="pad-all" style="background-color: #e8ddd3;" style="overflow: scroll">
                         <div class="row">
-                          <div class="col-xs-3">
+                          <div class="col-xs-6">
                             <label for="group" class="">Group By</label>
                             <select id="group" required style="outline:none;" name="sort" class="selectpicker col-md-12" data-style="btn-primary">
                               <option value="1">Days</option>
@@ -211,7 +211,7 @@ $months =  ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov'
                               <option value="4">Years</option>
                     				</select>
                           </div>
-                          <div class="col-xs-3">
+                          <div class="col-xs-6">
                             <label for="range" class="">Select Range</label>
                             <select id="m-i" required style="outline:none;" name="range" class="selectpicker col-md-12 nav nav-pills ranges" data-style="btn-primary">
                               <option selected disabled value="">Choose Number of Months</option>
@@ -228,7 +228,7 @@ $months =  ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov'
                         <li><a href="#" data-range='60'>60 Days</a></li>
                         <li><a href="#" data-range='90'>90 Days</a></li>
                       </ul> -->
-                        <div id="stats-container" style="height: 250px;"></div>
+                        <div id="stats-container" class="legendInline" style="height: 250px;"></div>
                       </div>
                   </div>
                   <!---------------------------------->
@@ -264,7 +264,7 @@ var switchSelect = (to) => {
   for(let i = rangeMin; i < rangeMax+rangeMin; i = i + rangeMin){
     $('#m-i').append($('<option>'
     , { value: i,
-        text : i,
+        text : `Last ${i} ${group}s`,
     }, '</option>'
     ));
     $('#m-i').selectpicker('refresh');
@@ -324,6 +324,7 @@ $(document).ready(() => {
     ykeys: [<?php yKeys2($c_types); ?>],
     labels: [<?php labels($c_types); ?>],
     hideHover: 'auto',
+    xLabelAngle:25,
     barColors: [<?php barColors($colors); ?>],
   });
 
@@ -352,7 +353,6 @@ data: [
 		}
 		if(!$found){
 			noData($c_types, $value);
-        //"', 1: 0, 2: 0, 3: 0, 4: 0, 5: 0},";
 		}
 
 	} ?>
@@ -380,10 +380,6 @@ while ($i > 0) {
 $weeks[$i] = date('W', strtotime("-$i week")); //1 week ago
 $i--;
 }
-//$weeks =  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-      //18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
-      //35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
-      //52,];
 ?>
 
 Morris.Bar({
@@ -395,15 +391,12 @@ data: [
 		$found = false;
 		foreach ($collections3 as $collections) {
 			if($value == $collections->week){
-      // && ($collections->tithe != NULL && $collections->offering != NULL && $collections->other != NULL)){
 				$found = true;
         yData($collections, $c_types, 'week '.$value);
-				// echo "{y: 'Week " .$value. "', a: " .$collections->tithe.", b: ".$collections->offering.", c: ".$collections->other."},";
 			}
 		}
 		if(!$found){
       noData($c_types, 'week '.$value);
-			// echo "{y: 'Week " .$value. "', a: 0, b: 0, c: 0},";
 		}
 
 	} ?>
@@ -431,10 +424,8 @@ data: [
 		$found = false;
 		foreach ($collections2 as $collections) {
 			if($value == $collections->day){
-         // && ($collections->tithe != NULL && $collections->offering != NULL && $collections->other != NULL)){
 				$found = true;
         yData($collections, $c_types, $value);
-				// echo "{y: '" .$value. "', a: " .$collections->tithe.", b: ".$collections->offering.", c: ".$collections->other."},";
 			}
 		}
 		if(!$found){
@@ -465,10 +456,6 @@ while ($i >= 0) {
 $years[$i] = date('Y', strtotime("-$i year")); //1 week ago
 $i--;
 }
-//$weeks =  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-      //18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
-      //35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
-      //52,];
 ?>
 
 Morris.Bar({
@@ -482,7 +469,6 @@ data: [
 		foreach ($collections4 as $collections) {
 			// code...
 			if($value == $collections->year){
-         // && ($collections->tithe != NULL && $collections->offering != NULL && $collections->other != NULL)){
 				$found = true;
         yData($collections, $c_types, $value);
 				// echo "{y: '" .$value. "', a: " .$collections->tithe.", b: ".$collections->offering.", c: ".$collections->other."},";
