@@ -139,7 +139,8 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  return $c_type = \App\CollectionsType::all();
+  $user = \Auth::user();
+  return $attendances = \App\members_attendance::where('members_attendances.branch_id', $user->branchcode)->with('service_types')->leftJoin('members', 'members_attendances.member_id', '=', 'members.id')->get();
 })->name('test');
 
 Route::get('/users', 'BranchController@users')->name('users');

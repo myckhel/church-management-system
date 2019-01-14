@@ -5,7 +5,6 @@
 
 @section('link')
 <link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="{{URL::asset('css/pignose.calendar.min.css')}}">
 @endsection
 
 @section('content')

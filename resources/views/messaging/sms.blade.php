@@ -140,7 +140,6 @@
 @endsection
 
 @section('js')
-<script src="{{ URL::asset('plugins/summernote/summernote.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 <script> $('.datepicker').datepicker(); </script>

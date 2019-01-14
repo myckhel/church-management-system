@@ -2,6 +2,9 @@
 
 @section('title') {{\Auth::user()->branchname}}{{\Auth::user()->branchcode}}: Attendance Report @endsection
 
+@section('link')
+<link rel="stylesheet" href="{{URL::asset('css/pignose.calendar.min.css')}}">
+@endsection
 @section('content')
 <?php
 
@@ -213,9 +216,9 @@ li {
                     ?>
                     <tr>
                         <td><strong>{{$count}}</strong></td>
-                        <td>{{$li->title or ''}}</td>
-                        <td>{{$li->firstname or ''}}</td>
-                        <td>{{$li->lastname or ''}}</td>
+                        <td>{{ucwords($li->title)}}</td>
+                        <td>{{ucwords($li->firstname)}}</td>
+                        <td>{{ucwords($li->lastname)}}</td>
                         <td>{{$li->attendance}}</td>
                         <td>{{$li->service_types->name}}</td>
                         <td >{{$li->attendance_date}}</td>
