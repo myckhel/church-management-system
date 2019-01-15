@@ -303,7 +303,8 @@ var setBalance = async () => {
 var getSmsBalanceApi = async (fn) => {
   let value = false
   url = "{{route('option.branch.get')}}"
-  poster({url, alert: false, type: 'GET'}, (res) => {
+  $.ajax({url, type: 'GET'})
+  .done((res) => {
     res.text.forEach((v) => {
       if (v.name === 'smsbalanceapi') {
         value = v.value
