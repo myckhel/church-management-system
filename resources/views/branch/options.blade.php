@@ -59,20 +59,13 @@
             @endforeach
           @endif
         </div>
-        <div class="">
+        <div class="col-12">
             <div class="panel" style="overflow:scroll; background-color: #e8ddd3;">
-                <!-- <div class="panel-heading">
-                    <h3 class="panel-title">Add Collection Type</h3>
-                </div> -->
                 <!--Block Styled Form -->
                 <!--===================================================-->
       			<div class="panel-body">
-              <div class="col-12">
-
                 <div class="sub-title">Tabs</div>
                   <!---------------------------------->
-					    <div class="panel">
-					         <div class="panel-body">
 					             <div class="pad-btm form-inline">
 					                <div class="row">
 					                    <div class="col-sm-6 table-toolbar-left">
@@ -88,11 +81,15 @@
 					                </div>
 					            </div>
 
-					            <table id="demo-editable-table" class="table table-bordered">
+					            <table id="demo-editable-table" class="table table-bordered table-response">
 					                <tbody>
 					                    <tr>
 					                        <td width="35%">Sms Api</td>
 					                        <td width="65%"><a href="#" id="smsapi"></a></td>
+					                    </tr>
+                              <tr>
+					                        <td width="35%">Sms Balance Api</td>
+					                        <td width="65%"><a href="#" id="smsbalanceapi"></a></td>
 					                    </tr>
                               <tr>
 					                        <td width="35%">Branch Name</td>
@@ -181,10 +178,7 @@
 					                    </tr> -->
 					                </tbody>
 					            </table>
-					     </div>
 					    <!---------------------------------->
-                </div>
-              </div>
       	    </div>
                 <!--===================================================-->
                 <!--End Block Styled Form -->
@@ -227,6 +221,7 @@ $.ajax({url: "{{route('option.branch.get')}}"})
     console.log(dt);
     const opt = "setValue"
   	$("#smsapi").editable(opt, dt.smsapi)
+    $("#smsbalanceapi").editable(opt, dt.smsbalanceapi)
     $("#branchname").editable(opt, dt.branchname)
     $("#currency").editable(opt, dt.currency)
     $("#branchaddress").editable(opt, dt.branchaddress)
@@ -243,6 +238,7 @@ $(document).ready( () => {
       var dT = {sex: {male: {value: 1, text: 'Male'}, female: { value: 1, text: "Female"} } }
 			//defaults
 			$.fn.editable.defaults.url = "{{route('option.branch.post')}}";
+      $.fn.editable.defaults.send = 'always';
       // default params e.g token
       $.fn.editable.defaults.params = function (params) {
         params._token = "{{csrf_token()}}";
@@ -260,7 +256,32 @@ $(document).ready( () => {
 			    pk: 1,
 			    name: "smsapi",
           // value: dt.smsapi,
-			    title: "Enter Your SMS Api Url",
+          // setValue: function(v){
+          //   console.log(v);
+          // },
+
+          params: function(d){
+            d._token = "{{csrf_token()}}";
+            d.value =  encodeURI(d.value)
+            return d
+          },
+			    title: "Enter Your SMS Api Url Exluding message parameter",
+          validate: function(value) {
+			       if($.trim(value) == "") return "This field is required";
+			    }
+			});
+
+      //smsbalanceapi
+			$("#smsbalanceapi").editable({
+			    type: "text",
+			    pk: 1,
+			    name: "smsbalanceapi",
+          params: function(d){
+            d._token = "{{csrf_token()}}";
+            d.value =  encodeURI(d.value)
+            return d
+          },
+			    title: "Enter Your SMS Balance Api Url For Getting SMS Unit Balance",
           validate: function(value) {
 			       if($.trim(value) == "") return "This field is required";
 			    }

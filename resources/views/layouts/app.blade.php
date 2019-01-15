@@ -342,7 +342,7 @@
 
 										</ul>
 									</li>
-									@if (\Auth::user()->isAdmin())
+									<!-- @ if (\Auth::user()->isAdmin()) -->
 									<li class="{{Route::currentRouteName() === 'branch.tools' || Route::currentRouteName() === 'branch.options' || Route::currentRouteName() === 'branch.register' || Route::currentRouteName() === 'branches' ? 'active-sub active' : ''}}">
 										<a href="#">
 											<i class="fa fa-building-o"></i>
@@ -350,22 +350,24 @@
 											<i class="arrow"></i>
 										</a>
 										<ul class="collapse">
+											@if (\Auth::user()->isAdmin())
 											<li class="{{Route::currentRouteName() === 'branches' ? 'active-sub' : ''}}">
 												<a href="{{route('branches')}}"><i class="fa fa-tree"></i> Branches</a>
 											</li>
 											<li class="{{Route::currentRouteName() === 'branch.register' ? 'active-sub' : ''}}">
 												<a href="{{route('branch.register')}}"><i class="fa fa-plus"></i> Add New Branch</a>
 											</li>
-											<li class="{{Route::currentRouteName() === 'branch.options' ? 'active-sub' : ''}}">
-												<a href="{{route('branch.options')}}"><i class="fa fa-cog"></i> Options</a>
-											</li>
 											<li class="{{Route::currentRouteName() === 'branch.tools' ? 'active-sub' : ''}}">
 												<a href="{{route('branch.tools')}}"><i class="fa fa-wrench"></i> Tools</a>
+											</li>
+											@endif
+											<li class="{{Route::currentRouteName() === 'branch.options' ? 'active-sub' : ''}}">
+												<a href="{{route('branch.options')}}"><i class="fa fa-cog"></i> Options</a>
 											</li>
 
 										</ul>
 									</li>
-									@endif
+									<!-- @ endif -->
 									<li class="{{Route::currentRouteName() === 'calendar' ? 'active-sub' : ''}}">
 										<a href="{{ route('calendar') }}">
 											<i class="fa fa-calendar"></i>

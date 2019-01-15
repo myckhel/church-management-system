@@ -7,6 +7,7 @@
 <link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
 <!--Bootstrap Select [ OPTIONAL ]-->
 <link href="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
+<link href="{{ URL::asset('css/sweetalert.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -63,11 +64,13 @@
 
                     <!--Block Styled Form -->
                     <!--===================================================-->
-                    <form method="POST" action="{{route('sendSMS')}}">
+                    <form id="send-sms-form" method="POST" action="{{route('sendSMS')}}">
                         @csrf
                         <input name="branch_id" value="3" type="text" hidden="hidden"/>
                         <div class="panel-body">
                             <div class="row">
+                              <div id="sms_balance_container" class="pull-right bg-warning">
+                              </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Number</label>
@@ -119,7 +122,7 @@
                             </div>
                         </div>
                         <div class="panel-footer text-right">
-                            <button class="btn btn-success" type="submit">Submit</button>
+                            <button id="send-btn" class="btn btn-success" type="submit">Send</button>
                         </div>
                     </form>
                     <!--===================================================-->
@@ -142,10 +145,37 @@
 @section('js')
 <script src="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
+<script src="{{ URL::asset('js/functions.js') }}"></script>
 <script> $('.datepicker').datepicker(); </script>
 <!-- for email manual number input -->
 <script>
+var responseText = (obj) => {
+  text = ''
+  text += `${obj.pass.count} Sent ${obj.fail.count} Failed. Out Of ${obj.total} \n`
+  text += (obj.fail.count > 0) ? `Failed Number(s): ${$.each(obj.fail.numbers,(v) => (`${v} `))} \n
+   Failed Status: ${$.each(obj.fail.status,(v) => (`${v} `))}` : ''
+  return text
+}
+// var dummyRes = {status: true, text: { pass: {status: [], count: 1}, fail: {status: [], count: 0, numbers: []}, total: 1}}
 $(document).ready(function(){
+  $('#send-sms-form').submit((e) => {
+    toggleAble($('#send-btn'), true, 'sending...')
+    e.preventDefault();
+    data = $('#send-sms-form').serializeArray()
+    url = "{{route('sendSMS')}}"
+    poster({data, url, alert: 'false'}, (res) => {
+      // res = dummyRes
+      if (res.status === true) {
+        text = responseText(res.text)
+        swal("Success", text, "success");
+      } else if (res.status === false) {
+        swal("Oops", res.text, "error");
+      }
+      toggleAble($('#send-btn'), false)
+      console.log(res);
+    })
+  })
 	$('#add-num').click(function(){
     if(!$('#nums').val()){return;}
 		var items = $('#nums').val().split(',');
@@ -230,5 +260,77 @@ function rm_num(d){
 	var input = $("#num-selector option[value='"+ text +"']").remove();
 	var ll = $('#list ' + d).remove();
 }
+
+var setBalance = async () => {
+  // tell the user about to fetch sms balance
+  $('#sms_balance_container').html('<h3>Loading sms Balance...</h3>')
+  // fetch the sms balance api
+  balanceUrl = await getSmsBalanceApi( async (url) => {
+    // fetch the sms balance units
+    balance = await getBalance(url, (res) => {
+      if (!res) {
+        // tell the user
+        $('#sms_balance_container').html(`<h3>${res.responseText}</h3>`)
+        return
+      }
+      // display result to user
+      console.log(res);
+      $('#sms_balance_container').html(`<h3>${res.responseText} Units</h3>`)
+    })
+  })
+  // if not set
+  // if (!balanceUrl) {
+    // tell the user
+    $('#sms_balance_container').html('<h3>Api Not Set</h3>')
+    // alert('Sms Balance Api Not Set')
+    // return
+  // }
+
+  // // fetch the sms balance units
+  // balance = await getBalance(balanceUrl)
+  // if error fetching balance
+  // if (!balance) {
+  //   // tell the user
+  //   $('#sms_balance_container').html(`<h3>${balance}</h3>`)
+  //   return
+  // }
+
+  // // display result to user
+  // $('#sms_balance_container').html(`<h3>${balance}</h3>`)
+}
+
+var getSmsBalanceApi = async (fn) => {
+  let value = false
+  url = "{{route('option.branch.get')}}"
+  poster({url, alert: false, type: 'GET'}, (res) => {
+    res.text.forEach((v) => {
+      if (v.name === 'smsbalanceapi') {
+        value = v.value
+        console.log(v.value);
+        // return fn(v.value)
+      }
+      // else {
+      //   return value
+      // }
+    })
+    fn(value)
+  })
+}
+
+var getBalance = (url, fn) => {
+  value = false
+  $.ajax({url})
+  .done((res) => {
+    if (res === '-2905') {
+      value = "Invalid username/password combination"
+      fn(value)
+    } else {
+      value = res
+      fn(value)
+    }
+  })
+  return value
+}
+setBalance()
 </script>
 @endsection
