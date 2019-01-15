@@ -173,6 +173,7 @@ $(document).ready(function(){
         swal("Oops", res.text, "error");
       }
       toggleAble($('#send-btn'), false)
+      setBalance()
       console.log(res);
     })
   })
@@ -270,12 +271,12 @@ var setBalance = async () => {
     balance = await getBalance(url, (res) => {
       if (!res) {
         // tell the user
-        $('#sms_balance_container').html(`<h3>${res.responseText}</h3>`)
+        $('#sms_balance_container').html(`<h3>${res}</h3>`)
         return
       }
       // display result to user
       console.log(res);
-      $('#sms_balance_container').html(`<h3>${res.responseText} Units</h3>`)
+      $('#sms_balance_container').html(`<h3>${res} Units</h3>`)
     })
   })
   // if not set
