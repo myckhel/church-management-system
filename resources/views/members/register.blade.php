@@ -511,10 +511,12 @@
 									<div class="col-md-9">
 										<span class="pull-left btn btn-primary btn-file">
 											Select...
-											<input type="file" name="photo">
+											<input id="img-input" type="file" accept="image/*" capture name="photo">
 										</span>
+										<!-- <input type="file" accept="image/*" capture="camera"> -->
 									</div>
 								</div>
+								<canvas id="img-show" class="img-thumbnail img-response" style="display: none"></canvas>
 								<div class="form-group">
 									<label class="col-md-3 control-label">Relative</label>
 									<div class="col-md-9">
@@ -598,6 +600,83 @@
 @section('js')
 <script>
 	$(document).ready(function(){
+		//new
+		var input = document.querySelector('input[type=file]'); // see Example 4
+
+		input.onchange = function () {
+		  var file = input.files[0];
+
+		  // upload(file);
+		  drawOnCanvas(file);   // see Example 6
+		  // displayAsImage(file); // see Example 7
+		};
+
+		function resetImgUpl(){
+			$('#img-input').val(null)
+			$('#img-show').hide()
+		}
+
+		function upload(file) {
+
+		  var form = new FormData(),
+		      xhr = new XMLHttpRequest();
+
+		  form.append('image', file);
+		  xhr.open('post', 'server.php', true);
+		  xhr.send(form);
+		}
+
+		function uploadImg() {
+			var input = document.querySelector('input[type=file]');
+			var file = input.files[0];
+		  var form = new FormData(),
+		      xhr = new XMLHttpRequest();
+
+		  form.append('photo', file);
+			form.append('_token', "{{csrf_token()}}");
+		  xhr.open('post', "{{route('member.upload.img')}}", true);
+		  xhr.send(form);
+		}
+
+		function drawOnCanvas(file) {
+		  var reader = new FileReader();
+
+		  reader.onload = function (e) {
+		    var dataURL = e.target.result,
+		        c = document.querySelector('#img-show'), // see Example 4
+		        ctx = c.getContext('2d'),
+		        img = new Image();
+
+						$(c).show()
+
+		    img.onload = function() {
+		      c.width = img.width;
+		      c.height = img.height;
+		      ctx.drawImage(img, 0, 0);
+		    };
+
+		    img.src = dataURL;
+		  };
+
+		  reader.readAsDataURL(file);
+			// data = new FormData() //$('#register-form').serializeArray()
+			// data.append($('#register-form').serializeArray())
+			// // data.photo = input.files[0];
+			// console.log(data);
+		}
+
+		function displayAsImage(file) {
+		  var imgURL = URL.createObjectURL(file),
+		      img = document.createElement('img');
+
+		  img.onload = function() {
+		    URL.revokeObjectURL(imgURL);
+		  };
+
+		  img.src = imgURL;
+		  document.body.appendChild(img);
+		}
+
 		// toggle Anniversary
 		$('input:radio[name="marital_status"]').change(
 			function(){
@@ -627,20 +706,22 @@
 				$('#member_status_div').show();
 			}
 		});
+
 		// handle register form submission
-		$('#register-form').submit((e) => {
+		$('#register-form').on('submit', (e) => {
 			e.preventDefault()
 			toggleAble('#submit', true, 'registering member...')
-			let data = {}
-			$.each($('#register-form').serializeArray(), (i, field) => {
-				data[field.name] = field.value
-			})
+			// let data = {}
+			let input = document.querySelector('#img-input')
+			data = $('#register-form').serializeArray()
 			//send to db route
 			$.ajax({url: "{{route('member.register')}}", data, type: 'POST'})
 			.done((res) => {
 				if (res.status) {
 					swal("Success!", res.text, "success");
+					uploadImg()
 					resetForm('#register-form')
+					resetImgUpl()
 					toggleAble('#submit', false)
 				}else {
 					swal("Oops", res.text, "error");

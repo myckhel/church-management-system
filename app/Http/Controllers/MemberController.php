@@ -294,4 +294,26 @@ class MemberController extends Controller
       if ($user) { $status = true; $text = "$user is now a full member"; } else { $text = "Error occured Please try again"; }
       return response()->json(['status' => $status, 'text' => $text]);
     }
+
+    public function uploadImg(Request $request){
+      $image_name = 'profile.png'; // default profile image
+      if ($request->hasFile('photo'))
+      {
+          $image = $request->file('photo');
+
+          $input['imagename'] = time().'.'.$image->getClientOriginalExtension();
+
+          $destinationPath = public_path('/images');
+
+          $image->move($destinationPath, $input['imagename']);
+
+          $image_name = $input['imagename'];
+
+          $user = Member::orderBy('id', 'desc')->first();
+          $user->photo = $image_name;
+          $user->save();
+          return response()->json(['status' => true,]);
+      }
+      return response()->json(['status' => false, 'text' => "No photo file"]);
+    }
 }
