@@ -3,6 +3,28 @@
 
 @section('title') Member Registration @endsection
 
+@section('link')
+<link href="{{ URL::asset('css/cam-style.css') }}" rel="stylesheet">
+<!-- inline style -->
+<style media="screen">
+.element {
+display: inline-flex;
+align-items: center;
+}
+i.fa-camera {
+margin: 10px;
+cursor: pointer;
+font-size: 30px;
+}
+i:hover {
+opacity: 0.6;
+}
+input {
+display: none;
+}
+</style>
+@endsection
+
 @section('content')
 
 <!--CONTENT CONTAINER-->
@@ -509,14 +531,27 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label">Photo</label>
 									<div class="col-md-9">
-										<span class="pull-left btn btn-primary btn-file">
+										<div class="btn btn-file element">
+												<i class="fa fa-3x fa-folder"></i>
+												<span class="name">Choose File</span>
+												<input id="img-input" type="file" accept="image/*" capture name="photo">
+											<!-- <input  id="img-input" type="file" accept="image/*" capture="user" name="photo"> -->
+										</div>
+										<div class="btn element" data-toggle="modal" data-target="#myModal">
+										  <i class="fa fa-camera"></i><span class="name">From Cam</span>
+											<input id="img-input" type="file" accept="image/*" name="photo" style="display: none">
+										</div>
+										<!-- <span class="pull-left btn btn-primary btn-file">
 											Select...
 											<input id="img-input" type="file" accept="image/*" capture name="photo">
-										</span>
+										</span> -->
 										<!-- <input type="file" accept="image/*" capture="camera"> -->
 									</div>
 								</div>
-								<canvas id="img-show" class="img-thumbnail img-response" style="display: none"></canvas>
+								<div class="image" id="img-show-container" style="display: none">
+									<div class="fa fa-remove blue delete" onclick="resetImgUpl()"></div>
+									<canvas id="img-show" class="img-thumbnail img-response"></canvas>
+								</div>
 								<div class="form-group">
 									<label class="col-md-3 control-label">Relative</label>
 									<div class="col-md-9">
@@ -582,6 +617,54 @@
 						</div>
 					</div>
 					<div class="panel-footer panel-primary bg-dark">
+						<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="fa fa-3x close" onclick="stopWebcam();"  data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Take a photo</h4>
+      </div>
+      <div class="modal-body">
+				<!-- <h1>Take a snapshot of the current video stream</h1>
+				Click on the Start WebCam button.
+				 <p>
+				<button onclick="startWebcam();">Start WebCam</button>
+				<button onclick="stopWebcam();">Stop WebCam</button>
+					 <button onclick="snapshot();">Take Snapshot</button>
+				</p>
+				<video onclick="snapshot(this);" width=400 height=400 id="video" controls autoplay></video> -->
+				<div id="captured" class="" style="display:none">
+					<h3 class="text-primary">	Screenshots : <h3>
+					<canvas  id="myCanvas" width="400" height="350"></canvas>
+				</div>
+
+					<!--  -->
+					<div id="container-cam">
+						<button class="btn btn-warning" onclick="startWebcam();">Start WebCam</button>
+				    <div id="vid_container">
+				        <video id="video" autoplay playsinline></video>
+				        <div id="video_overlay"></div>
+				    </div>
+				    <div id="gui_controls">
+				        <button id="switchCameraButton" class="button" name="switch Camera" type="button" aria-pressed="false"></button>
+				        <button id="takePhotoButton" class="button" name="take Photo" type="button"></button>
+				        <button id="toggleFullScreenButton" class="button" name="toggle FullScreen" type="button" aria-pressed="false" style="display:none"></button>
+				    </div>
+				  </div>
+
+      </div>
+      <div class="modal-footer">
+				<button id="choose-img" type="button" onclick="choose(canvas); stopWebcam();" class="btn btn-success" data-dismiss="modal" style="display:none">Select Image</button>
+        <button type="button" onclick="stopWebcam();" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 					</div>
 					<!--===================================================-->
 					<!--End Default Bootstrap Modal-->
@@ -598,8 +681,37 @@
 @endsection
 
 @section('js')
+<script src="{{ URL::asset('js/cam/DetectRTC.min.js')}}"></script>
+<script src="{{ URL::asset('js/cam/adapter.min.js')}}"></script>
+<script src="{{ URL::asset('js/cam/screenfull.min.js')}}"></script>
+<script src="{{ URL::asset('js/cam/howler.core.min.js')}}"></script>
+<script src="{{ URL::asset('js/cam/main.js')}}"></script>
 <script>
+function uploadImg() {
+  var input = document.querySelector('input[type=file]');
+  var file = input.files[0];
+  var form = new FormData(),
+      xhr = new XMLHttpRequest();
+	// form.append("filename", imageData);
+	// console.log(file);
+	console.log(blobs);
+	form.append('photo', blobs);
+  // form.append('photo', file);
+  form.append('_token', "{{csrf_token()}}");
+  xhr.open('post', "{{route('member.upload.img')}}", true);
+  xhr.send(form);
+}
 	$(document).ready(function(){
+		// Upload file section
+		// $("i").click(function () {
+		//   $("input[type='file']").trigger('click');
+		// });
+
+		$('input[type="file"]').on('change', function() {
+		  var val = $(this).val();
+		  $(this).siblings('span').text(val);
+		})
+
 		//new
 		var input = document.querySelector('input[type=file]'); // see Example 4
 
@@ -610,72 +722,6 @@
 		  drawOnCanvas(file);   // see Example 6
 		  // displayAsImage(file); // see Example 7
 		};
-
-		function resetImgUpl(){
-			$('#img-input').val(null)
-			$('#img-show').hide()
-		}
-
-		function upload(file) {
-
-		  var form = new FormData(),
-		      xhr = new XMLHttpRequest();
-
-		  form.append('image', file);
-		  xhr.open('post', 'server.php', true);
-		  xhr.send(form);
-		}
-
-		function uploadImg() {
-			var input = document.querySelector('input[type=file]');
-			var file = input.files[0];
-		  var form = new FormData(),
-		      xhr = new XMLHttpRequest();
-
-		  form.append('photo', file);
-			form.append('_token', "{{csrf_token()}}");
-		  xhr.open('post', "{{route('member.upload.img')}}", true);
-		  xhr.send(form);
-		}
-
-		function drawOnCanvas(file) {
-		  var reader = new FileReader();
-
-		  reader.onload = function (e) {
-		    var dataURL = e.target.result,
-		        c = document.querySelector('#img-show'), // see Example 4
-		        ctx = c.getContext('2d'),
-		        img = new Image();
-
-						$(c).show()
-
-		    img.onload = function() {
-		      c.width = img.width;
-		      c.height = img.height;
-		      ctx.drawImage(img, 0, 0);
-		    };
-
-		    img.src = dataURL;
-		  };
-
-		  reader.readAsDataURL(file);
-			// data = new FormData() //$('#register-form').serializeArray()
-			// data.append($('#register-form').serializeArray())
-			// // data.photo = input.files[0];
-			// console.log(data);
-		}
-
-		function displayAsImage(file) {
-		  var imgURL = URL.createObjectURL(file),
-		      img = document.createElement('img');
-
-		  img.onload = function() {
-		    URL.revokeObjectURL(imgURL);
-		  };
-
-		  img.src = imgURL;
-		  document.body.appendChild(img);
-		}
 
 		// toggle Anniversary
 		$('input:radio[name="marital_status"]').change(
@@ -720,8 +766,8 @@
 				if (res.status) {
 					swal("Success!", res.text, "success");
 					uploadImg()
-					resetForm('#register-form')
-					resetImgUpl()
+					// resetForm('#register-form')
+					// resetImgUpl()
 					toggleAble('#submit', false)
 				}else {
 					swal("Oops", res.text, "error");
@@ -808,5 +854,73 @@
 			$('#relatives-result-container').html('<span style="height:50px" class="text-info">No result found</span>')
 		})
 	})
+
+	$(document).ready(()=> {
+		init()
+	})
+
+	//--------------------
+// GET USER MEDIA CODE
+//--------------------
+		navigator.getUserMedia = ( navigator.getUserMedia ||
+											 navigator.webkitGetUserMedia ||
+											 navigator.mozGetUserMedia ||
+											 navigator.msGetUserMedia);
+
+var video;
+var webcamStream;
+
+// function startWebcam() {
+// 	if (navigator.getUserMedia) {
+// 		 navigator.getUserMedia (
+//
+// 				// constraints
+// 				{
+// 					 video: true,
+// 					 audio: false
+// 				},
+//
+// 				// successCallback
+// 				function(localMediaStream) {
+// 						video = document.querySelector('video');
+// 					 video.src = window.URL.createObjectURL(localMediaStream);
+// 					 webcamStream = localMediaStream;
+// 				},
+//
+// 				// errorCallback
+// 				function(err) {
+// 					 console.log("The following error occured: " + err);
+// 				}
+// 		 );
+// 	} else {
+// 		 console.log("getUserMedia not supported");
+// 	}
+// }
+
+function stopWebcam() {
+	// if (webcamStream) {
+  //    webcamStream.getTracks().forEach(function (track) { track.stop(); });
+	// }
+	if (window.stream) {
+     window.stream.getTracks().forEach(function (track) { track.stop(); });
+	}
+		// webcamStream.stop();
+}
+//---------------------
+// TAKE A SNAPSHOT CODE
+//---------------------
+var canvas, ctx;
+
+function init() {
+	// Get the canvas and obtain a context for
+	// drawing in it
+	canvas = document.getElementById("myCanvas");
+	ctx = canvas.getContext('2d');
+}
+
+function snapshot() {
+	 // Draws current image from the video element into the canvas
+	ctx.drawImage(video, 0,0, canvas.width, canvas.height);
+}
 </script>
 @endsection

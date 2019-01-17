@@ -300,8 +300,8 @@ class MemberController extends Controller
       if ($request->hasFile('photo'))
       {
           $image = $request->file('photo');
-
-          $input['imagename'] = time().'.'.$image->getClientOriginalExtension();
+          $input['imagename'] = ($image->getClientOriginalExtension() != '') ? time().'.'.$image->getClientOriginalExtension() : time().'.jpg';
+          print_r($input);
 
           $destinationPath = public_path('/images');
 
