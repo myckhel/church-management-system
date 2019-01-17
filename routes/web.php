@@ -122,6 +122,9 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/branches/tools/group', 'OptionController@test')->name('option.test');
     Route::get('apis', 'CollectionController@test')->name('apis');
 
+    // MAIL TEMPLATE PREVIEW SECTION
+    Route::get('mailable/email-to-member', 'MemberController@testMail')->name('testMail');
+
 });
 
 Route::get('/admin/login', function () {

@@ -534,12 +534,12 @@ display: none;
 										<div class="btn btn-file element">
 												<i class="fa fa-3x fa-folder"></i>
 												<span class="name">Choose File</span>
-												<input id="img-input" type="file" accept="image/*" capture name="photo">
+												<input id="img-input" type="file" accept="image/*" name="photo">
 											<!-- <input  id="img-input" type="file" accept="image/*" capture="user" name="photo"> -->
 										</div>
 										<div class="btn element" data-toggle="modal" data-target="#myModal">
 										  <i class="fa fa-camera"></i><span class="name">From Cam</span>
-											<input id="img-input" type="file" accept="image/*" name="photo" style="display: none">
+											<input id="img-input" type="file" accept="image/*" capture name="photo" style="display: none">
 										</div>
 										<!-- <span class="pull-left btn btn-primary btn-file">
 											Select...
@@ -766,8 +766,8 @@ function uploadImg() {
 				if (res.status) {
 					swal("Success!", res.text, "success");
 					uploadImg()
-					// resetForm('#register-form')
-					// resetImgUpl()
+					resetForm('#register-form')
+					resetImgUpl()
 					toggleAble('#submit', false)
 				}else {
 					swal("Oops", res.text, "error");

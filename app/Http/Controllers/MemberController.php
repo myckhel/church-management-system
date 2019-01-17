@@ -316,4 +316,8 @@ class MemberController extends Controller
       }
       return response()->json(['status' => false, 'text' => "No photo file"]);
     }
+
+    public function testMail(Request $request){
+      return new \App\Mail\MailToMember($request, \Auth::user());
+    }
 }
