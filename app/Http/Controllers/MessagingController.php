@@ -34,15 +34,17 @@ class MessagingController extends Controller
     }
 
     public function sendEmail(Request $request){
+      $user = \Auth::user();
+
+      // return new \App\Mail\MailToMember($request, \Auth::user());
         foreach ($request->to as $to){
           Mail::to($to)//$request->to)
               //->cc($request->cc)
               //->bcc($request->bcc)
-              ->send(new MailMember($request));
+              ->send(new \App\Mail\MailToMember($request, $user));
+              // ->send(new MailMember($request));
             }
-        return redirect()
-                ->back()
-                ->with('status','Mail Successfully Sent!');
+        return redirect()->back()->with('status','Mail Successfully Sent!');
     }
 
     public function sendSMS(Request $request){
@@ -67,7 +69,7 @@ class MessagingController extends Controller
             if (substr($response,0,2) == "OK") {
               array_push($result['fail']['status'], $response);
               $result['pass']['count']++;
-            }else {
+            } else {
               array_push($result['fail']['status'], $response);
               array_push($result['fail']['numbers'], $to);
               $result['fail']['count']++;

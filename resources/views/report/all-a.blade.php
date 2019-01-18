@@ -82,10 +82,10 @@
                           Total
                         </th>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$reports[0]->total_attendance or 0}}</span>
+                          <span class="badge badge-primary badge-pill">{{number_format(($reports->total_attendance ? $reports->total_attendance : 0 ))}}</span>
                         </td>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{$reports[0]->todays_attendance or 0}}</span>
+                          <span class="badge badge-primary badge-pill">{{number_format(($reports->todays_attendance ? $reports->todays_attendance : 0))}}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -120,10 +120,10 @@
                           Male
                         </th>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->male)}}</span>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports->male)}}</span>
                         </td>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->malet)}}</span>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports->malet)}}</span>
                         </td>
                       </tr>
                       <tr>
@@ -131,10 +131,10 @@
                           Female
                         </th>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->female)}}</span>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports->female)}}</span>
                         </td>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->femalet)}}</span>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports->femalet)}}</span>
                         </td>
                       </tr>
                       <tr>
@@ -142,10 +142,10 @@
                           Children
                         </th>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->children)}}</span>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports->children)}}</span>
                         </td>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->childrent)}}</span>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports->childrent)}}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -155,10 +155,10 @@
                           Total
                         </th>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->total)}}</span>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports->total)}}</span>
                         </td>
                         <td>
-                          <span class="badge badge-primary badge-pill">{{number_format($reports[0]->totalt)}}</span>
+                          <span class="badge badge-primary badge-pill">{{number_format($reports->totalt)}}</span>
                         </td>
                       </tr>
                     </tfoot>

@@ -120,11 +120,10 @@ class ReportController extends Controller
     public function attendance(){
       $user = \Auth::user();
 
-      $sql = "SELECT SUM(female + male + children) AS total_attendance, SUM(case when attendance_date = date(now()) then (female + male + children) end) AS todays_attendance,
+      $sql = "SUM(female + male + children) AS total_attendance, SUM(case when attendance_date = date(now()) then (female + male + children) end) AS todays_attendance,
       SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, SUM(children + male + female) AS total, SUM(case when attendance_date = date(now()) then children + male + female end) AS totalt,
-      SUM(case when attendance_date = date(now()) then male end) AS malet, SUM(case when attendance_date = date(now()) then female end) AS femalet, SUM(case when attendance_date = date(now()) then children end) AS childrent
-      FROM `attendances` WHERE branch_id = '$user->branchcode'";
-      $reports = \DB::select($sql);
+      SUM(case when attendance_date = date(now()) then male end) AS malet, SUM(case when attendance_date = date(now()) then female end) AS femalet, SUM(case when attendance_date = date(now()) then children end) AS childrent";
+      $reports = \App\Attendance::selectRaw($sql)->where('branch_id', $user->branchcode)->first();
 
       $sql = "members.firstname, members.lastname, count(case when attendance = 'yes' then 1 end) as total, count(case when attendance_date = date(now()) then (case when attendance = 'yes' then 1 end) end) as totalt
       ";
@@ -204,7 +203,7 @@ class ReportController extends Controller
       $sql = "SUM(female + male + children) AS total_attendance, SUM(case when attendance_date = date(now()) then (female + male + children) end) AS todays_attendance,
       SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, SUM(children + male + female) AS total, SUM(case when attendance_date = date(now()) then children + male + female end) AS totalt,
       SUM(case when attendance_date = date(now()) then male end) AS malet, SUM(case when attendance_date = date(now()) then female end) AS femalet, SUM(case when attendance_date = date(now()) then children end) AS childrent";
-      $reports = \App\Attendance::selectRaw($sql)->get();//\DB::select($sql);
+      $reports = \App\Attendance::selectRaw($sql)->first();//\DB::select($sql);
 
       $sql = "count(case when attendance = 'yes' then 1 end) as total, count(case when attendance_date = date(now()) then (case when attendance = 'yes' then 1 end) end) as totalt";
       $m_r = \App\members_attendance::selectRaw($sql)->with('members')->get();

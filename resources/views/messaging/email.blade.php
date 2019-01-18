@@ -72,34 +72,7 @@
 
 					        <div class="panel-body">
 					            <div class="fixed-fluid">
-					                <div class="fixed-sm-200 pull-sm-left fixed-right-border">
 
-					                    <div style="display:none" class="list-group bg-trans pad-ver bord-ver">
-					                        <p class="pad-hor mar-top text-main text-bold text-sm text-uppercase">Friends</p>
-
-					                        <!-- Menu list item -->
-					                        <a href="mailbox-compose.html#" class="list-group-item list-item-sm">
-					                            <span class="badge badge-purple badge-icon badge-fw pull-left"></span>
-					                            Joey K. Greyson
-					                        </a>
-					                        <a href="mailbox-compose.html#" class="list-group-item list-item-sm">
-					                            <span class="badge badge-info badge-icon badge-fw pull-left"></span>
-					                            Andrea Branden
-					                        </a>
-					                        <a href="mailbox-compose.html#" class="list-group-item list-item-sm">
-					                            <span class="badge badge-pink badge-icon badge-fw pull-left"></span>
-					                            Lucy Moon
-					                        </a>
-					                        <a href="mailbox-compose.html#" class="list-group-item list-item-sm">
-					                            <span class="badge badge-success badge-icon badge-fw pull-left"></span>
-					                            Johny Juan
-					                        </a>
-					                        <a href="mailbox-compose.html#" class="list-group-item list-item-sm">
-					                            <span class="badge badge-danger badge-icon badge-fw pull-left"></span>
-					                            Susan Sun
-					                        </a>
-					                    </div>
-					                </div>
 					                <div class="fluid">
 					                    <!-- COMPOSE EMAIL -->
 					                    <!--===================================================-->
@@ -185,12 +158,15 @@
                                       </div>
                                     </div>
 					                    <!--Wysiwyg editor : Summernote placeholder-->
-					                    <div id="demo-mail-compose"></div>
+					                    <!-- <div id="demo-mail-compose"></div> -->
+                              <textarea id="demo-mail-textarea" name="message"></textarea>
+                              <!-- <textarea id="message-text-area" name="message" style="display:none"></textarea> -->
 
 					                    <div class="pad-ver">
 
 					                        <!--Send button-->
-					                        <button id="mail-send-btn" type="submit" class="btn btn-primary">
+                                  <button id="demo-mail-send-btn" type="submit" class="btn btn-primary">
+					                        <!-- <button id="mail-send-btn" type="submit" class="btn btn-primary"> -->
 					                            <i class="demo-psi-mail-send icon-lg icon-fw"></i> Send Mail
 					                        </button>
 					                    </div>
@@ -222,20 +198,29 @@
 <script src="{{ URL::asset('js/demo/mail.js')}}"></script>
 
 <script>
-let shouldSubmit = false;
+// for summernote
+// $('#summernote').summernote({
+//   placeholder: 'Compose Your Message',
+//   tabsize: 2,
+//   height: 300,
+//   focus: true
+// });
+
+// let shouldSubmit = false;
 
 $('#send-mail-form').on('submit', function(e){
 
-if (!shouldSubmit) e.preventDefault();
-if (shouldSubmit) return;
+// if (!shouldSubmit) e.preventDefault();
+// if (shouldSubmit) return;
 
-let message = $('.note-editable.panel-body').html();
+// let message = $('.note-editable').html();
+// console.log(message);
 
-$('#message-textarea').html(message);
+// $('#message-text-area').val(message);
 
-shouldSubmit = true;
+// shouldSubmit = true;
 
-$('#send-mail-form').trigger('reset');
+// $('#send-mail-form').trigger('reset');
 
 })
 

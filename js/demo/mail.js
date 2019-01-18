@@ -50,17 +50,17 @@ $(document).on('nifty.ready', function() {
     // http://hackerwins.github.io/summernote/
     // =================================================================
     if( $('#demo-mail-textarea').length ){
-        $('#demo-mail-textarea').on('click', function(){
-            $(this).empty().summernote({
+        // $('#demo-mail-textarea').on('click', function(){
+            $('#demo-mail-textarea').empty().summernote({
                 height:300,
                 focus: true
             });
             $('#demo-mail-send-btn').removeClass('hide');
-        });
-        return;
+        // });
+        // return;
     }
 
-    $('textarea').attr('name','message')
+    // $('textarea').attr('name','message')
     $('.note-editable.panel-body').on('keyup', function(){
         console.log(this.html())
     })

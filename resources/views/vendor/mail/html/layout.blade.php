@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<body>
+<body class="bg-near-white">
     <style>
         @media only screen and (max-width: 600px) {
             .inner-body {
@@ -26,7 +26,7 @@
     <table class="wrapper" width="100%" cellpadding="0" cellspacing="0">
         <tr>
             <td align="center">
-                <table class="content" width="100%" cellpadding="0" cellspacing="0">
+                <table class="content bg-near-white" width="100%" cellpadding="0" cellspacing="0">
                     {{ $header ?? '' }}
 
                     <!-- Email Body -->
