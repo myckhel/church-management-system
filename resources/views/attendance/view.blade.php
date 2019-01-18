@@ -315,7 +315,7 @@ return  `
           <div class="panel-body text-center clearfix">
               <div class="col-sm-4 pad-top">
                   <div class="text-lg">
-                      <p class="text-5x text-thin text-main">${attendance.male + attendance.female + attendance.children}</p>
+                      <p class="text-5x text-thin text-main">${(parseInt(attendance.male) + parseInt(attendance.female) + parseInt(attendance.children))}</p>
                   </div>
                   <p class="text-sm text-bold text-uppercase">Total Attendance</p>
               </div>

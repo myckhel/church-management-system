@@ -501,10 +501,10 @@ var manual_analysis_hd = (data) => {
   data.c_types.forEach((i, v) => {
     let name = i.name;
     collection.forEach((c) => {
-      nameTotal[name] = nameTotal[name] + c[name] || c[name]
-      total +=  c[name]
+      nameTotal[name] = (parseInt(nameTotal[name]) + parseInt(c[name])) || parseInt(c[name])
+      total +=  parseInt(c[name])
       })
-      middle += '<div  id="'+name+'" class="col-xs-2 small adaptive-color" style="">'+name+': '+(nameTotal[name] || 0)+'</div>';
+      middle += '<div  id="'+name+'" class="col-xs-2 small adaptive-color" style="">'+name+': '+(parseInt(nameTotal[name]) || 0)+'</div>';
     })
   return `
   <marquee>
