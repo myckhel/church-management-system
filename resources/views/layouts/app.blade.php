@@ -760,26 +760,6 @@ function dele(input){
 @endif
 <!-- FOR ATTENDANCE MARK -->
 
-<!-- branch delete -->
-@if (Route::currentRouteName() == ('branches'))
-<script>
-    function del(d){
-        var confirmed = confirm('confirm to delete');
-        console.log(confirmed);
-        console.log(d);
-        if(confirmed){
-            var id = $(d).attr('id');
-            console.log(id);
-            $.ajax({
-                url: id,
-            }).done(function(){
-                location.reload();
-            });
-        }//{{route("branch.destroy",' + id + ')}}
-    }
-</script>
-@endif
-<!-- end branch delete -->
 <!-- Head Office -->
 @if (Route::currentRouteName() == ('branch.options'))
 <script>

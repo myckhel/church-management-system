@@ -300,7 +300,7 @@ $(document).ready(function () {
         } else if (i == 17) {
             $(this).html(`
               <div class="col-md-9">
-                <input type="text" class="form-control" value="${$(this).text()}" name="city" placeholder="Enter member state" required>
+                <input type="text" class="form-control" value="${$(this).text()}" name="country" placeholder="Enter member country" required>
               </div>
             `)
         } else if (i == 18) {

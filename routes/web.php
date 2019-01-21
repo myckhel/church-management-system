@@ -37,6 +37,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/branches/{id}/destroy', 'BranchController@destroy')->name('branch.destroy');
     Route::get('/branches/register', 'BranchController@registerForm')->name('branch.register');
     Route::post('/branches/register', 'BranchController@register')->name('branch.register');
+    Route::post('/branches/update', 'BranchController@updateBranch')->name('branch.update');
     // depre
     Route::get('/old/branches/head_office_options', 'BranchController@ho')->name('branch.ho');
     Route::post('/old/branches/head_office_options', 'BranchController@ho_up')->name('branch.ho.up');

@@ -25,11 +25,23 @@ class BranchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+      $user = \Auth::user();
+      if(!$user->isAdmin()){
+        return redirect()->route('dashboard');
+      }
+      //$members = Member::all();
+      if ($request->draw) {
+        $users = User::select()->join('country', 'country.ID', '=', 'users.currency')->get();
+        return Datatables::of($users)->make(true);
+      } else {
+        // code...
         $users = User::select()->join('country', 'country.ID', '=', 'users.currency')->get();
         $user = \Auth::user();
-        return ($user->isAdmin()) ? view('branch.all',compact('users')) : redirect()->route('dashboard');//\Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard') : view('branch.all',compact('users'));
+        return view('branch.all',compact('users'));
+      }
+        //\Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard') : view('branch.all',compact('users'));
     }
 
     public function users(){
@@ -247,5 +259,29 @@ class BranchController extends Controller
 
     public function options(){
       return view('branch.options');
+    }
+
+    public function updateBranch(Request $request){
+      $member = User::whereId($request->id)->first();
+      // dd($request);
+      if($member) {
+        $errors = [];
+        $fields = (array)$request->request;//->parameters;//->ParameterBag->parameters;
+        $fields = $fields["\x00*\x00parameters"];
+        foreach ($fields as $key => $value) {
+          if ($key != 'id' && $key != '_token' && $key != 'action') {
+              $member->$key = $request->$key;
+          }
+        }
+        try {
+          $member->save();
+        } catch (\Exception $e) {
+          array_push($errors, $e);
+          // dd($e);
+          return response()->json(['status' => false, 'text' => $e->errorInfo[2]]);
+        }
+      }
+      else {return response()->json(['status' => false, 'text' => "Member does not exist"]);}
+      return response()->json(['status' => true, 'text' => "Member has been updated!"]);
     }
 }
