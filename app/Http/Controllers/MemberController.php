@@ -284,7 +284,10 @@ class MemberController extends Controller
 
     public function modify($id){
       $user = \Auth::user();
-      $member = Member::whereId($id)->where('branch_id',$user)->first();
+      $member = Member::whereId($id)->where('branch_id',$user->branchcode)->first();
+      if (!$member) {
+        return 'Member Not exists';
+      }
       return view('members.edit', compact('member'));
     }
 
@@ -319,5 +322,29 @@ class MemberController extends Controller
 
     public function testMail(Request $request){
       return new \App\Mail\MailToMember($request, \Auth::user());
+    }
+
+    public function updateMember(Request $request){
+      $member = Member::whereId($request->id)->first();
+      // dd($request);
+      if($member) {
+        $errors = [];
+        $fields = (array)$request->request;//->parameters;//->ParameterBag->parameters;
+        $fields = $fields["\x00*\x00parameters"];
+        foreach ($fields as $key => $value) {
+          if ($key != 'id' && $key != '_token' && $key != 'action') {
+              $member->$key = $request->$key;
+          }
+        }
+        try {
+          $member->save();
+        } catch (\Exception $e) {
+          array_push($errors, $e);
+          // dd($e);
+          return response()->json(['status' => false, 'text' => $e->errorInfo[2]]);
+        }
+      }
+      else {return response()->json(['status' => false, 'text' => "Member does not exist"]);}
+      return response()->json(['status' => true, 'text' => "Member has been updated!"]);
     }
 }
