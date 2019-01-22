@@ -130,7 +130,7 @@
 					                    </tr>
 					                    <tr>
 					                        <td>Branch Currency Symbol</td>
-					                        <td><a href="#" id="currency" data-type="select" data-pk="1" data-source="{{route('option.test')}}" data-title="Select currency Symbol"></a></td>
+					                        <td><a href="#" id="currency" data-type="select" data-pk="1" data-source="{{route('option.currencies')}}" data-title="Select currency Symbol"></a></td>
 					                    </tr>
                               <tr>
 					                        <td>Branch Line 1</td>

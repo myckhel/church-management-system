@@ -107,6 +107,16 @@
 function strim(text){
   return text.trim()
 }
+var currencies;
+(function(){
+  $.ajax({url: "{{route('option.currencies')}}"})
+  .done((res) => { currencies = res })
+})()
+var countries;
+(function(){
+  $.ajax({url: "{{route('option.countries')}}"})
+  .done((res) => { countries = res })
+})()
 $(document).ready(function () {
   var i = 1
   users_table = $('#users-table').DataTable({
@@ -122,7 +132,7 @@ $(document).ready(function () {
           , name: 'id' },
           { title: "S/N", render: () => (i++), name: 'id' },
           { title: "Branch Name", data: 'branchname', name: 'branchname'},
-          { title: "Address  ", data: 'address', name: 'address' },
+          { title: "Address", data: 'address', name: 'address' },
           { title: "Branch Code", data: 'branchcode', name: 'branchcode', render: (code) => (`
             <div class="btn-group">
               <h5 style="background-color:pink; padding:5pt;" class="text-center">${code}</h5>
@@ -135,16 +145,24 @@ $(document).ready(function () {
             ${(bool === 'true') ? '<strong>HeadQuaters</strong>' : 'Branch Church'}
             `)
           },
-          { title: "State   .", data: 'state', name: 'state' },
-          { title: "City   .", data: 'city', name: 'city' },
-          { title: "Country   .", data: 'country', name: 'country' },
-          { title: "Currency    ", data: 'currency_symbol', name: 'currency_symbol' },
+          { title: "State", data: 'state', name: 'state' },
+          { title: "City", data: 'city', name: 'city' },
+          { title: "Country", data: {name: 'name', ID: 'ID'}, name: 'country', render : (data) => (`
+            ${data.name}
+            <input type="hidden" value="${data.ID}" id="countryId" />
+            `)
+          },
+          { title: "Currency", data: {currency_symbol: 'currency_symbol', ID: 'ID'}, name: 'currency_symbol', render : (data) => (`
+            ${data.currency_symbol}
+            <input type="hidden" value="${data.ID}" id="currencyId" />
+            `)
+          },
           { title: "Action", data: 'id', name: 'action', render: (id) => (`
             <div class="btn-group">
               <button style="background-color:orange" class="btn text-light edit" data-id="${id}"><i class="fa fa-edit"></i></button>
-              <a style="background-color:green" class="btn text-light" disabled href="#"><i class="fa fa-eye"></i></a>
-              <a href="./branches/${id}/destroy" id="./branches/${id}/destroy" onclick="del(this);" class="btn btn-danger" />
-                <span>delete<i class="fa fa-trash"></i></span>
+              <!--a style="background-color:green" class="btn text-light" disabled href="#"><i class="fa fa-eye"></i></a-->
+              <a href="#" id="./branches/${id}/destroy" onclick="del(this);" class="btn btn-danger" />
+                <i class="fa fa-trash"></i>
               </a>
               <!--a id="${id}" style="background-color:#8c0e0e" class="d-member btn text-light"><i class="fa fa-trash"></i></a-->
             </div>
@@ -175,19 +193,19 @@ $(document).ready(function () {
         `)
       } else if (i == 4) {
         $(this).html(`
-          <div class="col-md-9">
-            <input type="text" value="${strim($(this).text())}" class="form-control" name="branchcode" placeholder="Enter the code" required="">
+          <div class="col-md-12">
+            <input type="text" value="${strim($(this).text())}" class="form-control" name="branchcode" placeholder="Enter the code" required>
           </div>
         `)
       } else if (i == 5) {
           $(this).html(`
-            <div class="col-md-9">
-              <input type="email" id="demo-email-input" value="${strim($(this).text())}" class="form-control" name="email" placeholder="Enter your email" required="">
+            <div class="col-md-12">
+              <input type="email" id="demo-email-input" value="${strim($(this).text())}" class="form-control" name="email" placeholder="Enter your email" required>
             </div>
           `)
       } else if (i == 6) {
           $(this).html(`
-            <div class="col-md-9">
+            <div class="col-md-12">
               <input id="demo-form-radio" class="magic-radio" value="true" type="radio" name="isadmin" ${(strim($(this).text()) === 'HeadQuaters') ? 'checked=""' : ''}>
               <label for="demo-form-radio">HeadQuaters</label>
               <input id="demo-form-radio-2" class="magic-radio" value="false" type="radio" name="isadmin" ${(strim($(this).text()) === 'Branch Church') ? 'checked=""' : ''}>
@@ -196,26 +214,46 @@ $(document).ready(function () {
           `)
       } else if (i == 7) {
           $(this).html(`
-            <div class="col-md-9">
+            <div class="col-md-12">
               <input type="text" class="form-control" value="${strim($(this).text())}" name="state" placeholder="Enter bracnh state" required>
             </div>
           `)
       } else if (i == 8) {
           $(this).html(`
-            <div class="col-md-9">
+            <div class="col-md-12">
               <input type="text" class="form-control" value="${strim($(this).text())}" name="city" placeholder="Enter bracnh city" required>
             </div>
           `)
       } else if (i == 9) {
+        function options(countries){
+          opt = ''
+          countries.forEach((v) => {
+            opt += `<option value="${v.ID}">${v.name}</option>`
+          })
+          return opt
+        }
           $(this).html(`
-            <div class="col-md-9">
-              <input type="text" class="form-control" value="${strim($(this).text())}" name="country" placeholder="Enter bracnh country" required>
+            <div class="col-md-12">
+              <select name="country" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-9" data-style="btn-success" required>
+                <option selected value="${$(this).find('#countryId').val()}">${strim($(this).text())}</option>
+                ${options(countries)}
+              </select>
             </div>
           `)
       } else if (i == 10) {
+        function options(currencies){
+          opt = ''
+          currencies.forEach((v) => {
+            opt += `<option value="${v.ID}">${v.currency_symbol}</option>`
+          })
+          return opt
+        }
           $(this).html(`
             <div class="col-md-9">
-              <input type="text" class="form-control" value="${strim($(this).text())}" name="currency" placeholder="Enter bracnh currency" required>
+              <select name="currency" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-9" data-style="btn-success">
+                <option selected value="${$(this).find('#currencyId').val()}">${strim($(this).text())}</option>
+                ${options(currencies)}
+              </select>
             </div>
           `)
       } else if (i == 11) {
@@ -238,6 +276,11 @@ $(document).ready(function () {
     data = $(this).serializeArray()
     url = "{{route('branch.update')}}"
       poster({url,data}, (res) => {users_table.ajax.reload(null, false); console.log(res);})
+  })
+
+  //for cancel user edit
+  $('#users-table').on( 'click', 'tbody tr td .restore', function (e) {
+    users_table.ajax.reload(null, false)
   })
 
 });

@@ -33,15 +33,11 @@ class BranchController extends Controller
       }
       //$members = Member::all();
       if ($request->draw) {
-        $users = User::select()->join('country', 'country.ID', '=', 'users.currency')->get();
+        $users = User::select('users.*', 'c2.ID', 'c2.currency_symbol', 'c.name')->join('country AS c', 'c.ID', '=', 'users.country')->join('country AS c2', 'c2.ID', '=', 'users.currency')->get();
         return Datatables::of($users)->make(true);
       } else {
-        // code...
-        $users = User::select()->join('country', 'country.ID', '=', 'users.currency')->get();
-        $user = \Auth::user();
-        return view('branch.all',compact('users'));
+        return view('branch.all');
       }
-        //\Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard') : view('branch.all',compact('users'));
     }
 
     public function users(){
@@ -262,26 +258,26 @@ class BranchController extends Controller
     }
 
     public function updateBranch(Request $request){
-      $member = User::whereId($request->id)->first();
+      $branch = User::whereId($request->id)->first();
       // dd($request);
-      if($member) {
+      if($branch) {
         $errors = [];
         $fields = (array)$request->request;//->parameters;//->ParameterBag->parameters;
         $fields = $fields["\x00*\x00parameters"];
         foreach ($fields as $key => $value) {
           if ($key != 'id' && $key != '_token' && $key != 'action') {
-              $member->$key = $request->$key;
+              $branch->$key = $request->$key;
           }
         }
         try {
-          $member->save();
+          $branch->save();
         } catch (\Exception $e) {
           array_push($errors, $e);
           // dd($e);
           return response()->json(['status' => false, 'text' => $e->errorInfo[2]]);
         }
       }
-      else {return response()->json(['status' => false, 'text' => "Member does not exist"]);}
-      return response()->json(['status' => true, 'text' => "Member has been updated!"]);
+      else {return response()->json(['status' => false, 'text' => "Branch does not exist"]);}
+      return response()->json(['status' => true, 'text' => "Branch has been updated!"]);
     }
 }

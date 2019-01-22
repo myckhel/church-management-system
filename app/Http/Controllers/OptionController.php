@@ -76,15 +76,32 @@ class OptionController extends Controller
       return response()->json(['status' => true]);
     }
 
-    public function test(){
-      $array = [];
+    public function getCurrencies(Request $request){
       $sql = "SELECT currency_symbol, ID FROM country WHERE currency_name != '' AND currency_symbol != ''";
       $currencies = \DB::select($sql);
-      foreach ($currencies as $key => $value) {
-        // code...
-        array_push($array, $value->currency_symbol);
+      if ($request->_) {
+        $array = [];
+        foreach ($currencies as $key => $value) {
+          // code...
+          array_push($array, $value->currency_symbol);
+        }
+        return response()->json($array);
       }
-      return response()->json($array);
+      return response()->json($currencies);
+    }
+
+    public function getCountries(Request $request){
+      $sql = "SELECT name, ID FROM country";
+      $currencies = \DB::select($sql);
+      if ($request->_) {
+        $array = [];
+        foreach ($currencies as $key => $value) {
+          // code...
+          array_push($array, $value->currency_symbol);
+        }
+        return response()->json($array);
+      }
+      return response()->json($currencies);
     }
 
     public function collectionTypeGet(Request $request){
@@ -120,7 +137,7 @@ class OptionController extends Controller
 
     public function updateCollectionType(Request $request){
       $collection = \App\CollectionsType::whereId($request->id)->first();
-      if($collection) { $collection->name = $request->name; $collection->save();}
+      if($collection) { $collection->name = \App\CollectionsType::formatString($request->name); $collection->save();}
       else {return response()->json(['status' => false, 'text' => "collection does not exist"]);}
       return response()->json(['status' => true, 'text' => "collection has been updated!"]);
     }

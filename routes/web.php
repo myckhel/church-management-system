@@ -121,7 +121,8 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/branches/tools/collection-type/update', 'OptionController@updateCollectionType')->name('update.collection.type');
     // Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
     // test
-    Route::get('/branches/tools/group', 'OptionController@test')->name('option.test');
+    Route::get('/currencies/get', 'OptionController@getCurrencies')->name('option.currencies');
+    Route::get('/countries/get', 'OptionController@getCountries')->name('option.countries');
     Route::get('apis', 'CollectionController@test')->name('apis');
 
     // MAIL TEMPLATE PREVIEW SECTION
