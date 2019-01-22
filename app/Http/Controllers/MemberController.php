@@ -150,15 +150,12 @@ class MemberController extends Controller
     {
       $member = Member::find($id);
       $user = \Auth::user();
+      $c_types = \App\CollectionsType::getTypes();
       $sql = 'SELECT COUNT(case when attendance = "yes" then 1 end) AS present, COUNT(case when attendance = "no" then 1 end) AS absent,
       MONTH(attendance_date) AS month FROM `members_attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND member_id = '.$member->id.' GROUP BY month';
       $attendances = \DB::select($sql);
 
-      $sql = 'SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-      MONTH(date_added) AS month FROM `members_collection` WHERE YEAR(date_added) = YEAR(CURDATE()) AND member_id = '.$member->id.' GROUP BY month';
-      $collections = \DB::select($sql);
-
-      return view('members.profile', compact('member', 'attendances', 'collections'));
+      return view('members.profile', compact('member', 'attendances', 'member', 'c_types'));
     }
 
     /**
@@ -347,4 +344,90 @@ class MemberController extends Controller
       else {return response()->json(['status' => false, 'text' => "Member does not exist"]);}
       return response()->json(['status' => true, 'text' => "Member has been updated!"]);
     }
+
+  public function memberAnalysis (Request $request){
+    $user = \Auth::user();
+    $c_types = \App\CollectionsType::getTypes();
+    $savings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->where('member_id', $request->id)->get());
+    $interval = $request->interval;
+    $group = $request->group;
+    $months = [];
+    for ($i = $interval-1; $i >= 0; $i--) {
+      $t = 'M';
+      switch ($group) {
+        case 'day': $t = 'D'; break;
+        case 'week': $t = 'W'; break;
+        case 'month': $t = 'M'; break;
+        case 'year': $t = 'Y'; break;
+      }
+      $dateOrNot = $group == 'month' ? date('Y-m-01') : '';
+      $months[$i] = date($t, strtotime($dateOrNot. "-$i $group")); //1 week ago
+    }
+    $collections2 = $this->calculateSingleTotal($savings, $group);
+    $dt = (function($savings, $c_types, $months, $group){
+      $output = [];
+      foreach ($months as $key => $value) {
+  		$month = $value; $found = false;
+  		foreach ($savings as $collection) {
+  			if($value == $collection->$group){
+  				$found = true;
+          $output[] = $this->yData($collection, $c_types, $value);
+  			}
+  		}
+  		if(!$found){
+  			$output[] = $this->noData($c_types, $value);
+  		}
+  	}
+    return $output;
+  })($collections2, $c_types, $months, $group);
+    // dd($dt);
+    return response()->json($dt);
+  }
+
+  private function yData($collection,$c_types, $value){
+    $y = new \stdClass();
+    $y->y = $value;  $i = 1; $size = sizeof($c_types);
+    foreach ($c_types as $key => $value) {
+      $name = $value->name;
+      $amount = isset($collection->$name) ? $collection->$name : 0;
+      $y->$name = $amount;
+      $i++;
+    }
+    return $y; //. "},";
+  }
+
+  private function noData($c_types, $value){
+    $y = new \stdClass();
+    $y->y = $value; $i=1;
+    foreach ($c_types as $key => $value) {
+      $name = $value->name;
+      $y->$name = 0;
+      $i++;
+    }
+    return $y;//. "},";
+  }
+
+  private function calculateSingleTotal($savings, $type){
+    $obj = [];
+    foreach ($savings as $key => $value) {
+      switch ($type) {
+        case 'day': $t = 'D'; break;
+        case 'week': $t = 'W'; break;
+        case 'month': $t = 'M'; break;
+        case 'year': $t = 'Y'; break;
+      }
+      $date = date($t, strtotime($value->date_collected));
+      $year = (int)substr($value->date_collected, 0,4);
+      foreach ($value->amounts as $ke => $valu) {
+        if (isset($obj[$date])) {
+          if (isset($obj[$date]->$ke)) {  $obj[$date]->$ke += $valu; } else { $obj[$date]->$ke = $valu; }
+        } else {
+          $obj[$date] = new \stdClass();
+          $obj[$date]->$ke = $valu;
+          $obj[$date]->$type = $date;
+        }
+      }
+    }
+    return $obj;
+  }
 }

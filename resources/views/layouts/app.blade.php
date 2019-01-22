@@ -744,10 +744,6 @@ function dele(input){
         </script>
 	@endif
 
-@if (Route::currentRouteName() == 'member.profile')
-<?php require_once 'js/views/members/profile.php'; ?>
-@endif
-
 <!-- FOR ATTENDANCE ANALYSIS -->
 @if (Route::currentRouteName() == ('attendance.analysis'))
 <?php require_once 'js/views/attendance/analysis.php';?>

@@ -32,6 +32,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/member/upgrade', 'MemberController@upgrade')->name('member.upgrade');
     Route::post('/member/upload/img', 'MemberController@uploadImg')->name('member.upload.img');
     Route::post('/member/update', 'MemberController@updateMember')->name('member.update');
+    Route::get('/member/analysis', 'MemberController@memberAnalysis')->name('member.analysis');
 
     Route::get('/branches', 'BranchController@index')->name('branches');
     Route::get('/branches/{id}/destroy', 'BranchController@destroy')->name('branch.destroy');

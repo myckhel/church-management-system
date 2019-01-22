@@ -52,8 +52,6 @@ function yData($collection,$c_types, $value){
   }
   echo $y . "},";
 }
-$months =  ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
-// $months =  ['Dec','Nov','Oct','Sept','Aug','Jul','Jun','May','Apr', 'Mar', 'Feb', 'Jan'];
  $generateColor = function($c_types){
    $c = [];
    foreach($c_types as $value){
