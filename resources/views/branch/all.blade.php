@@ -128,7 +128,7 @@ $(document).ready(function () {
       oLanguage: {sProcessing: divLoader()},
       ajax: "{{route('branches')}}",
       columns: [
-          { title: '<input id="select-all" type="checkbox" /> Select all', data: 'id', render : ( data ) => (`<input type="checkbox" name="member[]" value="${data}" />`)
+          { title: '<input id="select-all" type="checkbox" /> Select all', data: 'id', render : ( id ) => (`<input type="checkbox" name="branch[]" value="${id}" />`)
           , name: 'id' },
           { title: "S/N", render: () => (i++), name: 'id' },
           { title: "Branch Name", data: 'branchname', name: 'branchname'},
@@ -282,6 +282,44 @@ $(document).ready(function () {
   $('#users-table').on( 'click', 'tbody tr td .restore', function (e) {
     users_table.ajax.reload(null, false)
   })
+
+  //for bulk delete
+  $('#select-all').click(function(){
+    if(this.checked){
+      $('input[name=branch\\[\\]]').each(function()
+      {
+        this.checked = true;
+      });
+    }else{
+      $('input[name=branch\\[\\]]').each(function()
+      {
+        this.checked = false;
+      });
+    }
+  });
+
+  $('#apply').click(function(){
+    loadElement($('#apply'), true)
+    var example = $('input[name=branch\\[\\]]').map(function(){
+      if($(this).is(':checked')){return this.value;}
+    }).get();
+    if(example.length == 0){return;}
+    if($('#action').find(":selected[value=delete]").length == 0){loadElement($('#apply'), false); return;}
+    let confirmed = confirm('Are you sure you want to delete selected item(s)?');
+    if(confirmed){
+      var values = {'id': example, '_token': '{{ csrf_token() }}' };
+      $.ajax({type: "POST", url: "{{route('branch.delete.multi')}}", data: values, dataType: "json", encode: true})
+        .done(function(response){
+          // if(response.status){
+          swal('Success', response.text, 'success')
+          // }else{
+          //   swal('Oops', 'Error Occured', 'error');
+          // }
+          users_table.ajax.reload(null, false)
+      });
+    }
+    loadElement($('#apply'), false)
+  });
 
 });
 

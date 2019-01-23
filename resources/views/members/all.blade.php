@@ -326,30 +326,6 @@ $(document).ready(function () {
       e.preventDefault()
       data = {}
       data = $(this).serializeArray()
-      // elements = $(this).parent().closest('tr').find('td :input')
-      // data.id = $(elements[0]).val()
-      // data.firstname = $(elements[1]).val()
-      // data.lastname = $(elements[2]).val()
-      // data.occupation = $(elements[3]).val()
-      // data.member_status = $(elements[4]).val()
-      // // data.marital_status = ($(elements[5]).attr('checked')) ? $(elements[5]).val() : $(elements[6]).val();
-      // data.marital_status = $('input[name=marital_status]:checked', '#users-form').val()
-      // data.phone = $(elements[7]).val()
-      // data.email = $(elements[8]).val()
-      // // data.sex = ($(elements[9]).attr('checked')) ? $(elements[9]).val() : $(elements[10]).val();
-      // data.sex = $('input[name=sex]:checked', '#users-form').val()
-      // data.dob = $(elements[11]).val()
-      // data.member_since = $(elements[12]).val()
-      // data.position = $(elements[13]).val()
-      // data.address = $(elements[14]).val()
-      // data.address2 = $(elements[15]).val()
-      // data.state = $(elements[16]).val()
-      // data.city = $(elements[17]).val()
-      // data.country = $(elements[18]).val()
-      // data.wedding_anniversary = $(elements[19]).val()
-      // console.log(data.id,data.firstname,data.lastname,data.occupation,data.member_status,data.marital_status,data.phone,data.email,data.sex,
-      //   data.dob,data.member_since,data.position,data.address,data.address2,data.state,data.city,data.country,data.wedding_anniversary );
-      // data._token = "{{csrf_token()}}"
       url = "{{route('member.update')}}"
         poster({url,data}, (res) => {users_table.ajax.reload(null, false); console.log(res);})
     })

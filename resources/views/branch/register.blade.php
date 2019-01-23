@@ -87,7 +87,7 @@
 									</span>
 								</div>
 								@endif
-                <form action="{{route('branch.register')}}" method="POST">
+                <form id="branch-form" action="{{route('branch.register')}}" method="POST">
                 @csrf
                     <div class="row">
                         <div class="col-sm-6">
@@ -475,4 +475,32 @@
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
 
+@endsection
+
+@section('js')
+<script>
+var countries;
+function getCountries(){
+  $.ajax({url: "{{route('option.countries')}}"})
+  .done((res) => { countries = res; return (r) => { console.log(r);}; })
+}
+
+function options(countries){
+	opt = ''
+	countries.forEach((v) => {
+		opt += `<option value="${v.ID}">${v.name}</option>`
+	})
+	return opt
+}
+$(document).ready( async () => {
+	select = $('#branch-form').find('input[name=country]')
+	console.log(select);
+	console.log(countries);
+	coming = await getCountries()
+
+	h = await coming(countries)
+	return 
+
+})
+</script>
 @endsection

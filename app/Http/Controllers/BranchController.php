@@ -249,6 +249,21 @@ class BranchController extends Controller
         return redirect('/branches/head_office_options');
     }
 
+    public function delete(Request $request){
+      $failed = 0;
+      $text = "All selected branches were deleted successfully";
+      foreach ($request->id as $key => $value) {
+        $branch = User::whereId($value)->first();
+        if($branch){
+          $branch->delete();
+        } else {
+          $failed++;
+          $text = "$failed Operations could not be performed";
+        }
+      }
+      return response()->json(['status' => true, 'text' => $text]);
+    }
+
     public function tools(){
       return view('branch.tools');
     }
