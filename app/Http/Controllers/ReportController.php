@@ -45,12 +45,14 @@ class ReportController extends Controller
         if ($type == 'now') {
           foreach ($value->amounts as $ke => $valu) {
             if ($value->date_collected ==  now()->toDateString() ) {
-              $obj->$ke = $valu;
+              $obj->$ke = isset($obj->$ke) ? $obj->$ke + $valu : $valu;
             } else {
-              $obj->$ke = 0;
+              $obj->$ke = isset($obj->$ke) ? $obj->$ke + 0 : 0;
             }
           }
-        } elseif ($type == 'year') {
+          dd($savings);
+        }
+        if ($type == 'year') {
           $year = substr($value->date_collected, 0,4);
           foreach ($value->amounts as $ke => $valu) {
             if (!isset($obj->$ke)) {$obj->$ke = new \stdClass();}
@@ -60,7 +62,8 @@ class ReportController extends Controller
               $obj->$ke->$year = $valu;
             }
           }
-        } elseif ($type == 'memberTotal' || $type == 'branchTotal') {
+        }
+        if ($type == 'memberTotal' || $type == 'branchTotal') {
           $name = ($type == 'memberTotal') ? $value->name : $value->branch_name;
           $obj[$name]['today'] = ($value->date_collected ==  now()->toDateString()) ? array_sum($value->amounts) : 0;
           if (isset($obj[$name]['total']) ) {
@@ -68,7 +71,8 @@ class ReportController extends Controller
           } else {
             $obj[$name]['total'] = array_sum($value->amounts);
           }
-        } else {
+        }
+        if(!$type){
           foreach ($value->amounts as $ke => $valu) {
             if (isset($obj->$ke)) {
               $obj->$ke += $valu;
@@ -77,7 +81,9 @@ class ReportController extends Controller
             }
           }
         }
+        // dd($obj);
       }
+      // $type = false;
       return $obj;
     }
 
@@ -90,6 +96,7 @@ class ReportController extends Controller
       $obj->total_collections = $this->calculateTotal($savings);
       $obj->todays_total_collections = $this->calculateTotal($savings, 'now');
       $obj->todays_single_collections = $this->calculateSingleTotal($savings, 'now');
+      // dd($this->calculateSingleTotal($savings, 'now'));
       $obj->total_single_collections = $this->calculateSingleTotal($savings);
       $c_types = \App\CollectionsType::getTypes();
 
@@ -179,7 +186,7 @@ class ReportController extends Controller
       }
       $savings = \App\Savings::rowToColumn(\App\Savings::all());
       $bSavings = \App\Savings::rowToColumn(\App\Savings::with('users')->get(), 'branch');
-      $branches = $this->calculateSingleTotal($bSavings, 'branchTotal');
+      // $branches = $this->calculateSingleTotal($bSavings, 'branchTotal');
       $obj = new \stdClass();
       $obj->total_collections = $this->calculateTotal($savings);
       $obj->todays_total_collections = $this->calculateTotal($savings, 'now');

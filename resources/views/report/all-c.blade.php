@@ -3,6 +3,10 @@
 @section('title') All Branches Collection Report @endsection
 
 @section('content')
+<?php
+function issetor(&$var, $default = false) {
+    return isset($var) ? $var : $default;
+} ?>
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
 <div id="content-container">
@@ -119,10 +123,10 @@
                     </th>
                     <td>
                       <?php $name = $collect->name; ?>
-                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->total_single_collections->$name)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format(issetor($reports->total_single_collections->$name))}}</span>
                     </td>
                     <td>
-                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->todays_single_collections->$name)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format(issetor($reports->todays_single_collections->$name))}}</span>
                     </td>
                   </tr>
                   @endforeach

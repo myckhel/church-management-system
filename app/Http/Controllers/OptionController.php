@@ -106,13 +106,13 @@ class OptionController extends Controller
 
     public function collectionTypeGet(Request $request){
       $branch_id = Auth::user()->id;
-      $types = \App\CollectionsType::where('branch_id', $branch_id)->get();
+      $types = \App\CollectionsType::all();
       return Datatables::of($types)->make(true);
     }
 
     public function serviceTypeGet(Request $request){
       $branch_id = Auth::user()->id;
-      $types = \App\ServiceType::where('branch_id', $branch_id)->get();
+      $types = \App\ServiceType::all();
       return Datatables::of($types)->make(true);
     }
 
