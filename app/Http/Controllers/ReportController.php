@@ -50,7 +50,7 @@ class ReportController extends Controller
               $obj->$ke = isset($obj->$ke) ? $obj->$ke + 0 : 0;
             }
           }
-          dd($savings);
+          // dd($savings);
         }
         if ($type == 'year') {
           $year = substr($value->date_collected, 0,4);
