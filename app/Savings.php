@@ -41,6 +41,34 @@ class Savings extends Model
       return $row;
     }
 
+    public static function rowToColumnByField($data) {
+      $row = [];
+      foreach($data as $index => $v) {
+        $name =  $v->users->branchname;
+        $amount = $v->amount;
+        $collectionName = $v->collections_types->name;
+        $serviceName = $v->service_types->name;
+        $date_collected = $v->date_collected;
+
+        if(!isset($row[$name])) {
+          $row[$name] = [];
+        }
+
+        if (!isset($row[$name][$date_collected])) {
+          $row[$name][$date_collected] = [];
+        }
+
+        if (!isset($row[$name][$date_collected]['amounts'])) {
+          $row[$name][$date_collected]['amounts'] = [];
+          $row[$name][$date_collected]['service_type'] = $serviceName;
+        }
+
+        $row[$name][$date_collected]['amounts'][$collectionName] = $amount;
+      }
+      
+      return $row;
+    }
+
     public function service_types(){
       return $this->belongsTo(ServiceType::class);
     }
