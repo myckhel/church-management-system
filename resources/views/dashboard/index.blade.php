@@ -7,6 +7,11 @@
 <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet">
 <link href="{{ URL::asset('css/stylemashable.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{URL::asset('css/icofont.min.css')}}">
+<style media="screen">
+.icofont{
+  font-size: 35px;
+}
+</style>
 @endsection
 
 @section('content')
@@ -106,282 +111,383 @@
     </div>
   </div>
 
+  <div class="panel">
 
-
-  <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-      <div clas="row">
-        <div class="col-md-12">
-            <div class="panel" style="background-color: #e8ddd3;">
-              <div class="row">
-                <div class="col-md-6 col-xl-3">
-              <div class="card client-blocks dark-primary-border">
-              <div class="card-block">
-              <h5>Number of Our Branches</h5>
-              <ul>
-              <li>
-              <i class="icofont icofont-building-alt"></i>
-              </li>
-              <li class="text-right">
-              {{\App\User::all()->count()}}
-              </li>
-              </ul>
+      <!--Chart information-->
+      <div class="panel-body">
+          <div class="row mar-top">
+              <div class="col-md-5">
+                  <h3 class="text-main text-normal text-2x mar-no">Member Stats</h3>
+                  <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
+                  <div class="row mar-top">
+                      <div class="col-sm-7">
+                          <table class="table table-condensed table-trans">
+                              <tr>
+                                  <td class="text-lg" style="width: 40px"><span class="badge badge-purple">354</span></td>
+                                  <td>Male</td>
+                              </tr>
+                              <tr>
+                                  <td class="text-lg"><span class="badge badge-dark">74</span></td>
+                                  <td>Female</td>
+                              </tr>
+                              <!-- <tr>
+                                  <td class="text-lg"><span class="badge badge-danger">25</span></td>
+                                  <td>Teachers</td>
+                              </tr> -->
+                          </table>
+                      </div>
+                      <div class="col-sm-5 text-center">
+                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no">520</p></div>
+                          <p class="text-sm">Since Last 12 Months 190 peoples already registered</p>
+                      </div>
+                  </div>
               </div>
-              </div>
-              </div>
-
-
-              <div class="col-md-6 col-xl-3">
-              <div class="card client-blocks warning-border">
-              <div class="card-block">
-              <h5>Number of Our Members</h5>
-              <ul>
-              <li>
-              <i class="icofont icofont-ui-user-group text-warning"></i>
-              </li>
-              <li class="text-right text-warning">
-              {{$total['members']}}
-              </li>
-              </ul>
-              </div>
-              </div>
-              </div>
-
-
-              <div class="col-md-6 col-xl-3">
-              <div class="card client-blocks success-border">
-              <div class="card-block">
-              <h5>Number of  Our Workers</h5>
-              <ul>
-              <li>
-              <i class="icofont-workers-group text-success"></i>
-              </li>
-              <li class="text-right text-success">
-              {{$total['workers']}}
-              </li>
-              </ul>
-              </div>
-              </div>
-              </div>
-
-
-              <div class="col-md-6 col-xl-3">
-              <div class="card client-blocks">
-              <div class="card-block">
-              <h5>Number of Our Pastors</h5>
-              <ul>
-              <li>
-              <i class="icofont-man-in-glasses text-primary"></i>
-              </li>
-              <li class="text-right text-primary">
-              {{$total['pastors']}}
-              </li>
-              </ul>
-              </div>
-              </div>
-              </div>
+              <div class="col-md-7">
+                  <div id="users-chart" style="height:230px"></div>
               </div>
           </div>
-        </div>
       </div>
-      <div clas="row">
-        <div class="col-md-6">
-          <div class="view2">
-            <!--Tile-->
-            <!--===================================================-->
-            <div class="panel" style="background-color: #e8ddd3;"> <!--panel-dark panel-colorful" -->
-              <div class="panel-heading"> <!--body text-center"-->
-                  <h3 class="panel-title"><strong>Birthdays For <?php echo date('F Y'); ?></strong> </h3>
-                  <!--i class="demo-pli-coin icon-4x"></i-->
-              </div>
-              <!-- Striped Table -->
-              <!--===================================================-->
-              <?php
-              $celebs = [];
-              foreach ($members as $key => $member) {
-                // code...
-                if (date('F', (strtotime($member->dob))) == date('F') || date('F', (strtotime($member->wedding_anniversary))) == date('F')  ) {
-                  array_push($celebs, $member); }
-              }
-              ?>
-              <div class="panel-body">
-                <div class="col-lg-12">
-                  @if(count($celebs) > 0)
-                  <div class="card table-1-card">
-                  <div class="card-block">
-                  <div class="table-responsive">
-                  <table class="table">
-                  <thead>
-                  <tr class="text-capitalize">
-                  <th>  </th>
-                  <th>Type</th>
-                  <th>Celebrant Name</th>
-                  <th>Position</th>
-                  <th>Date</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    @foreach ($celebs as $member)
-                    @if(date('F', (strtotime($member->dob))) == date('F'))
-                    <tr>
-                    <td>
-                      <img class="d-flex mr-3 img-circle img-40 img-thumbnail" src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image">
-                    </td>
-                    <td>
-                      @if((int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->dob)), 0,2))
-                      <a href="#!">Upcoming</a>
-                      @else
-                      <a class="text-danger" href="#!">Past</a>
-                      @endif
-                    </td>
-                    <td>{{ucwords($member->getFullname())}}</td>
-                    <td>{{ucwords($member->position)}}</td>
-                    <td>{{date('jS', strtotime($member->dob))}}</td>
-                    </tr>
-                    @endif
-                    @endforeach
-                  </tbody>
-                  </table>
+  </div>
+
+  <div class="panel">
+
+      <!--Chart information-->
+      <div class="panel-body">
+          <div class="row mar-top">
+              <div class="col-md-5">
+                  <h3 class="text-main text-normal text-2x mar-no">Collection Stats</h3>
+                  <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
+                  <div class="row mar-top">
+                      <div class="col-sm-7">
+                          <table class="table table-condensed table-trans">
+                              <tr>
+                                  <td class="text-lg" style="width: 40px"><span class="badge badge-purple">N30,254</span></td>
+                                  <td>Offering</td>
+                              </tr>
+                              <tr>
+                                  <td class="text-lg"><span class="badge badge-dark">N70,400</span></td>
+                                  <td>Seed Offering</td>
+                              </tr>
+                              <tr>
+                                  <td class="text-lg"><span class="badge badge-danger">N22,305</span></td>
+                                  <td>Tithe</td>
+                              </tr>
+                          </table>
+                      </div>
+                      <div class="col-sm-5 text-center">
+                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no">520</p></div>
+                          <p class="text-sm">Since Last 12 Month N190 were collected</p>
+                      </div>
                   </div>
-                   </div>
+              </div>
+              <div class="col-md-7">
+                  <div id="collection-chart" style="height:230px"></div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="panel">
+
+      <!--Chart information-->
+      <div class="panel-body">
+          <div class="row mar-top">
+              <div class="col-md-5">
+                  <h3 class="text-main text-normal text-2x mar-no">Attendance Stats</h3>
+                  <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
+                  <div class="row mar-top">
+                      <div class="col-sm-7">
+                          <table class="table table-condensed table-trans">
+                              <tr>
+                                  <td class="text-lg" style="width: 40px"><span class="badge badge-purple">354</span></td>
+                                  <td>Attended</td>
+                              </tr>
+                              <tr>
+                                  <td class="text-lg"><span class="badge badge-dark">74</span></td>
+                                  <td>Missed</td>
+                              </tr>
+                              <!-- <tr>
+                                  <td class="text-lg"><span class="badge badge-danger">25</span></td>
+                                  <td>Teachers</td>
+                              </tr> -->
+                          </table>
+                      </div>
+                      <div class="col-sm-5 text-center">
+                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no">520</p></div>
+                          <p class="text-sm">Since last 12 months average of 190 attendances were recorded</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-7">
+                  <div id="attendance-chart" style="height:230px"></div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+      <div class="col-lg-3">
+          <div class="row">
+              <div class="col-sm-3 col-lg-6">
+
+                  <!--Tile-->
+                  <!--===================================================-->
+                  <div class="panel panel-primary panel-colorful">
+                      <div class="pad-all text-center">
+                        <span class="text-3x text-thin">{{\App\User::all()->count()}}</span>
+                        <p>Parishes</p>
+                        <i class="icofont icofont-building-alt text-success"></i>
+                      </div>
+                  </div>
+                  <!--===================================================-->
+
+
+                  <!--Tile-->
+                  <!--===================================================-->
+                  <div class="panel panel-warning panel-colorful">
+                      <div class="pad-all text-center">
+                        <span class="text-3x text-thin">{{$total['members']}}</span>
+                        <p>Members</p>
+                        <i class="icofont icofont-ui-user-group text-success"></i>
+                      </div>
+                  </div>
+                  <!--===================================================-->
+
+              </div>
+              <div class="col-sm-3 col-lg-6">
+
+                  <!--Tile-->
+                  <!--===================================================-->
+                  <div class="panel panel-purple panel-colorful">
+                      <div class="pad-all text-center">
+                          <span class="text-3x text-thin">{{$total['workers']}}</span>
+                          <p>Workers</p>
+                          <i class="icofont icofont-workers-group text-success"></i>
+                      </div>
+                  </div>
+                  <!--===================================================-->
+
+
+                  <!--Tile-->
+                  <!--===================================================-->
+                  <div class="panel panel-dark panel-colorful">
+                      <div class="pad-all text-center">
+                        <span class="text-3x text-thin">{{$total['pastors']}}</span>
+                        <p>Pastors</p>
+                        <i class="icofont icofont-man-in-glasses text-success"></i>
+                      </div>
+                  </div>
+                  <!--===================================================-->
+
+              </div>
+              <div class="col-sm-6 col-lg-12">
+                <div class="pad-all">
+                    <span class="pad-ver text-main text-sm text-uppercase text-bold">Total Earning</span>
+                    <p class="text-sm">December 17, 2017</p>
+                    <p class="text-2x text-main">$798.54</p>
+                    <button class="btn btn-block btn-success mar-top">Payout</button>
+                </div>
+                <hr class="new-section-xs">
+
+
+              </div>
+          </div>
+      </div>
+
+      <?php
+      $celebs = []; $i = 1;
+      foreach ($members as $key => $member) {
+        // code...
+        if (date('F', (strtotime($member->dob))) == date('F') || date('F', (strtotime($member->wedding_anniversary))) == date('F')  ) {
+          array_push($celebs, $member); }
+      }
+      ?>
+      <div class="col-lg-9">
+          <div class="panel">
+            <div class="panel-heading"> <!--body text-center"-->
+                <h3 class="panel-title"><strong>Birthday(s) For <?php echo date('F Y'); ?></strong> </h3>
+                <!--i class="demo-pli-coin icon-4x"></i-->
+            </div>
+              <div class="panel-body text-center clearfix">
+                @if(count($celebs) > 0)
+                  <div class="table-responsive">
+                      <table class="table table-vcenter mar-top">
+                          <thead>
+                              <tr>
+                                  <th class="min-w-td">#</th>
+                                  <th class="min-w-td">User</th>
+                                  <th class="text-center">Full Name</th>
+                                  <th class="text-center">Email</th>
+                                  <th class="text-center">Status</th>
+                                  <th class="text-center">Role</th>
+                                  <th class="text-center">Date</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($celebs as $member)
+                            @if(date('F', (strtotime($member->dob))) == date('F'))
+                              <tr>
+                                  <td class="min-w-td">{{$i}}</td>
+                                  <td class="text-center"><img src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image" class="img-circle img-sm"></td>
+                                  <td class="text-center"><a class="btn-link" href="#">{{ucwords($member->getFullname())}}</a></td>
+                                  <td class="text-center">{{$member->email}}</td>
+                                  <td class="text-center">
+                                    @if((int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->dob)), 0,2))
+                                  <span class="label label-table label-success">Upcoming</span>
+                                  @else
+                                  <span class="label label-table label-purple">Past</span>
+                                  @endif
+                                  </td>
+                                  <td class="text-center"><span class="label label-table label-info">{{ucwords($member->position)}}</span></td>
+                                  <td class="text-center">
+                                      <div class="btn-group">
+                                        {{date('jS', strtotime($member->dob))}}
+                                      </div>
+                                  </td>
+                              </tr>
+                              <?php $i++; ?>
+                              @endif
+                              @endforeach
+
+                          </tbody>
+                      </table>
+                      <hr>
+                      <!--Pagination-->
                   </div>
                   @else
                   <p class="text-danger"> No Birthday </p>
                   @endif
-                </div>
               </div>
-            </div>
-              <!--===================================================-->
           </div>
-       </div>
-        <div class="col-md-6">
-            <div class="view2">
-              <!--Tile-->
-              <!--===================================================-->
-              <div class="panel" style="background-color: #e8ddd3;"> <!--panel-dark panel-colorful" -->
-                  <div class="panel-heading"> <!--body text-center"-->
-                      <h3 class="panel-title"><strong>Anniversaries For <?php echo date('F Y'); ?></strong> </h3>
-                      <!--i class="demo-pli-coin icon-4x"></i-->
+      </div>
+
+      <div class="col-lg-9">
+          <div class="panel">
+            <div class="panel-heading"> <!--body text-center"-->
+                <h3 class="panel-title"><strong>Wedding Anniversarie(s) For <?php echo date('F Y'); $i = 1; ?></strong> </h3>
+                <!--i class="demo-pli-coin icon-4x"></i-->
+            </div>
+              <div class="panel-body text-center clearfix">
+                @if(count($celebs) > 0)
+                  <div class="table-responsive">
+                      <table class="table table-vcenter mar-top">
+                          <thead>
+                              <tr>
+                                  <th class="min-w-td">#</th>
+                                  <th class="min-w-td">User</th>
+                                  <th class="text-center">Full Name</th>
+                                  <th class="text-center">Email</th>
+                                  <th class="text-center">Status</th>
+                                  <th class="text-center">Role</th>
+                                  <th class="text-center">Date</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($celebs as $member)
+                            @if(date('F', (strtotime($member->wedding_anniversary))) == date('F'))
+                              <tr>
+                                  <td class="min-w-td">{{$i}}</td>
+                                  <td class="text-center"><img src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image" class="img-circle img-sm"></td>
+                                  <td class="text-center"><a class="btn-link" href="#">{{ucwords($member->getFullname())}}</a></td>
+                                  <td class="text-center">{{$member->email}}</td>
+                                  <td class="text-center">
+                                    @if((int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->wedding_anniversary)), 0,2))
+                                  <span class="label label-table label-success">Upcoming</span>
+                                  @else
+                                  <span class="label label-table label-purple">Past</span>
+                                  @endif
+                                  </td>
+                                  <td class="text-center"><span class="label label-table label-info">{{ucwords($member->position)}}</span></td>
+                                  <td class="text-center">
+                                      <div class="btn-group">
+                                        {{date('jS', strtotime($member->wedding_anniversary))}}
+                                      </div>
+                                  </td>
+                              </tr>
+                              <?php $i++; ?>
+                              @endif
+                              @endforeach
+
+                          </tbody>
+                      </table>
+                      <hr>
+                      <!--Pagination-->
                   </div>
-                  <!-- Striped Table -->
-                  <!--===================================================-->
-                    <div class="panel-body">
-                      <div class="col-lg-12">
-                        @if(count($celebs) > 0)
-                        <div class="card table-1-card">
-                        <div class="card-block">
-                        <div class="table-responsive">
-                        <table class="table">
-                        <thead>
-                        <tr class="text-capitalize">
-                        <th>  </th>
-                        <th>Type</th>
-                        <th>Celebrant Name</th>
-                        <th>Position</th>
-                        <th>Date</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          @foreach ($celebs as $member)
-                          @if(date('F', (strtotime($member->wedding_anniversary))) == date('F'))
-                          <tr>
-                          <td>
-                            <img class="d-flex mr-3 img-circle img-40 img-thumbnail" src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image">
-                          </td>
-                          <td>
-                            @if((int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->wedding_anniversary)), 0,2))
-                            <a href="#!">Upcoming</a>
-                            @else
-                            <a class="text-danger" href="#!">Past</a>
-                            @endif
-                          </td>
-                          <td>{{ucwords($member->getFullname())}}</td>
-                          <td>{{ucwords($member->position)}}</td>
-                          <td>{{date('jS', strtotime($member->wedding_anniversary))}}</td>
-                          </tr>
-                          @endif
-                          @endforeach
-                        </tbody>
-                        </table>
-                        </div>
-                         </div>
-                        </div>
-                        @else
-                        <p class="text-danger"> No Anniversary </p>
-                        @endif
-                      </div>
-                    </div>
+                  @else
+                  <p class="text-danger"> No Anniversary </p>
+                  @endif
               </div>
-              <!--===================================================-->
-            </div>
           </div>
-        </div>
+      </div>
+
+  </div>
+  <?php $eventss = []; foreach ($events as $event)
+    if($event->date >= now())
+      array_push($eventss, $event)
+  ?>
+  <div class="col-md-10 col-md-offset-1">
+      <div class="panel">
+          <div class="panel-heading">
+              <h1 class="text-bold panel-title">Upcoming Events for {{strtoupper(\Auth::user()->branchname)}}</h1>
+          </div>
+          <div class="nano" style="height:360px">
+              <div class="nano-content">
+                @foreach ($eventss as $event)
+                  <div class="panel-body bord-btm">
+                      <p class="text-bold text-main text-sm"># {{ucwords($event->title)}}</p>
+                      <p class="pad-btm">{{ucwords($event->details)}}</p>
+                      <a href="#" class="task-footer">
+                          <span class="box-inline">
+                              <label class="label label-warning"><i class="icofont-location-arrow"></i> {{$event->location}}</label>
+                              <label class="label label-danger"><i class="icofont-user"></i> {{ucwords($event->by_who)}}</label>
+                              <label class="label label-primary"><i class="icofont-stop-watch"></i> {{$event->date}}</label>
+                              <label class="label label-info"><i class="icofont-wall-clock icon-fw text-main"></i> {{$event->time}}</label>
+                              <!-- <span class="pad-rgt"><i class="demo-pli-like"></i> 45</span> -->
+                          </span>
+                          <span class="box-inline">
+                            <label class="label label-purple"><i class="icofont-ui-user-group"></i> </label>
+                            <?php
+                            if(isset($event->assign_to)){
+                              $emails = explode(',',$event->assign_to);
+                              foreach($emails as $email){
+                                $name = App\Member::getNameByEmail($email);
+                                if($name){
+                                  echo "<img class='img-xs img-circle' src='".url('/public/images/')."/".App\Member::getPhotoByEmail($email)."' alt='".ucwords($name)."'> ".ucwords($name).", ";
+                                }
+                              }
+                          }else{
+                            echo '<td>None</td>';
+                          }
+                            ?>
+                              <!-- <img class="img-xs img-circle" src="img/profile-photos/8.png" alt="task-user">
+                              Brenda Fuller -->
+                          </span>
+                      </a>
+                  </div>
+                @endforeach
+              </div>
+          </div>
+          <div class="panel-footer text-right">
+              <!-- <button class="btn btn-sm btn-Default">Load mre</button> -->
+              @if(count($eventss) < 1)
+                <p class="text-danger"> No Event </p>
+              @endif
+              <button class="btn btn-sm btn-primary"><i class="icofont icofont-plus m-r-0"></i></button>
+          </div>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+
          <div class="row">
             <div class="col-sm-12">
               <div class="panel" style="background-color: #e8ddd3;">
-                  <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Upcoming Events for {{strtoupper(\Auth::user()->branchname)}}</strong></h3>
-                  </div>
-                  <?php $eventss = []; foreach ($events as $event)
-                    if($event->date >= now())
-                      array_push($eventss, $event)
-                  ?>
+                  
                   <!-- Striped Table -->
                   <!--===================================================-->
                   <div class="panel-body">
-                    <div class="col-lg-12">
-                      @if(count($eventss) > 0)
-                      <div class="card table-1-card">
-                      <div class="card-block">
-                      <div class="table-responsive">
-                      <table class="table">
-                      <thead>
-                      <tr class="text-capitalize">
-                        <th>Title</th>
-                        <th>Location</th>
-                        <th>Time</th>
-                        <th>By</th>
-                        <th>Assigned Pastor(s)</th>
-                        <th>Date</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                        @foreach ($eventss as $event)
-                        <tr>
-                          <td><a href="#" class="btn-link">{{$event->title}}</a></td>
-                          <td>{{$event->location}}</td>
-                          <td>{{$event->time}}</td>
-                          <td>{{$event->by_who}}</td>
-                          <?php
-                          if(isset($event->assign_to)){
-                            $emails = explode(',',$event->assign_to);
-                            echo '<td>';
-                            foreach($emails as $email){
-                              $name = App\Member::getNameByEmail($email);
-                              if($name){
-                                echo "<a href='#'><img class='img-fluid img-circle d-flex mr-3 img-30 img-thumbnail' src='".url('/public/images/')."/".App\Member::getPhotoByEmail($email)."' alt='".ucwords($name)."'></a>";
-                              }
-                            }
-                            echo '</td>';
-                        }else{
-                          echo '<td>None</td>';
-                        }
-                          ?>
-                          <td>{{$event->date}}</td>
-                        </tr>
-                        @endforeach
-                      </tbody>
-                      </table>
-                      </div>
-                       </div>
-                      </div>
-                      @else
-                      <div class="text-center">
-                        <p class="text-danger"> No Event </p>
-                        <a href="{{route('calendar')}}" class="btn btn-primary"><i class="icofont icofont-plus m-r-0"></i></a>
-                      </div>
-                      @endif
-                    </div>
+
 
                   </div>
                   <!--===================================================-->
@@ -402,5 +508,123 @@
 @endsection
 
 @section('js')
+<script src="{{URL::asset('plugins/flot-charts/jquery.flot.min.js')}}"></script>
 
+<script>
+$(document).ready(() => {
+
+  // $.ajax({url: "{{route('member.reg.stats')}}"})
+  // .done((res) => {
+  //   console.log(res);
+  // })
+
+  let dd1 = []; dd2 = []
+  $.ajax({url: "{{route('member.analysis')}}", data: {'interval': 8, 'group': 'month', 'id': 59}})
+  .done((res) => {
+    res.map((v) => {
+      dd1.push([v.y, v.Offering])
+      dd1.push([v.y, v.Building_Collection])
+    })
+    console.log(dd1,dd2);
+    console.log(res);
+  })
+  var d1 = [[0, 85], [1, 45], [2, 58], [3, 35], [4, 95], [5, 25], [6, 65], [7, 12], [8, 52], [9, 25], [10, 98], [11, 85], [12, 96]],
+      d2 = [[0, 520], [1, 370], [2, 820], [3, 209], [4, 495], [5, 170], [6, 185], [7, 273], [8, 304], [9, 877], [10, 489], [11, 420], [12, 710]],
+      d3 = [[0, 50], [1, 30], [2, 80], [3, 29], [4, 95], [5, 70], [6, 15], [7, 73], [8, 34], [9, 87], [10, 49], [11, 20], [12, 70]];
+
+
+  $.plot("#users-chart", [ d1, d2, d3 ], {
+      series: {
+          stack: 1,
+          lines: {
+              show: false,
+              fill: true,
+              steps: false
+          },
+          bars: {
+              show: true,
+              lineWidth: 0,
+              barWidth: .7,
+              fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
+          }
+      },
+      colors: ['#3a444e', '#ab47bc', '#ff0000'],
+      grid: {
+          borderWidth: 0,
+          hoverable: true,
+          clickable: true
+      },
+      yaxis: {
+          ticks: 4, tickColor: '#f0f7fa'
+      },
+      xaxis: {
+          ticks: 12,
+          tickColor: '#ffffff'
+      }
+  });
+
+  // collection
+  $.plot("#collection-chart", [ d1, d2, d3 ], {
+      series: {
+          stack: 1,
+          lines: {
+              show: false,
+              fill: true,
+              steps: false
+          },
+          bars: {
+              show: true,
+              lineWidth: 0,
+              barWidth: .7,
+              fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
+          }
+      },
+      colors: ['#3a444e', '#ab47bc', '#ff0000'],
+      grid: {
+          borderWidth: 0,
+          hoverable: true,
+          clickable: true
+      },
+      yaxis: {
+          ticks: 4, tickColor: '#f0f7fa'
+      },
+      xaxis: {
+          ticks: 12,
+          tickColor: '#ffffff'
+      }
+  });
+
+  // Attendnace
+  $.plot("#attendance-chart", [ d1, d2, d3 ], {
+      series: {
+          stack: 1,
+          lines: {
+              show: false,
+              fill: true,
+              steps: false
+          },
+          bars: {
+              show: true,
+              lineWidth: 0,
+              barWidth: .7,
+              fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
+          }
+      },
+      colors: ['#3a444e', '#ab47bc', '#ff0000'],
+      grid: {
+          borderWidth: 0,
+          hoverable: true,
+          clickable: true
+      },
+      yaxis: {
+          ticks: 4, tickColor: '#f0f7fa'
+      },
+      xaxis: {
+          ticks: 12,
+          tickColor: '#ffffff'
+      }
+  });
+
+})
+</script>
 @endsection
