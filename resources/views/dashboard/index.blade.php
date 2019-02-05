@@ -587,7 +587,7 @@ $(document).ready(() => {
           console.log('hhh');
             return "Your sales for " + x + " was $" + y;
         },
-        defaultTheme : false
+        defaultTheme : false,
       },
     });
     // console.log(male);
