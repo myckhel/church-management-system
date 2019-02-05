@@ -521,6 +521,10 @@ while (incr >= 0) {
   months[incr] = monthName[new Date(makeDate.setMonth(makeDate.getMonth() - i)).getMonth()]; //1 week ago
   i++; incr--
 }
+var ticks = []
+months.map((v,i) => {
+ ticks.push([i, v])
+})
 function setPeriod(data, totalObj, dataKey){
   let newarr = dataKey.map(() => [])
   // console.log(newarr);
@@ -530,7 +534,7 @@ function setPeriod(data, totalObj, dataKey){
     data.map((v) => {
       // push array to the first index of the new array
       dataKey.map((key,l) => {
-        newarr[l].push([i, parseInt(v[key])])
+        newarr[l].push([v['month'], parseInt(v[key])])
         // calculate each datakey
         newarr.total[key] += parseInt(v[key])
         // calculate total
@@ -539,6 +543,14 @@ function setPeriod(data, totalObj, dataKey){
       i++
     })
 
+
+    // console.log(newarr.total.ticks, [
+    //             [0, "Overall"],
+    //             [1, "SEA"],
+    //             [2, "INDIA"],
+    //             [3, "NEA"],
+    //             [4, "PZ"]
+    //         ]);
   return newarr
 }
 
@@ -578,9 +590,8 @@ $(document).ready(() => {
              tickColor: '#f0f7fa'
         },
         xaxis: {
-            ticks: 12,
+            ticks: ticks,
             tickColor: '#ffffff'
-<<<<<<< HEAD
         },
         tooltip: true,
         tooltipOpts : {
@@ -590,9 +601,6 @@ $(document).ready(() => {
         },
         defaultTheme : false,
       },
-=======
-        }
->>>>>>> dea0bc4eb163a111a47fa3ae5bde1fc7ca154ba8
     });
     // console.log(male);
     // console.log(res);
@@ -634,7 +642,7 @@ $(document).ready(() => {
              tickColor: '#f0f7fa'
         },
         xaxis: {
-            ticks: 12,//attendance[0].length,
+            ticks: ticks,//attendance[0].length,
             tickColor: '#ffffff'
         }
     });
@@ -691,13 +699,8 @@ $(document).ready(() => {
       //         tickColor: '#ffffff'
       //     }
       // });
-<<<<<<< HEAD
 
 
-=======
-
-
->>>>>>> dea0bc4eb163a111a47fa3ae5bde1fc7ca154ba8
   // collection
   $.plot("#collection-chart", [ d1, d2, d3 ], {
       series: {
