@@ -26,6 +26,7 @@ class HomeController extends Controller
     public function index()
     {
         $user = \Auth::user();
+        $c_types = \App\CollectionsType::getTypes();
          $eventsall =  \App\Announcement::leftjoin('users',"announcements.branchcode", '=','users.branchcode')->where('announcements.branchcode', $user->branchcode)->orWhere('announcements.branch_id', $user->branchcode)->orderBy('announcements.id', 'desc')->get();
         $members = \App\Member::where('branch_id', $user->branchcode)->get();
         $events = Event::where('branch_id', $user->branchcode)->orderBy('date', 'asc')->get();
@@ -35,7 +36,7 @@ class HomeController extends Controller
         $num_workers = $user->isAdmin() ? DB::table('members')->where('position', 'worker')->count() : DB::table('members')->where('position', 'worker')->where('branch_id', \Auth::user()->branchcode)->count();
         $total = ['workers' => $num_workers, 'pastors' => $num_pastors, 'members' => $num_members];
         //$events = Event::all();
-        return view('dashboard.index', compact('events','options','total','members', 'eventsall'));
+        return view('dashboard.index', compact('events','options','total','members', 'eventsall', 'c_types'));
     }
 
     public function gallery()

@@ -257,4 +257,111 @@ class CollectionController extends Controller
     }
     return Datatables::of($history)->make(true);
   }
+  // (function($c_types){
+  //   foreach ($c_types as $key => $value) {
+  //     $name = $value->name;
+  //     return "SUM($name) AS $name,";
+  //   // code...
+  // }})($c_types)
+  public function collectionStats(Request $request){
+    $c_types = \App\CollectionsType::getTypes();
+    $user = \Auth::user();
+    $sql = "COUNT(id) as total, SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
+    MONTH(date_collected) AS month";
+
+    $collections = \App\Savings::rowToColumn(\App\Savings::selectRaw("*, MONTH(date_collected) AS month")
+    ->with('collections_types')->with('service_types')
+    // ->leftJoin('collections_types', 'collections_types.id', 'savings.collections_types_id')
+    ->whereRaw("date_collected > DATE(now() + INTERVAL - 12 MONTH)")->where("savings.branch_id", $user->id)
+    ->groupBy("date_collected", "month", "amount", 'savings.id', 'savings.branch_id', 'savings.collections_types_id',
+     'savings.service_types_id', 'savings.created_at', 'savings.updated_at')
+    //
+    ->get());
+    // dd($collections);
+    $toArray = (function ($collections){ $toArray = [];
+        foreach ($collections as $key => $value) {
+      // code...
+       array_push($toArray, $value);
+     }
+     return $toArray;
+    })($collections);
+    return response()->json($toArray);
+
+    $group = 'month';
+    $months = [];
+    $interval = 0;
+    $ii = 11;
+    $c_types = Array('male', 'female', 'children');
+    for ($i = $interval; $i <= 11; $i++) {
+      $t = 'M';
+      switch ($group) {
+        case 'day': $t = 'D'; break;
+        case 'week': $t = 'W'; break;
+        case 'month': $t = 'M'; break;
+        case 'year': $t = 'Y'; break;
+      }
+      $dateOrNot = $group == 'month' ? date('Y-m-01') : '';
+      $months[$ii] = date($t, strtotime($dateOrNot. "-$i $group")); //1 week ago
+      $ii--;
+    }
+
+    $dt = (function($collections, $c_types, $months, $group){
+      $output = [];
+      foreach ($months as $key => $value) {
+      $month = $value; $found = false;
+      foreach ($collections as $date => $collection) {
+        // dd($member->$group,$month);
+        $m;
+        switch ($collection->$group) {
+          case 1: $m = 'Jan'; break;
+          case 2: $m = 'Feb'; break;
+          case 3: $m = 'Mar'; break;
+          case 4: $m = 'Apr'; break;
+          case 5: $m = 'May'; break;
+          case 6: $m = 'Jun'; break;
+          case 7: $m = 'Jul'; break;
+          case 8: $m = 'Aug'; break;
+          case 9: $m = 'Sep'; break;
+          case 10: $m = 'Oct'; break;
+          case 11: $m = 'Nov'; break;
+          case 12: $m = 'Dec'; break;
+        }
+        // dd($m);
+        if($month == $m){
+          $found = true;
+          $output[] = $this->flotY($collection, $c_types, $key);
+        }
+      }
+      if(!$found){
+        $output[] = $this->flotNoData($c_types, $key);
+      }
+    }
+    return $output;
+  })($collections, $c_types, $months, $group);
+
+  return $dt;
+  }
+
+  private function flotY($collection, $c_types, $value){
+    $y = [];
+    $y['month'] = $value;  $i = 1; $size = sizeof($c_types);
+    foreach ($c_types as $key => $value) {
+      $name = $value;
+      $amount = isset($collection->$name) ? $collection->$name : 0;
+      $y[$name] = $amount;
+      $i++;
+    }
+    return $y;
+  }
+
+  private function flotNoData($c_types, $value){
+    $y = [];
+    $y['month'] = $value; $i=1;
+    foreach ($c_types as $key => $value) {
+      $name = $value;
+      $y[$name] = 0;
+      $i++;
+    }
+    return $y;//. "},";
+  }
 }

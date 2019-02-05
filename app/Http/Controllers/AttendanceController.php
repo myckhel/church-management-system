@@ -223,7 +223,84 @@ class AttendanceController extends Controller
 
     public function attendanceStats(Request $request){
       $user = \Auth::user();
-      return $member = Attendance::selectRaw("COUNT(id) as total, SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
+      $attendances = Attendance::selectRaw("COUNT(id) as total, SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
       MONTH(attendance_date) AS month")->whereRaw("attendance_date > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->branchcode)->groupBy("month")->get();
+
+      $group = 'month';
+      $months = [];
+      $interval = 0;
+      $ii = 11;
+      $c_types = Array('male', 'female', 'children');
+      for ($i = $interval; $i <= 11; $i++) {
+        $t = 'M';
+        switch ($group) {
+          case 'day': $t = 'D'; break;
+          case 'week': $t = 'W'; break;
+          case 'month': $t = 'M'; break;
+          case 'year': $t = 'Y'; break;
+        }
+        $dateOrNot = $group == 'month' ? date('Y-m-01') : '';
+        $months[$ii] = date($t, strtotime($dateOrNot. "-$i $group")); //1 week ago
+        $ii--;
+      }
+
+      $dt = (function($attendances, $c_types, $months, $group){
+        $output = [];
+        foreach ($months as $key => $value) {
+    		$month = $value; $found = false;
+    		foreach ($attendances as $attendance) {
+          // dd($member->$group,$month);
+          $m;
+          switch ($attendance->$group) {
+            case 1: $m = 'Jan'; break;
+            case 2: $m = 'Feb'; break;
+            case 3: $m = 'Mar'; break;
+            case 4: $m = 'Apr'; break;
+            case 5: $m = 'May'; break;
+            case 6: $m = 'Jun'; break;
+            case 7: $m = 'Jul'; break;
+            case 8: $m = 'Aug'; break;
+            case 9: $m = 'Sep'; break;
+            case 10: $m = 'Oct'; break;
+            case 11: $m = 'Nov'; break;
+            case 12: $m = 'Dec'; break;
+          }
+          // dd($m);
+    			if($month == $m){
+    				$found = true;
+            $output[] = $this->flotY($attendance, $c_types, $key);
+    			}
+    		}
+    		if(!$found){
+    			$output[] = $this->flotNoData($c_types, $key);
+    		}
+    	}
+      return $output;
+    })($attendances, $c_types, $months, $group);
+
+    return $dt;
+    }
+
+    private function flotY($attendance, $c_types, $value){
+      $y = [];
+      $y['month'] = $value;  $i = 1; $size = sizeof($c_types);
+      foreach ($c_types as $key => $value) {
+        $name = $value;
+        $amount = isset($attendance->$name) ? $attendance->$name : 0;
+        $y[$name] = $amount;
+        $i++;
+      }
+      return $y;
+    }
+
+    private function flotNoData($c_types, $value){
+      $y = [];
+      $y['month'] = $value; $i=1;
+      foreach ($c_types as $key => $value) {
+        $name = $value;
+        $y[$name] = 0;
+        $i++;
+      }
+      return $y;//. "},";
     }
 }

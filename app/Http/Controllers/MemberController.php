@@ -433,8 +433,88 @@ class MemberController extends Controller
 // count(case when sex = 'male' then 1 end) AS male, count(case when sex = 'female' then 1 end) AS female,
   public function memberRegStats(Request $request){
     $user = \Auth::user();
-    return $member = Member::selectRaw("COUNT(id) as total, SUM(CASE WHEN sex='male' THEN 1 ELSE 0 END) AS male, SUM(CASE WHEN sex='female' THEN 1 ELSE 0 END) AS female,
+    $members = Member::selectRaw("COUNT(id) as total, SUM(CASE WHEN sex='male' THEN 1 ELSE 0 END) AS male, SUM(CASE WHEN sex='female' THEN 1 ELSE 0 END) AS female,
     MONTH(member_since) AS month")->whereRaw("member_since > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->branchcode)->groupBy("month")->get();
+
+    // return $members;
+
+    $group = 'month';
+    $months = [];
+    $interval = 0;
+    $ii = 11;
+    $c_types = Array('male', 'female');
+    for ($i = $interval; $i <= 11; $i++) {
+      $t = 'M';
+      switch ($group) {
+        case 'day': $t = 'D'; break;
+        case 'week': $t = 'W'; break;
+        case 'month': $t = 'M'; break;
+        case 'year': $t = 'Y'; break;
+      }
+      $dateOrNot = $group == 'month' ? date('Y-m-01') : '';
+      $months[$ii] = date($t, strtotime($dateOrNot. "-$i $group")); //1 week ago
+      $ii--;
+    }
+
+    $dt = (function($members, $c_types, $months, $group){
+      $output = [];
+      foreach ($months as $key => $value) {
+  		$month = $value; $found = false;
+  		foreach ($members as $member) {
+        // dd($member->$group,$month);
+        $m;
+        switch ($member->$group) {
+          case 1: $m = 'Jan'; break;
+          case 2: $m = 'Feb'; break;
+          case 3: $m = 'Mar'; break;
+          case 4: $m = 'Apr'; break;
+          case 5: $m = 'May'; break;
+          case 6: $m = 'Jun'; break;
+          case 7: $m = 'Jul'; break;
+          case 8: $m = 'Aug'; break;
+          case 9: $m = 'Sep'; break;
+          case 10: $m = 'Oct'; break;
+          case 11: $m = 'Nov'; break;
+          case 12: $m = 'Dec'; break;
+        }
+        // dd($m);
+  			if($month == $m){
+  				$found = true;
+          $output[] = $this->flotY($member, $c_types, $key);
+  			}
+  		}
+  		if(!$found){
+  			$output[] = $this->flotNoData($c_types, $key);
+  		}
+  	}
+    return $output;
+  })($members, $c_types, $months, $group);
+
+  return $dt;
+
+  }
+
+  private function flotY($member, $c_types, $value){
+    $y = [];
+    $y['month'] = $value;  $i = 1; $size = sizeof($c_types);
+    foreach ($c_types as $key => $value) {
+      $name = $value;
+      $amount = isset($member->$name) ? $member->$name : 0;
+      $y[$name] = $amount;
+      $i++;
+    }
+    return $y;
+  }
+
+  private function flotNoData($c_types, $value){
+    $y = [];
+    $y['month'] = $value; $i=1;
+    foreach ($c_types as $key => $value) {
+      $name = $value;
+      $y[$name] = 0;
+      $i++;
+    }
+    return $y;//. "},";
   }
 
   public function calculateSingleTotalCollection($savings, $type){

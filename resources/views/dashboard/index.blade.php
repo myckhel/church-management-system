@@ -161,22 +161,22 @@
                       <div class="col-sm-7">
                           <table class="table table-condensed table-trans">
                               <tr>
-                                  <td class="text-lg" style="width: 40px"><span class="badge badge-purple">N30,254</span></td>
+                                  <td class="text-lg" style="width: 40px"><span class="badge badge-purple" id="collection-offering">N0</span></td>
                                   <td>Offering</td>
                               </tr>
                               <tr>
-                                  <td class="text-lg"><span class="badge badge-dark">N70,400</span></td>
-                                  <td>Seed Offering</td>
+                                  <td class="text-lg"><span class="badge badge-dark" id="collection-Building_Collection">N0</span></td>
+                                  <td>Building Collection</td>
                               </tr>
                               <tr>
-                                  <td class="text-lg"><span class="badge badge-danger">N22,305</span></td>
-                                  <td>Tithe</td>
+                                  <td class="text-lg"><span class="badge badge-danger" id="collection-Seed_Offering">N0</span></td>
+                                  <td>Seed_Offering</td>
                               </tr>
                           </table>
                       </div>
                       <div class="col-sm-5 text-center">
-                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no">520</p></div>
-                          <p class="text-sm">Since Last 12 Month N190 were collected</p>
+                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no" id="collection-total">N0</p></div>
+                          <p class="text-sm">Were collected since Last 12 Month </p>
                       </div>
                   </div>
               </div>
@@ -521,6 +521,7 @@ while (incr >= 0) {
   months[incr] = monthName[new Date(makeDate.setMonth(makeDate.getMonth() - i)).getMonth()]; //1 week ago
   i++; incr--
 }
+console.log(months);
 var ticks = []
 months.map((v,i) => {
  ticks.push([i, v])
@@ -534,7 +535,12 @@ function setPeriod(data, totalObj, dataKey){
     data.map((v) => {
       // push array to the first index of the new array
       dataKey.map((key,l) => {
+        // get the index of the data month from months array
+        // let getDIndex = 12 - v['month']
+        // console.log(getDIndex, v['month']);
         newarr[l].push([v['month'], parseInt(v[key])])
+        // newarr[l][v['month']] = [v['month'], parseInt(v[key])]
+        // newarr[l].push([getDIndex, parseInt(v[key])])
         // calculate each datakey
         newarr.total[key] += parseInt(v[key])
         // calculate total
@@ -542,15 +548,7 @@ function setPeriod(data, totalObj, dataKey){
       })
       i++
     })
-
-
-    // console.log(newarr.total.ticks, [
-    //             [0, "Overall"],
-    //             [1, "SEA"],
-    //             [2, "INDIA"],
-    //             [3, "NEA"],
-    //             [4, "PZ"]
-    //         ]);
+console.log(newarr);
   return newarr
 }
 
@@ -593,14 +591,6 @@ $(document).ready(() => {
             ticks: ticks,
             tickColor: '#ffffff'
         },
-        tooltip: true,
-        tooltipOpts : {
-        content : function (label, x, y) {
-          console.log('hhh');
-            return "Your sales for " + x + " was $" + y;
-        },
-        defaultTheme : false,
-      },
     });
     // console.log(male);
     // console.log(res);
@@ -615,7 +605,6 @@ $(document).ready(() => {
     $("#attendance-female").html(attendance.total.female)
     $("#attendance-children").html(attendance.total.children)
     $("#attendance-total").html(attendance.total.total)
-    console.log(attendance.length);
     $.plot("#attendance-chart", attendance, {
         series: {
             stack: 1,
@@ -631,7 +620,7 @@ $(document).ready(() => {
                 fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
             }
         },
-        colors: ['#ab47bc', '#3a444e', '#ff0000'],
+        colors: ['#ff0000', '#ab47bc', '#3a444e'],
         grid: {
             borderWidth: 0,
             hoverable: true,
@@ -668,100 +657,107 @@ $(document).ready(() => {
   var d1 = [["Jan", 85], ["Feb", 45], [2, 58], [3, 35], [4, 95], [5, 25], [6, 65], [7, 12], [8, 52], [9, 25], [10, 98], [11, 85], [12, 96]],
       d2 = [["Jan", 520], ["Feb", 370], [2, 820], [3, 209], [4, 495], [5, 170], [6, 185], [7, 273], [8, 304], [9, 877], [10, 489], [11, 420], [12, 710]],
       d3 = [["Jan", 50], ["Feb", 30], [2, 80], [3, 29], [4, 95], [5, 70], [6, 15], [7, 73], [8, 34], [9, 87], [10, 49], [11, 20], [12, 70]];
-      // console.log([d1, d2, d3]);
-      //
-      // $.plot("#users-chart", [ d1, d2, d3 ], {
-      //     series: {
-      //         stack: 1,
-      //         lines: {
-      //             show: false,
-      //             fill: true,
-      //             steps: false
-      //         },
-      //         bars: {
-      //             show: true,
-      //             lineWidth: 0,
-      //             barWidth: .7,
-      //             fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
-      //         }
-      //     },
-      //     colors: ['#3a444e', '#ab47bc', '#ff0000'],
-      //     grid: {
-      //         borderWidth: 0,
-      //         hoverable: true,
-      //         clickable: true
-      //     },
-      //     yaxis: {
-      //         ticks: 4, tickColor: '#f0f7fa'
-      //     },
-      //     xaxis: {
-      //         ticks: 12,
-      //         tickColor: '#ffffff'
-      //     }
-      // });
 
+  // get member registration statistics
+  $.ajax({url: "{{route('collection.stats')}}"})
+  .done((res) => {
+    collections = (() => {
+      let newarr = []
+      let dataKey = <?php echo json_encode($c_types) ?>;
+      newarr.total = {total: 0}
+      newarr = dataKey.map((v) => { newarr.total[v.name] = 0; return []})
+      console.log(newarr);
+      let i = 0;
+        res.map((v) => {
+          // push array to the first index of the new array
+          dataKey.map((key,l) => {
+            // get the index of the data month from months array
+            // let getDIndex = 12 - v['month']
+            // console.log(getDIndex, v['month']);
+            newarr[l].push([v['month'], parseInt(v[key])])
+            // newarr[l][v['month']] = [v['month'], parseInt(v[key])]
+            // newarr[l].push([getDIndex, parseInt(v[key])])
+            // calculate each datakey
+            newarr.total[key] += parseInt(v[key])
+            // calculate total
+            newarr.total.total += parseInt(v[key])
+          })
+          i++
+        })
+        return newarr
+    })()
+    // setPeriod(res, {male: 0, female: 0, total: 0}, ["male", "female"])
+    // display calulations
+    console.log(res);
+    $("#collection-offering").html(collections.total.offering)
+    $("#collection-Building_Collection").html(collections.total.Building_Collection)
+    $("#collection-Seed_Offering").html(collections.total.Seed_Offering)
+    $("#collection-total").html(collections.total.total)
 
-  // collection
-  $.plot("#collection-chart", [ d1, d2, d3 ], {
-      series: {
-          stack: 1,
-          lines: {
-              show: false,
-              fill: true,
-              steps: false
-          },
-          bars: {
-              show: true,
-              lineWidth: 0,
-              barWidth: .7,
-              fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
-          }
-      },
-      colors: ['#3a444e', '#ab47bc', '#ff0000'],
-      grid: {
-          borderWidth: 0,
-          hoverable: true,
-          clickable: true
-      },
-      yaxis: {
-          ticks: 4, tickColor: '#f0f7fa'
-      },
-      xaxis: {
-          ticks: 12,
-          tickColor: '#ffffff'
-      }
-  });
+    $.plot("#collection-chart", collections, {
+        series: {
+            stack: 1,
+            lines: {
+                show: false,
+                fill: true,
+                steps: false
+            },
+            bars: {
+                show: true,
+                lineWidth: 0,
+                barWidth: .7,
+                fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
+            }
+        },
+        colors: ['#ab47bc', '#3a444e', '#ff0000'],
+        grid: {
+            borderWidth: 0,
+            hoverable: true,
+            clickable: true
+        },
+        yaxis: {
+            ticks: 4,
+             tickColor: '#f0f7fa'
+        },
+        xaxis: {
+            ticks: ticks,
+            tickColor: '#ffffff'
+        },
+    });
+    // console.log(male);
+    // console.log(res);
+  })
 
   // Attendnace
-  $.plot("#attendance-chart", [ d1, d2, d3 ], {
-      series: {
-          stack: 1,
-          lines: {
-              show: false,
-              fill: true,
-              steps: false
-          },
-          bars: {
-              show: true,
-              lineWidth: 0,
-              barWidth: .7,
-              fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
-          }
-      },
-      colors: ['#3a444e', '#ab47bc', '#ff0000'],
-      grid: {
-          borderWidth: 0,
-          hoverable: true,
-          clickable: true
-      },
-      yaxis: {
-          ticks: 4, tickColor: '#f0f7fa'
-      },
-      xaxis: {
-          ticks: 12,
-          tickColor: '#ffffff'
-      }
-  });
+  // $.plot("#attendance-chart", [ d1, d2, d3 ], {
+  //     series: {
+  //         stack: 1,
+  //         lines: {
+  //             show: false,
+  //             fill: true,
+  //             steps: false
+  //         },
+  //         bars: {
+  //             show: true,
+  //             lineWidth: 0,
+  //             barWidth: .7,
+  //             fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
+  //         }
+  //     },
+  //     colors: ['#3a444e', '#ab47bc', '#ff0000'],
+  //     grid: {
+  //         borderWidth: 0,
+  //         hoverable: true,
+  //         clickable: true
+  //     },
+  //     yaxis: {
+  //         ticks: 4, tickColor: '#f0f7fa'
+  //     },
+  //     xaxis: {
+  //         ticks: 12,
+  //         tickColor: '#ffffff'
+  //     }
+  // });
 
 })
 </script>

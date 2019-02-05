@@ -24,6 +24,9 @@ class Savings extends Model
             $row[$v->date_collected]->amounts[$v->collections_types->name] = $v->amount;
         } else {
           $obj = new \stdClass();
+          foreach (get_object_vars($v) as $key => $value) {
+            $obj->$key = $value;
+          }
           // $obj->collections_types = $v->collections_types->name;
           $obj->service_types = $v->service_types->name;
           if ($type == 'branch') {
@@ -65,7 +68,7 @@ class Savings extends Model
 
         $row[$name][$date_collected]['amounts'][$collectionName] = $amount;
       }
-      
+
       return $row;
     }
 

@@ -65,6 +65,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/collection/report', 'CollectionController@report')->name('collection.report');
     Route::get('/collection/analysis', 'CollectionController@analysis')->name('collection.analysis');
     Route::get('/collection/history', 'CollectionController@history')->name('collection.history');
+    Route::get('/collection/stats', 'CollectionController@collectionStats')->name('collection.stats');
 
     // calendar
     Route::get('/calendar', 'EventController@index')->name('calendar');
