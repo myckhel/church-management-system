@@ -580,6 +580,7 @@ $(document).ready(() => {
         xaxis: {
             ticks: 12,
             tickColor: '#ffffff'
+<<<<<<< HEAD
         },
         tooltip: true,
         tooltipOpts : {
@@ -589,6 +590,9 @@ $(document).ready(() => {
         },
         defaultTheme : false,
       },
+=======
+        }
+>>>>>>> dea0bc4eb163a111a47fa3ae5bde1fc7ca154ba8
     });
     // console.log(male);
     // console.log(res);
@@ -687,8 +691,13 @@ $(document).ready(() => {
       //         tickColor: '#ffffff'
       //     }
       // });
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> dea0bc4eb163a111a47fa3ae5bde1fc7ca154ba8
   // collection
   $.plot("#collection-chart", [ d1, d2, d3 ], {
       series: {
