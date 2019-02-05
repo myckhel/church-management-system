@@ -56,6 +56,8 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     //function () {        return view('attendance.view');});
     Route::post('/attendance/view', 'AttendanceController@show')->name('attendance.view');
     Route::get('/attendance/view/{date}', 'AttendanceController@show')->name('attendance.view.custom');
+    Route::get('/attendance/stats', 'AttendanceController@attendanceStats')->name('attendance.stats');
+
     // collection
     Route::get('/collection/offering', 'CollectionController@index')->name('collection.offering');
     Route::post('/collection/save', 'CollectionController@store')->name('collection.save');
@@ -149,8 +151,17 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  $user = \Auth::user();
-  return $attendances = \App\members_attendance::where('members_attendances.branch_id', $user->branchcode)->with('service_types')->leftJoin('members', 'members_attendances.member_id', '=', 'members.id')->get();
+  $user = App\Member::all();
+  // foreach ($user as $key => $value) {
+  //   // code...
+  //   $value->dob = mt_rand(1980, 1999)."-".str_pad(mt_rand(01, 12), 2, "0", STR_PAD_LEFT)."-".str_pad(mt_rand(01, 28), 2, "0", STR_PAD_LEFT);
+  //   $value->save();
+  // }
+  // for ($i = 1980; $i < 2005; $i++) {
+  //   // code...
+  //   echo "$i,";
+  // }
+  return mt_rand(1980, 1999)."-".str_pad(mt_rand(01, 12), 2, "0", STR_PAD_LEFT)."-".str_pad(mt_rand(01, 28), 2, "0", STR_PAD_LEFT);
 })->name('test');
 
 Route::get('/users', 'BranchController@users')->name('users');

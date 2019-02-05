@@ -220,4 +220,10 @@ class AttendanceController extends Controller
       }
       return response()->json(['status' => true, 'text' => 'Attendance Marked']);
     }
+
+    public function attendanceStats(Request $request){
+      $user = \Auth::user();
+      return $member = Attendance::selectRaw("COUNT(id) as total, SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
+      MONTH(attendance_date) AS month")->whereRaw("attendance_date > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->branchcode)->groupBy("month")->get();
+    }
 }

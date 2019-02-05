@@ -123,11 +123,11 @@
                       <div class="col-sm-7">
                           <table class="table table-condensed table-trans">
                               <tr>
-                                  <td class="text-lg" style="width: 40px"><span class="badge badge-purple">354</span></td>
+                                  <td class="text-lg" style="width: 40px"><span id="member-male" class="badge badge-purple">0</span></td>
                                   <td>Male</td>
                               </tr>
                               <tr>
-                                  <td class="text-lg"><span class="badge badge-dark">74</span></td>
+                                  <td class="text-lg"><span class="badge badge-dark" id="member-female">0</span></td>
                                   <td>Female</td>
                               </tr>
                               <!-- <tr>
@@ -137,8 +137,8 @@
                           </table>
                       </div>
                       <div class="col-sm-5 text-center">
-                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no">520</p></div>
-                          <p class="text-sm">Since Last 12 Months 190 peoples already registered</p>
+                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no" id="member-total">0</p></div>
+                          <p class="text-sm">Peoples already registered Since Last 12 Months</p>
                       </div>
                   </div>
               </div>
@@ -199,22 +199,22 @@
                       <div class="col-sm-7">
                           <table class="table table-condensed table-trans">
                               <tr>
-                                  <td class="text-lg" style="width: 40px"><span class="badge badge-purple">354</span></td>
-                                  <td>Attended</td>
+                                  <td class="text-lg" style="width: 40px"><span class="badge badge-purple" id="attendance-male">0</span></td>
+                                  <td>Male</td>
                               </tr>
                               <tr>
-                                  <td class="text-lg"><span class="badge badge-dark">74</span></td>
-                                  <td>Missed</td>
+                                  <td class="text-lg"><span class="badge badge-dark" id="attendance-female">0</span></td>
+                                  <td>Female</td>
                               </tr>
-                              <!-- <tr>
-                                  <td class="text-lg"><span class="badge badge-danger">25</span></td>
-                                  <td>Teachers</td>
-                              </tr> -->
+                              <tr>
+                                  <td class="text-lg"><span class="badge badge-danger" id="attendance-children">0</span></td>
+                                  <td>Children</td>
+                              </tr>
                           </table>
                       </div>
                       <div class="col-sm-5 text-center">
-                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no">520</p></div>
-                          <p class="text-sm">Since last 12 months average of 190 attendances were recorded</p>
+                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no" id="attendance-total">0</p></div>
+                          <p class="text-sm">Attendances were recorded since last 12 months</p>
                       </div>
                   </div>
               </div>
@@ -483,7 +483,7 @@
          <div class="row">
             <div class="col-sm-12">
               <div class="panel" style="background-color: #e8ddd3;">
-                  
+
                   <!-- Striped Table -->
                   <!--===================================================-->
                   <div class="panel-body">
@@ -509,59 +509,185 @@
 
 @section('js')
 <script src="{{URL::asset('plugins/flot-charts/jquery.flot.min.js')}}"></script>
-
 <script>
+// let male = [["Jan", 0], ["Feb", 0], ["Mar", 0], ["Apr", 0], ["May", 0], ["Jun", 0], ["Jul", 0], ["Aug", 0], ["Sep", 0], ["Oct", 0], ["Nov", 0], ["Dec", 0]];
+// female = [["Jan", 0], ["Feb", 0], ["Mar", 0], ["Apr", 0], ["May", 0], ["Jun", 0], ["Jul", 0], ["Aug", 0], ["Sep", 0], ["Oct", 0], ["Nov", 0], ["Dec", 0]];
+var monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov","Dec"]
+var months = []
+let incr = 11
+let i = 0
+while (incr >= 0) {
+  let makeDate = new Date();
+  months[incr] = monthName[new Date(makeDate.setMonth(makeDate.getMonth() - i)).getMonth()]; //1 week ago
+  i++; incr--
+}
+function setPeriod(data, totalObj, dataKey){
+  let newarr = dataKey.map(() => [])
+  // console.log(newarr);
+  newarr.total = totalObj
+  newarr.total.total = 0
+  let i = 0;
+    data.map((v) => {
+      // push array to the first index of the new array
+      dataKey.map((key,l) => {
+        newarr[l].push([i, parseInt(v[key])])
+        // calculate each datakey
+        newarr.total[key] += parseInt(v[key])
+        // calculate total
+        newarr.total.total += parseInt(v[key])
+      })
+      i++
+    })
+
+  return newarr
+}
+
 $(document).ready(() => {
+  // get member registration statistics
+  $.ajax({url: "{{route('member.reg.stats')}}"})
+  .done((res) => {
+    members = setPeriod(res, {male: 0, female: 0, total: 0}, ["male", "female"])
+    // display calulations
+    $("#member-male").html(members.total.male)
+    $("#member-female").html(members.total.female)
+    $("#member-total").html(members.total.total)
+    // console.log(members);
+    $.plot("#users-chart", members, {
+        series: {
+            stack: 1,
+            lines: {
+                show: false,
+                fill: true,
+                steps: false
+            },
+            bars: {
+                show: true,
+                lineWidth: 0,
+                barWidth: .7,
+                fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
+            }
+        },
+        colors: ['#ab47bc', '#3a444e', '#ff0000'],
+        grid: {
+            borderWidth: 0,
+            hoverable: true,
+            clickable: true
+        },
+        yaxis: {
+            ticks: 4,
+             tickColor: '#f0f7fa'
+        },
+        xaxis: {
+            ticks: 12,
+            tickColor: '#ffffff'
+        },
+        tooltip: true,
+        tooltipOpts : {
+        content : function (label, x, y) {
+          console.log('hhh');
+            return "Your sales for " + x + " was $" + y;
+        },
+        defaultTheme : false
+      },
+    });
+    // console.log(male);
+    // console.log(res);
+  })
+
+  // get attendance statistics
+  $.ajax({url: "{{route('attendance.stats')}}"})
+  .done((res) => {
+    attendance = setPeriod(res, {male: 0, female: 0, children: 0, total: 0}, ["male", "female", "children"])
+    // display calulations
+    $("#attendance-male").html(attendance.total.male)
+    $("#attendance-female").html(attendance.total.female)
+    $("#attendance-children").html(attendance.total.children)
+    $("#attendance-total").html(attendance.total.total)
+    console.log(attendance.length);
+    $.plot("#attendance-chart", attendance, {
+        series: {
+            stack: 1,
+            lines: {
+                show: false,
+                fill: true,
+                steps: false
+            },
+            bars: {
+                show: true,
+                lineWidth: 0,
+                barWidth: .7,
+                fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
+            }
+        },
+        colors: ['#ab47bc', '#3a444e', '#ff0000'],
+        grid: {
+            borderWidth: 0,
+            hoverable: true,
+            clickable: true
+        },
+        yaxis: {
+            ticks: 4,
+             tickColor: '#f0f7fa'
+        },
+        xaxis: {
+            ticks: 12,//attendance[0].length,
+            tickColor: '#ffffff'
+        }
+    });
+    // console.log(attendance);
+    // console.log(res);
+  })
 
   // $.ajax({url: "{{route('member.reg.stats')}}"})
   // .done((res) => {
   //   console.log(res);
   // })
 
-  let dd1 = []; dd2 = []
   $.ajax({url: "{{route('member.analysis')}}", data: {'interval': 8, 'group': 'month', 'id': 59}})
   .done((res) => {
+    let dd1 = []; dd2 = []
     res.map((v) => {
       dd1.push([v.y, v.Offering])
       dd1.push([v.y, v.Building_Collection])
     })
-    console.log(dd1,dd2);
-    console.log(res);
+    // console.log(dd1,dd2);
+    // console.log(res);
   })
-  var d1 = [[0, 85], [1, 45], [2, 58], [3, 35], [4, 95], [5, 25], [6, 65], [7, 12], [8, 52], [9, 25], [10, 98], [11, 85], [12, 96]],
-      d2 = [[0, 520], [1, 370], [2, 820], [3, 209], [4, 495], [5, 170], [6, 185], [7, 273], [8, 304], [9, 877], [10, 489], [11, 420], [12, 710]],
-      d3 = [[0, 50], [1, 30], [2, 80], [3, 29], [4, 95], [5, 70], [6, 15], [7, 73], [8, 34], [9, 87], [10, 49], [11, 20], [12, 70]];
+  var d1 = [["Jan", 85], ["Feb", 45], [2, 58], [3, 35], [4, 95], [5, 25], [6, 65], [7, 12], [8, 52], [9, 25], [10, 98], [11, 85], [12, 96]],
+      d2 = [["Jan", 520], ["Feb", 370], [2, 820], [3, 209], [4, 495], [5, 170], [6, 185], [7, 273], [8, 304], [9, 877], [10, 489], [11, 420], [12, 710]],
+      d3 = [["Jan", 50], ["Feb", 30], [2, 80], [3, 29], [4, 95], [5, 70], [6, 15], [7, 73], [8, 34], [9, 87], [10, 49], [11, 20], [12, 70]];
+      // console.log([d1, d2, d3]);
+      //
+      // $.plot("#users-chart", [ d1, d2, d3 ], {
+      //     series: {
+      //         stack: 1,
+      //         lines: {
+      //             show: false,
+      //             fill: true,
+      //             steps: false
+      //         },
+      //         bars: {
+      //             show: true,
+      //             lineWidth: 0,
+      //             barWidth: .7,
+      //             fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
+      //         }
+      //     },
+      //     colors: ['#3a444e', '#ab47bc', '#ff0000'],
+      //     grid: {
+      //         borderWidth: 0,
+      //         hoverable: true,
+      //         clickable: true
+      //     },
+      //     yaxis: {
+      //         ticks: 4, tickColor: '#f0f7fa'
+      //     },
+      //     xaxis: {
+      //         ticks: 12,
+      //         tickColor: '#ffffff'
+      //     }
+      // });
 
-
-  $.plot("#users-chart", [ d1, d2, d3 ], {
-      series: {
-          stack: 1,
-          lines: {
-              show: false,
-              fill: true,
-              steps: false
-          },
-          bars: {
-              show: true,
-              lineWidth: 0,
-              barWidth: .7,
-              fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
-          }
-      },
-      colors: ['#3a444e', '#ab47bc', '#ff0000'],
-      grid: {
-          borderWidth: 0,
-          hoverable: true,
-          clickable: true
-      },
-      yaxis: {
-          ticks: 4, tickColor: '#f0f7fa'
-      },
-      xaxis: {
-          ticks: 12,
-          tickColor: '#ffffff'
-      }
-  });
 
   // collection
   $.plot("#collection-chart", [ d1, d2, d3 ], {

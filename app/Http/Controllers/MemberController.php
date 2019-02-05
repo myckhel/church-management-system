@@ -433,49 +433,8 @@ class MemberController extends Controller
 // count(case when sex = 'male' then 1 end) AS male, count(case when sex = 'female' then 1 end) AS female,
   public function memberRegStats(Request $request){
     $user = \Auth::user();
-    $c_types = \App\CollectionsType::getTypes();
-    $savings = \App\Savings::rowToColumnByField(\App\Savings::where('branch_id', $user->id)->with('users')->get());
-    $interval = $request->interval;
-    $group = $request->group;
-    $months = [];
-    for ($i = $interval-1; $i >= 0; $i--) {
-      $t = 'M';
-      switch ($group) {
-        case 'day': $t = 'D'; break;
-        case 'week': $t = 'W'; break;
-        case 'month': $t = 'M'; break;
-        case 'year': $t = 'Y'; break;
-      }
-      $dateOrNot = $group == 'month' ? date('Y-m-01') : '';
-      $months[$i] = date($t, strtotime($dateOrNot. "-$i $group")); //1 week ago
-    }
-    $collections2 = $this->calculateSingleTotalCollection($savings, $group);
-
-    $dt = (function($savings, $c_types, $months, $group){
-      $output = [];
-      foreach ($months as $key => $value) {
-  		$month = $value; $found = false;
-  		foreach ($savings as $collection) {
-  			if($value == $collection->$group){
-  				$found = true;
-          $output[] = $this->yData($collection, $c_types, $value);
-  			}
-  		}
-  		if(!$found){
-  			$output[] = $this->noData($c_types, $value);
-  		}
-  	}
-    return $output;
-  })($collections2, $c_types, $months, $group);
-
-
-    // $member = Member::selectRaw("sex, created_at as date ")
-    // ->where("created_at", ">", "DATE_SUB(now(), INTERVAL 12 MONTH)")->groupBy("date", "sex")->get();
-    // $member->total = $member->count();
-    // $member['female'] = $member->where('sex', 'female')->count();
-    // $member['male'] = $member->where('sex', 'male')->count();
-    // // dd($member);
-    // return $member;
+    return $member = Member::selectRaw("COUNT(id) as total, SUM(CASE WHEN sex='male' THEN 1 ELSE 0 END) AS male, SUM(CASE WHEN sex='female' THEN 1 ELSE 0 END) AS female,
+    MONTH(member_since) AS month")->whereRaw("member_since > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->branchcode)->groupBy("month")->get();
   }
 
   public function calculateSingleTotalCollection($savings, $type){
@@ -489,6 +448,21 @@ class MemberController extends Controller
       }
       $date = date($t, strtotime($value->date_collected));
       $year = (int)substr($value->date_collected, 0,4);
+
+      if ($type == 'year') {
+        foreach ($value as $k => $v) {
+          // dd($savings);
+          $year = substr($k, 0,4);
+          foreach ($v['amounts'] as $savingName => $savingAmount) {
+            if (!isset($obj->$savingName)) {$obj->$savingName = new \stdClass();}
+            if (isset($obj->$savingName->$year)) {
+              $obj->$savingName->$year += $savingAmount;
+            } else {
+              $obj->$savingName->$year = $savingAmount;
+            }
+          }
+        }
+      }
 
     // foreach ($savings as $key => $value) {
     //   if (!$type) {
@@ -516,20 +490,7 @@ class MemberController extends Controller
     //     }
     //   }
 
-      if ($type == 'year') {
-        foreach ($value as $k => $v) {
-          // dd($savings);
-          $year = substr($k, 0,4);
-          foreach ($v['amounts'] as $savingName => $savingAmount) {
-            if (!isset($obj->$savingName)) {$obj->$savingName = new \stdClass();}
-            if (isset($obj->$savingName->$year)) {
-              $obj->$savingName->$year += $savingAmount;
-            } else {
-              $obj->$savingName->$year = $savingAmount;
-            }
-          }
-        }
-      }
+
 
     }
     return $obj;
