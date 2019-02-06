@@ -436,7 +436,7 @@ class MemberController extends Controller
     $members = Member::selectRaw("COUNT(id) as total, SUM(CASE WHEN sex='male' THEN 1 ELSE 0 END) AS male, SUM(CASE WHEN sex='female' THEN 1 ELSE 0 END) AS female,
     MONTH(member_since) AS month")->whereRaw("member_since > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->branchcode)->groupBy("month")->get();
 
-    // return $members;
+    // dd($members);
 
     $group = 'month';
     $months = [];

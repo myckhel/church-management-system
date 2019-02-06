@@ -16,6 +16,28 @@
 
 @section('content')
 <!--CONTENT CONTAINER-->
+<?php
+function random_color_part() {
+  return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
+}
+
+function random_color() {
+    return random_color_part() . random_color_part() . random_color_part();
+}
+
+$generateColor = function($c_types){
+  $c = [];
+  foreach($c_types as $value){
+    array_push($c,"#".random_color());
+  }
+  return $c;
+};
+$colors = $generateColor($c_types);
+
+function barColors($colors){
+  foreach ($colors as $value) {echo "'".$value."',";}
+}
+?>
 <!--===================================================-->
 <div id="content-container">
   <div id="page-head">
@@ -123,11 +145,13 @@
                       <div class="col-sm-7">
                           <table class="table table-condensed table-trans">
                               <tr>
-                                  <td class="text-lg" style="width: 40px"><span id="member-male" class="badge badge-purple">0</span></td>
+                                  <td class="text-lg" style="width: 40px">
+                                    <span id="member-male" style="background-color: {{$colors[0]}}" class="badge badge-purple">0</span></td>
                                   <td>Male</td>
                               </tr>
                               <tr>
-                                  <td class="text-lg"><span class="badge badge-dark" id="member-female">0</span></td>
+                                  <td class="text-lg">
+                                    <span class="badge badge-dark" style="background-color: {{$colors[1]}}" id="member-female">0</span></td>
                                   <td>Female</td>
                               </tr>
                               <!-- <tr>
@@ -160,7 +184,16 @@
                   <div class="row mar-top">
                       <div class="col-sm-7">
                           <table class="table table-condensed table-trans">
-                              <tr>
+                            <?php $i = 0; ?>
+                            @foreach($c_types as $type)
+                            <tr>
+                                <td class="text-lg" style="width: 40px"><span style="background-color: {{$colors[$i]}}"
+                                  class="badge badge-purple" id="collection-{{$type->name}}">N0</span></td>
+                                <td>{{$type->disFormatString()}}</td>
+                            </tr>
+                            <?php $i++; ?>
+                            @endforeach
+                              <!-- <tr>
                                   <td class="text-lg" style="width: 40px"><span class="badge badge-purple" id="collection-offering">N0</span></td>
                                   <td>Offering</td>
                               </tr>
@@ -171,7 +204,7 @@
                               <tr>
                                   <td class="text-lg"><span class="badge badge-danger" id="collection-Seed_Offering">N0</span></td>
                                   <td>Seed_Offering</td>
-                              </tr>
+                              </tr> -->
                           </table>
                       </div>
                       <div class="col-sm-5 text-center">
@@ -199,15 +232,18 @@
                       <div class="col-sm-7">
                           <table class="table table-condensed table-trans">
                               <tr>
-                                  <td class="text-lg" style="width: 40px"><span class="badge badge-purple" id="attendance-male">0</span></td>
+                                  <td class="text-lg" style="width: 40px">
+                                    <span class="badge badge-purple" style="background-color: {{$colors[0]}}" id="attendance-male">0</span></td>
                                   <td>Male</td>
                               </tr>
                               <tr>
-                                  <td class="text-lg"><span class="badge badge-dark" id="attendance-female">0</span></td>
+                                  <td class="text-lg">
+                                    <span class="badge badge-dark" style="background-color: {{$colors[1]}}" id="attendance-female">0</span></td>
                                   <td>Female</td>
                               </tr>
                               <tr>
-                                  <td class="text-lg"><span class="badge badge-danger" id="attendance-children">0</span></td>
+                                  <td class="text-lg">
+                                    <span class="badge badge-danger" style="background-color: {{$colors[2]}}" id="attendance-children">0</span></td>
                                   <td>Children</td>
                               </tr>
                           </table>
@@ -513,6 +549,7 @@
 // let male = [["Jan", 0], ["Feb", 0], ["Mar", 0], ["Apr", 0], ["May", 0], ["Jun", 0], ["Jul", 0], ["Aug", 0], ["Sep", 0], ["Oct", 0], ["Nov", 0], ["Dec", 0]];
 // female = [["Jan", 0], ["Feb", 0], ["Mar", 0], ["Apr", 0], ["May", 0], ["Jun", 0], ["Jul", 0], ["Aug", 0], ["Sep", 0], ["Oct", 0], ["Nov", 0], ["Dec", 0]];
 var monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov","Dec"]
+var colors = [<?php barColors($colors); ?>];
 var months = []
 let incr = 11
 let i = 0
@@ -521,7 +558,7 @@ while (incr >= 0) {
   months[incr] = monthName[new Date(makeDate.setMonth(makeDate.getMonth() - i)).getMonth()]; //1 week ago
   i++; incr--
 }
-console.log(months);
+// console.log(months);
 var ticks = []
 months.map((v,i) => {
  ticks.push([i, v])
@@ -548,7 +585,7 @@ function setPeriod(data, totalObj, dataKey){
       })
       i++
     })
-console.log(newarr);
+// console.log(newarr);
   return newarr
 }
 
@@ -577,7 +614,7 @@ $(document).ready(() => {
                 fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
             }
         },
-        colors: ['#ab47bc', '#3a444e', '#ff0000'],
+        colors: colors,
         grid: {
             borderWidth: 0,
             hoverable: true,
@@ -620,7 +657,7 @@ $(document).ready(() => {
                 fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
             }
         },
-        colors: ['#ff0000', '#ab47bc', '#3a444e'],
+        colors: colors,
         grid: {
             borderWidth: 0,
             hoverable: true,
@@ -665,34 +702,27 @@ $(document).ready(() => {
       let newarr = []
       let dataKey = <?php echo json_encode($c_types) ?>;
       newarr.total = {total: 0}
-      newarr = dataKey.map((v) => { newarr.total[v.name] = 0; return []})
-      console.log(newarr);
+      // console.log(newarr);
+      dataKey.map((v) => { newarr.total[v.name] = 0; newarr.push([])})
       let i = 0;
         res.map((v) => {
           // push array to the first index of the new array
           dataKey.map((key,l) => {
             // get the index of the data month from months array
-            // let getDIndex = 12 - v['month']
-            // console.log(getDIndex, v['month']);
-            newarr[l].push([v['month'], parseInt(v[key])])
-            // newarr[l][v['month']] = [v['month'], parseInt(v[key])]
-            // newarr[l].push([getDIndex, parseInt(v[key])])
+            newarr[l].push([v['month'], parseInt(v[key.name])])
             // calculate each datakey
-            newarr.total[key] += parseInt(v[key])
+            newarr.total[key.name] += parseInt(v[key.name])
             // calculate total
-            newarr.total.total += parseInt(v[key])
+            newarr.total.total += parseInt(v[key.name])
           })
           i++
         })
+        dataKey.map((v) => {
+          $(`#collection-${v.name}`).html(newarr.total[v.name])
+        })
+        $("#collection-total").html(newarr.total.total)
         return newarr
     })()
-    // setPeriod(res, {male: 0, female: 0, total: 0}, ["male", "female"])
-    // display calulations
-    console.log(res);
-    $("#collection-offering").html(collections.total.offering)
-    $("#collection-Building_Collection").html(collections.total.Building_Collection)
-    $("#collection-Seed_Offering").html(collections.total.Seed_Offering)
-    $("#collection-total").html(collections.total.total)
 
     $.plot("#collection-chart", collections, {
         series: {
@@ -709,7 +739,7 @@ $(document).ready(() => {
                 fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
             }
         },
-        colors: ['#ab47bc', '#3a444e', '#ff0000'],
+        colors: colors,
         grid: {
             borderWidth: 0,
             hoverable: true,
@@ -727,38 +757,6 @@ $(document).ready(() => {
     // console.log(male);
     // console.log(res);
   })
-
-  // Attendnace
-  // $.plot("#attendance-chart", [ d1, d2, d3 ], {
-  //     series: {
-  //         stack: 1,
-  //         lines: {
-  //             show: false,
-  //             fill: true,
-  //             steps: false
-  //         },
-  //         bars: {
-  //             show: true,
-  //             lineWidth: 0,
-  //             barWidth: .7,
-  //             fillColor: { colors: [ { opacity: .9 }, { opacity: .9 } ] }
-  //         }
-  //     },
-  //     colors: ['#3a444e', '#ab47bc', '#ff0000'],
-  //     grid: {
-  //         borderWidth: 0,
-  //         hoverable: true,
-  //         clickable: true
-  //     },
-  //     yaxis: {
-  //         ticks: 4, tickColor: '#f0f7fa'
-  //     },
-  //     xaxis: {
-  //         ticks: 12,
-  //         tickColor: '#ffffff'
-  //     }
-  // });
-
 })
 </script>
 @endsection

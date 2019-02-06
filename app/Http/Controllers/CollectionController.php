@@ -280,18 +280,42 @@ class CollectionController extends Controller
     // dd($collections);
     $toArray = (function ($collections){ $toArray = [];
         foreach ($collections as $key => $value) {
-      // code...
-       array_push($toArray, $value);
+          // dd(array_merge($value->original, (array) $value->amounts));
+          array_push($toArray, array_merge(['month' => $value->original['month']], (array) $value->amounts));
      }
      return $toArray;
     })($collections);
-    return response()->json($toArray);
+    // return response()->json($toArray);
+
+    // dd($collections);
+    // sum and group month in collection
+    // declare temporary group collection
+    $tempGroup = [];
+    foreach ($toArray as $key => $collection) {
+      $monthNum = $collection['month'];
+      foreach ($c_types as $collectionType) {
+        //
+        if (!isset($tempGroup[$monthNum])) {
+          $tempGroup[$monthNum] = [];
+        }
+
+        if (!isset($tempGroup[$monthNum][$collectionType->name])){
+          $tempGroup[$monthNum][$collectionType->name] = 0;
+          $tempGroup[$monthNum]['month'] = $collection['month'];
+        }
+
+        $tempGroup[$monthNum][$collectionType->name] += isset($collection[$collectionType->name]) ? $collection[$collectionType->name] : 0;
+      }
+    }
+
+    $collections = $tempGroup;
+    // dd($tempGroup);
 
     $group = 'month';
     $months = [];
     $interval = 0;
     $ii = 11;
-    $c_types = Array('male', 'female', 'children');
+    // $c_types = Array('male', 'female', 'children');
     for ($i = $interval; $i <= 11; $i++) {
       $t = 'M';
       switch ($group) {
@@ -312,7 +336,7 @@ class CollectionController extends Controller
       foreach ($collections as $date => $collection) {
         // dd($member->$group,$month);
         $m;
-        switch ($collection->$group) {
+        switch ($collection[$group]) {
           case 1: $m = 'Jan'; break;
           case 2: $m = 'Feb'; break;
           case 3: $m = 'Mar'; break;
@@ -346,8 +370,8 @@ class CollectionController extends Controller
     $y = [];
     $y['month'] = $value;  $i = 1; $size = sizeof($c_types);
     foreach ($c_types as $key => $value) {
-      $name = $value;
-      $amount = isset($collection->$name) ? $collection->$name : 0;
+      $name = $value->name;
+      $amount = isset($collection[$name]) ? $collection[$name] : 0;
       $y[$name] = $amount;
       $i++;
     }
@@ -358,7 +382,7 @@ class CollectionController extends Controller
     $y = [];
     $y['month'] = $value; $i=1;
     foreach ($c_types as $key => $value) {
-      $name = $value;
+      $name = $value->name;
       $y[$name] = 0;
       $i++;
     }
