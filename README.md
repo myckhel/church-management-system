@@ -5,3 +5,8 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 <a href="https://cms.trueworthfabrics.com.ng">Project Link</a>
+
+# About Church Management System
+    Its a web application for churches that manages administrative activities in the church.
+    it manages the church's attendances, collections, members, events, announcements.
+    features also includes bulk sms, email messaging, analysis on attendance, collection, members etc
