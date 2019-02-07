@@ -291,7 +291,9 @@ class CollectionController extends Controller
     // sum and group month in collection
     // declare temporary group collection
     $tempGroup = [];
+    // each collections item filter only cared properties and add to new array
     foreach ($toArray as $key => $collection) {
+
       $monthNum = $collection['month'];
       foreach ($c_types as $collectionType) {
         //

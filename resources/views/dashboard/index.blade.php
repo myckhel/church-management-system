@@ -672,14 +672,7 @@ $(document).ready(() => {
             tickColor: '#ffffff'
         }
     });
-    // console.log(attendance);
-    // console.log(res);
   })
-
-  // $.ajax({url: "{{route('member.reg.stats')}}"})
-  // .done((res) => {
-  //   console.log(res);
-  // })
 
   $.ajax({url: "{{route('member.analysis')}}", data: {'interval': 8, 'group': 'month', 'id': 59}})
   .done((res) => {
@@ -688,8 +681,6 @@ $(document).ready(() => {
       dd1.push([v.y, v.Offering])
       dd1.push([v.y, v.Building_Collection])
     })
-    // console.log(dd1,dd2);
-    // console.log(res);
   })
   var d1 = [["Jan", 85], ["Feb", 45], [2, 58], [3, 35], [4, 95], [5, 25], [6, 65], [7, 12], [8, 52], [9, 25], [10, 98], [11, 85], [12, 96]],
       d2 = [["Jan", 520], ["Feb", 370], [2, 820], [3, 209], [4, 495], [5, 170], [6, 185], [7, 273], [8, 304], [9, 877], [10, 489], [11, 420], [12, 710]],

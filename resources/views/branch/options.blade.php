@@ -140,42 +140,14 @@
 					                        <td>Branch Line 2</td>
 					                        <td><a href="#" id="branchline2" data-type="number" data-pk="1" data-placement="right" data-placeholder="e.g, 081100000000" data-title="Enter Branch's Line 2"></a></td>
 					                    </tr>
-					                    <!-- <tr>
-					                        <td>Empty text field, required</td>
-					                        <td><a href="#" id="demo-editable-firstname" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="Enter your firstname"></a></td>
+                              @if(Auth::user()->isAdmin())
+                              <tr>
+					                        <td>Collection Commission</td>
+					                        <td><a href="#" id="collection_commission" data-type="number" data-pk="1" data-placement="right"
+                                    data-placeholder="e.g, 20" data-title="Collection's commission percentage"></a>
+                                  </td>
 					                    </tr>
-					                    <tr>
-					                        <td>Sex</td>
-					                        <td><a href="#" id="demo-editable-sex" data-type="select" data-pk="1" data-value="" data-title="Select currency Symbol"></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Select, error while loading</td>
-					                        <td><a href="#" id="demo-editable-status" data-type="select" data-pk="1" data-value="0" data-source="/status" data-title="Select status">Active</a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Combodate (date)</td>
-					                        <td><a href="#" id="demo-editable-dob" data-type="combodate" data-value="1984-05-15" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Select Date of birth"></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Combodate (datetime)</td>
-					                        <td><a href="#" id="demo-editable-event" data-type="combodate" data-template="D MMM YYYY  HH:mm" data-format="YYYY-MM-DD HH:mm" data-viewformat="MMM D, YYYY, HH:mm" data-pk="1"  data-title="Setup event date and time"></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Textarea, buttons below. Submit by <i>ctrl+enter</i></td>
-					                        <td><a href="#" id="demo-editable-comments" data-type="textarea" data-pk="1" data-placeholder="Your comments here..." data-title="Enter comments">awesome user!</a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Twitter typeahead.js</td>
-					                        <td><a href="#" id="demo-editable-state2" data-type="typeaheadjs" data-pk="1" data-placement="right" data-title="Start typing State.."></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Checklist</td>
-					                        <td><a href="#" id="demo-editable-fruits" data-type="checklist" data-value="2,3" data-title="Select fruits"></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Custom input, several fields</td>
-					                        <td><a href="#" id="demo-editable-address" data-type="address" data-pk="1" data-title="Please, fill address"></a></td>
-					                    </tr> -->
+                              @endif
 					                </tbody>
 					            </table>
 					    <!---------------------------------->
@@ -230,6 +202,7 @@ $.ajax({url: "{{route('option.branch.get')}}"})
     $("#branchcity").editable(opt, dt.branchcity)
     $("#branchstate").editable(opt, dt.branchstate)
     $("#branchcountry").editable(opt, dt.branchcountry)
+    $("#collection_commission").editable(opt, dt.collection_commission)
   }
 })
 .fail((e) => {console.log(e);})
@@ -255,11 +228,6 @@ $(document).ready( () => {
 			    type: "text",
 			    pk: 1,
 			    name: "smsapi",
-          // value: dt.smsapi,
-          // setValue: function(v){
-          //   console.log(v);
-          // },
-
           params: function(d){
             d._token = "{{csrf_token()}}";
             d.value =  encodeURI(d.value)
@@ -350,7 +318,8 @@ $(document).ready( () => {
 			    }
 			});
 
-			$("#demo-editable-firstname").editable({
+      // collection commission
+      $("#collection_commission").editable({
 			    validate: function(value) {
 			       if($.trim(value) == "") return "This field is required";
 			    }
@@ -374,107 +343,8 @@ $(document).ready( () => {
 			    }
 			});
 
-			$("#demo-editable-status").editable();
 
-			$("#currency").editable({
-			    // showbuttons: false,
-          // value: '₦',
-			});
-
-			$("#demo-editable-vacation").editable({
-			    datepicker: {
-			        todayBtn: "linked"
-			    }
-			});
-
-			$("#demo-editable-dob").editable();
-
-			$("#demo-editable-event").editable({
-			    placement: "right",
-			    combodate: {
-			        firstItem: "name"
-			    }
-			});
-
-			$("#demo-editable-meeting_start").editable({
-			    format: "yyyy-mm-dd hh:ii",
-			    viewformat: "dd/mm/yyyy hh:ii",
-			    validate: function(v) {
-			       if(v && v.getDate() == 10) return "Day cant be 10!";
-			    },
-			    datetimepicker: {
-			       todayBtn: "linked",
-			       weekStart: 1
-			    }
-			});
-
-			$("#demo-editable-comments").editable({
-			    showbuttons: "bottom"
-			});
-
-			$("#demo-editable-note").editable();
-			$("#demo-editable-pencil").click(function(e) {
-			    e.stopPropagation();
-			    e.preventDefault();
-			    $("#demo-editable-note").editable("toggle");
-			});
-
-			$("#demo-editable-state").editable({
-			    source: ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]
-			});
-
-			$("#demo-editable-state2").editable({
-			    value: "California",
-			    typeahead: {
-			        name: "state",
-			        local: ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]
-			    }
-			});
-
-			$("#demo-editable-fruits").editable({
-			   pk: 1,
-			   limit: 3,
-			   source: [
-			    {value: 1, text: "banana"},
-			    {value: 2, text: "peach"},
-			    {value: 3, text: "apple"},
-			    {value: 4, text: "watermelon"},
-			    {value: 5, text: "orange"}
-			   ]
-			});
-
-
-			$("#demo-editable-address").editable({
-			    value: {
-			        city: "Moscow",
-			        street: "Lenina",
-			        building: "12"
-			    },
-			    validate: function(value) {
-			        if(value.city == "") return "city is required!";
-			    },
-			    display: function(value) {
-			        if(!value) {
-			            $(this).empty();
-			            return;
-			        }
-			        var html = "<b>" + $("<div>").text(value.city).html() + "</b>, " + $("<div>").text(value.street).html() + " st., bld. " + $("<div>").text(value.building).html();
-			        $(this).html(html);
-			    }
-			});
-
-			$("#demo-editable-table .editable").on("hidden", function(e, reason){
-			    if(reason === "save" || reason === "nochange") {
-			        var $next = $(this).closest("tr").next().find(".editable");
-			        if($("#demo-editable-auto-open").is(":checked")) {
-			            setTimeout(function() {
-			                $next.editable("show");
-			            }, 300);
-			        } else {
-			            $next.focus();
-			        }
-			    }
-			});
+			$("#currency").editable({});
 
       //head office module
 			$('#save-ho').click(function (){

@@ -30,7 +30,10 @@ class OptionController extends Controller
       $branch = Auth::user();
       $status = false;
       $text = "Option Name Not Valid";
-      if (in_array($request->name, array('smsbalanceapi', 'smsapi', 'currency', 'branchname', 'branchaddress', 'branchline1', 'branchline2', 'branchcity', 'branchstate', 'branchcountry', 'branchlogo') ) ){
+      $optionName = array('smsbalanceapi', 'collection_commission', 'smsapi', 'currency', 'branchname', 'branchaddress',
+        'branchline1', 'branchline2', 'branchcity', 'branchstate', 'branchcountry', 'branchlogo');
+
+      if (in_array($request->name, $optionName) ){
         // code...
         if (isset($request->branchlogo)) {
           # code...
