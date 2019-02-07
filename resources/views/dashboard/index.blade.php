@@ -318,10 +318,10 @@ function barColors($colors){
               </div>
               <div class="col-sm-6 col-lg-12">
                 <div class="pad-all">
-                    <span class="pad-ver text-main text-sm text-uppercase text-bold">Total Earning</span>
-                    <p class="text-sm">December 17, 2017</p>
-                    <p class="text-2x text-main">$798.54</p>
-                    <button class="btn btn-block btn-success mar-top">Payout</button>
+                    <span class="pad-ver text-main text-sm text-uppercase text-bold">Total Due Collections Commission</span>
+                    <p class="text-sm">{{NOW('F J Y')}}</p>
+                    <p class="text-2x text-main"><span id="due-commission">0</span> </p>
+                    <button class="btn btn-block btn-success mar-top">Pay Now</button>
                 </div>
                 <hr class="new-section-xs">
 
@@ -588,8 +588,16 @@ function setPeriod(data, totalObj, dataKey){
 // console.log(newarr);
   return newarr
 }
+function formatMoney(number) {
+  return number.toLocaleString('en-US', { style: 'currency', currency: '{{$currency->currency_code}}' });
+}
 
 $(document).ready(() => {
+  // get branch due commision
+  $.ajax({url: "{{route('branch.unsettled')}}"})
+  .done((res) => {
+    $('#due-commission').html(formatMoney(parseFloat(res)))
+  })
   // get member registration statistics
   $.ajax({url: "{{route('member.reg.stats')}}"})
   .done((res) => {

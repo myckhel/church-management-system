@@ -90,4 +90,8 @@ class User extends Authenticatable
     public function MemberSavings(){
       return $this->hasMany(MemberSavings::class);
     }
+
+    public function collections_commissions(){
+      return $this->hasMany(CollectionCommission::class);
+    }
 }

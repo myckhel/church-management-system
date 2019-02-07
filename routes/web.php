@@ -116,6 +116,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/options/branch/put', 'OptionController@putBranchOption')->name('option.branch.post');
     Route::get('/branches/options', 'BranchController@options')->name('branch.options');
     Route::post('/branches/options', 'OptionController@optionsPost')->name('branch.optionsPost');
+    Route::get('/branches/unsettled', 'OptionController@getUnsettled')->name('branch.unsettled');
     // TOOLS
     Route::get('/branches/tools', 'BranchController@tools')->name('branch.tools');
     Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
@@ -152,17 +153,8 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  $user = App\Member::all();
-  // foreach ($user as $key => $value) {
-  //   // code...
-  //   $value->dob = mt_rand(1980, 1999)."-".str_pad(mt_rand(01, 12), 2, "0", STR_PAD_LEFT)."-".str_pad(mt_rand(01, 28), 2, "0", STR_PAD_LEFT);
-  //   $value->save();
-  // }
-  // for ($i = 1980; $i < 2005; $i++) {
-  //   // code...
-  //   echo "$i,";
-  // }
-  return mt_rand(1980, 1999)."-".str_pad(mt_rand(01, 12), 2, "0", STR_PAD_LEFT)."-".str_pad(mt_rand(01, 28), 2, "0", STR_PAD_LEFT);
+  // $savings = \App\Savings::where('id', 116)->first();
+  // \App\CollectionCommission::setCollection($savings);
 })->name('test');
 
 Route::get('/users', 'BranchController@users')->name('users');

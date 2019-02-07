@@ -83,4 +83,8 @@ class Savings extends Model
     public function users(){
       return $this->belongsTo(User::class, 'branch_id');
     }
+
+    public function collections_commissions(){
+      return $this->hasMany(CollectionCommission::class);
+    }
 }

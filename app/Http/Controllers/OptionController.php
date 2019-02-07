@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Options;
 use Auth;
 use Yajra\Datatables\Datatables;
+use App\CollectionCommission;
 
 class OptionController extends Controller
 {
@@ -143,5 +144,9 @@ class OptionController extends Controller
       if($collection) { $collection->name = \App\CollectionsType::formatString($request->name); $collection->save();}
       else {return response()->json(['status' => false, 'text' => "collection does not exist"]);}
       return response()->json(['status' => true, 'text' => "collection has been updated!"]);
+    }
+
+    public function getUnsettled(){
+      return CollectionCommission::calculateUnsettledCommission();
     }
 }

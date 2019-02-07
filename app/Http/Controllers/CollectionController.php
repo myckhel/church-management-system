@@ -70,6 +70,8 @@ class CollectionController extends Controller
           'date_collected' => date('Y-m-d',strtotime($request->date_collected))
         ]);
       }
+      // set the collection as due commission
+      \App\CollectionCommission::setCollection($savings);
       return response()->json(['status' => true, 'text' => 'Branch Collection Successfully Saved']);
     }
 

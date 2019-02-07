@@ -15,7 +15,16 @@ class Options extends Model
     }
 
     public static function getBranchOption(User $branch){
-      return Options::where('branch_id', $branch->id)->get();
+
+      $options = Options::where('branch_id', $branch->id)->get();
+      foreach ($options as $key => $value) {
+        if ($value->name == 'collection_commission') {
+          $options[$key]->value = (Options::getLatestCommission())->value;
+          return $options;
+        }
+      }
+
+      return $options;
     }
 
     public static function putBranchOption($request, User $branch){
@@ -31,6 +40,10 @@ class Options extends Model
         'name' => $request->name,
         'value' => $request->value
       ]);
+    }
+
+    public static function getLatestCommission(){
+      return $options = Options::where('name', 'collection_commission')->orderBy('updated_at','desc')->first();
     }
 
     public function user(){
