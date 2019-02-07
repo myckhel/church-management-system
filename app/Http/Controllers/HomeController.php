@@ -36,8 +36,8 @@ class HomeController extends Controller
         $num_workers = $user->isAdmin() ? DB::table('members')->where('position', 'worker')->count() : DB::table('members')->where('position', 'worker')->where('branch_id', \Auth::user()->branchcode)->count();
         $total = ['workers' => $num_workers, 'pastors' => $num_pastors, 'members' => $num_members];
         $currency = \App\Options::getOneBranchOption('currency', \Auth::user());
-        $currency = DB::table('country')->where('currency_symbol', $currency->value)->first();
-        // dd($currency);
+        // $currency = \App\Options::where('name', 'currency')->first();
+        $currency = DB::table('country')->where('currency_symbol', isset($currency->value) ? $currency->value : '₦')->first();
         //$events = Event::all();
         return view('dashboard.index', compact('events','options','total','members', 'eventsall', 'c_types', 'currency'));
     }
