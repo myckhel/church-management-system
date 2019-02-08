@@ -321,7 +321,7 @@ function barColors($colors){
                     <span class="pad-ver text-main text-sm text-uppercase text-bold">Total Due Collections Commission</span>
                     <p class="text-sm">{{NOW('F J Y')}}</p>
                     <p class="text-2x text-main"><span id="due-commission">0</span> </p>
-                    <button class="btn btn-block btn-success mar-top">Pay Now</button>
+                    <a href="{{route('branch.invoice')}}" class="btn btn-block btn-success mar-top">Pay Now</a>
                 </div>
                 <hr class="new-section-xs">
 
