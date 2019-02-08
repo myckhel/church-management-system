@@ -140,22 +140,16 @@ class BranchController extends Controller
       $data['currency'] = $request->currency;
       $data['password'] = $request->password;
       $data['password_confirmation'] = $request->password_confirmation;
-      //foreach($request as $key => $value){
-        //$data[$key] = $value;
-      //}
-      //return $data['branchname'];
-        $validate = self::validator($data);
-        if($validate->fails()){
-          return redirect('/branches/register')->withErrors($validate)->withInput();
-        }
-        $creation = self::creator($data);
-        //
-        //$users = User::all();
 
-        $s = 'Success';
+      $validate = self::validator($data);
+      if($validate->fails()){
+        return redirect('/branches/register')->withErrors($validate)->withInput();
+      }
+      $creation = self::creator($data);
+      //
+      $s = 'Success';
 
-        //return \Gate::denies('view-branches', $this->user) ? redirect()->route('dashboard'):
-        return redirect()->route('branch.register', ['s' => $s]);
+      return redirect()->route('branch.register', ['s' => $s]);
     }
 
     protected function validator(array $data)
@@ -175,31 +169,30 @@ class BranchController extends Controller
 
     protected function creator(array $data)
     {
-        return User::create([
-            'branchname' => $data['branchname'],
-            'branchcode' => $data['branchcode'],
-            'address' => $data['address'],
-            'email' => $data['email'],
-            'isadmin' => 'false',
-            'password' => Hash::make($data['password']),
-            'country' => $data['country'],
-            'state' => $data['state'],
-            'city' => $data['city'],
-            'currency' => $data['currency'],
-        ]);
+      $branch = User::create([
+        'branchname' => $data['branchname'],
+        'branchcode' => $data['branchcode'],
+        'address' => $data['address'],
+        'email' => $data['email'],
+        'isadmin' => 'false',
+        'password' => Hash::make($data['password']),
+        'country' => $data['country'],
+        'state' => $data['state'],
+        'city' => $data['city'],
+        'currency' => $data['currency'],
+      ]);
+
+      if (!$branch) {
+        return $branch;
+      }
+
     }
 
     public function ho(Request $request){
-        $user = \Auth::user();
+      $user = \Auth::user();
+      $options = \App\head_office_options::all();
 
-        //foreach($request as $key => $value){
-
-        //}
-        //$options = DB::table('head_office_options')->get();
-        $options = \App\head_office_options::all();
-        //$op = new H_O_Options();
-        //$options = $op->options();//H_O_Options::options();
-        return view('branch.ho', ['options' => $options]);
+      return view('branch.ho', ['options' => $options]);
     }
     public function ho_up(Request $request){
       if(Input::file('img')){
@@ -294,5 +287,19 @@ class BranchController extends Controller
       }
       else {return response()->json(['status' => false, 'text' => "Branch does not exist"]);}
       return response()->json(['status' => true, 'text' => "Branch has been updated!"]);
+    }
+
+    public function invoice(Request $request){
+      $user = \Auth::user();
+      // get due savings
+      $dueSavings = \App\CollectionCommission::dueSavings($user);
+      // get the commission percentage
+      $percentage = (int)(\App\Options::getLatestCommission())->value;
+      // dd($dueSavings);
+      $details = \App\Options::getLatestCommissionBankDetails();
+      // dd($details);
+      $options = DB::table('head_office_options')->where('HOID',1)->first();
+      $blanceDue = \App\CollectionCommission::calculateUnsettledCommission();
+      return view('branch.invoice', compact('details', 'dueSavings', 'percentage', 'blanceDue', 'user', 'options'));
     }
 }

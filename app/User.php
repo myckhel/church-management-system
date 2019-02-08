@@ -37,8 +37,7 @@ class User extends Authenticatable
     }
 
     public function getName(){
-
-        return "$this->branchname";
+      return "$this->branchname";
     }
 
     public function getCurrencySymbol(){
@@ -61,6 +60,11 @@ class User extends Authenticatable
 
     public function getUserById($id){
       return \App\User::where($id)->get();
+    }
+
+    public function creation(){
+
+      return ;
     }
 
     public function group(){

@@ -22,6 +22,7 @@ class Savings extends Model
       foreach($data as $index => $v) {
         if(isset($dates[$i-1]) && $v->date_collected == $dates[$i-1]){
             $row[$v->date_collected]->amounts[$v->collections_types->name] = $v->amount;
+            $row[$v->date_collected]->total += $v->amount;
         } else {
           $obj = new \stdClass();
           foreach (get_object_vars($v) as $key => $value) {
@@ -36,6 +37,7 @@ class Savings extends Model
           $obj->updated_at = $v['updated_at']->toDateTimeString();
           $obj->amounts = [];
           $obj->amounts[$v->collections_types->name] = $v->amount;
+          $obj->total = $v->amount;
           $row[$v->date_collected] = $obj;
         }
         array_push($dates, $v->date_collected);

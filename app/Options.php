@@ -46,6 +46,12 @@ class Options extends Model
       return $options = Options::where('name', 'collection_commission')->orderBy('updated_at','desc')->first();
     }
 
+    public static function getLatestCommissionBankDetails(){
+      $options = Options::where('name', 'commission_account_bank')->orWhere('name', 'commission_account_number')
+      ->orWhere('name', 'commission_account_name')->orderBy('updated_at','desc')->get();
+      return $options;
+    }
+
     public function user(){
       $this->belongsTo(User::class);
     }

@@ -41,6 +41,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/branches/register', 'BranchController@register')->name('branch.register');
     Route::post('/branches/update', 'BranchController@updateBranch')->name('branch.update');
     Route::post('/branches/delete', 'BranchController@delete')->name('branch.delete.multi');
+    Route::get('/branch/invoice', 'BranchController@invoice')->name('branch.invoice');
     // depre
     Route::get('/old/branches/head_office_options', 'BranchController@ho')->name('branch.ho');
     Route::post('/old/branches/head_office_options', 'BranchController@ho_up')->name('branch.ho.up');
@@ -131,6 +132,8 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/currencies/get', 'OptionController@getCurrencies')->name('option.currencies');
     Route::get('/countries/get', 'OptionController@getCountries')->name('option.countries');
     Route::get('apis', 'CollectionController@test')->name('apis');
+
+    Route::get('/get/banks', 'OptionController@banks')->name('banks');
 
     // MAIL TEMPLATE PREVIEW SECTION
     Route::get('mailable/email-to-member', 'MemberController@testMail')->name('testMail');

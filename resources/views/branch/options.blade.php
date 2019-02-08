@@ -91,7 +91,7 @@
 					                        <td width="35%">Sms Balance Api</td>
 					                        <td width="65%"><a href="#" id="smsbalanceapi"></a></td>
 					                    </tr>
-                              <tr>
+                              <!-- <tr>
 					                        <td width="35%">Branch Name</td>
 					                        <td width="65%"><a href="#" id="branchname"></a></td>
 					                    </tr>
@@ -131,20 +131,39 @@
 					                    <tr>
 					                        <td>Branch Currency Symbol</td>
 					                        <td><a href="#" id="currency" data-type="select" data-pk="1" data-source="{{route('option.currencies')}}" data-title="Select currency Symbol"></a></td>
-					                    </tr>
-                              <tr>
+					                    </tr> -->
+                              <!-- <tr>
 					                        <td>Branch Line 1</td>
 					                        <td><a href="#" id="branchline1" data-type="number" data-pk="1" data-placement="right" data-placeholder="e.g, 081100000000" data-title="Enter Branch's Line 1"></a></td>
 					                    </tr>
                               <tr>
 					                        <td>Branch Line 2</td>
 					                        <td><a href="#" id="branchline2" data-type="number" data-pk="1" data-placement="right" data-placeholder="e.g, 081100000000" data-title="Enter Branch's Line 2"></a></td>
-					                    </tr>
+					                    </tr> -->
                               @if(Auth::user()->isAdmin())
                               <tr>
 					                        <td>Collection Commission</td>
 					                        <td><a href="#" id="collection_commission" data-type="number" data-pk="1" data-placement="right"
                                     data-placeholder="e.g, 20" data-title="Collection's commission percentage"></a>
+                                  </td>
+					                    </tr>
+                              <tr>
+					                        <td>Commission Account Number</td>
+					                        <td><a href="#" id="commission_account_number" data-type="number" data-pk="1" data-placement="right"
+                                    data-placeholder="e.g, 01100000001" data-title="Account Number"></a></td>
+					                    </tr>
+                              <tr>
+					                        <td width="35%">Commission Account Name</td>
+					                        <td width="65%"><a href="#" id="commission_account_name" data-title="Account Name"></a></td>
+					                    </tr>
+                              <tr>
+					                        <td width="35%">Commission Account Bank</td>
+                                  <td>
+                                    <a href="#" id="commission_account_bank" data-type="select" data-pk="1"
+                                    data-source="{{route('banks')}}"
+                                      data-title="Choose Bank">
+                                    </a>
+                                    <!-- data-source="{{url('https://api.paystack.co/bank')}}" -->
                                   </td>
 					                    </tr>
                               @endif
@@ -194,15 +213,19 @@ $.ajax({url: "{{route('option.branch.get')}}"})
     const opt = "setValue"
   	$("#smsapi").editable(opt, dt.smsapi)
     $("#smsbalanceapi").editable(opt, dt.smsbalanceapi)
-    $("#branchname").editable(opt, dt.branchname)
-    $("#currency").editable(opt, dt.currency)
-    $("#branchaddress").editable(opt, dt.branchaddress)
-    $("#branchline1").editable(opt, dt.branchline1)
-    $("#branchline2").editable(opt, dt.branchline2)
-    $("#branchcity").editable(opt, dt.branchcity)
-    $("#branchstate").editable(opt, dt.branchstate)
-    $("#branchcountry").editable(opt, dt.branchcountry)
+    // $("#branchname").editable(opt, dt.branchname)
+    // $("#currency").editable(opt, dt.currency)
+    // $("#branchaddress").editable(opt, dt.branchaddress)
+    // $("#branchline1").editable(opt, dt.branchline1)
+    // $("#branchline2").editable(opt, dt.branchline2)
+    // $("#branchcity").editable(opt, dt.branchcity)
+    // $("#branchstate").editable(opt, dt.branchstate)
+    // $("#branchcountry").editable(opt, dt.branchcountry)
     $("#collection_commission").editable(opt, dt.collection_commission)
+    $("#commission_account_bank").editable(opt, dt.commission_account_bank)
+    $("#commission_account_name").editable(opt, dt.commission_account_name)
+    $("#commission_account_number").editable(opt, dt.commission_account_number)
+    // $("#collection_commission").editable(opt, dt.collection_commission)
   }
 })
 .fail((e) => {console.log(e);})
@@ -325,6 +348,43 @@ $(document).ready( () => {
 			    }
 			});
 
+      // commission account number
+      $("#commission_account_number").editable({
+			    validate: function(value) {
+			       if($.trim(value) == "") return "This field is required";
+			    }
+			});
+
+      // commission account name
+      $("#commission_account_name").editable({
+			    validate: function(value) {
+			       if($.trim(value) == "") return "This field is required";
+			    }
+			});
+
+      // commission account bank
+      // $.ajax({url: "{{url('https://api.paystack.co/bank')}}",})
+      // .done((res) => {
+        $("#commission_account_bank").editable({
+          // source: function(){
+          //   return res.data;
+          // }
+          // display: function(value, sourceData) {
+          //   $(this).text(sourceData.data)
+               // var colors = {"": "gray", 1: "green", 2: "blue"},
+               //     elem = $.grep(sourceData, function(o){return o.value == value;});
+               //
+               // if(elem.length) {
+               //     $(this).text(elem[0].text).css("color", colors[value]);
+               // } else {
+               //     $(this).empty();
+               // }
+          // }
+        });
+      // })
+
+
+
 			$("#demo-editable-sex").editable({
 			    prepend: "not selected",
 			    source: [
@@ -344,7 +404,7 @@ $(document).ready( () => {
 			});
 
 
-			$("#currency").editable({});
+      $("#currency").editable({});
 
       //head office module
 			$('#save-ho').click(function (){

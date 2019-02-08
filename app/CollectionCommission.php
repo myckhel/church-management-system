@@ -14,15 +14,30 @@ class CollectionCommission extends Model
     ];
     protected $table = 'collections_commissions';
 
-    public static function calculateUnsettledCommission(){
-      $user = \Auth::user();
-      // get the
-      $percentage = (int)(\App\Options::getLatestCommission())->value;
-      $unsettle = CollectionCommission::where('collections_commissions.branch_id', $user->id)
+    public static function getDueCommissions(User $user){
+      return $due = CollectionCommission::where('collections_commissions.branch_id', $user->id)
         ->where('settled', false)
         // ->with('savings')
         ->leftJoin('savings', 'savings.date_collected', 'saving_date_collected')->where('savings.branch_id', $user->id)
         ->get();
+    }
+
+    public static function dueSavings(User $user){
+      $dueRows = CollectionCommission::getDueCommissions($user);
+      $savings = [];
+      foreach ($dueRows as $key => $commssion) {
+        $savings[] = \App\Savings::find($commssion->id); //$commssion->id;
+      }
+      $savings = \App\Savings::rowToColumn($savings, 'no_obj');
+      // dd($savings);
+      return $savings;
+    }
+
+    public static function calculateUnsettledCommission(){
+      $user = \Auth::user();
+      // get the
+      $percentage = (int)(\App\Options::getLatestCommission())->value;
+      $unsettle = CollectionCommission::getDueCommissions($user);
         // dd($unsettle);
         $total = 0;
       foreach ($unsettle as $key => $saving) {

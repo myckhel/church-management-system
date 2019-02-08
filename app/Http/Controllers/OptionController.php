@@ -31,8 +31,9 @@ class OptionController extends Controller
       $branch = Auth::user();
       $status = false;
       $text = "Option Name Not Valid";
-      $optionName = array('smsbalanceapi', 'collection_commission', 'smsapi', 'currency', 'branchname', 'branchaddress',
-        'branchline1', 'branchline2', 'branchcity', 'branchstate', 'branchcountry', 'branchlogo');
+      $optionName = array('smsbalanceapi', 'collection_commission', 'commission_account_bank', 'smsapi', 'commission_account_number', 'commission_account_name');
+      // 'currency', 'branchname', 'branchaddress',
+      //   'branchline1', 'branchline2', 'branchcity', 'branchstate', 'branchcountry', 'branchlogo');
 
       if (in_array($request->name, $optionName) ){
         // code...
@@ -148,5 +149,16 @@ class OptionController extends Controller
 
     public function getUnsettled(){
       return CollectionCommission::calculateUnsettledCommission();
+    }
+
+    public function banks(){
+      $string = file_get_contents("https://api.paystack.co/bank");
+      $obj = json_decode($string);
+      $banks = [];
+      foreach ($obj->data as $key => $bank) {
+        $banks[] = (object) array('text' => $bank->name, 'value' => $bank->name);
+      }
+      // dd($banks);
+      return $banks;
     }
 }
