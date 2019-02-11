@@ -193,18 +193,6 @@ function barColors($colors){
                             </tr>
                             <?php $i++; ?>
                             @endforeach
-                              <!-- <tr>
-                                  <td class="text-lg" style="width: 40px"><span class="badge badge-purple" id="collection-offering">N0</span></td>
-                                  <td>Offering</td>
-                              </tr>
-                              <tr>
-                                  <td class="text-lg"><span class="badge badge-dark" id="collection-Building_Collection">N0</span></td>
-                                  <td>Building Collection</td>
-                              </tr>
-                              <tr>
-                                  <td class="text-lg"><span class="badge badge-danger" id="collection-Seed_Offering">N0</span></td>
-                                  <td>Seed_Offering</td>
-                              </tr> -->
                           </table>
                       </div>
                       <div class="col-sm-5 text-center">
@@ -319,7 +307,7 @@ function barColors($colors){
               <div class="col-sm-6 col-lg-12">
                 <div class="pad-all">
                     <span class="pad-ver text-main text-sm text-uppercase text-bold">Total Due Collections Commission</span>
-                    <p class="text-sm">{{NOW('F J Y')}}</p>
+                    <p class="text-sm">{{date('dS F Y', strtotime( NOW() ) )}}</p>
                     <p class="text-2x text-main"><span id="due-commission">0</span> </p>
                     <a href="{{route('branch.invoice')}}" class="btn btn-block btn-success mar-top">Pay Now</a>
                 </div>
@@ -365,7 +353,7 @@ function barColors($colors){
                               <tr>
                                   <td class="min-w-td">{{$i}}</td>
                                   <td class="text-center"><img src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image" class="img-circle img-sm"></td>
-                                  <td class="text-center"><a class="btn-link" href="#">{{ucwords($member->getFullname())}}</a></td>
+                                  <td class="text-center"><a class="btn-link" href="{{$member->profile()}}">{{ucwords($member->getFullname())}}</a></td>
                                   <td class="text-center">{{$member->email}}</td>
                                   <td class="text-center">
                                     @if((int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->dob)), 0,2))
@@ -424,7 +412,7 @@ function barColors($colors){
                               <tr>
                                   <td class="min-w-td">{{$i}}</td>
                                   <td class="text-center"><img src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image" class="img-circle img-sm"></td>
-                                  <td class="text-center"><a class="btn-link" href="#">{{ucwords($member->getFullname())}}</a></td>
+                                  <td class="text-center"><a class="btn-link" href="{{$member->profile()}}">{{ucwords($member->getFullname())}}</a></td>
                                   <td class="text-center">{{$member->email}}</td>
                                   <td class="text-center">
                                     @if((int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->wedding_anniversary)), 0,2))

@@ -12,13 +12,13 @@ textarea { border: 0; font: 14px Georgia, Serif; overflow: hidden; resize: none;
 table { border-collapse: collapse; }
 table td, table th { border: 1px solid black; padding: 5px; }
 
-#header { height: 15px; width: 100%; margin: 20px 0; background: #222; text-align: center; color: white; font: bold 15px Helvetica, Sans-Serif; text-decoration: uppercase; letter-spacing: 20px; padding: 8px 0px; }
+#header { height: 35px; width: 100%; margin: 20px 0; background: #222; text-align: center; color: white; font: bold 15px Helvetica, Sans-Serif; text-decoration: uppercase; letter-spacing: 20px; padding: 8px 0px; }
 
 #address { width: 250px; height: 150px; float: left; }
 #customer { overflow: hidden; }
 
-#logo { text-align: right; float: right; position: relative; margin-top: 25px; border: 1px solid #fff; max-width: 540px; max-height: 100px; overflow: hidden; }
-#logo:hover, #logo.edit { border: 1px solid #000; margin-top: 0px; max-height: 125px; }
+#logo {float: right; position: relative; margin-top: 25px; border: 1px solid #fff; max-width: 300px; max-height: 100px; overflow: hidden; }
+/* #logo:hover, #logo.edit { border: 1px solid #000; margin-top: 0px; max-height: 125px; } */
 #logoctr { display: none; }
 #logo:hover #logoctr, #logo.edit #logoctr { display: block; text-align: right; line-height: 25px; background: #eee; padding: 0 5px; }
 #logohelp { text-align: left; display: none; font-style: italic; padding: 10px 5px;}

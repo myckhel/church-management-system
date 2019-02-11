@@ -41,6 +41,10 @@ class Member extends Model
     return $this->getFullname();
   }
 
+  public function profile(){
+    return route('member.profile', ['id' => $this->id]);//../member/profile/${id}
+  }
+
   public function groupMember(){
     return $this->belongsTo(GroupMember::class);
   }

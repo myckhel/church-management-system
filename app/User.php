@@ -40,6 +40,18 @@ class User extends Authenticatable
       return "$this->branchname";
     }
 
+    public static function currencySymbol(){
+      $currency = \App\Options::getOneBranchOption('currency', \Auth::user());
+      // $currency = \App\Options::where('name', 'currency')->first();
+      $currency = \DB::table('country')->where('currency_symbol', isset($currency->value) ? $currency->value : '₦')->first();
+      return $currency;
+    }
+
+    public static function toMoney($number){
+      $symbol = self::currencySymbol();
+      return $symbol->currency_symbol.number_format($number);
+    }
+
     public function getCurrencySymbol(){
       $currency = $this->currency;
       return \DB::table('country')->select('currency_symbol')->where('ID', '=', $currency)->first();
