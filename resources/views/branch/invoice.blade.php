@@ -49,13 +49,13 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-md-12 col-md-offset-0">
+    <div class="col-sm-10 col-md-10 col-md-offset-1">
       <div class="panel" style="background-color: #e8ddd3;">
         <!-- <div class="panel-heading">
             <h1 class="text-center panel-title">Collection Commission Invoice</h1>
         </div> -->
         <div class="panel-body demo-nifty-btn table-responsive">
-          <div id="page-wrap">
+          <!-- <div id="page-wrap"> -->
 
       		<div id="header">INVOICE</div>
 
@@ -68,7 +68,7 @@
               <!-- <p>Phone: (555) 555-5555</p> -->
             </div>
 
-            <div id="logo" style="background-image: url(data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}})">
+            <div id="logo">
 
               <!-- <div id="logoctr">
                 <a href="javascript:;" id="change-logo" title="Change logo">Change Logo</a>
@@ -82,7 +82,7 @@
                 <input id="imageloc" type="text" size="50" value="" /><br />
                 (max width: 540px, max height: 100px)
               </div> -->
-              <img id="image" src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" alt="logo" />
+              <img id="image" style="width:100%; height:100%;" src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" alt="logo" />
             </div>
 
       		</div>
@@ -187,7 +187,10 @@
       		  <div>Commission charge of {{$percentage}}% being charge on each collection.</div>
       		</div>
 
-        	</div>
+        	<!-- </div> -->
+          <div class="pull-left">
+            <button type="button" name="button" onclick="window.print()" class="btn btn-primary"><i class="fa fa-print"></i> Print </button>
+          </div>
           <div class="pull-right">
             <button type="button" name="button" class="btn btn-success"><i class="fa fa-money"></i> Continue to pay</button>
           </div>
