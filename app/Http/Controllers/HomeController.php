@@ -39,7 +39,13 @@ class HomeController extends Controller
         // $currency = \App\Options::where('name', 'currency')->first();
         $currency = DB::table('country')->where('currency_symbol', isset($currency->value) ? $currency->value : '₦')->first();
         //$events = Event::all();
-        return view('dashboard.index', compact('events','options','total','members', 'eventsall', 'c_types', 'currency'));
+        // get due savings
+        $dueSavings = \App\CollectionCommission::dueSavings($user);
+        // get the commission percentage
+        $percentage = (int)(\App\Options::getLatestCommission())->value;
+        //
+        $allDueSavings = \App\CollectionCommission::calculateUnsettledCommission(true);
+        return view('dashboard.index', compact('events','options','total','members', 'eventsall', 'c_types', 'currency', 'dueSavings', 'percentage', 'allDueSavings'));
     }
 
     public function gallery()

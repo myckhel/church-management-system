@@ -7,6 +7,7 @@
 <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet">
 <link href="{{ URL::asset('css/stylemashable.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{URL::asset('css/icofont.min.css')}}">
+<link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
 <style media="screen">
 .icofont{
   font-size: 35px;
@@ -16,6 +17,7 @@
 
 @section('content')
 <!--CONTENT CONTAINER-->
+<?php $user = Auth::user(); $money = function($number){ return \Auth::user()::toMoney((float) $number); } ?>
 <?php
 function random_color_part() {
   return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
@@ -43,7 +45,7 @@ function barColors($colors){
   <div id="page-head">
     <hr class="new-section-sm bord-no">
     <div class="text-center">
-      <h3>Welcome to <strong>{{strtoupper(\Auth::user()->branchname)}}</strong> Dashboard.</h3>
+      <h3>Welcome to <strong>{{strtoupper($user->branchname)}}</strong> Dashboard.</h3>
       <!--<p>Check out your past searches and the content you’ve browsed in. <a href="dashboard" class="btn-link">View last results</a></p>-->
     </div>
     <!-- <hr class="new-section-md bord-no"> -->
@@ -252,11 +254,11 @@ function barColors($colors){
   <div class="row">
       <div class="col-lg-3">
           <div class="row">
-              <div class="col-sm-3 col-lg-6">
+              <div class="col-xs-12">
 
                   <!--Tile-->
                   <!--===================================================-->
-                  <div class="panel panel-primary panel-colorful">
+                  <div class="panel panel-primary panel-colorful col-xs-6">
                       <div class="pad-all text-center">
                         <span class="text-3x text-thin">{{\App\User::all()->count()}}</span>
                         <p>Parishes</p>
@@ -268,7 +270,7 @@ function barColors($colors){
 
                   <!--Tile-->
                   <!--===================================================-->
-                  <div class="panel panel-warning panel-colorful">
+                  <div class="panel panel-warning panel-colorful col-xs-6">
                       <div class="pad-all text-center">
                         <span class="text-3x text-thin">{{$total['members']}}</span>
                         <p>Members</p>
@@ -278,11 +280,11 @@ function barColors($colors){
                   <!--===================================================-->
 
               </div>
-              <div class="col-sm-3 col-lg-6">
+              <div class="col-xs-12">
 
                   <!--Tile-->
                   <!--===================================================-->
-                  <div class="panel panel-purple panel-colorful">
+                  <div class="panel panel-purple panel-colorful col-xs-6">
                       <div class="pad-all text-center">
                           <span class="text-3x text-thin">{{$total['workers']}}</span>
                           <p>Workers</p>
@@ -294,7 +296,7 @@ function barColors($colors){
 
                   <!--Tile-->
                   <!--===================================================-->
-                  <div class="panel panel-dark panel-colorful">
+                  <div class="panel panel-dark panel-colorful  col-xs-6">
                       <div class="pad-all text-center">
                         <span class="text-3x text-thin">{{$total['pastors']}}</span>
                         <p>Pastors</p>
@@ -302,17 +304,6 @@ function barColors($colors){
                       </div>
                   </div>
                   <!--===================================================-->
-
-              </div>
-              <div class="col-sm-6 col-lg-12">
-                <div class="pad-all">
-                    <span class="pad-ver text-main text-sm text-uppercase text-bold">Total Due Collections Commission</span>
-                    <p class="text-sm">{{date('dS F Y', strtotime( NOW() ) )}}</p>
-                    <p class="text-2x text-main"><span id="due-commission">0</span> </p>
-                    <a href="{{route('branch.invoice')}}" class="btn btn-block btn-success mar-top">Pay Now</a>
-                </div>
-                <hr class="new-section-xs">
-
 
               </div>
           </div>
@@ -335,7 +326,7 @@ function barColors($colors){
               <div class="panel-body text-center clearfix">
                 @if(count($celebs) > 0)
                   <div class="table-responsive">
-                      <table class="table table-vcenter mar-top">
+                      <table id="dobs" class="table table-vcenter mar-top">
                           <thead>
                               <tr>
                                   <th class="min-w-td">#</th>
@@ -394,7 +385,7 @@ function barColors($colors){
               <div class="panel-body text-center clearfix">
                 @if(count($celebs) > 0)
                   <div class="table-responsive">
-                      <table class="table table-vcenter mar-top">
+                      <table id="anniversaries" class="table table-vcenter mar-top">
                           <thead>
                               <tr>
                                   <th class="min-w-td">#</th>
@@ -445,6 +436,91 @@ function barColors($colors){
       </div>
 
   </div>
+
+  <div class="panel">
+    <div class="panel-body">
+      <div class="row mar-top">
+        <div class="col-md-3">
+          <div class="pad-all text-center">
+              <span class="pad-ver text-main text-sm text-uppercase text-bold">Total Due Collections Commission</span>
+              <p class="text-sm">{{date('dS F Y', strtotime( NOW() ) )}}</p>
+              <p class="text-2x text-main"><span id="due-commission">0</span> </p>
+              <a href="{{route('branch.invoice')}}" class="btn btn-block btn-success mar-top">Pay Now</a>
+          </div>
+          <hr class="new-section-xs">
+
+
+        </div>
+
+        <div class="col-md-{{($user->isAdmin()) ? 5 : 9}}">
+          <h3 class="text-center">Due Collections</h3>
+          <table id="due-collection" class="table table-sm table-striped table-bordered nowrap">
+            <thead>
+              <tr class="bg-success">
+                <th>Date</th>
+                <th>Service Type</th>
+                <th>Amount</th>
+                <th>Commission {{$percentage}}%</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php $i = 0; $totalCommission = 0; $amount = 0; $branch_id = $user->id; ?>
+              @if(isset($dueSavings[$branch_id]))
+              @foreach($dueSavings[$branch_id] as $savings)
+              <tr>
+                <td>{{$savings->date_collected}}</td>
+                <td>{{$savings->service_types}}</td>
+                <td>{{$money($savings->total)}}</td>
+                <?php $i++; $commission = (float)($savings->total * ($percentage / 100)); $totalCommission += $commission; $amount += $savings->total; ?>
+                <td>{{$money($commission)}}</td>
+              </tr>
+              @endforeach
+              @endif
+            </tbody>
+            <tfoot>
+              <tr class="bg-dark">
+                <th>Total</th>
+                <th></th>
+                <th>{{$money($amount)}}</th>
+                <th>{{$money($totalCommission)}}</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        @if($user->isAdmin())
+        <div class="col-md-4">
+          <h3 class="text-center">Parishes Owning</h3>
+          <table id="owning-table" class="table table-sm table-striped table-bordered nowrap">
+            <thead>
+              <tr class="bg-success">
+                <th>Name</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php $totalCommission = 0; ?>
+              @foreach($allDueSavings as $branch_id => $commission)
+              <tr>
+                <td>{{ucwords($user->getUserById($branch_id)->branchname)}}</td>
+                <?php $totalCommission += $commission; ?>
+                <td>{{$money($commission)}}</td>
+              </tr>
+              @endforeach
+            </tbody>
+            <tfoot>
+              <tr class="bg-dark">
+                <th>Total</th>
+                <th>{{$money($totalCommission)}}</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        @endif
+      </div>
+    </div>
+  </div>
+
   <?php $eventss = []; foreach ($events as $event)
     if($event->date >= now())
       array_push($eventss, $event)
@@ -452,7 +528,7 @@ function barColors($colors){
   <div class="col-md-10 col-md-offset-1">
       <div class="panel">
           <div class="panel-heading">
-              <h1 class="text-bold panel-title">Upcoming Events for {{strtoupper(\Auth::user()->branchname)}}</h1>
+              <h1 class="text-bold panel-title">Upcoming Events for {{strtoupper($user->branchname)}}</h1>
           </div>
           <div class="nano" style="height:360px">
               <div class="nano-content">
@@ -494,9 +570,9 @@ function barColors($colors){
           <div class="panel-footer text-right">
               <!-- <button class="btn btn-sm btn-Default">Load mre</button> -->
               @if(count($eventss) < 1)
-                <p class="text-danger"> No Event </p>
+                <p class="text-danger" > No Event </p>
               @endif
-              <button class="btn btn-sm btn-primary"><i class="icofont icofont-plus m-r-0"></i></button>
+              <button onclick="window.location.replace(`{{route('calendar')}}`)" class="btn btn-sm btn-primary"><i class="icofont icofont-plus m-r-0"></i></button>
           </div>
       </div>
   </div>
@@ -533,6 +609,8 @@ function barColors($colors){
 
 @section('js')
 <script src="{{URL::asset('plugins/flot-charts/jquery.flot.min.js')}}"></script>
+<script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
+<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
 <script>
 // let male = [["Jan", 0], ["Feb", 0], ["Mar", 0], ["Apr", 0], ["May", 0], ["Jun", 0], ["Jul", 0], ["Aug", 0], ["Sep", 0], ["Oct", 0], ["Nov", 0], ["Dec", 0]];
 // female = [["Jan", 0], ["Feb", 0], ["Mar", 0], ["Apr", 0], ["May", 0], ["Jun", 0], ["Jul", 0], ["Aug", 0], ["Sep", 0], ["Oct", 0], ["Nov", 0], ["Dec", 0]];
@@ -744,6 +822,11 @@ $(document).ready(() => {
     // console.log(male);
     // console.log(res);
   })
+  // plot datatables
+  $('#owning-table').DataTable()
+  $('#due-collection').DataTable()
+  $('#dobs').DataTable()
+  $('#anniversaries').DataTable()
 })
 </script>
 @endsection

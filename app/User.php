@@ -49,7 +49,7 @@ class User extends Authenticatable
 
     public static function toMoney($number){
       $symbol = self::currencySymbol();
-      return $symbol->currency_symbol.number_format($number);
+      return $symbol->currency_symbol.number_format((float) $number);
     }
 
     public function getCurrencySymbol(){
@@ -71,7 +71,7 @@ class User extends Authenticatable
     }
 
     public function getUserById($id){
-      return \App\User::where($id)->get();
+      return \App\User::find($id);
     }
 
     public function creation(){

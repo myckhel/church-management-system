@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-<?php $money = function($number){ return \Auth::user()::toMoney($number); } ?>
+<?php $user = \Auth::user(); $money = function($number){ return \Auth::user()::toMoney((float) $number); } ?>
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
 <div id="content-container">
@@ -124,8 +124,9 @@
       		      <th>Quantity</th>
       		      <th>Commission {{$percentage}}%</th>
       		  </tr>
-            <?php $i = 0; $totalCommission = 0; ?>
-            @foreach($dueSavings  as $savings)
+            <?php $i = 0; $totalCommission = 0.0; $branch_id = $user->id; ?>
+            @if(isset($dueSavings[$branch_id]))
+            @foreach($dueSavings[$branch_id]  as $savings)
             <!-- { { dd( $savings)}} -->
       		  <tr class="item-row">
       		      <td class="item-name">
@@ -141,6 +142,7 @@
       		      <td><span class="price">{{$money($commission)}}</span></td>
       		  </tr>
             @endforeach
+            @endif
 
       		  <!-- <tr class="item-row">
       		      <td class="item-name"><div class="delete-wpr"><div>SSL Renewals</div><a class="delete" href="javascript:;" title="Remove row">X</a></div></td>
