@@ -138,6 +138,10 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     // MAIL TEMPLATE PREVIEW SECTION
     Route::get('mailable/email-to-member', 'MemberController@testMail')->name('testMail');
 
+    // MAP
+    Route::get('/map', 'MapController@index')->name('map');
+
+
 });
 
 Route::get('/admin/login', function () {

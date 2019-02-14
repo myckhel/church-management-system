@@ -1,4 +1,6 @@
 <div id="map-canvas-{!! $id !!}" style="width: 100%; height: 100%; margin: 0; padding: 0; position: relative; overflow: hidden;"></div>
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.34&region=GB&language=en-gb&key=&libraries=places"></script>
+<script type="text/javascript" src="//googlemaps.github.io/js-marker-clusterer/src/markerclusterer.js"></script>
 
 <script type="text/javascript">
 

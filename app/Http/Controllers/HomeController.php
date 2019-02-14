@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
 use DB;
+use Mapper;
 
 class HomeController extends Controller
 {
@@ -45,6 +46,12 @@ class HomeController extends Controller
         $percentage = (int)(\App\Options::getLatestCommission())->value;
         //
         $allDueSavings = \App\CollectionCommission::calculateUnsettledCommission(true);
+        // map area
+        Mapper::map(6.3437548, 3.4859518, ['eventClick' => 'console.log("left click");']);
+        Mapper::marker(6.2437548, 3.4859518);
+        Mapper::marker(6.1437548, 3.4859518, ['symbol' => 'circle', 'scale' => 1000]);
+        Mapper::marker(6.5437548, 3.4859518, ['markers' => ['symbol' => 'circle', 'scale' => 1000, 'animation' => 'DROP']]);
+        // ed map area
         return view('dashboard.index', compact('events','options','total','members', 'eventsall', 'c_types', 'currency', 'dueSavings', 'percentage', 'allDueSavings'));
     }
 

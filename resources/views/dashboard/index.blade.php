@@ -578,7 +578,7 @@ function barColors($colors){
   </div>
 
   <div class="row">
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-12">
 
          <div class="row">
             <div class="col-sm-12">
@@ -587,8 +587,9 @@ function barColors($colors){
                   <!-- Striped Table -->
                   <!--===================================================-->
                   <div class="panel-body">
-
-
+                    <div class="" style="width: 100%; height: 500px;" id="map-area">
+                      {!! Mapper::render() !!}
+                    </div>
                   </div>
                   <!--===================================================-->
                   <!-- End Striped Table -->
@@ -659,6 +660,11 @@ function formatMoney(number) {
 }
 
 $(document).ready(() => {
+  // get map
+  // $.ajax({url: "{{route('map')}}", data: {'ajax': true}})
+  // .done((res) => {
+  //   $('#map-area').html(res)
+  // })
   // get branch due commision
   $.ajax({url: "{{route('branch.unsettled')}}"})
   .done((res) => {
