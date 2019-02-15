@@ -136,6 +136,58 @@ function barColors($colors){
   </div>
 
   <div class="panel">
+    <div class="panel-body">
+      <div class="row mar-top">
+        <!--Tile-->
+        <!--===================================================-->
+        <div class=" panel-primary panel-colorful col-md-3 col-xs-6">
+            <div class="pad-all text-center">
+              <span class="text-3x text-thin">{{\App\User::all()->count()}}</span>
+              <p>Parishes</p>
+              <i class="icofont icofont-building-alt text-success"></i>
+            </div>
+        </div>
+        <!--===================================================-->
+
+
+        <!--Tile-->
+        <!--===================================================-->
+        <div class=" panel-warning panel-colorful col-md-3 col-xs-6">
+            <div class="pad-all text-center">
+              <span class="text-3x text-thin">{{$total['members']}}</span>
+              <p>Members</p>
+              <i class="icofont icofont-ui-user-group text-success"></i>
+            </div>
+        </div>
+        <!--===================================================-->
+
+
+        <!--Tile-->
+        <!--===================================================-->
+        <div class=" panel-purple panel-colorful col-md-3 col-xs-6">
+            <div class="pad-all text-center">
+                <span class="text-3x text-thin">{{$total['workers']}}</span>
+                <p>Workers</p>
+                <i class="icofont icofont-workers-group text-success"></i>
+            </div>
+        </div>
+        <!--===================================================-->
+
+
+        <!--Tile-->
+        <!--===================================================-->
+        <div class=" panel-dark panel-colorful col-md-3 col-xs-6">
+            <div class="pad-all text-center">
+              <span class="text-3x text-thin">{{$total['pastors']}}</span>
+              <p>Pastors</p>
+              <i class="icofont icofont-man-in-glasses text-success"></i>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
 
       <!--Chart information-->
       <div class="panel-body">
@@ -252,72 +304,75 @@ function barColors($colors){
   </div>
 
   <div class="row">
-      <div class="col-lg-3">
-          <div class="row">
-              <div class="col-xs-12">
-
-                  <!--Tile-->
-                  <!--===================================================-->
-                  <div class="panel panel-primary panel-colorful col-xs-6">
-                      <div class="pad-all text-center">
-                        <span class="text-3x text-thin">{{\App\User::all()->count()}}</span>
-                        <p>Parishes</p>
-                        <i class="icofont icofont-building-alt text-success"></i>
-                      </div>
-                  </div>
-                  <!--===================================================-->
-
-
-                  <!--Tile-->
-                  <!--===================================================-->
-                  <div class="panel panel-warning panel-colorful col-xs-6">
-                      <div class="pad-all text-center">
-                        <span class="text-3x text-thin">{{$total['members']}}</span>
-                        <p>Members</p>
-                        <i class="icofont icofont-ui-user-group text-success"></i>
-                      </div>
-                  </div>
-                  <!--===================================================-->
-
-              </div>
-              <div class="col-xs-12">
-
-                  <!--Tile-->
-                  <!--===================================================-->
-                  <div class="panel panel-purple panel-colorful col-xs-6">
-                      <div class="pad-all text-center">
-                          <span class="text-3x text-thin">{{$total['workers']}}</span>
-                          <p>Workers</p>
-                          <i class="icofont icofont-workers-group text-success"></i>
-                      </div>
-                  </div>
-                  <!--===================================================-->
-
-
-                  <!--Tile-->
-                  <!--===================================================-->
-                  <div class="panel panel-dark panel-colorful  col-xs-6">
-                      <div class="pad-all text-center">
-                        <span class="text-3x text-thin">{{$total['pastors']}}</span>
-                        <p>Pastors</p>
-                        <i class="icofont icofont-man-in-glasses text-success"></i>
-                      </div>
-                  </div>
-                  <!--===================================================-->
-
-              </div>
+    <?php
+    $celebs = []; $i = 1;
+    foreach ($members as $key => $member) {
+      // code...
+      if (date('F', (strtotime($member->dob))) == date('F') || date('F', (strtotime($member->wedding_anniversary))) == date('F')  ) {
+        array_push($celebs, $member); }
+    }
+    ?>
+    <div class="col-md-6">
+        <div class="panel">
+          <div class="panel-heading"> <!--body text-center"-->
+              <h3 class="panel-title"><strong>Wedding Anniversarie(s) For <?php echo date('F Y'); $i = 1; ?></strong> </h3>
+              <!--i class="demo-pli-coin icon-4x"></i-->
           </div>
-      </div>
+            <div class="panel-body text-center clearfix">
+              @if(count($celebs) > 0)
+                <div class="table-responsive">
+                    <table id="anniversaries" class="table table-vcenter mar-top">
+                        <thead>
+                            <tr>
+                                <th class="min-w-td">#</th>
+                                <th class="min-w-td">User</th>
+                                <th class="text-center">Full Name</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Role</th>
+                                <th class="text-center">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($celebs as $member)
+                          @if(date('F', (strtotime($member->wedding_anniversary))) == date('F'))
+                            <tr>
+                                <td class="min-w-td">{{$i}}</td>
+                                <td class="text-center"><img src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image" class="img-circle img-sm"></td>
+                                <td class="text-center"><a class="btn-link" href="{{$member->profile()}}">{{ucwords($member->getFullname())}}</a></td>
+                                <td class="text-center">{{$member->email}}</td>
+                                <td class="text-center">
+                                  @if((int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->wedding_anniversary)), 0,2))
+                                <span class="label label-table label-success">Upcoming</span>
+                                @else
+                                <span class="label label-table label-purple">Past</span>
+                                @endif
+                                </td>
+                                <td class="text-center"><span class="label label-table label-info">{{ucwords($member->position)}}</span></td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                      {{date('jS', strtotime($member->wedding_anniversary))}}
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php $i++; ?>
+                            @endif
+                            @endforeach
 
-      <?php
-      $celebs = []; $i = 1;
-      foreach ($members as $key => $member) {
-        // code...
-        if (date('F', (strtotime($member->dob))) == date('F') || date('F', (strtotime($member->wedding_anniversary))) == date('F')  ) {
-          array_push($celebs, $member); }
-      }
-      ?>
-      <div class="col-lg-9">
+                        </tbody>
+                    </table>
+                    <hr>
+                    <!--Pagination-->
+                </div>
+                @else
+                <p class="text-danger"> No Anniversary </p>
+                @endif
+            </div>
+        </div>
+    </div>
+
+
+      <div class="col-md-6">
           <div class="panel">
             <div class="panel-heading"> <!--body text-center"-->
                 <h3 class="panel-title"><strong>Birthday(s) For <?php echo date('F Y'); ?></strong> </h3>
@@ -375,66 +430,6 @@ function barColors($colors){
               </div>
           </div>
       </div>
-
-      <div class="col-lg-9">
-          <div class="panel">
-            <div class="panel-heading"> <!--body text-center"-->
-                <h3 class="panel-title"><strong>Wedding Anniversarie(s) For <?php echo date('F Y'); $i = 1; ?></strong> </h3>
-                <!--i class="demo-pli-coin icon-4x"></i-->
-            </div>
-              <div class="panel-body text-center clearfix">
-                @if(count($celebs) > 0)
-                  <div class="table-responsive">
-                      <table id="anniversaries" class="table table-vcenter mar-top">
-                          <thead>
-                              <tr>
-                                  <th class="min-w-td">#</th>
-                                  <th class="min-w-td">User</th>
-                                  <th class="text-center">Full Name</th>
-                                  <th class="text-center">Email</th>
-                                  <th class="text-center">Status</th>
-                                  <th class="text-center">Role</th>
-                                  <th class="text-center">Date</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                            @foreach ($celebs as $member)
-                            @if(date('F', (strtotime($member->wedding_anniversary))) == date('F'))
-                              <tr>
-                                  <td class="min-w-td">{{$i}}</td>
-                                  <td class="text-center"><img src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image" class="img-circle img-sm"></td>
-                                  <td class="text-center"><a class="btn-link" href="{{$member->profile()}}">{{ucwords($member->getFullname())}}</a></td>
-                                  <td class="text-center">{{$member->email}}</td>
-                                  <td class="text-center">
-                                    @if((int)substr(date('jS'),0,2) <= (int)substr(date('jS', strtotime($member->wedding_anniversary)), 0,2))
-                                  <span class="label label-table label-success">Upcoming</span>
-                                  @else
-                                  <span class="label label-table label-purple">Past</span>
-                                  @endif
-                                  </td>
-                                  <td class="text-center"><span class="label label-table label-info">{{ucwords($member->position)}}</span></td>
-                                  <td class="text-center">
-                                      <div class="btn-group">
-                                        {{date('jS', strtotime($member->wedding_anniversary))}}
-                                      </div>
-                                  </td>
-                              </tr>
-                              <?php $i++; ?>
-                              @endif
-                              @endforeach
-
-                          </tbody>
-                      </table>
-                      <hr>
-                      <!--Pagination-->
-                  </div>
-                  @else
-                  <p class="text-danger"> No Anniversary </p>
-                  @endif
-              </div>
-          </div>
-      </div>
-
   </div>
 
   <div class="panel">

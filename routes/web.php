@@ -160,8 +160,9 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  // $savings = \App\Savings::where('id', 116)->first();
-  // \App\CollectionCommission::setCollection($savings);
+  // $sql = "SELECT name, ID FROM country";
+  $currencies = \DB::table('country')->get();
+  return response()->json($currencies);
 })->name('test');
 
 Route::get('/users', 'BranchController@users')->name('users');
