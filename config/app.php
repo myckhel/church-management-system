@@ -151,6 +151,7 @@ return [
          * Package Service Providers...
          */
          Yajra\Datatables\DatatablesServiceProvider::class,
+         Cornford\Googlmapper\MapperServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -211,6 +212,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Carbon' => 'Carbon\Carbon',
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
 
     ],
 

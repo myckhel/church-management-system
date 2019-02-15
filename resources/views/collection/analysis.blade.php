@@ -52,8 +52,6 @@ function yData($collection,$c_types, $value){
   }
   echo $y . "},";
 }
-$months =  ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
-// $months =  ['Dec','Nov','Oct','Sept','Aug','Jul','Jun','May','Apr', 'Mar', 'Feb', 'Jan'];
  $generateColor = function($c_types){
    $c = [];
    foreach($c_types as $value){
@@ -501,10 +499,10 @@ var manual_analysis_hd = (data) => {
   data.c_types.forEach((i, v) => {
     let name = i.name;
     collection.forEach((c) => {
-      nameTotal[name] = nameTotal[name] + c[name] || c[name]
-      total +=  c[name]
+      nameTotal[name] = (parseInt(nameTotal[name]) + parseInt(c[name])) || parseInt(c[name])
+      total +=  parseInt(c[name])
       })
-      middle += '<div  id="'+name+'" class="col-xs-2 small adaptive-color" style="">'+name+': '+(nameTotal[name] || 0)+'</div>';
+      middle += '<div  id="'+name+'" class="col-xs-2 small adaptive-color" style="">'+name+': '+(parseInt(nameTotal[name]) || 0)+'</div>';
     })
   return `
   <marquee>

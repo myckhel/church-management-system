@@ -59,20 +59,13 @@
             @endforeach
           @endif
         </div>
-        <div class="">
+        <div class="col-12">
             <div class="panel" style="overflow:scroll; background-color: #e8ddd3;">
-                <!-- <div class="panel-heading">
-                    <h3 class="panel-title">Add Collection Type</h3>
-                </div> -->
                 <!--Block Styled Form -->
                 <!--===================================================-->
       			<div class="panel-body">
-              <div class="col-12">
-
                 <div class="sub-title">Tabs</div>
                   <!---------------------------------->
-					    <div class="panel">
-					         <div class="panel-body">
 					             <div class="pad-btm form-inline">
 					                <div class="row">
 					                    <div class="col-sm-6 table-toolbar-left">
@@ -88,13 +81,17 @@
 					                </div>
 					            </div>
 
-					            <table id="demo-editable-table" class="table table-bordered">
+					            <table id="demo-editable-table" class="table table-bordered table-response">
 					                <tbody>
 					                    <tr>
 					                        <td width="35%">Sms Api</td>
 					                        <td width="65%"><a href="#" id="smsapi"></a></td>
 					                    </tr>
                               <tr>
+					                        <td width="35%">Sms Balance Api</td>
+					                        <td width="65%"><a href="#" id="smsbalanceapi"></a></td>
+					                    </tr>
+                              <!-- <tr>
 					                        <td width="35%">Branch Name</td>
 					                        <td width="65%"><a href="#" id="branchname"></a></td>
 					                    </tr>
@@ -133,58 +130,46 @@
 					                    </tr>
 					                    <tr>
 					                        <td>Branch Currency Symbol</td>
-					                        <td><a href="#" id="currency" data-type="select" data-pk="1" data-source="{{route('option.test')}}" data-title="Select currency Symbol"></a></td>
-					                    </tr>
-                              <tr>
+					                        <td><a href="#" id="currency" data-type="select" data-pk="1" data-source="{{route('option.currencies')}}" data-title="Select currency Symbol"></a></td>
+					                    </tr> -->
+                              <!-- <tr>
 					                        <td>Branch Line 1</td>
 					                        <td><a href="#" id="branchline1" data-type="number" data-pk="1" data-placement="right" data-placeholder="e.g, 081100000000" data-title="Enter Branch's Line 1"></a></td>
 					                    </tr>
                               <tr>
 					                        <td>Branch Line 2</td>
 					                        <td><a href="#" id="branchline2" data-type="number" data-pk="1" data-placement="right" data-placeholder="e.g, 081100000000" data-title="Enter Branch's Line 2"></a></td>
-					                    </tr>
-					                    <!-- <tr>
-					                        <td>Empty text field, required</td>
-					                        <td><a href="#" id="demo-editable-firstname" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="Enter your firstname"></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Sex</td>
-					                        <td><a href="#" id="demo-editable-sex" data-type="select" data-pk="1" data-value="" data-title="Select currency Symbol"></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Select, error while loading</td>
-					                        <td><a href="#" id="demo-editable-status" data-type="select" data-pk="1" data-value="0" data-source="/status" data-title="Select status">Active</a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Combodate (date)</td>
-					                        <td><a href="#" id="demo-editable-dob" data-type="combodate" data-value="1984-05-15" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Select Date of birth"></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Combodate (datetime)</td>
-					                        <td><a href="#" id="demo-editable-event" data-type="combodate" data-template="D MMM YYYY  HH:mm" data-format="YYYY-MM-DD HH:mm" data-viewformat="MMM D, YYYY, HH:mm" data-pk="1"  data-title="Setup event date and time"></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Textarea, buttons below. Submit by <i>ctrl+enter</i></td>
-					                        <td><a href="#" id="demo-editable-comments" data-type="textarea" data-pk="1" data-placeholder="Your comments here..." data-title="Enter comments">awesome user!</a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Twitter typeahead.js</td>
-					                        <td><a href="#" id="demo-editable-state2" data-type="typeaheadjs" data-pk="1" data-placement="right" data-title="Start typing State.."></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Checklist</td>
-					                        <td><a href="#" id="demo-editable-fruits" data-type="checklist" data-value="2,3" data-title="Select fruits"></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Custom input, several fields</td>
-					                        <td><a href="#" id="demo-editable-address" data-type="address" data-pk="1" data-title="Please, fill address"></a></td>
 					                    </tr> -->
+                              @if(Auth::user()->isAdmin())
+                              <tr>
+					                        <td>Collection Commission</td>
+					                        <td><a href="#" id="collection_commission" data-type="number" data-pk="1" data-placement="right"
+                                    data-placeholder="e.g, 20" data-title="Collection's commission percentage"></a>
+                                  </td>
+					                    </tr>
+                              <tr>
+					                        <td>Commission Account Number</td>
+					                        <td><a href="#" id="commission_account_number" data-type="number" data-pk="1" data-placement="right"
+                                    data-placeholder="e.g, 01100000001" data-title="Account Number"></a></td>
+					                    </tr>
+                              <tr>
+					                        <td width="35%">Commission Account Name</td>
+					                        <td width="65%"><a href="#" id="commission_account_name" data-title="Account Name"></a></td>
+					                    </tr>
+                              <tr>
+					                        <td width="35%">Commission Account Bank</td>
+                                  <td>
+                                    <a href="#" id="commission_account_bank" data-type="select" data-pk="1"
+                                    data-source="{{route('banks')}}"
+                                      data-title="Choose Bank">
+                                    </a>
+                                    <!-- data-source="{{url('https://api.paystack.co/bank')}}" -->
+                                  </td>
+					                    </tr>
+                              @endif
 					                </tbody>
 					            </table>
-					     </div>
 					    <!---------------------------------->
-                </div>
-              </div>
       	    </div>
                 <!--===================================================-->
                 <!--End Block Styled Form -->
@@ -227,14 +212,20 @@ $.ajax({url: "{{route('option.branch.get')}}"})
     console.log(dt);
     const opt = "setValue"
   	$("#smsapi").editable(opt, dt.smsapi)
-    $("#branchname").editable(opt, dt.branchname)
-    $("#currency").editable(opt, dt.currency)
-    $("#branchaddress").editable(opt, dt.branchaddress)
-    $("#branchline1").editable(opt, dt.branchline1)
-    $("#branchline2").editable(opt, dt.branchline2)
-    $("#branchcity").editable(opt, dt.branchcity)
-    $("#branchstate").editable(opt, dt.branchstate)
-    $("#branchcountry").editable(opt, dt.branchcountry)
+    $("#smsbalanceapi").editable(opt, dt.smsbalanceapi)
+    // $("#branchname").editable(opt, dt.branchname)
+    // $("#currency").editable(opt, dt.currency)
+    // $("#branchaddress").editable(opt, dt.branchaddress)
+    // $("#branchline1").editable(opt, dt.branchline1)
+    // $("#branchline2").editable(opt, dt.branchline2)
+    // $("#branchcity").editable(opt, dt.branchcity)
+    // $("#branchstate").editable(opt, dt.branchstate)
+    // $("#branchcountry").editable(opt, dt.branchcountry)
+    $("#collection_commission").editable(opt, dt.collection_commission)
+    $("#commission_account_bank").editable(opt, dt.commission_account_bank)
+    $("#commission_account_name").editable(opt, dt.commission_account_name)
+    $("#commission_account_number").editable(opt, dt.commission_account_number)
+    // $("#collection_commission").editable(opt, dt.collection_commission)
   }
 })
 .fail((e) => {console.log(e);})
@@ -243,6 +234,7 @@ $(document).ready( () => {
       var dT = {sex: {male: {value: 1, text: 'Male'}, female: { value: 1, text: "Female"} } }
 			//defaults
 			$.fn.editable.defaults.url = "{{route('option.branch.post')}}";
+      $.fn.editable.defaults.send = 'always';
       // default params e.g token
       $.fn.editable.defaults.params = function (params) {
         params._token = "{{csrf_token()}}";
@@ -259,8 +251,28 @@ $(document).ready( () => {
 			    type: "text",
 			    pk: 1,
 			    name: "smsapi",
-          // value: dt.smsapi,
-			    title: "Enter Your SMS Api Url",
+          params: function(d){
+            d._token = "{{csrf_token()}}";
+            d.value =  encodeURI(d.value)
+            return d
+          },
+			    title: "Enter Your SMS Api Url Exluding message parameter",
+          validate: function(value) {
+			       if($.trim(value) == "") return "This field is required";
+			    }
+			});
+
+      //smsbalanceapi
+			$("#smsbalanceapi").editable({
+			    type: "text",
+			    pk: 1,
+			    name: "smsbalanceapi",
+          params: function(d){
+            d._token = "{{csrf_token()}}";
+            d.value =  encodeURI(d.value)
+            return d
+          },
+			    title: "Enter Your SMS Balance Api Url For Getting SMS Unit Balance",
           validate: function(value) {
 			       if($.trim(value) == "") return "This field is required";
 			    }
@@ -329,11 +341,49 @@ $(document).ready( () => {
 			    }
 			});
 
-			$("#demo-editable-firstname").editable({
+      // collection commission
+      $("#collection_commission").editable({
 			    validate: function(value) {
 			       if($.trim(value) == "") return "This field is required";
 			    }
 			});
+
+      // commission account number
+      $("#commission_account_number").editable({
+			    validate: function(value) {
+			       if($.trim(value) == "") return "This field is required";
+			    }
+			});
+
+      // commission account name
+      $("#commission_account_name").editable({
+			    validate: function(value) {
+			       if($.trim(value) == "") return "This field is required";
+			    }
+			});
+
+      // commission account bank
+      // $.ajax({url: "{{url('https://api.paystack.co/bank')}}",})
+      // .done((res) => {
+        $("#commission_account_bank").editable({
+          // source: function(){
+          //   return res.data;
+          // }
+          // display: function(value, sourceData) {
+          //   $(this).text(sourceData.data)
+               // var colors = {"": "gray", 1: "green", 2: "blue"},
+               //     elem = $.grep(sourceData, function(o){return o.value == value;});
+               //
+               // if(elem.length) {
+               //     $(this).text(elem[0].text).css("color", colors[value]);
+               // } else {
+               //     $(this).empty();
+               // }
+          // }
+        });
+      // })
+
+
 
 			$("#demo-editable-sex").editable({
 			    prepend: "not selected",
@@ -353,107 +403,8 @@ $(document).ready( () => {
 			    }
 			});
 
-			$("#demo-editable-status").editable();
 
-			$("#currency").editable({
-			    // showbuttons: false,
-          // value: '₦',
-			});
-
-			$("#demo-editable-vacation").editable({
-			    datepicker: {
-			        todayBtn: "linked"
-			    }
-			});
-
-			$("#demo-editable-dob").editable();
-
-			$("#demo-editable-event").editable({
-			    placement: "right",
-			    combodate: {
-			        firstItem: "name"
-			    }
-			});
-
-			$("#demo-editable-meeting_start").editable({
-			    format: "yyyy-mm-dd hh:ii",
-			    viewformat: "dd/mm/yyyy hh:ii",
-			    validate: function(v) {
-			       if(v && v.getDate() == 10) return "Day cant be 10!";
-			    },
-			    datetimepicker: {
-			       todayBtn: "linked",
-			       weekStart: 1
-			    }
-			});
-
-			$("#demo-editable-comments").editable({
-			    showbuttons: "bottom"
-			});
-
-			$("#demo-editable-note").editable();
-			$("#demo-editable-pencil").click(function(e) {
-			    e.stopPropagation();
-			    e.preventDefault();
-			    $("#demo-editable-note").editable("toggle");
-			});
-
-			$("#demo-editable-state").editable({
-			    source: ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]
-			});
-
-			$("#demo-editable-state2").editable({
-			    value: "California",
-			    typeahead: {
-			        name: "state",
-			        local: ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]
-			    }
-			});
-
-			$("#demo-editable-fruits").editable({
-			   pk: 1,
-			   limit: 3,
-			   source: [
-			    {value: 1, text: "banana"},
-			    {value: 2, text: "peach"},
-			    {value: 3, text: "apple"},
-			    {value: 4, text: "watermelon"},
-			    {value: 5, text: "orange"}
-			   ]
-			});
-
-
-			$("#demo-editable-address").editable({
-			    value: {
-			        city: "Moscow",
-			        street: "Lenina",
-			        building: "12"
-			    },
-			    validate: function(value) {
-			        if(value.city == "") return "city is required!";
-			    },
-			    display: function(value) {
-			        if(!value) {
-			            $(this).empty();
-			            return;
-			        }
-			        var html = "<b>" + $("<div>").text(value.city).html() + "</b>, " + $("<div>").text(value.street).html() + " st., bld. " + $("<div>").text(value.building).html();
-			        $(this).html(html);
-			    }
-			});
-
-			$("#demo-editable-table .editable").on("hidden", function(e, reason){
-			    if(reason === "save" || reason === "nochange") {
-			        var $next = $(this).closest("tr").next().find(".editable");
-			        if($("#demo-editable-auto-open").is(":checked")) {
-			            setTimeout(function() {
-			                $next.editable("show");
-			            }, 300);
-			        } else {
-			            $next.focus();
-			        }
-			    }
-			});
+      $("#currency").editable({});
 
       //head office module
 			$('#save-ho').click(function (){

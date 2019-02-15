@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Options;
 use Auth;
 use Yajra\Datatables\Datatables;
+use App\CollectionCommission;
 
 class OptionController extends Controller
 {
@@ -30,7 +31,11 @@ class OptionController extends Controller
       $branch = Auth::user();
       $status = false;
       $text = "Option Name Not Valid";
-      if (in_array($request->name, array('smsapi', 'currency', 'branchname', 'branchaddress', 'branchline1', 'branchline2', 'branchcity', 'branchstate', 'branchcountry', 'branchlogo') ) ){
+      $optionName = array('smsbalanceapi', 'collection_commission', 'commission_account_bank', 'smsapi', 'commission_account_number', 'commission_account_name');
+      // 'currency', 'branchname', 'branchaddress',
+      //   'branchline1', 'branchline2', 'branchcity', 'branchstate', 'branchcountry', 'branchlogo');
+
+      if (in_array($request->name, $optionName) ){
         // code...
         if (isset($request->branchlogo)) {
           # code...
@@ -76,26 +81,43 @@ class OptionController extends Controller
       return response()->json(['status' => true]);
     }
 
-    public function test(){
-      $array = [];
+    public function getCurrencies(Request $request){
       $sql = "SELECT currency_symbol, ID FROM country WHERE currency_name != '' AND currency_symbol != ''";
       $currencies = \DB::select($sql);
-      foreach ($currencies as $key => $value) {
-        // code...
-        array_push($array, $value->currency_symbol);
+      if ($request->_) {
+        $array = [];
+        foreach ($currencies as $key => $value) {
+          // code...
+          array_push($array, $value->currency_symbol);
+        }
+        return response()->json($array);
       }
-      return response()->json($array);
+      return response()->json($currencies);
+    }
+
+    public function getCountries(Request $request){
+      $sql = "SELECT name, ID FROM country";
+      $currencies = \DB::select($sql);
+      if ($request->_) {
+        $array = [];
+        foreach ($currencies as $key => $value) {
+          // code...
+          array_push($array, $value->currency_symbol);
+        }
+        return response()->json($array);
+      }
+      return response()->json($currencies);
     }
 
     public function collectionTypeGet(Request $request){
       $branch_id = Auth::user()->id;
-      $types = \App\CollectionsType::where('branch_id', $branch_id)->get();
+      $types = \App\CollectionsType::all();
       return Datatables::of($types)->make(true);
     }
 
     public function serviceTypeGet(Request $request){
       $branch_id = Auth::user()->id;
-      $types = \App\ServiceType::where('branch_id', $branch_id)->get();
+      $types = \App\ServiceType::all();
       return Datatables::of($types)->make(true);
     }
 
@@ -120,8 +142,23 @@ class OptionController extends Controller
 
     public function updateCollectionType(Request $request){
       $collection = \App\CollectionsType::whereId($request->id)->first();
-      if($collection) { $collection->name = $request->name; $collection->save();}
+      if($collection) { $collection->name = \App\CollectionsType::formatString($request->name); $collection->save();}
       else {return response()->json(['status' => false, 'text' => "collection does not exist"]);}
       return response()->json(['status' => true, 'text' => "collection has been updated!"]);
+    }
+
+    public function getUnsettled(){
+      return CollectionCommission::calculateUnsettledCommission();
+    }
+
+    public function banks(){
+      $string = file_get_contents("https://api.paystack.co/bank");
+      $obj = json_decode($string);
+      $banks = [];
+      foreach ($obj->data as $key => $bank) {
+        $banks[] = (object) array('text' => $bank->name, 'value' => $bank->name);
+      }
+      // dd($banks);
+      return $banks;
     }
 }

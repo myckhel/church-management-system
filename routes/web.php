@@ -30,11 +30,18 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/member/delete/{id}', 'MemberController@destroy')->name('member.delete');
     Route::post('/member/delete', 'MemberController@delete')->name('member.delete.multi');
     Route::post('/member/upgrade', 'MemberController@upgrade')->name('member.upgrade');
+    Route::post('/member/upload/img', 'MemberController@uploadImg')->name('member.upload.img');
+    Route::post('/member/update', 'MemberController@updateMember')->name('member.update');
+    Route::get('/member/analysis', 'MemberController@memberAnalysis')->name('member.analysis');
+    Route::get('/member/stats', 'MemberController@memberRegStats')->name('member.reg.stats');
 
     Route::get('/branches', 'BranchController@index')->name('branches');
     Route::get('/branches/{id}/destroy', 'BranchController@destroy')->name('branch.destroy');
     Route::get('/branches/register', 'BranchController@registerForm')->name('branch.register');
     Route::post('/branches/register', 'BranchController@register')->name('branch.register');
+    Route::post('/branches/update', 'BranchController@updateBranch')->name('branch.update');
+    Route::post('/branches/delete', 'BranchController@delete')->name('branch.delete.multi');
+    Route::get('/branch/invoice', 'BranchController@invoice')->name('branch.invoice');
     // depre
     Route::get('/old/branches/head_office_options', 'BranchController@ho')->name('branch.ho');
     Route::post('/old/branches/head_office_options', 'BranchController@ho_up')->name('branch.ho.up');
@@ -50,6 +57,8 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     //function () {        return view('attendance.view');});
     Route::post('/attendance/view', 'AttendanceController@show')->name('attendance.view');
     Route::get('/attendance/view/{date}', 'AttendanceController@show')->name('attendance.view.custom');
+    Route::get('/attendance/stats', 'AttendanceController@attendanceStats')->name('attendance.stats');
+
     // collection
     Route::get('/collection/offering', 'CollectionController@index')->name('collection.offering');
     Route::post('/collection/save', 'CollectionController@store')->name('collection.save');
@@ -57,6 +66,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::get('/collection/report', 'CollectionController@report')->name('collection.report');
     Route::get('/collection/analysis', 'CollectionController@analysis')->name('collection.analysis');
     Route::get('/collection/history', 'CollectionController@history')->name('collection.history');
+    Route::get('/collection/stats', 'CollectionController@collectionStats')->name('collection.stats');
 
     // calendar
     Route::get('/calendar', 'EventController@index')->name('calendar');
@@ -107,6 +117,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/options/branch/put', 'OptionController@putBranchOption')->name('option.branch.post');
     Route::get('/branches/options', 'BranchController@options')->name('branch.options');
     Route::post('/branches/options', 'OptionController@optionsPost')->name('branch.optionsPost');
+    Route::get('/branches/unsettled', 'OptionController@getUnsettled')->name('branch.unsettled');
     // TOOLS
     Route::get('/branches/tools', 'BranchController@tools')->name('branch.tools');
     Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
@@ -118,8 +129,18 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/branches/tools/collection-type/update', 'OptionController@updateCollectionType')->name('update.collection.type');
     // Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
     // test
-    Route::get('/branches/tools/group', 'OptionController@test')->name('option.test');
+    Route::get('/currencies/get', 'OptionController@getCurrencies')->name('option.currencies');
+    Route::get('/countries/get', 'OptionController@getCountries')->name('option.countries');
     Route::get('apis', 'CollectionController@test')->name('apis');
+
+    Route::get('/get/banks', 'OptionController@banks')->name('banks');
+
+    // MAIL TEMPLATE PREVIEW SECTION
+    Route::get('mailable/email-to-member', 'MemberController@testMail')->name('testMail');
+
+    // MAP
+    Route::get('/map', 'MapController@index')->name('map');
+
 
 });
 
@@ -139,8 +160,8 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  $user = \Auth::user();
-  return $attendances = \App\members_attendance::where('members_attendances.branch_id', $user->branchcode)->with('service_types')->leftJoin('members', 'members_attendances.member_id', '=', 'members.id')->get();
+  // $savings = \App\Savings::where('id', 116)->first();
+  // \App\CollectionCommission::setCollection($savings);
 })->name('test');
 
 Route::get('/users', 'BranchController@users')->name('users');

@@ -25,71 +25,15 @@ class ReportController extends Controller
       return view('report.membership', compact('reports', 'r_years'));
     }
 
-    public function calculateTotal($savings, $type = false){
-      $total = 0;
-      foreach ($savings as $key => $value) {
-        if ($type == 'now') {
-          if ($value->date_collected ==  now()->toDateString() ) {
-            $total += array_sum($value->amounts);
-          }
-        } else {
-          $total += array_sum($value->amounts);
-        }
-      }
-      return $total;
-    }
-
-    public function calculateSingleTotal($savings, $type = false){
-      $obj = ($type == 'memberTotal' || $type == 'branchTotal') ? [] : new \stdClass();
-      foreach ($savings as $key => $value) {
-        if ($type == 'now') {
-          foreach ($value->amounts as $ke => $valu) {
-            if ($value->date_collected ==  now()->toDateString() ) {
-              $obj->$ke = $valu;
-            } else {
-              $obj->$ke = 0;
-            }
-          }
-        } elseif ($type == 'year') {
-          $year = substr($value->date_collected, 0,4);
-          foreach ($value->amounts as $ke => $valu) {
-            if (!isset($obj->$ke)) {$obj->$ke = new \stdClass();}
-            if (isset($obj->$year)) {
-              $obj->$ke->$year += $valu;
-            } else {
-              $obj->$ke->$year = $valu;
-            }
-          }
-        } elseif ($type == 'memberTotal' || $type == 'branchTotal') {
-          $name = ($type == 'memberTotal') ? $value->name : $value->branch_name;
-          $obj[$name]['today'] = ($value->date_collected ==  now()->toDateString()) ? array_sum($value->amounts) : 0;
-          if (isset($obj[$name]['total']) ) {
-            $obj[$name]['total'] += array_sum($value->amounts);
-          } else {
-            $obj[$name]['total'] = array_sum($value->amounts);
-          }
-        } else {
-          foreach ($value->amounts as $ke => $valu) {
-            if (isset($obj->$ke)) {
-              $obj->$ke += $valu;
-            } else {
-              $obj->$ke = $valu;
-            }
-          }
-        }
-      }
-      return $obj;
-    }
-
     public function collections(){
       $user = \Auth::user();
       $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
       $mSavings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->get());
-
       $obj = new \stdClass();
       $obj->total_collections = $this->calculateTotal($savings);
       $obj->todays_total_collections = $this->calculateTotal($savings, 'now');
       $obj->todays_single_collections = $this->calculateSingleTotal($savings, 'now');
+      // dd($this->calculateSingleTotal($savings, 'now'));
       $obj->total_single_collections = $this->calculateSingleTotal($savings);
       $c_types = \App\CollectionsType::getTypes();
 
@@ -113,6 +57,7 @@ class ReportController extends Controller
       // dd($memberTotal);
       //year
       $c_years = $this->calculateSingleTotal($savings, 'year');
+      // dd($c_years);
 
       return view('report.collections', compact('reports', 'memberTotal', 'ad_rep', 'c_years', 'c_types'));
     }
@@ -120,11 +65,10 @@ class ReportController extends Controller
     public function attendance(){
       $user = \Auth::user();
 
-      $sql = "SELECT SUM(female + male + children) AS total_attendance, SUM(case when attendance_date = date(now()) then (female + male + children) end) AS todays_attendance,
+      $sql = "SUM(female + male + children) AS total_attendance, SUM(case when attendance_date = date(now()) then (female + male + children) end) AS todays_attendance,
       SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, SUM(children + male + female) AS total, SUM(case when attendance_date = date(now()) then children + male + female end) AS totalt,
-      SUM(case when attendance_date = date(now()) then male end) AS malet, SUM(case when attendance_date = date(now()) then female end) AS femalet, SUM(case when attendance_date = date(now()) then children end) AS childrent
-      FROM `attendances` WHERE branch_id = '$user->branchcode'";
-      $reports = \DB::select($sql);
+      SUM(case when attendance_date = date(now()) then male end) AS malet, SUM(case when attendance_date = date(now()) then female end) AS femalet, SUM(case when attendance_date = date(now()) then children end) AS childrent";
+      $reports = \App\Attendance::selectRaw($sql)->where('branch_id', $user->branchcode)->first();
 
       $sql = "members.firstname, members.lastname, count(case when attendance = 'yes' then 1 end) as total, count(case when attendance_date = date(now()) then (case when attendance = 'yes' then 1 end) end) as totalt
       ";
@@ -174,22 +118,21 @@ class ReportController extends Controller
 
     public function allCollections(){
       $user = \Auth::user();
-
       if(!$user->isAdmin()){
         return redirect()->route('report.collections');
       }
-      $savings = \App\Savings::rowToColumn(\App\Savings::all());
-      $bSavings = \App\Savings::rowToColumn(\App\Savings::with('users')->get(), 'branch');
-      $branches = $this->calculateSingleTotal($bSavings, 'branchTotal');
+
+      $bSavings = \App\Savings::rowToColumnByField(\App\Savings::with('users')->get());
+
       $obj = new \stdClass();
-      $obj->total_collections = $this->calculateTotal($savings);
-      $obj->todays_total_collections = $this->calculateTotal($savings, 'now');
-      $obj->todays_single_collections = $this->calculateSingleTotal($savings, 'now');
-      $obj->total_single_collections = $this->calculateSingleTotal($savings);
+      $obj->branch_collections = $this->calculateSingleTotalBranch($bSavings);
+      $obj->collections = $this->calculateSingleTotalCollection($bSavings);
+      $c_years = $this->calculateSingleTotalCollection($bSavings, 'year');
+
       $c_types = \App\CollectionsType::getTypes();
-      $reports = $obj;
       $branchesName = \App\User::select('branchname')->get();
-      $c_years = $this->calculateSingleTotal($savings, 'year');
+
+      $reports = $obj;
 
       return view('report.all-c', compact('reports', 'branches', 'ad_rep', 'c_years', 'c_types', 'branchesName'));
     }
@@ -204,7 +147,7 @@ class ReportController extends Controller
       $sql = "SUM(female + male + children) AS total_attendance, SUM(case when attendance_date = date(now()) then (female + male + children) end) AS todays_attendance,
       SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, SUM(children + male + female) AS total, SUM(case when attendance_date = date(now()) then children + male + female end) AS totalt,
       SUM(case when attendance_date = date(now()) then male end) AS malet, SUM(case when attendance_date = date(now()) then female end) AS femalet, SUM(case when attendance_date = date(now()) then children end) AS childrent";
-      $reports = \App\Attendance::selectRaw($sql)->get();//\DB::select($sql);
+      $reports = \App\Attendance::selectRaw($sql)->first();//\DB::select($sql);
 
       $sql = "count(case when attendance = 'yes' then 1 end) as total, count(case when attendance_date = date(now()) then (case when attendance = 'yes' then 1 end) end) as totalt";
       $m_r = \App\members_attendance::selectRaw($sql)->with('members')->get();
@@ -220,5 +163,170 @@ class ReportController extends Controller
       $a_years = \DB::select($sql);
 
       return view('report.all-a', compact('reports', 'm_r', 'ad_rep', 'a_years'));
+    }
+
+
+    public function calculateSingleTotalCollection($savings, $type = false){
+      // dd($savings);
+      $obj = $type == 'year' ? new \stdClass() : ['total' => 0, 'today' => 0];
+      foreach ($savings as $key => $value) {
+        if (!$type) {
+          foreach ($value as $ke => $valu) {
+            try {
+              foreach ($valu['amounts'] as $savingName => $savingAmount) {
+                // dd($savingName);
+                if (!isset($obj[$savingName])) {
+                  $obj[$savingName] = [];
+                }
+
+                $obj[$savingName]['total'] = isset($obj[$savingName]['total']) ? $obj[$savingName]['total'] + $savingAmount : $savingAmount;
+                // do for all time
+                $obj['total'] += $savingAmount;
+
+                if ($ke ==  now()->toDateString()) {
+                  $obj[$savingName]['today'] = isset($obj[$savingName]['today']) ? $obj[$savingName]['today'] + $savingAmount : $savingAmount;
+                  // do for todays total
+                  $obj['today'] += $savingAmount;
+                }
+              }
+            } catch (\Exception $e) {
+              // print($e->getMessage());
+            }
+          }
+        }
+
+        if ($type == 'year') {
+          foreach ($value as $k => $v) {
+            // dd($savings);
+            $year = substr($k, 0,4);
+            foreach ($v['amounts'] as $savingName => $savingAmount) {
+              if (!isset($obj->$savingName)) {$obj->$savingName = new \stdClass();}
+              if (isset($obj->$savingName->$year)) {
+                $obj->$savingName->$year += $savingAmount;
+              } else {
+                $obj->$savingName->$year = $savingAmount;
+              }
+            }
+          }
+        }
+
+      }
+      return $obj;
+    }
+
+    public function calculateSingleTotalBranch($savings, $type = false){
+      // dd($savings);
+      $obj = [];
+      foreach ($savings as $key => $value) {
+        $name = $key;
+
+        if (!$type) {
+          foreach ($value as $ke => $valu) {
+            if ($ke ==  now()->toDateString()) {
+              $obj[$key]['today'] = array_sum($valu['amounts']);
+            } elseif (!isset($obj[$key]['today'])) {
+              $obj[$key]['today'] = 0;
+            }
+            if (isset($obj[$name]['total']) ) {
+              $obj[$key]['total'] += array_sum($valu['amounts']);
+            } else {
+              $obj[$key]['total'] = array_sum($valu['amounts']);
+            }
+
+            // do for savings
+            if (!isset($obj[$key]['savings'])) {
+              $obj[$key]['savings'] = [];
+            }
+
+            foreach ($valu as $k => $v) {
+              try {
+                foreach ($v as $savingName => $savingAmount) {
+                  if (!isset($obj[$key]['savings'][$savingName])) {
+                    $obj[$key]['savings'][$savingName] = [];
+                  }
+                  $obj[$key]['savings'][$savingName]['total']
+                    = isset($obj[$key]['savings'][$savingName]['total'])
+                    ? $obj[$key]['savings'][$savingName]['total'] + $savingAmount
+                    : $savingAmount;
+                  if ($ke ==  now()->toDateString()) {
+                    $obj[$key]['savings'][$savingName]['today'] = isset($obj[$key]['savings'][$savingName]['today'])
+                      ? $obj[$key]['savings'][$savingName]['today'] + $savingAmount : $savingAmount;
+                  }
+                }
+              } catch (\Exception $e) {
+                // print($e->getMessage());
+              }
+            }
+          }
+        }
+      }
+      // dd($obj);
+      return $obj;
+    }
+
+    public function calculateTotal($savings, $type = false){
+      $total = 0;
+      foreach ($savings as $key => $value) {
+        if ($type == 'now') {
+          if ($value->date_collected ==  now()->toDateString() ) {
+            $total += array_sum($value->amounts);
+          }
+        } else {
+          $total += array_sum($value->amounts);
+        }
+      }
+      return $total;
+    }
+
+    public function calculateSingleTotal($savings, $type = false){
+      $obj = ($type == 'memberTotal') ? [] : new \stdClass();
+      foreach ($savings as $key => $value) {
+        if ($type == 'now') {
+          foreach ($value->amounts as $ke => $valu) {
+            if ($value->date_collected ==  now()->toDateString() ) {
+              $obj->$ke = isset($obj->$ke) ? $obj->$ke + $valu : $valu;
+            } else {
+              $obj->$ke = isset($obj->$ke) ? $obj->$ke + 0 : 0;
+            }
+          }
+          // dd($savings);
+        }
+        if ($type == 'year') {
+          $year = substr($value->date_collected, 0,4);
+          foreach ($value->amounts as $ke => $valu) {
+            if (!isset($obj->$ke)) {$obj->$ke = new \stdClass();}
+            if (isset($obj->$ke->$year)) {
+              $obj->$ke->$year += $valu;
+            } else {
+              $obj->$ke->$year = $valu;
+            }
+          }
+        }
+        if ($type == 'memberTotal') {
+          $name = ($type == 'memberTotal') ? $value->name : $value->branch_name;
+          if ($value->date_collected ==  now()->toDateString()) {
+            $obj[$name]['today'] = array_sum($value->amounts);
+          } elseif (!isset($obj[$name]['today'])) {
+            $obj[$name]['today'] = 0;
+          }
+          if (isset($obj[$name]['total']) ) {
+            $obj[$name]['total'] += array_sum($value->amounts);
+          } else {
+            $obj[$name]['total'] = array_sum($value->amounts);
+          }
+        }
+        if(!$type){
+          foreach ($value->amounts as $ke => $valu) {
+            if (isset($obj->$ke)) {
+              $obj->$ke += $valu;
+            } else {
+              $obj->$ke = $valu;
+            }
+          }
+        }
+        // dd($obj);
+      }
+      // $type = false;
+      return $obj;
     }
 }

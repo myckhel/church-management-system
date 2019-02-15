@@ -67,34 +67,29 @@
                     @endif
 					</div>
 
-          //$key = $member;
-          @foreach ($member as $key)
-            // code...
 						<?php
-            $id = $key->id;
-            $title = $key->title;
-            $fname = $key->firstname;
-            $lname = $key->lname;
-            $dob = $key->dob;
-            $email = $key->email;
-            $phone = $key->phone;
-            $occupation = $key->occupation;
-            $position = $key->postion;
-            $address = $key->address;
-            $address2 = $key->address2;
-            $postal = $postal;
-            $city = $key->city;
-            $state = $key->state;
-            $country = $key->country;
-            $sex = $key->sex;
-            $mstatus = $key->marital_status;
-            $wedding = $key->wedding_anniversary;
-            $member_since = $key->member_since;
-            $photo = $key->photo;
-            $relative = $key->relative;
+            $id = $member->id;
+            $title = $member->title;
+            $fname = $member->firstname;
+            $lname = $member->lname;
+            $dob = $member->dob;
+            $email = $member->email;
+            $phone = $member->phone;
+            $occupation = $member->occupation;
+            $position = $member->postion;
+            $address = $member->address;
+            $address2 = $member->address2;
+            $postal = $member->postal;
+            $city = $member->city;
+            $state = $member->state;
+            $country = $member->country;
+            $sex = $member->sex;
+            $mstatus = $member->marital_status;
+            $wedding_anniversary = $member->wedding_anniversary;
+            $member_since = $member->member_since;
+            $photo = $member->photo;
+            $relative = $member->relative;
 						?>
-						@endforeach
-          //}
 					<div class="row panel-body">
 						<div class=""  style="border:1pt solid #090c5e; border-radius:25px;">
 							<!-- BASIC FORM ELEMENTS -->
@@ -176,7 +171,7 @@
 									<label class="col-md-3 control-label" for="demo-text-input">Occupation</label>
 									<div class="col-md-9">
 										<select name="occupation" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-4" data-style="btn-success" required>
-                      <option selected value="{{ocupation}}">{{$occupation}}</option>
+                      <option selected value="{{$occupation}}">{{$occupation}}</option>
 											<option value="Doctor">Doctor</option>
 											<option value="Engineer">Engineer</option>
 											<option value="Surveyor">Surveyor</option>

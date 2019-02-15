@@ -106,16 +106,24 @@ li {
 
                 @endif
             </div>
-            <div class="col-sm-6 col-sm-offset-3" style="margin-bottom:<?php
+            <div class="col-sm-8 col-sm-offset-2" style="margin-bottom:<?php
             echo (isset($formatted_date)) ? '30' : '60';
             ?>px">
                 <div class="panel rounded-top" style="background-color: #e8ddd3;">
                     <div class="panel-heading text-center">
-                        <h3 class="panel-title">View Attendance for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
+                        <h3 class="panel-title">Select Attendance To View</h3>
                     </div>
                     <!--Block Styled Form -->
                     <!--===================================================-->
-                    <form id="viewByDate" method="POST" action="{{route('attendance.view')}}">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <!-- <div class="weather-calender"> -->
+                          <div class="widget-calender"></div>
+                        <!-- </div> -->
+                      </div>
+                    </div>
+                    <br />
+                    <!-- <form id="viewByDate" method="POST" action="{{route('attendance.view')}}">
                         @csrf
                         <input name="branch_id" value="3" type="text" hidden="hidden"/>
                         <div class="panel-body">
@@ -131,7 +139,7 @@ li {
                         <div class="panel-footer text-right bg-dark">
                             <button class="btn btn-success" type="submit">VIEW ATTENDANCE</button>
                         </div>
-                    </form>
+                    </form> -->
                     <!--===================================================-->
                     <!--End Block Styled Form -->
 
@@ -139,10 +147,10 @@ li {
 
             </div>
             <div class="col-md-offset-1 col-md-10" style="margin-bottom:50px">
-                <div class="panel rounded-top" style="background-color: #e8ddd3;">
-                  <div class="panel-heading text-center">
-                    <h1 class="panel-title">Branch Attendance History<h1>
-                  </div>
+              <div class="panel rounded-top" style="background-color: #e8ddd3;">
+                <div class="panel-heading text-center">
+                  <h1 class="panel-title">Branch Attendance History<h1>
+                </div>
                 <div class="panel-body clearfix" style="overflow:scroll">
                   <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
                 <thead>
@@ -264,8 +272,16 @@ li {
 
 @section('js')
 <script src="{{ URL::asset('js/functions.js') }}"></script>
+<script src="{{URL::asset('js/pignose.calendar.full.min.js')}}"></script>
 <script>
 $(document).ready(() => {
+  $(function() {
+    $('.widget-calender').pignoseCalendar({
+      theme: 'blue',
+      select: handleSelect,
+    });
+  });
+
   //Attnedance Module
   $('#view-year').click(function (){
   	$('#show-year').show();
@@ -284,7 +300,7 @@ $(document).ready(() => {
       toggleAble(submit, false)
     })
   });
-  //END Attnedance Module
+
 })
 const viewer = (element) => {
   loadElement($(element), true)
@@ -299,7 +315,7 @@ return  `
           <div class="panel-body text-center clearfix">
               <div class="col-sm-4 pad-top">
                   <div class="text-lg">
-                      <p class="text-5x text-thin text-main">${attendance.male + attendance.female + attendance.children}</p>
+                      <p class="text-5x text-thin text-main">${(parseInt(attendance.male) + parseInt(attendance.female) + parseInt(attendance.children))}</p>
                   </div>
                   <p class="text-sm text-bold text-uppercase">Total Attendance</p>
               </div>
@@ -325,10 +341,19 @@ return  `
       </div>
   </div>`
 }
+function handleSelect(date, context){
+  let h1 = document.createElement('h1')
+  $(h1).attr('id')
+  let sdate = date[0].format('YYYY-MM-DD');
+  h1.setAttribute("id", sdate);
+  view(h1, () => {})
+}
+
 function showe(date){
   $('#date-title').html(date)
   $('#myModal').modal('show')
 }
+
 function view(d, fn){
   var id = $(d).attr('id');
   $.ajax({url: "{{route('attendance.view')}}", data: {'date': id, '_token' : '{{ csrf_token() }}'}, type: 'POST'})

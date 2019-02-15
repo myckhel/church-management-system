@@ -187,9 +187,9 @@ $(document).ready(() => {
       i++
     })
   });
-  //for cancel collectio
+  //for cancel collection
   $('#c-type-table').on( 'click', 'tbody tr td .restore', function (e) {
-    service_table.ajax.reload(null, false)
+    collection_table.ajax.reload(null, false)
   })
   //for save collection
   $('#c-type-table').on( 'click', 'tbody tr td .save', function (e) {

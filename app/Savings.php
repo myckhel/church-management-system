@@ -22,8 +22,12 @@ class Savings extends Model
       foreach($data as $index => $v) {
         if(isset($dates[$i-1]) && $v->date_collected == $dates[$i-1]){
             $row[$v->date_collected]->amounts[$v->collections_types->name] = $v->amount;
+            $row[$v->date_collected]->total += $v->amount;
         } else {
           $obj = new \stdClass();
+          foreach (get_object_vars($v) as $key => $value) {
+            $obj->$key = $value;
+          }
           // $obj->collections_types = $v->collections_types->name;
           $obj->service_types = $v->service_types->name;
           if ($type == 'branch') {
@@ -33,11 +37,40 @@ class Savings extends Model
           $obj->updated_at = $v['updated_at']->toDateTimeString();
           $obj->amounts = [];
           $obj->amounts[$v->collections_types->name] = $v->amount;
+          $obj->total = $v->amount;
           $row[$v->date_collected] = $obj;
         }
         array_push($dates, $v->date_collected);
         $i++;
       }
+      return $row;
+    }
+
+    public static function rowToColumnByField($data) {
+      $row = [];
+      foreach($data as $index => $v) {
+        $name =  $v->users->branchname;
+        $amount = $v->amount;
+        $collectionName = $v->collections_types->name;
+        $serviceName = $v->service_types->name;
+        $date_collected = $v->date_collected;
+
+        if(!isset($row[$name])) {
+          $row[$name] = [];
+        }
+
+        if (!isset($row[$name][$date_collected])) {
+          $row[$name][$date_collected] = [];
+        }
+
+        if (!isset($row[$name][$date_collected]['amounts'])) {
+          $row[$name][$date_collected]['amounts'] = [];
+          $row[$name][$date_collected]['service_type'] = $serviceName;
+        }
+
+        $row[$name][$date_collected]['amounts'][$collectionName] = $amount;
+      }
+
       return $row;
     }
 
@@ -51,5 +84,9 @@ class Savings extends Model
 
     public function users(){
       return $this->belongsTo(User::class, 'branch_id');
+    }
+
+    public function collections_commissions(){
+      return $this->hasMany(CollectionCommission::class);
     }
 }

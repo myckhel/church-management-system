@@ -27,10 +27,9 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         $user = \Auth::user();
-        $members = \App\Member::where('branch_id', $user->branchcode)->get();
         //$members = Member::all();
         if ($request->draw) {
-          // code...
+          $members = \App\Member::where('branch_id', $user->branchcode)->get();
           return Datatables::of($members)->make(true);
         } else {
           // code...
@@ -118,7 +117,7 @@ class MemberController extends Controller
             'firstname' => $request->get('firstname'),
             'lastname' => $request->get('lastname'),
             'email' => $request->get('email'),
-            'dob' => $request->get('dob'),
+            'dob' => date('Y-m-d',strtotime($request->get('dob'))),
             'phone' => $request->get('phone'),
             'occupation' => $request->get('occupation'),
             'position' => $request->get('position'),
@@ -130,8 +129,8 @@ class MemberController extends Controller
             'country' => $request->get('country'),
             'sex' => $request->get('sex'),
             'marital_status' => $request->get('marital_status'),
-            'member_since' => $request->get('member_since'),
-            'wedding_anniversary' => $request->get('wedding_anniversary'),
+            'member_since' => date('Y-m-d',strtotime($request->get('member_since'))),
+            'wedding_anniversary' => date('Y-m-d',strtotime($request->get('wedding_anniversary'))),
             'photo' => $image_name,
             'relative' => $relatives,
             'member_status' => $request->member_status
@@ -151,15 +150,12 @@ class MemberController extends Controller
     {
       $member = Member::find($id);
       $user = \Auth::user();
+      $c_types = \App\CollectionsType::getTypes();
       $sql = 'SELECT COUNT(case when attendance = "yes" then 1 end) AS present, COUNT(case when attendance = "no" then 1 end) AS absent,
       MONTH(attendance_date) AS month FROM `members_attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND member_id = '.$member->id.' GROUP BY month';
       $attendances = \DB::select($sql);
 
-      $sql = 'SELECT SUM(tithe) AS tithe, SUM(offering) AS offering, SUM(special_offering + seed_offering + donation + first_fruit + covenant_seed + love_seed + sacrifice + thanksgiving + thanksgiving_seed + other) AS other,
-      MONTH(date_added) AS month FROM `members_collection` WHERE YEAR(date_added) = YEAR(CURDATE()) AND member_id = '.$member->id.' GROUP BY month';
-      $collections = \DB::select($sql);
-
-      return view('members.profile', compact('member', 'attendances', 'collections'));
+      return view('members.profile', compact('member', 'attendances', 'member', 'c_types'));
     }
 
     /**
@@ -285,7 +281,10 @@ class MemberController extends Controller
 
     public function modify($id){
       $user = \Auth::user();
-      $member = Member::whereId($id)->where('branch_id',$user)->first();
+      $member = Member::whereId($id)->where('branch_id',$user->branchcode)->first();
+      if (!$member) {
+        return 'Member Not exists';
+      }
       return view('members.edit', compact('member'));
     }
 
@@ -295,4 +294,285 @@ class MemberController extends Controller
       if ($user) { $status = true; $text = "$user is now a full member"; } else { $text = "Error occured Please try again"; }
       return response()->json(['status' => $status, 'text' => $text]);
     }
+
+    public function uploadImg(Request $request){
+      $image_name = 'profile.png'; // default profile image
+      if ($request->hasFile('photo'))
+      {
+          $image = $request->file('photo');
+          $input['imagename'] = ($image->getClientOriginalExtension() != '') ? time().'.'.$image->getClientOriginalExtension() : time().'.jpg';
+          print_r($input);
+
+          $destinationPath = public_path('/images');
+
+          $image->move($destinationPath, $input['imagename']);
+
+          $image_name = $input['imagename'];
+
+          $user = Member::orderBy('id', 'desc')->first();
+          $user->photo = $image_name;
+          $user->save();
+          return response()->json(['status' => true,]);
+      }
+      return response()->json(['status' => false, 'text' => "No photo file"]);
+    }
+
+    public function testMail(Request $request){
+      return new \App\Mail\MailToMember($request, \Auth::user());
+    }
+
+    public function updateMember(Request $request){
+      $member = Member::whereId($request->id)->first();
+      // dd($request);
+      if($member) {
+        $errors = [];
+        $fields = (array)$request->request;//->parameters;//->ParameterBag->parameters;
+        $fields = $fields["\x00*\x00parameters"];
+        foreach ($fields as $key => $value) {
+          if ($key != 'id' && $key != '_token' && $key != 'action') {
+              $member->$key = $request->$key;
+          }
+        }
+        try {
+          $member->save();
+        } catch (\Exception $e) {
+          array_push($errors, $e);
+          // dd($e);
+          return response()->json(['status' => false, 'text' => $e->errorInfo[2]]);
+        }
+      }
+      else {return response()->json(['status' => false, 'text' => "Member does not exist"]);}
+      return response()->json(['status' => true, 'text' => "Member has been updated!"]);
+    }
+
+  public function memberAnalysis (Request $request){
+    $user = \Auth::user();
+    $c_types = \App\CollectionsType::getTypes();
+    $savings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->where('member_id', $request->id)->get());
+    $interval = $request->interval;
+    $group = $request->group;
+    $months = [];
+    for ($i = $interval-1; $i >= 0; $i--) {
+      $t = 'M';
+      switch ($group) {
+        case 'day': $t = 'D'; break;
+        case 'week': $t = 'W'; break;
+        case 'month': $t = 'M'; break;
+        case 'year': $t = 'Y'; break;
+      }
+      $dateOrNot = $group == 'month' ? date('Y-m-01') : '';
+      $months[$i] = date($t, strtotime($dateOrNot. "-$i $group")); //1 week ago
+    }
+    $collections2 = $this->calculateSingleTotal($savings, $group);
+    $dt = (function($savings, $c_types, $months, $group){
+      $output = [];
+      foreach ($months as $key => $value) {
+  		$month = $value; $found = false;
+  		foreach ($savings as $collection) {
+  			if($value == $collection->$group){
+  				$found = true;
+          $output[] = $this->yData($collection, $c_types, $value);
+  			}
+  		}
+  		if(!$found){
+  			$output[] = $this->noData($c_types, $value);
+  		}
+  	}
+    return $output;
+  })($collections2, $c_types, $months, $group);
+    // dd($dt);
+    return response()->json($dt);
+  }
+
+  private function yData($collection,$c_types, $value){
+    $y = new \stdClass();
+    $y->y = $value;  $i = 1; $size = sizeof($c_types);
+    foreach ($c_types as $key => $value) {
+      $name = $value->name;
+      $amount = isset($collection->$name) ? $collection->$name : 0;
+      $y->$name = $amount;
+      $i++;
+    }
+    return $y; //. "},";
+  }
+
+  private function noData($c_types, $value){
+    $y = new \stdClass();
+    $y->y = $value; $i=1;
+    foreach ($c_types as $key => $value) {
+      $name = $value->name;
+      $y->$name = 0;
+      $i++;
+    }
+    return $y;//. "},";
+  }
+
+  private function calculateSingleTotal($savings, $type){
+    $obj = [];
+    foreach ($savings as $key => $value) {
+      switch ($type) {
+        case 'day': $t = 'D'; break;
+        case 'week': $t = 'W'; break;
+        case 'month': $t = 'M'; break;
+        case 'year': $t = 'Y'; break;
+      }
+      $date = date($t, strtotime($value->date_collected));
+      $year = (int)substr($value->date_collected, 0,4);
+      foreach ($value->amounts as $ke => $valu) {
+        if (isset($obj[$date])) {
+          if (isset($obj[$date]->$ke)) {  $obj[$date]->$ke += $valu; } else { $obj[$date]->$ke = $valu; }
+        } else {
+          $obj[$date] = new \stdClass();
+          $obj[$date]->$ke = $valu;
+          $obj[$date]->$type = $date;
+        }
+      }
+    }
+    return $obj;
+  }
+// count(case when sex = 'male' then 1 end) AS male, count(case when sex = 'female' then 1 end) AS female,
+  public function memberRegStats(Request $request){
+    $user = \Auth::user();
+    $members = Member::selectRaw("COUNT(id) as total, SUM(CASE WHEN sex='male' THEN 1 ELSE 0 END) AS male, SUM(CASE WHEN sex='female' THEN 1 ELSE 0 END) AS female,
+    MONTH(member_since) AS month")->whereRaw("member_since > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->branchcode)->groupBy("month")->get();
+
+    // dd($members);
+
+    $group = 'month';
+    $months = [];
+    $interval = 0;
+    $ii = 11;
+    $c_types = Array('male', 'female');
+    for ($i = $interval; $i <= 11; $i++) {
+      $t = 'M';
+      switch ($group) {
+        case 'day': $t = 'D'; break;
+        case 'week': $t = 'W'; break;
+        case 'month': $t = 'M'; break;
+        case 'year': $t = 'Y'; break;
+      }
+      $dateOrNot = $group == 'month' ? date('Y-m-01') : '';
+      $months[$ii] = date($t, strtotime($dateOrNot. "-$i $group")); //1 week ago
+      $ii--;
+    }
+
+    $dt = (function($members, $c_types, $months, $group){
+      $output = [];
+      foreach ($months as $key => $value) {
+  		$month = $value; $found = false;
+  		foreach ($members as $member) {
+        // dd($member->$group,$month);
+        $m;
+        switch ($member->$group) {
+          case 1: $m = 'Jan'; break;
+          case 2: $m = 'Feb'; break;
+          case 3: $m = 'Mar'; break;
+          case 4: $m = 'Apr'; break;
+          case 5: $m = 'May'; break;
+          case 6: $m = 'Jun'; break;
+          case 7: $m = 'Jul'; break;
+          case 8: $m = 'Aug'; break;
+          case 9: $m = 'Sep'; break;
+          case 10: $m = 'Oct'; break;
+          case 11: $m = 'Nov'; break;
+          case 12: $m = 'Dec'; break;
+        }
+        // dd($m);
+  			if($month == $m){
+  				$found = true;
+          $output[] = $this->flotY($member, $c_types, $key);
+  			}
+  		}
+  		if(!$found){
+  			$output[] = $this->flotNoData($c_types, $key);
+  		}
+  	}
+    return $output;
+  })($members, $c_types, $months, $group);
+
+  return $dt;
+
+  }
+
+  private function flotY($member, $c_types, $value){
+    $y = [];
+    $y['month'] = $value;  $i = 1; $size = sizeof($c_types);
+    foreach ($c_types as $key => $value) {
+      $name = $value;
+      $amount = isset($member->$name) ? $member->$name : 0;
+      $y[$name] = $amount;
+      $i++;
+    }
+    return $y;
+  }
+
+  private function flotNoData($c_types, $value){
+    $y = [];
+    $y['month'] = $value; $i=1;
+    foreach ($c_types as $key => $value) {
+      $name = $value;
+      $y[$name] = 0;
+      $i++;
+    }
+    return $y;//. "},";
+  }
+
+  public function calculateSingleTotalCollection($savings, $type){
+    $obj = [];
+    foreach ($savings as $key => $value) {
+      switch ($type) {
+        case 'day': $t = 'D'; break;
+        case 'week': $t = 'W'; break;
+        case 'month': $t = 'M'; break;
+        case 'year': $t = 'Y'; break;
+      }
+      $date = date($t, strtotime($value->date_collected));
+      $year = (int)substr($value->date_collected, 0,4);
+
+      if ($type == 'year') {
+        foreach ($value as $k => $v) {
+          // dd($savings);
+          $year = substr($k, 0,4);
+          foreach ($v['amounts'] as $savingName => $savingAmount) {
+            if (!isset($obj->$savingName)) {$obj->$savingName = new \stdClass();}
+            if (isset($obj->$savingName->$year)) {
+              $obj->$savingName->$year += $savingAmount;
+            } else {
+              $obj->$savingName->$year = $savingAmount;
+            }
+          }
+        }
+      }
+
+    // foreach ($savings as $key => $value) {
+    //   if (!$type) {
+    //     foreach ($value as $ke => $valu) {
+    //       try {
+    //         foreach ($valu['amounts'] as $savingName => $savingAmount) {
+    //           // dd($savingName);
+    //           if (!isset($obj[$savingName])) {
+    //             $obj[$savingName] = [];
+    //           }
+    //
+    //           $obj[$savingName]['total'] = isset($obj[$savingName]['total']) ? $obj[$savingName]['total'] + $savingAmount : $savingAmount;
+    //           // do for all time
+    //           $obj['total'] += $savingAmount;
+    //
+    //           if ($ke ==  now()->toDateString()) {
+    //             $obj[$savingName]['today'] = isset($obj[$savingName]['today']) ? $obj[$savingName]['today'] + $savingAmount : $savingAmount;
+    //             // do for todays total
+    //             $obj['today'] += $savingAmount;
+    //           }
+    //         }
+    //       } catch (\Exception $e) {
+    //         // print($e->getMessage());
+    //       }
+    //     }
+    //   }
+
+
+
+    }
+    return $obj;
+  }
 }

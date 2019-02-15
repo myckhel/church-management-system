@@ -63,13 +63,17 @@ const divLoader = () => (
   </div> `
 )
 
-const poster = ({url, data}, fn) => {
-  $.ajax({url, data, type: 'POST'})
+const poster = ({url, data, alert, type}, fn) => {
+  alert = alert || true
+  type = type || 'POST'
+  $.ajax({url, data, type})
   .done((res) => {
-    if(res.status){
-      swal("Success!", res.text, "success");
-    } else {
-      swal("Oops", res.text, "error");
+    if (alert !== 'false') {
+      if(res.status){
+        swal("Success!", res.text, "success");
+      } else {
+        swal("Oops", res.text, "error");
+      }
     }
     if (typeof(fn) === 'function') {
       fn(res)

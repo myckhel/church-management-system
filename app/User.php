@@ -37,8 +37,19 @@ class User extends Authenticatable
     }
 
     public function getName(){
+      return "$this->branchname";
+    }
 
-        return "$this->branchname";
+    public static function currencySymbol(){
+      $currency = \App\Options::getOneBranchOption('currency', \Auth::user());
+      // $currency = \App\Options::where('name', 'currency')->first();
+      $currency = \DB::table('country')->where('currency_symbol', isset($currency->value) ? $currency->value : '₦')->first();
+      return $currency;
+    }
+
+    public static function toMoney($number){
+      $symbol = self::currencySymbol();
+      return $symbol->currency_symbol.number_format((float) $number);
     }
 
     public function getCurrencySymbol(){
@@ -60,7 +71,12 @@ class User extends Authenticatable
     }
 
     public function getUserById($id){
-      return \App\User::where($id)->get();
+      return \App\User::find($id);
+    }
+
+    public function creation(){
+
+      return ;
     }
 
     public function group(){
@@ -89,5 +105,9 @@ class User extends Authenticatable
 
     public function MemberSavings(){
       return $this->hasMany(MemberSavings::class);
+    }
+
+    public function collections_commissions(){
+      return $this->hasMany(CollectionCommission::class);
     }
 }

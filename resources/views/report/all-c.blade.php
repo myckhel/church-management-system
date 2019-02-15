@@ -3,6 +3,10 @@
 @section('title') All Branches Collection Report @endsection
 
 @section('content')
+<?php
+function issetor(&$var, $default = false) {
+    return isset($var) ? $var : $default;
+} ?>
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
 <div id="content-container">
@@ -78,10 +82,10 @@
                       Total Amount Collected
                     </th>
                     <td>
-                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->total_collections)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->collections['total'])}}</span>
                     </td>
                     <td>
-                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->todays_total_collections)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->collections['today'])}}</span>
                     </td>
                   </tr>
                 </tbody>
@@ -119,10 +123,10 @@
                     </th>
                     <td>
                       <?php $name = $collect->name; ?>
-                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->total_single_collections->$name)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format(issetor($reports->collections[$name]['total']))}}</span>
                     </td>
                     <td>
-                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->todays_single_collections->$name)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format(issetor($reports->collections[$name]['today']))}}</span>
                     </td>
                   </tr>
                   @endforeach
@@ -133,10 +137,10 @@
                       Total
                     </th>
                     <td>
-                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->total_collections)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->collections['total'])}}</span>
                     </td>
                     <td>
-                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->todays_total_collections)}}</span>
+                      <span class="badge badge-primary badge-pill">{{$currency}} {{number_format($reports->collections['today'])}}</span>
                     </td>
                   </tr>
                 </tfoot>
@@ -233,10 +237,10 @@
                 <tbody>
                   <?php $totalTotal = 0; $todayTotal = 0;?>
                   @foreach ($branchesName as $key => $nameObj)
-                  <?php $name = $nameObj->branchname; $total = isset($branches[$name]) ? $branches[$name]['total'] : 0;
-                    $today = isset($branches[$name]) ? $branches[$name]['today'] : 0;
-                    $totalTotal += isset($branches[$name]) ? $branches[$name]['total'] : 0;
-                    $todayTotal += isset($branches[$name]) ? $branches[$name]['today'] : 0;
+                  <?php $name = $nameObj->branchname; $total = isset($reports->branch_collections[$name]) ? $reports->branch_collections[$name]['total'] : 0;
+                    $today = isset($reports->branch_collections[$name]['today']) ? $reports->branch_collections[$name]['today'] : 0;
+                    $totalTotal += isset($reports->branch_collections[$name]) ? $reports->branch_collections[$name]['total'] : 0;
+                    $todayTotal += isset($reports->branch_collections[$name]) ? $reports->branch_collections[$name]['today'] : 0;
                   ?>
                   <tr>
                     <th>
