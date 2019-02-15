@@ -61,9 +61,10 @@ class HomeController extends Controller
             //   // code...
             //   dd($lat,$lon, (float) ("0.".(string) mt_rand(400,900)));
             // }
-            Mapper::marker($lat, $lon, ['title' => "$branch->branchname"])
-            ->informationWindow($lat, $lon, "<div class='panel panel-primary'>$branch->branchname</div>",
-            ['open' => true, 'maxWidth'=> 300,'markers' => ['animation' => 'DROP']]);
+            Mapper::
+            // marker($lat, $lon, ['title' => "$branch->branchname"])
+            informationWindow($lat, $lon, "<div class='panel panel-primary'>$branch->branchname</div>",
+            ['open' => true, 'maxWidth'=> 300,'markers' => ['animation' => 'DROP', 'title' => "$branch->branchname"]]);
             // code...
             $i++;
           }
