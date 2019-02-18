@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
 use DB;
-use Mapper;
+// use Mapper;
 
 class HomeController extends Controller
 {
@@ -49,26 +49,29 @@ class HomeController extends Controller
 
         $branches = \App\User::all();
 
-        Mapper::map(6.5437548, 3.5859518, ['center' => [6.5437548, 3.8859518], 'title' => "$user->branchname", 'eventClick' => 'console.log("left click");'])
-        ->informationWindow(6.5437548, 3.5859518, "<div class='panel panel-primary'>$user->branchname</div>", ['open' => true, 'maxWidth'=> 300,'markers' => ['animation' => 'DROP']]);
-        $i = 0;
-        foreach ($branches as $key => $branch) {
-          // code...
-          if ($branch->branchname != $user->branchname) {
-            $lat = (float) 6.5437548 + (0.100 + ( ( (float) ("0.".(string) ( mt_rand(5,20) * mt_rand(0,7) ) ) ) ) );
-            $lon = (float) 3.3859518 + (0.100 + ( ( (float) ("0.".(string) ( mt_rand(5,20) * mt_rand(0,7) ) ) ) ) );
-            // if ($i ==3) {
-            //   // code...
-            //   dd($lat,$lon, (float) ("0.".(string) mt_rand(400,900)));
-            // }
-            Mapper::
-            // marker($lat, $lon, ['title' => "$branch->branchname"])
-            informationWindow($lat, $lon, "<div class='panel panel-primary'>$branch->branchname</div>",
-            ['open' => true, 'maxWidth'=> 300,'markers' => ['animation' => 'DROP', 'title' => "$branch->branchname"]]);
-            // code...
-            $i++;
-          }
-        }
+        // Mapper::map(6.5437548, 3.5859518, ['center' => [6.5437548, 3.8859518], 'title' => "$user->branchname", 'eventClick' => 'console.log("left click");'])
+        // ->informationWindow(6.5437548, 3.5859518, "<div class='panel panel-primary'>$user->branchname</div>", ['open' => true, 'maxWidth'=> 300,'markers' => ['animation' => 'DROP']]);
+        // $i = 0;
+        // foreach ($branches as $key => $branch) {
+        //   // code...
+        //   if ($branch->branchname != $user->branchname) {
+        //     $lat = (float) 6.5437548 + (0.100 + ( ( (float) ("0.".(string) ( mt_rand(5,20) * mt_rand(0,7) ) ) ) ) );
+        //     $lon = (float) 3.3859518 + (0.100 + ( ( (float) ("0.".(string) ( mt_rand(5,20) * mt_rand(0,7) ) ) ) ) );
+        //     // if ($i ==3) {
+        //     //   // code...
+        //     //   dd($lat,$lon, (float) ("0.".(string) mt_rand(400,900)));
+        //     // }
+        //     $id = $i + 2;
+        //     Mapper::
+        //     // marker($lat, $lon, ['title' => "$branch->branchname"])
+        //     informationWindow($lat, $lon, "<div class='panel panel-primary'>$branch->branchname</div>",
+        //     ['maxWidth'=> 300, 'eventMouseOver' => "infowindow_{$id}.open(map,marker_{$id});", 'eventMouseOut' => "infowindow_{$id}.close();",
+        //       'draggable' => true,
+        //      'markers' => ['animation' => 'DROP', 'title' => "$branch->branchname"]]);
+        //     // code...
+        //     $i++;
+        //   }
+        // }
         // map area
         // Mapper::map(6.5437548, 3.5859518, ['center' => [6.5437548, 3.8859518], 'title' => 'Marker 1', 'eventClick' => 'console.log("left click");'])
         // ->informationWindow(6.5437548, 3.5859518, "<div class='panel panel-primary'>$user->branchname</div>", ['open' => true, 'maxWidth'=> 300,'markers' => ['animation' => 'DROP']]);

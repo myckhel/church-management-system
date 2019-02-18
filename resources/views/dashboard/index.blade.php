@@ -581,11 +581,11 @@ function barColors($colors){
 
                   <!-- Striped Table -->
                   <!--===================================================-->
-                  <div class="panel-body">
+                  <!-- <div class="panel-body">
                     <div class="" style="width: 100%; height: 500px;" id="map-area">
-                      {!! Mapper::render() !!}
+                      { !  ! Mapper::render() !!}
                     </div>
-                  </div>
+                  </div> -->
                   <!--===================================================-->
                   <!-- End Striped Table -->
               </div>
