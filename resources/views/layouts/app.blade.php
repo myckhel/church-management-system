@@ -16,30 +16,29 @@
 	<link href="{{ URL::asset('css/nifty.min.css') }}" rel="stylesheet">
 	<!--Nifty Premium Icon [ DEMONSTRATION ]-->
 	<!-- <link href="{{ URL::asset('css/demo/nifty-demo-icons.min.css') }}" rel="stylesheet"> -->
+	<!-- PARTICLES -->
+	<link href="{{ URL::asset('css/particles.css') }}" rel="stylesheet">
+	<!-- PARTICLES -->
+
 	@yield('link')
-        @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
-        <link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-clockpicker.min.css') }}" rel="stylesheet">
-        @endif
+  @if (Route::currentRouteName() == ('calendar')  || Route::currentRouteName() == ('notification')  || Route::currentRouteName() == ('ticket'))
+  <link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-clockpicker.min.css') }}" rel="stylesheet">
+  @endif
 	<!--=================================================-->
-@if(Route::currentRouteName() == "gallery")
-<link href="{{ URL::asset('plugins/gallery/ekko-lightbox.css') }}" rel="stylesheet">
-@endif
+	@if(Route::currentRouteName() == "gallery")
+	<link href="{{ URL::asset('plugins/gallery/ekko-lightbox.css') }}" rel="stylesheet">
+	@endif
 	<!--Demo [ DEMONSTRATION ]-->
 	<!-- <link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet"> -->
 	<!--Font Awesome [ OPTIONAL ]-->
 	<link href="{{ URL::asset('css/font-awesome.min.css')}}" rel="stylesheet">
 
-	@if(Route::currentRouteName() != "members.all")
-    <!--Bootstrap Timepicker [ OPTIONAL ]-->
-    <!-- <link href="{{ URL::asset('plugins/bootstrap-timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet"> -->
-	@endif
-
     @if (Route::currentRouteName() == 'member.register.form' || Route::currentRouteName() == 'attendance' || Route::currentRouteName() == 'attendance.mark' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == 'calendar'  || Route::currentRouteName() == ('ticket'))
 	<!--Bootstrap Datepicker [ OPTIONAL ]-->
 	<link href="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-    <!--Bootstrap Select [ OPTIONAL ]-->
-    <link href="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
-    @endif
+  <!--Bootstrap Select [ OPTIONAL ]-->
+  <link href="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
+  @endif
 
 	@if (Route::currentRouteName() == 'inbox')
 	<!--CHAT [ OPTIONAL ]-->
@@ -506,20 +505,21 @@
 	<script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 	<!--NiftyJS [ RECOMMENDED ]-->
 	<script src="{{ URL::asset('js/nifty.min.js') }}"></script>
-        @if (Route::currentRouteName() == 'calendar'  || Route::currentRouteName() == 'notification'  || Route::currentRouteName() == 'ticket')
-        <script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-clockpicker.min.js') }}"></script>
-        <script type="text/javascript">
-    $('.clockpicker').clockpicker();
-        </script>
-        @endif
+	<!-- PARTICLES -->
+	<script src="{{ URL::asset('js/particles.min.js') }}"></script>
+	<!-- PARTICLES -->
+  @if (Route::currentRouteName() == 'calendar'  || Route::currentRouteName() == 'notification'  || Route::currentRouteName() == 'ticket')
+  <script src="{{ URL::asset('plugins/bootstrap-datepicker/bootstrap-clockpicker.min.js') }}"></script>
+  <script type="text/javascript">	$('.clockpicker').clockpicker(); </script>
+  @endif
 
-				@if (Route::currentRouteName() == 'member.register.form' || Route::currentRouteName() == 'attendance.view.form' || Route::currentRouteName() == 'collection.offering')
-				<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
-				@endif
+	@if (Route::currentRouteName() == 'member.register.form' || Route::currentRouteName() == 'attendance.view.form' || Route::currentRouteName() == 'collection.offering')
+	<script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
+	@endif
 
-				@if (Route::currentRouteName() == 'member.register.form' || Route::currentRouteName() == 'attendance.view' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == "members.all")
-				<script src="{{ URL::asset('js/functions.js') }}"></script>
-				@endif
+	@if (Route::currentRouteName() == 'member.register.form' || Route::currentRouteName() == 'attendance.view' || Route::currentRouteName() == 'collection.offering' || Route::currentRouteName() == "members.all")
+	<script src="{{ URL::asset('js/functions.js') }}"></script>
+	@endif
 
 		@if (Route::currentRouteName() == 'w')
 	    <!--Bootstrap Timepicker [ OPTIONAL ]-->
@@ -537,27 +537,16 @@
 		<script src="{{ URL::asset('plugins/gallery/ekko-lightbox.min.js') }}"></script>
 		@endif
 
-	<!--=================================================-->
-
-	<!--Demo script [ DEMONSTRATION ]-->
-    <!--<script src="{{ URL::asset('js/demo/nifty-demo.min.js') }}"></script>-->
-
-
 		@if (Route::currentRouteName() == 'attendance.view.form' )
     <!--DataTables [ OPTIONAL ]-->
 		<script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
 		<script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
-		<!--<script src="{{ URL::asset('plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>-->
-		<!--<script src="{{ URL::asset('js/demo/tables-datatables.js') }}"></script>-->
-		<!-- <script src="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.js') }}"></script> -->
 		<script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
-		<!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>-->
 		<script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
 		<script src="{{ URL::asset('plugins/datatables/jszip.min.js') }}"></script>
 		<script src="{{ URL::asset('plugins/datatables/pdfmake.min.js') }}"></script>
 		<script src="{{ URL::asset('plugins/datatables/vfs_fonts.js') }}"></script>
 		<script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
-		<!-- <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script> -->
 		<script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
 
 	<script>
@@ -579,18 +568,10 @@
 	@endif
 
 
-    @if (Route::currentRouteName() == 'member.profile' || Route::currentRouteName() == 'attendance.analysis' || Route::currentRouteName() == 'collection.analysis')
-    <!--Morris.js [ OPTIONAL ]-->
-    <script src="{{ URL::asset('plugins/morris-js/morris.min.js') }}"></script>
-		<script src="{{ URL::asset('plugins/morris-js/raphael-js/raphael.min.js') }}"></script>
-		@endif
-    <!--Flot Chart [ OPTIONAL ]-->
-		@if(1 == 1)
-    <!-- <script src="{{ URL::asset('plugins/flot-charts/jquery.flot.min.js') }}"></script> -->
-
-	<!-- <script src="{{ URL::asset('plugins/flot-charts/jquery.flot.resize.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.pie.min.js') }}"></script>
-	<script src="{{ URL::asset('plugins/flot-charts/jquery.flot.tooltip.min.js') }}"></script> -->
+  @if (Route::currentRouteName() == 'member.profile' || Route::currentRouteName() == 'attendance.analysis' || Route::currentRouteName() == 'collection.analysis')
+  <!--Morris.js [ OPTIONAL ]-->
+  <script src="{{ URL::asset('plugins/morris-js/morris.min.js') }}"></script>
+	<script src="{{ URL::asset('plugins/morris-js/raphael-js/raphael.min.js') }}"></script>
 	@endif
 
 	@if (Route::currentRouteName() == 'calendar' )
@@ -734,6 +715,8 @@ $('#demo-calendar').fullCalendar({
 });
 
 });
+
+
 function dele(input){
 	var decide = confirm('Are you sure you want to delete this event?');
 	if(decide){
@@ -972,6 +955,132 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
 });
 </script>
 @endif
+<script>
+$(document).ready(() => {
+
+	particlesJS('page-head',
+
+	  {
+	    "particles": {
+	      "number": {
+	        "value": 150,
+	        "density": {
+	          "enable": true,
+	          "value_area": 800
+	        }
+	      },
+	      "color": {
+	        "value": "#ffffff"
+	      },
+	      "shape": {
+	        "type": "circle",
+	        "stroke": {
+	          "width": 0,
+	          "color": "#000000"
+	        },
+	        "polygon": {
+	          "nb_sides": 5
+	        },
+	        "image": {
+	          "src": "img/github.svg",
+	          "width": 100,
+	          "height": 100
+	        }
+	      },
+	      "opacity": {
+	        "value": 0.5,
+	        "random": false,
+	        "anim": {
+	          "enable": false,
+	          "speed": 1,
+	          "opacity_min": 0.1,
+	          "sync": false
+	        }
+	      },
+	      "size": {
+	        "value": 5,
+	        "random": true,
+	        "anim": {
+	          "enable": false,
+	          "speed": 40,
+	          "size_min": 0.1,
+	          "sync": false
+	        }
+	      },
+	      "line_linked": {
+	        "enable": true,
+	        "distance": 150,
+	        "color": "#ffffff",
+	        "opacity": 0.4,
+	        "width": 1
+	      },
+	      "move": {
+	        "enable": true,
+	        "speed": 6,
+	        "direction": "none",
+	        "random": false,
+	        "straight": false,
+	        "out_mode": "out",
+	        "attract": {
+	          "enable": false,
+	          "rotateX": 600,
+	          "rotateY": 1200
+	        }
+	      }
+	    },
+	    "interactivity": {
+	      "detect_on": "canvas",
+	      "events": {
+	        "onhover": {
+	          "enable": true,
+	          "mode": "repulse"
+	        },
+	        "onclick": {
+	          "enable": true,
+	          "mode": "push"
+	        },
+	        "resize": true
+	      },
+	      "modes": {
+	        "grab": {
+	          "distance": 400,
+	          "line_linked": {
+	            "opacity": 1
+	          }
+	        },
+	        "bubble": {
+	          "distance": 400,
+	          "size": 40,
+	          "duration": 2,
+	          "opacity": 8,
+	          "speed": 3
+	        },
+	        "repulse": {
+	          "distance": 200
+	        },
+	        "push": {
+	          "particles_nb": 4
+	        },
+	        "remove": {
+	          "particles_nb": 2
+	        }
+	      }
+	    },
+	    "retina_detect": true,
+	    "config_demo": {
+	      "hide_card": false,
+	      "background_color": "#b61924",
+	      "background_image": "",
+	      "background_position": "50% 50%",
+	      "background_repeat": "no-repeat",
+	      "background_size": "cover"
+	    }
+	  }
+
+	);
+
+})
+</script>
 
 @yield('js')
 

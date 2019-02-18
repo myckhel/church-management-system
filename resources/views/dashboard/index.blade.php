@@ -449,67 +449,71 @@ function barColors($colors){
 
         <div class="col-md-{{($user->isAdmin()) ? 5 : 9}}">
           <h3 class="text-center">Due Collections</h3>
-          <table id="due-collection" class="table table-sm table-striped table-bordered nowrap">
-            <thead>
-              <tr class="bg-success">
-                <th>Date</th>
-                <th>Service Type</th>
-                <th>Amount</th>
-                <th>Commission {{$percentage}}%</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php $i = 0; $totalCommission = 0; $amount = 0; $branch_id = $user->id; ?>
-              @if(isset($dueSavings[$branch_id]))
-              @foreach($dueSavings[$branch_id] as $savings)
-              <tr>
-                <td>{{$savings->date_collected}}</td>
-                <td>{{$savings->service_types}}</td>
-                <td>{{$money($savings->total)}}</td>
-                <?php $i++; $commission = (float)($savings->total * ($percentage / 100)); $totalCommission += $commission; $amount += $savings->total; ?>
-                <td>{{$money($commission)}}</td>
-              </tr>
-              @endforeach
-              @endif
-            </tbody>
-            <tfoot>
-              <tr class="bg-dark">
-                <th>Total</th>
-                <th></th>
-                <th>{{$money($amount)}}</th>
-                <th>{{$money($totalCommission)}}</th>
-              </tr>
-            </tfoot>
-          </table>
+          <div class="table-responsive">
+            <table id="due-collection" class="table table-sm table-striped table-bordered nowrap">
+              <thead>
+                <tr class="bg-success">
+                  <th>Date</th>
+                  <th>Service Type</th>
+                  <th>Amount</th>
+                  <th>Commission {{$percentage}}%</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $i = 0; $totalCommission = 0; $amount = 0; $branch_id = $user->id; ?>
+                @if(isset($dueSavings[$branch_id]))
+                @foreach($dueSavings[$branch_id] as $savings)
+                <tr>
+                  <td>{{$savings->date_collected}}</td>
+                  <td>{{$savings->service_types}}</td>
+                  <td>{{$money($savings->total)}}</td>
+                  <?php $i++; $commission = (float)($savings->total * ($percentage / 100)); $totalCommission += $commission; $amount += $savings->total; ?>
+                  <td>{{$money($commission)}}</td>
+                </tr>
+                @endforeach
+                @endif
+              </tbody>
+              <tfoot>
+                <tr class="bg-dark">
+                  <th>Total</th>
+                  <th></th>
+                  <th>{{$money($amount)}}</th>
+                  <th>{{$money($totalCommission)}}</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
 
         @if($user->isAdmin())
         <div class="col-md-4">
           <h3 class="text-center">Parishes Owning</h3>
-          <table id="owning-table" class="table table-sm table-striped table-bordered nowrap">
-            <thead>
-              <tr class="bg-success">
-                <th>Name</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php $totalCommission = 0; ?>
-              @foreach($allDueSavings as $branch_id => $commission)
-              <tr>
-                <td>{{ucwords($user->getUserById($branch_id)->branchname)}}</td>
-                <?php $totalCommission += $commission; ?>
-                <td>{{$money($commission)}}</td>
-              </tr>
-              @endforeach
-            </tbody>
-            <tfoot>
-              <tr class="bg-dark">
-                <th>Total</th>
-                <th>{{$money($totalCommission)}}</th>
-              </tr>
-            </tfoot>
-          </table>
+          <div class="table-responsive">
+            <table id="owning-table" class="table table-sm table-striped table-bordered nowrap">
+              <thead>
+                <tr class="bg-success">
+                  <th>Name</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $totalCommission = 0; ?>
+                @foreach($allDueSavings as $branch_id => $commission)
+                <tr>
+                  <td>{{ucwords($user->getUserById($branch_id)->branchname)}}</td>
+                  <?php $totalCommission += $commission; ?>
+                  <td>{{$money($commission)}}</td>
+                </tr>
+                @endforeach
+              </tbody>
+              <tfoot>
+                <tr class="bg-dark">
+                  <th>Total</th>
+                  <th>{{$money($totalCommission)}}</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
         @endif
       </div>
