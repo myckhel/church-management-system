@@ -128,6 +128,10 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/branches/tools/service-type/update', 'OptionController@updateServiceType')->name('update.service.type');
     Route::post('/branches/tools/collection-type/update', 'OptionController@updateCollectionType')->name('update.collection.type');
     // Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
+    // PAYMENT
+    Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
+    Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
+
     // test
     Route::get('/currencies/get', 'OptionController@getCurrencies')->name('option.currencies');
     Route::get('/countries/get', 'OptionController@getCountries')->name('option.countries');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
 use DB;
+use Paystack;
 // use Mapper;
 
 class HomeController extends Controller
@@ -48,6 +49,7 @@ class HomeController extends Controller
         $allDueSavings = \App\CollectionCommission::calculateUnsettledCommission(true);
 
         $branches = \App\User::all();
+
 
         // Mapper::map(6.5437548, 3.5859518, ['center' => [6.5437548, 3.8859518], 'title' => "$user->branchname", 'eventClick' => 'console.log("left click");'])
         // ->informationWindow(6.5437548, 3.5859518, "<div class='panel panel-primary'>$user->branchname</div>", ['open' => true, 'maxWidth'=> 300,'markers' => ['animation' => 'DROP']]);

@@ -194,7 +194,18 @@
             <button type="button" name="button" onclick="window.print()" class="btn btn-primary"><i class="fa fa-print"></i> Print </button>
           </div>
           <div class="pull-right">
-            <button type="button" name="button" class="btn btn-success"><i class="fa fa-money"></i> Continue to pay</button>
+            <form class="" action="{{route('pay')}}" method="post">
+              <input type="hidden" name="email" value="myckhel1@hotmail.com"> {{-- required --}}
+            <input type="hidden" name="orderID" value="345">
+            <input type="hidden" name="amount" value="{{$totalCommission}}"> {{-- required in kobo --}}
+            <input type="hidden" name="quantity" value="3">
+            <input type="hidden" name="metadata" value="{{ json_encode($array = ['key_name' => 'value',]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
+            <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}"> {{-- required --}}
+            <input type="hidden" name="key" value="{{ config('paystack.secretKey') }}"> {{-- required --}}
+            {{ csrf_field() }} {{-- works only when using laravel 5.1, 5.2 --}}
+
+            <button type="submit" name="button" class="btn btn-success"><i class="fa fa-money"></i> Continue to pay</button>
+            </form>
           </div>
         </div>
       </div>
