@@ -34,20 +34,7 @@
   <!--Page content-->
   <!--===================================================-->
   <div id="page-content">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3"  >
-        @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @endif
-        @if (count($errors) > 0)
-          @foreach ($errors->all() as $error)
-        <div class="alert alert-danger">{{ $error }}</div>
-          @endforeach
-        @endif
-      </div>
-    </div>
+    @include('layouts.error')
 
     <div class="col-sm-10 col-md-10 col-md-offset-1">
       <div class="panel" style="background-color: #e8ddd3;">
@@ -124,10 +111,11 @@
       		      <th>Quantity</th>
       		      <th>Commission {{$percentage}}%</th>
       		  </tr>
-            <?php $i = 0; $totalCommission = 0.0; $branch_id = $user->id; ?>
+            <?php $i = 0; $branch_id = $user->id; $order_ids = []; ?>
             @if(isset($dueSavings[$branch_id]))
+            <?php $totalCommission = \App\CollectionCommission::savingsPercentage($dueSavings[$branch_id]); ?>
             @foreach($dueSavings[$branch_id]  as $savings)
-            <!-- { { dd( $savings)}} -->
+            <!-- { { dd( $dueSavings[$branch_id])}} -->
       		  <tr class="item-row">
       		      <td class="item-name">
                   <div class="delete-wpr">
@@ -138,12 +126,13 @@
       		      <td class="description"><div>{{$savings->service_types}}</div></td>
       		      <td><div class="cost">{{$money($savings->total)}}</div></td>
       		      <td><div class="qty">1</div></td>
-                <?php $i++; $commission = (float)($savings->total * ($percentage / 100)); $totalCommission += $commission; ?>
+                <?php $i++; $commission = (float)($savings->total * ($percentage / 100));
+                $order_ids[] = (\App\CollectionCommission::mySelfByDate($savings->date_collected))->id; ?>
       		      <td><span class="price">{{$money($commission)}}</span></td>
       		  </tr>
             @endforeach
             @endif
-
+            <!-- { {dd($order_ids)}} -->
       		  <!-- <tr class="item-row">
       		      <td class="item-name"><div class="delete-wpr"><div>SSL Renewals</div><a class="delete" href="javascript:;" title="Remove row">X</a></div></td>
 
@@ -165,10 +154,9 @@
       		      <td class="total-value"><div id="subtotal">$875.00</div></td>
       		  </tr> -->
       		  <tr>
-
-      		      <td colspan="2" class="blank"> </td>
-      		      <td colspan="2" class="total-line">Total</td>
-      		      <td class="total-value"><div id="total">{{$money($totalCommission)}}</div></td>
+    		      <td colspan="2" class="blank"> </td>
+    		      <td colspan="2" class="total-line">Total</td>
+    		      <td class="total-value"><div id="total">{{$money($totalCommission)}}</div></td>
       		  </tr>
       		  <!-- <tr>
       		      <td colspan="2" class="blank"> </td>
@@ -197,9 +185,10 @@
             <form class="" action="{{route('pay')}}" method="post">
               <input type="hidden" name="email" value="myckhel1@hotmail.com"> {{-- required --}}
             <input type="hidden" name="orderID" value="345">
-            <input type="hidden" name="amount" value="{{$totalCommission}}"> {{-- required in kobo --}}
-            <input type="hidden" name="quantity" value="3">
-            <input type="hidden" name="metadata" value="{{ json_encode($array = ['key_name' => 'value',]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
+            <input type="hidden" name="amount" value="{{str_replace('.', '', $totalCommission)}}"> {{-- required in kobo --}}
+            <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="order_ids" value="{{implode($order_ids, ',')}}">
+            <input type="hidden" name="metadata" value="{{ json_encode($array = ['order_ids' => implode($order_ids, ',')]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
             <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}"> {{-- required --}}
             <input type="hidden" name="key" value="{{ config('paystack.secretKey') }}"> {{-- required --}}
             {{ csrf_field() }} {{-- works only when using laravel 5.1, 5.2 --}}

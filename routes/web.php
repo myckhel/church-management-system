@@ -164,9 +164,9 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  // $sql = "SELECT name, ID FROM country";
-  $currencies = \DB::table('country')->get();
-  return response()->json($currencies);
+  $order_ids =  (\App\CollectionCommission::getUserUnsettled(auth()->user()))->pluck('id');
+  dd($order_ids);
+  // return response()->json($currencies);
 })->name('test');
 
 Route::get('/users', 'BranchController@users')->name('users');

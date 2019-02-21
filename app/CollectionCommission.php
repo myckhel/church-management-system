@@ -14,6 +14,23 @@ class CollectionCommission extends Model
     ];
     protected $table = 'collections_commissions';
 
+    public static function getUserUnsettled(){
+      return auth()->user()->collections_commissions->where('settled', false);
+    }
+
+    public static function savingsPercentage(array $savings){
+      $percentage = (float)(\App\Options::getLatestCommission())->value;
+      $total = 0.00;
+      foreach ($savings as $key => $saving) {
+        $total += (float)$saving->total;
+      }
+      return (float)($total * ($percentage / 100));
+    }
+
+    public static function mySelfByDate($date){
+      return auth()->user()->collections_commissions->where('saving_date_collected', $date)->where('settled', false)->first();
+    }
+
     public static function getDueCommissions(User $user = null){
       return $due = CollectionCommission::
         select('users.id as branch_id', 'savings.id', 'savings.service_types_id', 'savings.collections_types_id', 'savings.amount',
@@ -32,13 +49,13 @@ class CollectionCommission extends Model
       $dueRows = CollectionCommission::getDueCommissions(isset($user) ? $user: null);
       // dd($dueRows);
       $savings = [];
-      foreach ($dueRows as $key => $commssion) {
+      foreach ($dueRows as $key => $commission) {
         //
-        if (!isset($savings[$commssion->branch_id])) {
-          $savings[$commssion->branch_id] = [];
+        if (!isset($savings[$commission->branch_id])) {
+          $savings[$commission->branch_id] = [];
         }
         //
-        $savings[$commssion->branch_id][] = \App\Savings::find($commssion->id); //$commssion->id;
+        $savings[$commission->branch_id][] = \App\Savings::find($commission->id);
       }
       //
       foreach ($savings as $key => $value) {
@@ -92,6 +109,17 @@ class CollectionCommission extends Model
         'saving_date_collected' => $savings->date_collected,
         'branch_id' => $user->id,
       ]);
+    }
+
+    public static function undue(array $ids){
+      foreach ($ids as $key => $due) {
+        // code...
+        $due = self::find($due);
+        // dd($due);
+        $due->settled = true;
+        $due->save();
+      }
+      return true;
     }
 
     public function users(){

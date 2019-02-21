@@ -108,6 +108,10 @@ class User extends Authenticatable
     }
 
     public function collections_commissions(){
-      return $this->hasMany(CollectionCommission::class);
+      return $this->hasMany(CollectionCommission::class, 'branch_id');
+    }
+
+    public function payments(){
+      return $this->hasMany(Payment::class, 'branch_id');
     }
 }
