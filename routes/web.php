@@ -129,8 +129,10 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/branches/tools/collection-type/update', 'OptionController@updateCollectionType')->name('update.collection.type');
     // Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
     // PAYMENT
+    Route::resource('/payments', 'PaymentController');
     Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
     Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
+    Route::get('/payment/status', 'PaymentController@status');
 
     // test
     Route::get('/currencies/get', 'OptionController@getCurrencies')->name('option.currencies');
@@ -164,8 +166,8 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  $order_ids =  (\App\CollectionCommission::getUserUnsettled(auth()->user()))->pluck('id');
-  dd($order_ids);
+  $flot = (float)(substr(18420088,0,-2).".".substr(18420088,-2));
+  dd($flot);
   // return response()->json($currencies);
 })->name('test');
 

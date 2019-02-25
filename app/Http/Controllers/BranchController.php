@@ -239,6 +239,9 @@ class BranchController extends Controller
       $user = \Auth::user();
       // get due savings
       $dueSavings = \App\CollectionCommission::dueSavings($user);
+      // if nothing found for the branch
+      // redirect back withErrors
+      if(!isset($dueSavings[$user->id])) return back()->withErrors(['message' => 'Nothing to pay']);
       // get the commission percentage
       $percentage = (int)(\App\Options::getLatestCommission())->value;
       // dd($dueSavings);

@@ -2,13 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Paystack;
 use App\Payment;
+use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    //
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
     /**
     * Redirect the User to Paystack Payment Page
     * @return Url
@@ -34,16 +42,12 @@ class PaymentController extends Controller
         'order_ids' => $request->order_ids,
         'status' => 'pending',
         'branch_id' => auth()->user()->id,
-        'amount' => (float)substr_replace($request->amount,'.',-2),
+        'amount' => (float)(substr(18420088,0,-2).".".substr(18420088,-2)),
         'order_type' => 'collection_commission',
       ]);
 
        return Paystack::getAuthorizationUrl()->redirectNow();
    }
-
-   // private function validate(){
-   //   return $request->all();
-   // }
 
    /**
     * Obtain Paystack payment information
@@ -74,10 +78,85 @@ class PaymentController extends Controller
          \App\CollectionCommission::undue(explode(',', $paymentDetails['data']['metadata']['order_ids'] ));
        }
 
+       return redirect('/payment/status')->with([
+         'status' => $paymentDetails['status'],
+         'message' => $paymentDetails['message'],
+       ]);
+
        return response()->json(['status' => true, 'message' => $paymentDetails['message']]);
        // dd($paymentDetails);
        // Now you have the payment details,
        // you can store the authorization_code in your db to allow for recurrent subscriptions
        // you can then redirect or do whatever you want
    }
+
+   public function status(){
+     return view('branch.payment_status');
+   }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Payment $payment)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Payment $payment)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Payment $payment)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Payment $payment)
+    {
+        //
+    }
 }
