@@ -24,7 +24,7 @@ class CollectionCommission extends Model
       foreach ($savings as $key => $saving) {
         $total += (float)$saving->total;
       }
-      return (float)($total * ($percentage / 100));
+      return number_format((float)($total * ($percentage / 100)), 2, '.', '');
     }
 
     public static function mySelfByDate($date){
@@ -98,7 +98,7 @@ class CollectionCommission extends Model
           $total += (int)$saving->amount;
         }
         // calculate the percentage
-        $dueCommissions = (float)($total * ($percentage / 100));
+        $dueCommissions = number_format((float)($total * ($percentage / 100)), 2, '.', '');
       }
       return $dueCommissions;
     }

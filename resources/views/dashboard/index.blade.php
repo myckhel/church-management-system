@@ -529,17 +529,17 @@ function barColors($colors){
                   <div class="table-responsive">
                       <table id="order-table" class="table table-striped">
                           <thead>
-                              <tr>
+                              <!-- <tr>
                                   <th>Invoice</th>
                                   <th>User</th>
                                   <th>Order date</th>
                                   <th>Amount</th>
                                   <th class="text-center">Status</th>
                                   <th class="text-center">Tracking Number</th>
-                              </tr>
+                              </tr> -->
                           </thead>
                           <tbody>
-                              <tr>
+                              <!-- <tr>
                                   <td><a href="#" class="btn-link"> Order #53431</a></td>
                                   <td>Steve N. Horton</td>
                                   <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 22, 2014</span></td>
@@ -608,7 +608,7 @@ function barColors($colors){
                                       <div class="label label-table label-warning">Unpaid</div>
                                   </td>
                                   <td class="text-center">-</td>
-                              </tr>
+                              </tr> -->
                           </tbody>
                       </table>
                   </div>
@@ -712,6 +712,7 @@ function barColors($colors){
 <script src="{{URL::asset('plugins/flot-charts/jquery.flot.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+<script src="{{ URL::asset('js/functions.js') }}"></script>
 <script>
 // let male = [["Jan", 0], ["Feb", 0], ["Mar", 0], ["Apr", 0], ["May", 0], ["Jun", 0], ["Jul", 0], ["Aug", 0], ["Sep", 0], ["Oct", 0], ["Nov", 0], ["Dec", 0]];
 // female = [["Jan", 0], ["Feb", 0], ["Mar", 0], ["Apr", 0], ["May", 0], ["Jun", 0], ["Jul", 0], ["Aug", 0], ["Sep", 0], ["Oct", 0], ["Nov", 0], ["Dec", 0]];
@@ -928,12 +929,39 @@ $(document).ready(() => {
     // console.log(male);
     // console.log(res);
   })
+  $.get("{{route('payments.index')}}").done((res) => console.log(res))
   // plot datatables
   $('#owning-table').DataTable()
   $('#due-collection').DataTable()
   $('#dobs').DataTable()
   $('#anniversaries').DataTable()
-  $('#order-table').DataTable()
+  $('#order-table').DataTable({
+    processing: true,
+    serverSide: true,
+    "columnDefs": [
+      { "orderable": false, "targets": 0 }
+    ],
+    oLanguage: {sProcessing: `loading...`},
+    ajax: "{{route('payments.index')}}",
+    columns: [
+      { title: 'Invoice', data: 'id', render : ( data ) => (`Order #${data}`), name: 'reference' },
+      // { title: 'Branch', data: 'user.branchname', name: 'branchname'}
+      { title: 'Order Date', data: 'payed_at', name: 'payed_at'},
+      { title: 'Amount', data: 'amount', name: 'amount'},
+      { title: 'Status', data: 'status', name: 'status', render : ( data ) => (`<td class="text-center">
+        <div class="label label-table label-${data === '1' ? 'success' : data === 'pending' ? 'warning' : 'danger'}">${data === '1' ? 'Paid' : data }</div>
+      </td>`),},
+      { title: 'Reference', data: 'reference', name: 'reference'},
+    ],
+    dom: 'Bfrtip',
+    lengthChange: false,
+    // buttons: ['copy', 'excel', 'pdf', 'colvis']
+  })
 })
+// <th>User</th>
+// <th>Order date</th>
+// <th>Amount</th>
+// <th class="text-center">Status</th>
+// <th class="text-center">Tracking Number</th>
 </script>
 @endsection

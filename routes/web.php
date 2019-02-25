@@ -166,7 +166,7 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  $flot = (float)(substr(18420088,0,-2).".".substr(18420088,-2));
+  $flot = number_format((float)18420088.01, 2, '.', '');//(float)(substr(18420088,0,-2).".".substr(18420088,-2));
   dd($flot);
   // return response()->json($currencies);
 })->name('test');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Payment;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
+use Paystack;
 
 class PaymentController extends Controller
 {
@@ -14,7 +16,8 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+      //
+      return Datatables::of(Payment::all())->make(true);
     }
 
     /**
@@ -30,7 +33,8 @@ class PaymentController extends Controller
      // convert request ids to array
      $request_order_ids = explode(',', $request->order_ids);
      // calculate the branchs total due commision
-     $totalCommission = str_replace('.', '', \App\CollectionCommission::savingsPercentage(\App\CollectionCommission::dueSavings(auth()->user())[auth()->user()->id]));
+     $totalCommissionFloated = \App\CollectionCommission::savingsPercentage(\App\CollectionCommission::dueSavings(auth()->user())[auth()->user()->id]);
+     $totalCommission = str_replace('.', '', $totalCommissionFloated);
      // validate incase of form manipulation
      // sort and check if has same values
      if ( count(array_diff($request_order_ids, $order_ids) ) > 0
@@ -42,7 +46,7 @@ class PaymentController extends Controller
         'order_ids' => $request->order_ids,
         'status' => 'pending',
         'branch_id' => auth()->user()->id,
-        'amount' => (float)(substr(18420088,0,-2).".".substr(18420088,-2)),
+        'amount' => $totalCommissionFloated,
         'order_type' => 'collection_commission',
       ]);
 

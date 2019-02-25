@@ -176,7 +176,6 @@
       		  <h5>Terms</h5>
       		  <div>Commission charge of {{$percentage}}% being charge on each collection.</div>
       		</div>
-
         	<!-- </div> -->
           <div class="pull-left">
             <button type="button" name="button" onclick="window.print()" class="btn btn-primary"><i class="fa fa-print"></i> Print </button>
