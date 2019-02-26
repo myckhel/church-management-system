@@ -21,40 +21,7 @@ array("label"=> "Yes", "y"=> $attendance->yes, 'color' => 'green'),
 
 @include('layouts.helpers.colors')
 <?php
-function noData($c_types, $value){
-  $y = "{y: '$value',"; $i=1;
-  foreach ($c_types as $key => $value) { $y .= "'$i':0,"; $i++;}
-  echo $y. "},";
-}
-
-function yKeys($c_types){
-  $i=1; foreach ($c_types as $key => $value) {echo "'$i',"; $i++;}
-}
-
-function yKeys2($c_types){
-  foreach ($c_types as $key => $value) {echo "'{$value->name}',";}
-}
-
-function labels($c_types){
-  foreach ($c_types as $key => $value) {echo "'{$value->disFormatString()}',";}
-}
-
-function yData($collection,$c_types, $value){
-  $y = "{y: '$value', ";  $i = 1; $size = sizeof($c_types);
-  foreach ($c_types as $key => $value) {
-    $name = $value->name;
-    $amount = isset($collection->$name) ? $collection->$name : 0;
-    $y .= "$i: $amount,";
-    $i++;
-  }
-  echo $y . "},";
-}
-
 $colors = colo();//$generateColor($c_types);
-
-function barColors($colors){
- foreach ($colors as $value) {echo "'".$value."',";}
-}
 ?>
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
