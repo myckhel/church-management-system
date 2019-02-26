@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Member;
 use Yajra\Datatables\Datatables;
+use App\CollectionsType;
 
 use Illuminate\Http\Request;
 
@@ -150,12 +151,14 @@ class MemberController extends Controller
     {
       $member = Member::find($id);
       $user = \Auth::user();
-      $c_types = \App\CollectionsType::getTypes();
-      $sql = 'SELECT COUNT(case when attendance = "yes" then 1 end) AS present, COUNT(case when attendance = "no" then 1 end) AS absent,
-      MONTH(attendance_date) AS month FROM `members_attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND member_id = '.$member->id.' GROUP BY month';
-      $attendances = \DB::select($sql);
+      $c_types = CollectionsType::getTypes();
+      // $sql = 'SELECT COUNT(case when attendance = "yes" then 1 end) AS present, COUNT(case when attendance = "no" then 1 end) AS absent,
+      // MONTH(attendance_date) AS month FROM `members_attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND member_id = '.$member->id.' GROUP BY month';
+      $attendance = $member->members_attendances()->selectRaw("SUM(CASE when attendance = 'yes' then 1 else 0 end) As yes,
+        SUM(CASE when attendance = 'no' then 1 else 0 end) As no")->first();//->sum('');
+      // dd($attendance);
 
-      return view('members.profile', compact('member', 'attendances', 'member', 'c_types'));
+      return view('members.profile', compact('member', 'attendance', 'member', 'c_types'));
     }
 
     /**

@@ -503,6 +503,8 @@
 	<script src="{{ URL::asset('js/jquery.min.js') }}"></script>
 	<!--BootstrapJS [ RECOMMENDED ]-->
 	<script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
+	<!-- <script src="{{ URL::asset('js/popper.min.js') }}"></script>
+	<script src="{{ URL::asset('js/jquery-3.2.1.slim.min.js') }}"></script> -->
 	<!--NiftyJS [ RECOMMENDED ]-->
 	<script src="{{ URL::asset('js/nifty.min.js') }}"></script>
 	<!-- PARTICLES -->
@@ -568,7 +570,7 @@
 	@endif
 
 
-  @if (Route::currentRouteName() == 'member.profile' || Route::currentRouteName() == 'attendance.analysis' || Route::currentRouteName() == 'collection.analysis')
+  @if (Route::currentRouteName() == 'attendance.analysis')
   <!--Morris.js [ OPTIONAL ]-->
   <script src="{{ URL::asset('plugins/morris-js/morris.min.js') }}"></script>
 	<script src="{{ URL::asset('plugins/morris-js/raphael-js/raphael.min.js') }}"></script>

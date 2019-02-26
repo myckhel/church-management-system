@@ -13,14 +13,14 @@
 
 @section('content')
 <?php
-function random_color_part() {
-  return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
-}
+$dataPoints = array(
+array("label"=> "No", "y"=> $attendance->no, 'color' => 'red'),
+array("label"=> "Yes", "y"=> $attendance->yes, 'color' => 'green'),
+);
+?>
 
-function random_color() {
-    return random_color_part() . random_color_part() . random_color_part();
-}
-
+@include('layouts.helpers.colors')
+<?php
 function noData($c_types, $value){
   $y = "{y: '$value',"; $i=1;
   foreach ($c_types as $key => $value) { $y .= "'$i':0,"; $i++;}
@@ -49,18 +49,12 @@ function yData($collection,$c_types, $value){
   }
   echo $y . "},";
 }
- $generateColor = function($c_types){
-   $c = [];
-   foreach($c_types as $value){
-     array_push($c,"#".random_color());
-   }
-   return $c;
- };
- $colors = $generateColor($c_types);
 
- function barColors($colors){
-   foreach ($colors as $value) {echo "'".$value."',";}
- }
+$colors = colo();//$generateColor($c_types);
+
+function barColors($colors){
+ foreach ($colors as $value) {echo "'".$value."',";}
+}
 ?>
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
@@ -158,44 +152,29 @@ function yData($collection,$c_types, $value){
                       <div class="col-md-12">
                         <div class="panel rounded-top">
                             <div class="panel-heading bg-dark">
-                              <div class="col-xs-8" style="padding-top:7px;">
+                              <div class="co" style="padding-top:7px;">
                                 <h2 class="text-center text-white" style="color:white;">Attendance Analysis - {{date("Y")}}</h2>
                               </div>
-                              <div class="col-xs-4 panel-title">
-                                <div class="col-xs-6  small bg-success">Absent</div>
-                                <div class="col-xs-6  small bg-danger">Present</div>
-                              </div>
-                              <div id="demo-morris-bar-month" style="height: 250px"></div>
                             </div>
                           </div>
+                          <div class="col-md-12" id="chartContainer" style="height: 250px;"></div>
                         </div>
                       </div>
                        <br>
                         <hr>
                         <div class="row" style="margin-top:100px">
-                          <div class="row">
-                            <!--/div-->
-                            <div class="col-md-8 col-md-offset-2">
-
-                                <!-- Line Chart -->
-                                <!---------------------------------->
-                                <div class="panel rounded-top">
-                                  <div class="panel-heading">
-                                      <div class="col-xs-12 panel-title">
-                                        <?php $i = 0; ?>
-                                        @foreach($c_types as $type)
-                                        <div class="col-xs-2 small adaptive-color" style="background-color:{{$colors[$i]}}">{{$type->disFormatString()}}</div>
-                                        <?php $i++; ?>
-                                        @endforeach
-                                      </div>
-                                    </div>
-                                  </div>
-                              </div>
-                              <!---------------------------------->
-                            </div>
                       <div class="col-md-12">
                         <div class="panel rounded-top">
-                          <div id="manual-analysis-hd" class="panel-heading bg-primary"></div>
+                          <div class="text-center">
+                              <div class="col-xs-12">
+                                <?php $i = 0; ?>
+                                @foreach($c_types as $type)
+                                <span style="background-color:{{$colors[$i]}}" class="badge badge-pill">{{$type->disFormatString()}}</span>
+                                <?php $i++; ?>
+                                @endforeach
+                              </div>
+                            </div>
+                          <div id="manual-analysis-hd" class="bg-primary text-center"></div>
                           <div class="panel-heading bg-dark">
                             <div id="" class="col-xs-12 text-center" style="padding-top:7px;">
                               <h2 class="text-center text-white"><p style="color:white;" >Collection  Analysis </p></h2>
@@ -222,11 +201,6 @@ function yData($collection,$c_types, $value){
                         				</select>
                               </div>
                             </div>
-                            <!-- <div class="col-xs-6 panel-title">
-                              <div class="col-xs-4  small bg-danger">Tithe</div>
-                              <div class="col-xs-4  small bg-success">Offering</div>
-                              <div class="col-xs-4  small bg-purple">Other</div>
-                            </div> -->
                             <div id="member-analysis" class="legendInline" style="height: 250px"></div>
                           </div>
                         </div>
@@ -250,6 +224,10 @@ function yData($collection,$c_types, $value){
 
 @section('js')
 <script src="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
+<script src="{{URL::asset('js/canvasjs.min.js')}}"></script>
+<!--Morris.js [ OPTIONAL ]-->
+<script src="{{ URL::asset('plugins/morris-js/morris.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/morris-js/raphael-js/raphael.min.js') }}"></script>
 <script>
 $(document).ready(function(){
   $('ul.ranges a').click(function(e){
@@ -366,47 +344,26 @@ var manual_analysis_hd = (data) => {
   `
 }
 
-
-
-<?php $months =  ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Now','Dec']; ?>
-// MORRIS BAR CHART
-// =================================================================
-// Require MorrisJS Chart
-// -----------------------------------------------------------------
-// http://morrisjs.github.io/morris.js/
-// =================================================================
-Morris.Bar({
-element: 'demo-morris-bar-month',
-data: [
-	<?php
-	foreach ($months as $key => $value) {
-		// code...
-		$month = $key+1;
-		$found = false;
-		foreach ($attendances as $attendance) {
-			// code...
-			if($key+1 == $attendance->month){
-				$found = true;
-				echo "{y: '" .$value. "', a: " .$attendance->present.", b: ".$attendance->absent."},";
-			}
-		}
-		if(!$found){
-			echo "{y: '" .$value. "', a: 0, b: 0},";
-		}
-
-	} ?>
-],
-xkey: 'y',
-ykeys: ['a', 'b'],
-labels: ['Present', 'Absent'],
-gridEnabled: true,
-gridLineColor: 'rgba(0,0,0,.1)',
-gridTextColor: '#8f9ea6',
-gridTextSize: '11px',
-barColors: ['red', 'green'],
-resize:true,
-hideHover: 'auto'
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	exportEnabled: true,
+	title:{
+		text: "Overall Attendance Rating"
+	},
+	subtitles: [{
+		text: ""
+	}],
+	data: [{
+		type: "pie",
+		showInLegend: "true",
+		legendText: "{label}",
+		indexLabelFontSize: 16,
+		indexLabel: "{label} - #percent%",
+		// yValueFormatString: "฿#,##0",
+		dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+	}]
 });
+chart.render();
 </script>
 
 @endsection

@@ -100,7 +100,7 @@ class User extends Authenticatable
     }
 
     public function savings(){
-      return $this->hasMany(Savings::class, 'branchcode');
+      return $this->hasMany(Savings::class, 'branch_id');
     }
 
     public function MemberSavings(){

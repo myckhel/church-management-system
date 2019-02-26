@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
 use Yajra\Datatables\Datatables;
+use App\Savings;
 
 class CollectionController extends Controller
 {
@@ -208,7 +209,7 @@ class CollectionController extends Controller
     public function test (Request $request){
       $user = \Auth::user();
       $c_types = \App\CollectionsType::getTypes();
-      $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
+      $savings = $request->show == 'true' ? Savings::rowToColumn(Savings::all()) : Savings::rowToColumn($user->savings()->get());
       $interval = $request->interval;
       $group = $request->group;
       $months = [];
@@ -259,17 +260,10 @@ class CollectionController extends Controller
     }
     return Datatables::of($history)->make(true);
   }
-  // (function($c_types){
-  //   foreach ($c_types as $key => $value) {
-  //     $name = $value->name;
-  //     return "SUM($name) AS $name,";
-  //   // code...
-  // }})($c_types)
+
   public function collectionStats(Request $request){
     $c_types = \App\CollectionsType::getTypes();
     $user = \Auth::user();
-    $sql = "COUNT(id) as total, SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-    MONTH(date_collected) AS month";
 
     $collections = \App\Savings::rowToColumn(\App\Savings::selectRaw("*, MONTH(date_collected) AS month")
     ->with('collections_types')->with('service_types')

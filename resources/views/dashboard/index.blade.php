@@ -8,6 +8,7 @@
 <link href="{{ URL::asset('css/stylemashable.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{URL::asset('css/icofont.min.css')}}">
 <link href="{{ URL::asset('plugins/datatables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet">
+<link href="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet">
 <style media="screen">
 .icofont{
   font-size: 35px;
@@ -16,29 +17,11 @@
 @endsection
 
 @section('content')
+@include('layouts.helpers.colors')
 <!--CONTENT CONTAINER-->
 <?php $user = Auth::user(); $money = function($number){ return \Auth::user()::toMoney((float) $number); } ?>
 <?php
-function random_color_part() {
-  return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
-}
-
-function random_color() {
-    return random_color_part() . random_color_part() . random_color_part();
-}
-
-$generateColor = function($c_types){
-  $c = [];
-  foreach($c_types as $value){
-    array_push($c,"#".random_color());
-  }
-  return $c;
-};
-$colors = $generateColor($c_types);
-
-function barColors($colors){
-  foreach ($colors as $value) {echo "'".$value."',";}
-}
+$colors = colo();//$generateColor($c_types);
 ?>
 <!--===================================================-->
 <div id="content-container">
@@ -188,7 +171,7 @@ function barColors($colors){
       <!--Chart information-->
       <div class="panel-body">
           <div class="row mar-top">
-              <div class="col-md-5">
+              <div class="col-md-4">
                   <h3 class="text-main text-normal text-2x mar-no">Member Stats</h3>
                   <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
                   <div class="row mar-top">
@@ -211,12 +194,12 @@ function barColors($colors){
                           </table>
                       </div>
                       <div class="col-sm-5 text-center">
-                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no" id="member-total">0</p></div>
+                          <div class="text-sm"><p class="text-5x text-thin text-main mar-no"><span class="badge badge-primary" id="member-total">0</span></p></div>
                           <p class="text-sm">Peoples already registered Since Last 12 Months</p>
                       </div>
                   </div>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-8">
                   <div id="users-chart" style="height:230px"></div>
               </div>
           </div>
@@ -228,7 +211,7 @@ function barColors($colors){
       <!--Chart information-->
       <div class="panel-body">
           <div class="row mar-top">
-              <div class="col-md-5">
+              <div class="col-md-4">
                   <h3 class="text-main text-normal text-2x mar-no">Collection Stats</h3>
                   <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
                   <div class="row mar-top">
@@ -246,13 +229,44 @@ function barColors($colors){
                           </table>
                       </div>
                       <div class="col-sm-5 text-center">
-                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no" id="collection-total">N0</p></div>
+                          <div class="text-sm"><p class="text-5x text-thin text-main mar-no"><span class="badge badge-primary" id="collection-total">N0</span></p></div>
                           <p class="text-sm">Were collected since Last 12 Month </p>
                       </div>
                   </div>
               </div>
-              <div class="col-md-7">
-                  <div id="collection-chart" style="height:230px"></div>
+              <?php $isAdmin = auth()->user()->isAdmin(); ?>
+              <div class="col-md-8">
+                <div class="row">
+                  @if($isAdmin)
+                  <div class="col-xs-{{$isAdmin ? '4' : '6'}}">
+                    <label for="show" class="">Show</label>
+                    <select id="show" required style="outline:none;" name="sort" class="selectpicker col-md-12" data-style="btn-primary">
+                      <option selected value="false">This Parish</option>
+                      <option value="true">All Parishes</option>
+                    </select>
+                  </div>
+                  @endif
+                  <div class="col-xs-{{$isAdmin ? '4' : '6'}}">
+                    <label for="group" class="">Group By</label>
+                    <select id="group" required style="outline:none;" name="sort" class="selectpicker col-md-12" data-style="btn-primary">
+                      <option value="1">Days</option>
+                      <option value="2">Weeks</option>
+                      <option selected value="3">Months</option>
+                      <option value="4">Years</option>
+                    </select>
+                  </div>
+                  <div class="col-xs-{{$isAdmin ? '4' : '6'}}">
+                    <label for="range" class="">Select Range</label>
+                    <select id="m-i" required style="outline:none;" name="range" class="selectpicker col-md-12 nav nav-pills ranges" data-style="btn-primary">
+                      <option selected disabled value="">Choose Number of Months</option>
+                      @for($i = 1; $i < 13; $i++)
+                      <option value="{{$i}}">Last{{$i}} Months</option>
+                      @endfor
+                    </select>
+                  </div>
+                </div>
+                <div id="stats-container" class="legendInline" style="height: 250px;"></div>
+                  <!-- <div id="collection-chart" style="height:230px"></div> -->
               </div>
           </div>
       </div>
@@ -263,7 +277,7 @@ function barColors($colors){
       <!--Chart information-->
       <div class="panel-body">
           <div class="row mar-top">
-              <div class="col-md-5">
+              <div class="col-md-4">
                   <h3 class="text-main text-normal text-2x mar-no">Attendance Stats</h3>
                   <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
                   <div class="row mar-top">
@@ -287,12 +301,12 @@ function barColors($colors){
                           </table>
                       </div>
                       <div class="col-sm-5 text-center">
-                          <div class="text-lg"><p class="text-5x text-thin text-main mar-no" id="attendance-total">0</p></div>
+                          <div class="text-sm"><p class="text-5x text-thin text-main mar-no"><span class="badge badge-primary" id="attendance-total">N0</span></p></div>
                           <p class="text-sm">Attendances were recorded since last 12 months</p>
                       </div>
                   </div>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-8">
                   <div id="attendance-chart" style="height:230px"></div>
               </div>
           </div>
@@ -529,86 +543,8 @@ function barColors($colors){
                   <div class="table-responsive">
                       <table id="order-table" class="table table-striped">
                           <thead>
-                              <!-- <tr>
-                                  <th>Invoice</th>
-                                  <th>User</th>
-                                  <th>Order date</th>
-                                  <th>Amount</th>
-                                  <th class="text-center">Status</th>
-                                  <th class="text-center">Tracking Number</th>
-                              </tr> -->
                           </thead>
                           <tbody>
-                              <!-- <tr>
-                                  <td><a href="#" class="btn-link"> Order #53431</a></td>
-                                  <td>Steve N. Horton</td>
-                                  <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 22, 2014</span></td>
-                                  <td>$45.00</td>
-                                  <td class="text-center">
-                                      <div class="label label-table label-success">Paid</div>
-                                  </td>
-                                  <td class="text-center">-</td>
-                              </tr>
-                              <tr>
-                                  <td><a href="#" class="btn-link"> Order #53432</a></td>
-                                  <td>Charles S Boyle</td>
-                                  <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 24, 2014</span></td>
-                                  <td>$245.30</td>
-                                  <td class="text-center">
-                                      <div class="label label-table label-info">Shipped</div>
-                                  </td>
-                                  <td class="text-center"><i class="fa fa-plane"></i> CGX0089734531</td>
-                              </tr>
-                              <tr>
-                                  <td><a href="#" class="btn-link"> Order #53433</a></td>
-                                  <td>Lucy Doe</td>
-                                  <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 24, 2014</span></td>
-                                  <td>$38.00</td>
-                                  <td class="text-center">
-                                      <div class="label label-table label-info">Shipped</div>
-                                  </td>
-                                  <td class="text-center"><i class="fa fa-plane"></i> CGX0089934571</td>
-                              </tr>
-                              <tr>
-                                  <td><a href="#" class="btn-link"> Order #53434</a></td>
-                                  <td>Teresa L. Doe</td>
-                                  <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 15, 2014</span></td>
-                                  <td>$77.99</td>
-                                  <td class="text-center">
-                                      <div class="label label-table label-info">Shipped</div>
-                                  </td>
-                                  <td class="text-center"><i class="fa fa-plane"></i> CGX0089734574</td>
-                              </tr>
-                              <tr>
-                                  <td><a href="#" class="btn-link"> Order #53435</a></td>
-                                  <td>Teresa L. Doe</td>
-                                  <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 12, 2014</span></td>
-                                  <td>$18.00</td>
-                                  <td class="text-center">
-                                      <div class="label label-table label-success">Paid</div>
-                                  </td>
-                                  <td class="text-center">-</td>
-                              </tr>
-                              <tr>
-                                  <td><a href="#" class="btn-link">Order #53437</a></td>
-                                  <td>Charles S Boyle</td>
-                                  <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 17, 2014</span></td>
-                                  <td>$658.00</td>
-                                  <td class="text-center">
-                                      <div class="label label-table label-danger">Refunded</div>
-                                  </td>
-                                  <td class="text-center">-</td>
-                              </tr>
-                              <tr>
-                                  <td><a href="#" class="btn-link">Order #536584</a></td>
-                                  <td>Scott S. Calabrese</td>
-                                  <td><span class="text-muted"><i class="fa fa-clock-o"></i> Oct 19, 2014</span></td>
-                                  <td>$45.58</td>
-                                  <td class="text-center">
-                                      <div class="label label-table label-warning">Unpaid</div>
-                                  </td>
-                                  <td class="text-center">-</td>
-                              </tr> -->
                           </tbody>
                       </table>
                   </div>
@@ -628,7 +564,7 @@ function barColors($colors){
               <div class="panel-heading">
                   <h1 class="text-bold panel-title">Upcoming Events for {{strtoupper($user->branchname)}}</h1>
               </div>
-              <div class="nano" style="height:360px">
+              <div class="nano">
                   <div class="nano-content">
                     @foreach ($eventss as $event)
                       <div class="panel-body bord-btm">
@@ -657,20 +593,34 @@ function barColors($colors){
                                 echo '<td>None</td>';
                               }
                                 ?>
-                                  <!-- <img class="img-xs img-circle" src="img/profile-photos/8.png" alt="task-user">
-                                  Brenda Fuller -->
                               </span>
                           </a>
                       </div>
                     @endforeach
                   </div>
               </div>
-              <div class="panel-footer text-right">
+              <div class="panel-footer text-center">
                   <!-- <button class="btn btn-sm btn-Default">Load mre</button> -->
                   @if(count($eventss) < 1)
                     <p class="text-danger" > No Event </p>
                   @endif
                   <button onclick="window.location.replace(`{{route('calendar')}}`)" class="btn btn-sm btn-primary"><i class="icofont icofont-plus m-r-0"></i></button>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-md-6">
+          <div class="panel">
+              <div class="panel-heading">
+                  <h1 class="text-bold panel-title">Announcements</h1>
+              </div>
+              <div class="nano">
+                  <div class="nano-content">
+
+                  </div>
+              </div>
+              <div class="panel-footer text-center">
+
               </div>
           </div>
       </div>
@@ -712,7 +662,12 @@ function barColors($colors){
 <script src="{{URL::asset('plugins/flot-charts/jquery.flot.min.js')}}"></script>
 <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+<script src="{{ URL::asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
+<!--Morris.js [ OPTIONAL ]-->
+<script src="{{ URL::asset('plugins/morris-js/morris.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/morris-js/raphael-js/raphael.min.js') }}"></script>
 <script src="{{ URL::asset('js/functions.js') }}"></script>
+@include('layouts.helpers.collection-stat')
 <script>
 // let male = [["Jan", 0], ["Feb", 0], ["Mar", 0], ["Apr", 0], ["May", 0], ["Jun", 0], ["Jul", 0], ["Aug", 0], ["Sep", 0], ["Oct", 0], ["Nov", 0], ["Dec", 0]];
 // female = [["Jan", 0], ["Feb", 0], ["Mar", 0], ["Apr", 0], ["May", 0], ["Jun", 0], ["Jul", 0], ["Aug", 0], ["Sep", 0], ["Oct", 0], ["Nov", 0], ["Dec", 0]];
@@ -889,10 +844,10 @@ $(document).ready(() => {
           })
           i++
         })
-        dataKey.map((v) => {
-          $(`#collection-${v.name}`).html(newarr.total[v.name])
-        })
-        $("#collection-total").html(newarr.total.total)
+        // dataKey.map((v) => {
+        //   $(`#collection-${v.name}`).html(newarr.total[v.name])
+        // })
+        // $("#collection-total").html(newarr.total.total)
         return newarr
     })()
 
@@ -929,7 +884,6 @@ $(document).ready(() => {
     // console.log(male);
     // console.log(res);
   })
-  $.get("{{route('payments.index')}}").done((res) => console.log(res))
   // plot datatables
   $('#owning-table').DataTable()
   $('#due-collection').DataTable()
@@ -958,10 +912,5 @@ $(document).ready(() => {
     // buttons: ['copy', 'excel', 'pdf', 'colvis']
   })
 })
-// <th>User</th>
-// <th>Order date</th>
-// <th>Amount</th>
-// <th class="text-center">Status</th>
-// <th class="text-center">Tracking Number</th>
 </script>
 @endsection
