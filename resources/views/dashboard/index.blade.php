@@ -472,7 +472,7 @@ $colors = colo();//$generateColor($c_types);
       <div class="col-md-6">
           <div class="panel">
               <div class="panel-heading">
-                  <h1 class="text-bold panel-title">Upcoming Events for {{strtoupper($user->branchname)}}</h1>
+                <h1 class="text-bold text-center ji">Upcoming Events for {{strtoupper($user->branchname)}}</h1>
               </div>
                     @foreach ($eventss as $event)
                       <div class="panel-body bord-btm">
@@ -559,10 +559,10 @@ $colors = colo();//$generateColor($c_types);
 
   <div class="row">
     @if(auth()->user()->isAdmin())
-    <div class="col-xs-12 col-md-6">
+    <div class="col-xs-12">
         <div class="panel">
             <div class="panel-heading">
-                <h3 class="panel-title">Order Status</h3>
+              <h1 class="text-bold text-center ji">Payment Status</h1>
             </div>
 
             <!--Data Table-->
