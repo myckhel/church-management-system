@@ -17,7 +17,7 @@ class PaymentController extends Controller
     public function index()
     {
       //
-      return Datatables::of(Payment::all())->make(true);
+      return Datatables::of(Payment::with('users')->get())->make(true);
     }
 
     /**

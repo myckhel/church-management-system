@@ -47,72 +47,6 @@ $colors = colo();//$generateColor($c_types);
       <img style="margin-top:-200px; max-width: 914px; min-width:500px ; min-height:150px ; max-height: 228px;" src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="center-block img-responsive" /> <!-- ./images/church-logo.png -->
      </div>
     </div>
-    <div class="row">
-     <div class="col-md-10 col-md-offset-1">
-       <div class="border">
-       <div class="well  bodyshadow" style="background-color: #e8ddd3;">
-         @if(session()->has('message.level'))
-          <div class="alert alert-{{ session('message.level') }}">
-          {!! session('message.content') !!}
-          </div>
-          @endif
-          <div class="text-center">
-            <h3 class="ji">Announcement Board </h3>
-          </div>
-          <div class="vew">
-            @if (count($eventsall) > 0)
-            @foreach ($eventsall as $event)
-              <?php $sql ="DELETE FROM announcements WHERE (start_date <= CURDATE())  ";
-            \DB::delete($sql);
-            ?>
-            @if ($event->start_date >= now())
-             <div class="list-group bg-trans">
-                <a href="#" class="list-group-item">
-                  <div class="media-body">
-                    <h4 class="shadow"><p>by {{$event->by_who}}</p></h4>
-                    <div class="bodyshadow">
-                    <h class="pad-top text-semibold ano"> <h4 class="textcolor">{{ html_entity_decode(str_limit($event->details, 100)) }}</h4>
-                        <p class="pull-right">{{$event->branchname}} </p>
-                        @if (strlen(strip_tags($event->details)) > 100)
-                        <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#createTopic_{{$event->id}}">
-                        <i class="fa fa-book fa-2x" aria-hidden="true"></i> Read More</a>  &nbsp;&nbsp;&nbsp
-                        @endif</p>
-                     </div>
-                  </div>
-                </a>
-             </div>
-             @endif
-
-            <div class="modal" id="createTopic_{{$event->id}}" tabindex="-1" role="dialog" aria-labelledby="largeModalHead" aria-hidden="true">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header">
-                     <!--  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
-                      <h1 class="text-center bodyshadow">{{$event->branchname}}!</h1>
-                  </div>
-                  <div class="modal-body">
-                    <div class="bodyshadow">
-                    <blockquote class="bq-sm bq-open bq-close bg-warning"><h3> {{$event->details}} </h3></blockquote>
-                    <p class="pull-right">by <a><strong>{{$event->by_who}}</strong>   </a>    </p>
-                   </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  </div>
-                </div>
-              </div>
-             </div>
-              @endforeach
-            <div class="alert alert-danger">
-              <strong>Sorry!</strong> No New Announcement.
-            </div>
-            @endif
-          </div>
-        </div>
-      </div>
-      <br>  <br>  <br>
-    </div>
-  </div>
 
   <div class="panel">
     <div class="panel-body">
@@ -531,30 +465,6 @@ $colors = colo();//$generateColor($c_types);
   </div>
 
   <div class="row">
-      <div class="col-xs-12 col-md-6">
-          <div class="panel">
-              <div class="panel-heading">
-                  <h3 class="panel-title">Order Status</h3>
-              </div>
-
-              <!--Data Table-->
-              <!--===================================================-->
-              <div class="panel-body">
-                  <div class="table-responsive">
-                      <table id="order-table" class="table table-striped">
-                          <thead>
-                          </thead>
-                          <tbody>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-              <!--===================================================-->
-              <!--End Data Table-->
-
-          </div>
-      </div>
-
       <?php $eventss = []; foreach ($events as $event)
         if($event->date >= now())
           array_push($eventss, $event)
@@ -564,8 +474,6 @@ $colors = colo();//$generateColor($c_types);
               <div class="panel-heading">
                   <h1 class="text-bold panel-title">Upcoming Events for {{strtoupper($user->branchname)}}</h1>
               </div>
-              <div class="nano">
-                  <div class="nano-content">
                     @foreach ($eventss as $event)
                       <div class="panel-body bord-btm">
                           <p class="text-bold text-main text-sm"># {{ucwords($event->title)}}</p>
@@ -597,8 +505,6 @@ $colors = colo();//$generateColor($c_types);
                           </a>
                       </div>
                     @endforeach
-                  </div>
-              </div>
               <div class="panel-footer text-center">
                   <!-- <button class="btn btn-sm btn-Default">Load mre</button> -->
                   @if(count($eventss) < 1)
@@ -610,17 +516,41 @@ $colors = colo();//$generateColor($c_types);
       </div>
 
       <div class="col-md-6">
+        @if(session()->has('message.level'))
+         <div class="alert alert-{{ session('message.level') }}">
+         {!! session('message.content') !!}
+         </div>
+         @endif
           <div class="panel">
               <div class="panel-heading">
-                  <h1 class="text-bold panel-title">Announcements</h1>
+                  <h1 class="text-bold text-center ji">Announcement Board</h1>
               </div>
-              <div class="nano">
-                  <div class="nano-content">
-
-                  </div>
-              </div>
+                    @if (count($eventsall) > 0)
+                    @foreach ($eventsall as $event)
+                    <?php $sql ="DELETE FROM announcements WHERE (start_date <= CURDATE())  "; \DB::delete($sql); ?>
+                    @if ($event->start_date >= now())
+                      <div class="panel-body bord-btm">
+                          <p class="text-bold text-main text-sm"># {{ucwords($event->branchname)}}</p>
+                          <p class="pad-btm">{{ucwords($event->details)}}</p>
+                          <a href="#" class="task-footer">
+                              <span class="box-inline">
+                                  <label class="label label-warning">From <i class="icofont-location-arrow"></i> {{$event->branchname}}</label>
+                                  <label class="label label-danger">By <i class="icofont-user"></i> {{ucwords($event->by_who)}}</label>
+                                  <label class="label label-primary">Start Date <i class="icofont-stop-watch"></i> {{$event->start_date}}</label>
+                                  <label class="label label-primary">Start Time <i class="icofont-stop-watch"></i> {{$event->start_time}}</label>
+                                  <label class="label label-info">End Date <i class="icofont-wall-clock icon-fw text-main"></i> {{$event->stop_date}}</label>
+                                  <label class="label label-info">End Time <i class="icofont-wall-clock icon-fw text-main"></i> {{$event->stop_time}}</label>
+                              </span>
+                          </a>
+                      </div>
+                      @endif
+                    @endforeach
+                    @endif
               <div class="panel-footer text-center">
-
+                @if(count($eventsall) < 1)
+                  <p class="text-danger" > No New Announcement </p>
+                @endif
+                <button onclick="window.location.replace(`{{route('notification')}}`)" class="btn btn-sm btn-primary"><i class="icofont icofont-plus m-r-0"></i></button>
               </div>
           </div>
       </div>
@@ -628,6 +558,31 @@ $colors = colo();//$generateColor($c_types);
 
 
   <div class="row">
+    @if(auth()->user()->isAdmin())
+    <div class="col-xs-12 col-md-6">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Order Status</h3>
+            </div>
+
+            <!--Data Table-->
+            <!--===================================================-->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="order-table" class="table table-striped">
+                        <thead>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--===================================================-->
+            <!--End Data Table-->
+
+        </div>
+    </div>
+    @endif
     <div class="col-md-12">
 
          <div class="row">
@@ -899,7 +854,7 @@ $(document).ready(() => {
     ajax: "{{route('payments.index')}}",
     columns: [
       { title: 'Invoice', data: 'id', render : ( data ) => (`Order #${data}`), name: 'reference' },
-      // { title: 'Branch', data: 'user.branchname', name: 'branchname'}
+      { title: 'Branch', data: 'users.branchname', name: 'branchname'},
       { title: 'Order Date', data: 'payed_at', name: 'payed_at'},
       { title: 'Amount', data: 'amount', name: 'amount'},
       { title: 'Status', data: 'status', name: 'status', render : ( data ) => (`<td class="text-center">
