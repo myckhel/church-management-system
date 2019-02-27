@@ -1,4 +1,8 @@
 <script>
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 var manual_analysis_hd = (data) => {
   let collection = data.data
   let middle = '';
@@ -10,7 +14,7 @@ var manual_analysis_hd = (data) => {
       nameTotal[name] = (parseInt(nameTotal[name]) + parseInt(c[name])) || parseInt(c[name])
       total +=  parseInt(c[name])
       })
-      middle += '<div  id="'+name+'" class="col-xs-2 small adaptive-color" style="">'+name+': '+(parseInt(nameTotal[name]) || 0)+'</div>';
+      middle += '<div  id="'+name+'" class="col-xs-2 small adaptive-color" style="">'+name+': '+numberWithCommas(parseInt(nameTotal[name]) || 0)+'</div>';
     })
   return `
   <marquee>
@@ -19,7 +23,7 @@ var manual_analysis_hd = (data) => {
       <div class="col-xs-12 panel-title">
         <div  id="specifier" class="col-xs-2 small adaptive-color" style="">Within Last ${data.interval} ${data.group}s  </div>
         ${middle}
-        <div  id="total" class="col-xs-2 small adaptive-color" style="">Total: ${total}</div>
+        <div  id="total" class="col-xs-2 small adaptive-color" style="">Total: ${numberWithCommas(total)}</div>
       </div>
     </div>
   </div>
@@ -73,9 +77,9 @@ function requestData(days, chart, group, fn){
       dataKey.map((col) => { calcData[col.name] += v[col.name]; total += v[col.name] })
     })
     dataKey.map((v) => {
-      $(`#collection-${v.name}`).html(calcData[v.name])
+      $(`#collection-${v.name}`).html(numberWithCommas(calcData[v.name]))
     })
-    $("#collection-total").html(total)
+    $("#collection-total").html(numberWithCommas(total))
     chart.setData(data);
   })
   .fail(function() {

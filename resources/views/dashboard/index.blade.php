@@ -666,16 +666,16 @@ function setPeriod(data, totalObj, dataKey){
 // console.log(newarr);
   return newarr
 }
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function formatMoney(number) {
   return number.toLocaleString('en-US', { style: 'currency', currency: '{{$currency->currency_code}}' });
 }
 
 $(document).ready(() => {
-  // get map
-  // $.ajax({url: "{{route('map')}}", data: {'ajax': true}})
-  // .done((res) => {
-  //   $('#map-area').html(res)
-  // })
   // get branch due commision
   $.ajax({url: "{{route('branch.unsettled')}}"})
   .done((res) => {
@@ -686,9 +686,9 @@ $(document).ready(() => {
   .done((res) => {
     members = setPeriod(res, {male: 0, female: 0, total: 0}, ["male", "female"])
     // display calulations
-    $("#member-male").html(members.total.male)
-    $("#member-female").html(members.total.female)
-    $("#member-total").html(members.total.total)
+    $("#member-male").html(numberWithCommas(members.total.male))
+    $("#member-female").html(numberWithCommas(members.total.female))
+    $("#member-total").html(numberWithCommas(members.total.total))
     // console.log(members);
     $.plot("#users-chart", members, {
         series: {
@@ -729,10 +729,10 @@ $(document).ready(() => {
   .done((res) => {
     attendance = setPeriod(res, {male: 0, female: 0, children: 0, total: 0}, ["male", "female", "children"])
     // display calulations
-    $("#attendance-male").html(attendance.total.male)
-    $("#attendance-female").html(attendance.total.female)
-    $("#attendance-children").html(attendance.total.children)
-    $("#attendance-total").html(attendance.total.total)
+    $("#attendance-male").html(numberWithCommas(attendance.total.male))
+    $("#attendance-female").html(numberWithCommas(attendance.total.female))
+    $("#attendance-children").html(numberWithCommas(attendance.total.children))
+    $("#attendance-total").html(numberWithCommas(attendance.total.total))
     $.plot("#attendance-chart", attendance, {
         series: {
             stack: 1,
@@ -765,18 +765,6 @@ $(document).ready(() => {
     });
   })
 
-  $.ajax({url: "{{route('member.analysis')}}", data: {'interval': 8, 'group': 'month', 'id': 59}})
-  .done((res) => {
-    let dd1 = []; dd2 = []
-    res.map((v) => {
-      dd1.push([v.y, v.Offering])
-      dd1.push([v.y, v.Building_Collection])
-    })
-  })
-  var d1 = [["Jan", 85], ["Feb", 45], [2, 58], [3, 35], [4, 95], [5, 25], [6, 65], [7, 12], [8, 52], [9, 25], [10, 98], [11, 85], [12, 96]],
-      d2 = [["Jan", 520], ["Feb", 370], [2, 820], [3, 209], [4, 495], [5, 170], [6, 185], [7, 273], [8, 304], [9, 877], [10, 489], [11, 420], [12, 710]],
-      d3 = [["Jan", 50], ["Feb", 30], [2, 80], [3, 29], [4, 95], [5, 70], [6, 15], [7, 73], [8, 34], [9, 87], [10, 49], [11, 20], [12, 70]];
-
   // get member registration statistics
   $.ajax({url: "{{route('collection.stats')}}"})
   .done((res) => {
@@ -799,10 +787,7 @@ $(document).ready(() => {
           })
           i++
         })
-        // dataKey.map((v) => {
-        //   $(`#collection-${v.name}`).html(newarr.total[v.name])
-        // })
-        // $("#collection-total").html(newarr.total.total)
+
         return newarr
     })()
 
@@ -856,7 +841,7 @@ $(document).ready(() => {
       { title: 'Invoice', data: 'id', render : ( data ) => (`Order #${data}`), name: 'reference' },
       { title: 'Branch', data: 'users.branchname', name: 'branchname'},
       { title: 'Order Date', data: 'payed_at', name: 'payed_at'},
-      { title: 'Amount', data: 'amount', name: 'amount'},
+      { title: 'Amount', data: 'amount', name: 'amount', render : ( data ) => (`${numberWithCommas(data)}`)},
       { title: 'Status', data: 'status', name: 'status', render : ( data ) => (`<td class="text-center">
         <div class="label label-table label-${data === '1' ? 'success' : data === 'pending' ? 'warning' : 'danger'}">${data === '1' ? 'Paid' : data }</div>
       </td>`),},
