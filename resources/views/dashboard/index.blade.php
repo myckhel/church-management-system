@@ -840,7 +840,7 @@ $(document).ready(() => {
     columns: [
       { title: 'Invoice', data: 'id', render : ( data ) => (`Order #${data}`), name: 'reference' },
       { title: 'Branch', data: 'users.branchname', name: 'branchname'},
-      { title: 'Order Date', data: 'payed_at', name: 'payed_at'},
+      { title: 'Order Date', data: {payed_at: 'payed_at', created_at: 'created_at'}, name: 'payed_at', render : ( data ) => (`${data.payed_at ? data.payed_at : data.created_at}`)},
       { title: 'Amount', data: 'amount', name: 'amount', render : ( data ) => (`${numberWithCommas(data)}`)},
       { title: 'Status', data: 'status', name: 'status', render : ( data ) => (`<td class="text-center">
         <div class="label label-table label-${data === '1' ? 'success' : data === 'pending' ? 'warning' : 'danger'}">${data === '1' ? 'Paid' : data }</div>
