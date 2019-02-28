@@ -166,8 +166,27 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  $flot = number_format((float)18420088.01, 2, '.', '');//(float)(substr(18420088,0,-2).".".substr(18420088,-2));
-  dd($flot);
+//   name: commission_account_bank
+//   value: Guaranty Trust Bank
+  dd(Paystack::fetchSubAccount('ACCT_j8lho5oa7elp4pr'));
+  dd(Paystack::listSubAccounts(500,1));
+  if ($option = Options::getOneBranchOption($request->name, $branch)) {
+    if (in_array($request->name, ['commission_account_bank', 'commission_account_name', 'commission_account_number'])) {
+      $acounts = (Paystack::listSubAccounts(500,1))['data'];
+      // code...
+    }
+    // code...
+    $option->name = $request->name;
+    $option->value = $request->value;
+    $option->save();
+    return $option;
+  }
+  // create part
+  return Options::create([
+    'branch_id' => $branch->id,
+    'name' => $request->name,
+    'value' => $request->value
+  ]);
   // return response()->json($currencies);
 })->name('test');
 

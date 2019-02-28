@@ -105,32 +105,28 @@ $colors = colo();//$generateColor($c_types);
       <!--Chart information-->
       <div class="panel-body">
           <div class="row mar-top">
-              <div class="col-md-4">
+              <div class="col-md-4 text-center">
                   <h3 class="text-main text-normal text-2x mar-no">Member Stats</h3>
                   <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
                   <div class="row mar-top">
-                      <div class="col-sm-7">
-                          <table class="table table-condensed table-trans">
-                              <tr>
-                                  <td class="text-lg" style="width: 40px">
-                                    <span id="member-male" style="background-color: {{$colors[0]}}" class="badge badge-purple">0</span></td>
-                                  <td>Male</td>
-                              </tr>
-                              <tr>
-                                  <td class="text-lg">
-                                    <span class="badge badge-dark" style="background-color: {{$colors[1]}}" id="member-female">0</span></td>
-                                  <td>Female</td>
-                              </tr>
-                              <!-- <tr>
-                                  <td class="text-lg"><span class="badge badge-danger">25</span></td>
-                                  <td>Teachers</td>
-                              </tr> -->
-                          </table>
+                    <div cass="col-3">
+                        <div class="text-lg col-xs-4">
+                          <span id="member-male" style="background-color: {{$colors[0]}}" class="badge">0</span>
+                        </div>
+                        <div  class=" col-xs-4">Male</div>
+                    </div>
+                    <div cass="col-3">
+                        <div class="text-lg col-xs-4">
+                          <span class="badge" style="background-color: {{$colors[1]}}" id="member-female">0</span>
+                        </div>
+                        <div class=" col-xs-4">Female</div>
+                    </div>
+                    <div cass="col-3">
+                      <div class="text-lg col-xs-4">
+                        <span class="badge badge-primary" id="member-total">0</span>
                       </div>
-                      <div class="col-sm-5 text-center">
-                          <div class="text-sm"><p class="text-5x text-thin text-main mar-no"><span class="badge badge-primary" id="member-total">0</span></p></div>
-                          <p class="text-sm">Peoples already registered Since Last 12 Months</p>
-                      </div>
+                      <div class=" col-xs-4">Total</div>
+                    </div>
                   </div>
               </div>
               <div class="col-md-8">
