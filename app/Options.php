@@ -41,7 +41,10 @@ class Options extends Model
         // dd($request);
         // if any branch already created sub account
         // then go for update
-        $subaccount_code = Options::getLatest('subaccount_code')->value;
+        $subaccount_code = Options::getLatest('subaccount_code');
+        if ($subaccount_code) {
+          $subaccount_code = $subaccount_code->value;
+        }
         // dd($subaccount_code);
         if ($subaccount_code) {
           // update sub account
