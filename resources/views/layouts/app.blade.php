@@ -450,6 +450,15 @@
                       <span class="menu-title">Ticket</span>
 	                  </a>
 	                </li>
+									<li>
+										<form id="logout" method="POST" action="{{route('logout')}}">
+		                  @csrf
+										</form>
+										<a href="#" onclick="$('#logout').submit()">
+											<i class="fa fa-sign-out"></i>
+											<span class="menu-title">Logout</span>
+										</a>
+									</li>
 									<!--Menu list item-->
 									<li class="list-divider"></li>
 									<!--Category name-->

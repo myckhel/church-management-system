@@ -109,23 +109,25 @@ $colors = colo();//$generateColor($c_types);
                   <h3 class="text-main text-normal text-2x mar-no">Member Stats</h3>
                   <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
                   <div class="row mar-top">
-                    <div cass="col-3">
-                        <div class="text-lg col-xs-4">
-                          <span id="member-male" style="background-color: {{$colors[0]}}" class="badge">0</span>
-                        </div>
-                        <div  class=" col-xs-4">Male</div>
-                    </div>
-                    <div cass="col-3">
-                        <div class="text-lg col-xs-4">
-                          <span class="badge" style="background-color: {{$colors[1]}}" id="member-female">0</span>
-                        </div>
-                        <div class=" col-xs-4">Female</div>
-                    </div>
-                    <div cass="col-3">
-                      <div class="text-lg col-xs-4">
-                        <span class="badge badge-primary" id="member-total">0</span>
-                      </div>
-                      <div class=" col-xs-4">Total</div>
+                    <div class="col">
+                        <table class="table table-condensed table-trans">
+                            <tr>
+                                <td class="text-lg" style="width: 40px">
+                                  <span class="badge badge-purple" style="background-color: {{$colors[0]}}" id="member-male">0</span></td>
+                                <td>Male</td>
+                            </tr>
+                            <tr>
+                                <td class="text-lg">
+                                  <span class="badge badge-dark" style="background-color: {{$colors[1]}}" id="member-female">0</span></td>
+                                <td>Female</td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <div class="text-sm"><p class="text-5x text-thin text-main mar-no"><span class="badge badge-primary" id="member-total">N0</span></p></div>
+                              </td>
+                              <td><p class="text-lg">Total</p></td>
+                            </tr>
+                        </table>
                     </div>
                   </div>
               </div>
@@ -137,7 +139,8 @@ $colors = colo();//$generateColor($c_types);
   </div>
 
   <div class="panel">
-
+    <div id="manual-analysis-hd" class="text-center bg-primary">
+    </div>
       <!--Chart information-->
       <div class="panel-body">
           <div class="row mar-top">
@@ -145,7 +148,7 @@ $colors = colo();//$generateColor($c_types);
                   <h3 class="text-main text-normal text-2x mar-no">Collection Stats</h3>
                   <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
                   <div class="row mar-top">
-                      <div class="col-sm-7">
+                      <div class="col">
                           <table class="table table-condensed table-trans">
                             <?php $i = 0; ?>
                             @foreach($c_types as $type)
@@ -156,11 +159,15 @@ $colors = colo();//$generateColor($c_types);
                             </tr>
                             <?php $i++; ?>
                             @endforeach
+                            <tr>
+                              <td>
+                                <div class="text-sm"><p class="text-5x text-thin text-main mar-no">
+                                  <span class="badge badge-primary" id="collection-total">N0</span></p>
+                                </div>
+                              </td>
+                              <td><p class="text-lg">Total</p></td>
+                            </tr>
                           </table>
-                      </div>
-                      <div class="col-sm-5 text-center">
-                          <div class="text-sm"><p class="text-5x text-thin text-main mar-no"><span class="badge badge-primary" id="collection-total">N0</span></p></div>
-                          <p class="text-sm">Were collected since Last 12 Month </p>
                       </div>
                   </div>
               </div>
@@ -211,7 +218,7 @@ $colors = colo();//$generateColor($c_types);
                   <h3 class="text-main text-normal text-2x mar-no">Attendance Stats</h3>
                   <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
                   <div class="row mar-top">
-                      <div class="col-sm-7">
+                      <div class="col">
                           <table class="table table-condensed table-trans">
                               <tr>
                                   <td class="text-lg" style="width: 40px">
@@ -228,11 +235,13 @@ $colors = colo();//$generateColor($c_types);
                                     <span class="badge badge-danger" style="background-color: {{$colors[2]}}" id="attendance-children">0</span></td>
                                   <td>Children</td>
                               </tr>
+                              <tr>
+                                <td>
+                                  <div class="text-sm"><p class="text-5x text-thin text-main mar-no"><span class="badge badge-primary" id="attendance-total">N0</span></p></div>
+                                </td>
+                                <td><p class="text-lg">Total</p></td>
+                              </tr>
                           </table>
-                      </div>
-                      <div class="col-sm-5 text-center">
-                          <div class="text-sm"><p class="text-5x text-thin text-main mar-no"><span class="badge badge-primary" id="attendance-total">N0</span></p></div>
-                          <p class="text-sm">Attendances were recorded since last 12 months</p>
                       </div>
                   </div>
               </div>
