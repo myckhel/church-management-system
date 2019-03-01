@@ -81,7 +81,7 @@ class Options extends Model
           foreach ($options as $key => $option) {
             if ($option == 'subaccount_code') {
               $optionValue = $update['data']['subaccount_code'];
-            } else { $optionValue = $request->value;  }
+            } else { $optionValue = $request->$option;  }
 
             Options::create([
               'branch_id' => $branch->id,
