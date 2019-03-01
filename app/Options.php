@@ -15,6 +15,10 @@ class Options extends Model
       return Options::where('branch_id', $branch->id)->where('name', $name)->first();
     }
 
+    public static function getOneOption($name){
+      return Options::where('name', $name)->first();
+    }
+
     public static function getBranchOption(User $branch){
 
       $options = Options::where('branch_id', $branch->id)->get();
@@ -57,10 +61,10 @@ class Options extends Model
 
           foreach ($options as $key => $option) {
             if ($option == 'subaccount_code') {
-              $opt = Options::getOneBranchOption('subaccount_code', $branch);
+              $opt = Options::getLatest($option);
               $optionValue = $subaccount_code;
             } else {
-              $opt = Options::getOneBranchOption($option, $branch);
+              $opt = Options::getOneOption($option);
               $optionValue = $request->$option;
             }
             $opt->name = $option;

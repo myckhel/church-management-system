@@ -125,7 +125,7 @@
                               <th>Title</th>
                               <th>First Name</th>
                               <th>Last Name</th>
-                              <th>Mark</th>
+                              <th><input id="select-all" type="checkbox" />Mark All</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -184,7 +184,7 @@
   </div>
   <!--===================================================-->
   <!--End page content-->
-</div>
+
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
 @endsection
@@ -203,6 +203,22 @@
 <script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
 <script>
 $(document).ready(() => {
+  //for bulk delete
+  $('#select-all').click(function(){
+    console.log('s');
+    if(this.checked){
+      $('input[name=atte]').each(function()
+      {
+        this.checked = true;
+      });
+    }else{
+      $('input[name=atte]').each(function()
+      {
+        this.checked = false;
+      });
+    }
+  });
+
   //configure member table
   if ($.fn.dataTable.isDataTable('.datatable')) {
     table = $('#mTable').DataTable()
