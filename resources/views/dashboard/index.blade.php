@@ -107,7 +107,7 @@ $colors = colo();//$generateColor($c_types);
           <div class="row mar-top">
               <div class="col-md-4 text-center">
                   <h3 class="text-main text-normal text-2x mar-no">Member Stats</h3>
-                  <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
+                  <!-- <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5> -->
                   <div class="row mar-top">
                     <div class="col">
                         <table class="table table-condensed table-trans">
@@ -121,11 +121,11 @@ $colors = colo();//$generateColor($c_types);
                                   <span class="badge badge-dark" style="background-color: {{$colors[1]}}" id="member-female">0</span></td>
                                 <td>Female</td>
                             </tr>
+                            <hr>
                             <tr>
                               <td>
                                 <div class="text-sm"><p class="text-5x text-thin text-main mar-no"><span class="badge badge-primary" id="member-total">N0</span></p></div>
                               </td>
-                              <td><p class="text-lg">Total</p></td>
                             </tr>
                         </table>
                     </div>
@@ -146,7 +146,7 @@ $colors = colo();//$generateColor($c_types);
           <div class="row mar-top">
               <div class="col-md-4">
                   <h3 class="text-main text-normal text-2x mar-no">Collection Stats</h3>
-                  <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
+                  <!-- <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5> -->
                   <div class="row mar-top">
                       <div class="col">
                           <table class="table table-condensed table-trans">
@@ -159,13 +159,13 @@ $colors = colo();//$generateColor($c_types);
                             </tr>
                             <?php $i++; ?>
                             @endforeach
+                            <hr>
                             <tr>
                               <td>
                                 <div class="text-sm"><p class="text-5x text-thin text-main mar-no">
                                   <span class="badge badge-primary" id="collection-total">N0</span></p>
                                 </div>
                               </td>
-                              <td><p class="text-lg">Total</p></td>
                             </tr>
                           </table>
                       </div>
@@ -216,7 +216,7 @@ $colors = colo();//$generateColor($c_types);
           <div class="row mar-top">
               <div class="col-md-4">
                   <h3 class="text-main text-normal text-2x mar-no">Attendance Stats</h3>
-                  <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5>
+                  <!-- <h5 class="text-uppercase text-muted text-normal">Report for last 12 Months</h5> -->
                   <div class="row mar-top">
                       <div class="col">
                           <table class="table table-condensed table-trans">
@@ -235,11 +235,11 @@ $colors = colo();//$generateColor($c_types);
                                     <span class="badge badge-danger" style="background-color: {{$colors[2]}}" id="attendance-children">0</span></td>
                                   <td>Children</td>
                               </tr>
+                              <hr>
                               <tr>
                                 <td>
                                   <div class="text-sm"><p class="text-5x text-thin text-main mar-no"><span class="badge badge-primary" id="attendance-total">N0</span></p></div>
                                 </td>
-                                <td><p class="text-lg">Total</p></td>
                               </tr>
                           </table>
                       </div>
