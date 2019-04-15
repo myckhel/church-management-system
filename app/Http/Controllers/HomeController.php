@@ -44,7 +44,8 @@ class HomeController extends Controller
         // get due savings
         $dueSavings = \App\CollectionCommission::dueSavings($user);
         // get the commission percentage
-        $percentage = (int)(\App\Options::getLatestCommission())->value;
+        $percentage = (int)(\App\Options::getLatestCommission());
+        $percentage = $percentage ? $percentage->value : 0;
         //
         $allDueSavings = \App\CollectionCommission::calculateUnsettledCommission(true);
 

@@ -160,6 +160,13 @@ Route::get('/clear-cache', function() {
     // return what you want
 });
 
+// migrate db
+Route::get('/db/migrate', function() {
+    $exitCode = Artisan::call('migrate');
+    return $exitCode;
+});
+
+
 //Route::get('/registerr', function () {
     //return view('auth.register');
 //});
