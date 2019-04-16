@@ -14,9 +14,9 @@ class EditAttendanceTable extends Migration
     public function up()
     {
         //
-        Schema::table('attendances', function (Blueprint $table) {
-            $table->foreign('service_types_id')->references('id')->on('service_types')->onDelete('cascade');
-        });
+        // Schema::table('attendances', function (Blueprint $table) {
+        //     $table->foreign('service_types_id')->references('id')->on('service_types')->onDelete('cascade');
+        // });
     }
 
     /**

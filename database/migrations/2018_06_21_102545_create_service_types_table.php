@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdminsTable extends Migration
+class CreateServiceTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('service_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('branchname');
-            $table->string('branchcode');
-            $table->string('email', 30)->unique();
-            $table->string('address');
-            $table->string('password');
-            $table->rememberToken();
+            $table->bigInteger('branch_id')->unsigned();
+            $table->string('name');
             $table->timestamps();
+        });
+
+        Schema::table('service_types', function (Blueprint $table) {
+            $table->foreign('branch_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -32,6 +32,6 @@ class CreateAdminsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('service_types');
     }
 }

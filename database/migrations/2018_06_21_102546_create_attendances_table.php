@@ -13,17 +13,21 @@ class CreateAttendancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('attendances', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('branch_id')->index('branch_id_index');
-            $table->bigInteger('male');
-            $table->bigInteger('female');
-            $table->bigInteger('children');
-            $table->enum('type',['sunday service', 'wednessday service', 'thursday service']);
-            $table->string('custom_type')->nullable();
-            $table->string('attendance_date');
-            $table->timestamps();
-        });
+      Schema::create('attendances', function (Blueprint $table) {
+          $table->bigIncrements('id');
+          $table->bigInteger('branch_id')->unsigned();
+          $table->bigInteger('male');
+          $table->bigInteger('female');
+          $table->bigInteger('children');
+          $table->bigInteger('service_types_id')->unsigned();
+          $table->timestamp('attendance_date');
+          $table->timestamps();
+      });
+
+      Schema::table('attendances', function (Blueprint $table) {
+          $table->foreign('service_types_id')->references('id')->on('service_types')->onDelete('cascade');
+          $table->foreign('branch_id')->references('id')->on('users')->onDelete('cascade');
+      });
     }
 
     /**

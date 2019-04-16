@@ -166,6 +166,11 @@ Route::get('/db/migrate', function() {
     return $exitCode;
 });
 
+Route::get('/db/migrate/fresh', function() {
+    $exitCode = Artisan::call('migrate:fresh');
+    return $exitCode;
+});
+
 
 //Route::get('/registerr', function () {
     //return view('auth.register');
