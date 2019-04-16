@@ -30,6 +30,8 @@ class CreatePaymentsTable extends Migration
         Schema::table('payments', function (Blueprint $table) {
             $table->foreign('branch_id')->references('id')->on('users')->onDelete('cascade');
         });
+
+        DB::statement("ALTER TABLE payments AUTO_INCREMENT = 345226;");
     }
 
     /**

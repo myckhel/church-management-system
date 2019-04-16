@@ -16,13 +16,15 @@ class CreateCollectionsCommissionsTable extends Migration
         Schema::create('collections_commissions', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('branch_id')->unsigned();
-            $table->bigInteger('saving_id')->unique()->unsigned(); //unique
+            $table->bigInteger('collection_id')->unique()->unsigned(); //unique
+            $table->date('collection_date');
             $table->timestamps();
         });
 
         Schema::table('collections_commissions', function (Blueprint $table) {
           $table->foreign('branch_id')->references('id')->on('users')->onDelete('cascade');
-          $table->foreign('saving_id')->references('id')->on('savings')->onDelete('cascade');
+          $table->foreign('collection_id')->references('id')->on('collections')->onDelete('cascade');
+          $table->foreign('collection_date')->references('date')->on('collections')->onDelete('cascade');
         });
     }
 
