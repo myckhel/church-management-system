@@ -40,7 +40,7 @@ class LoginController extends Controller
 
     public function showLoginForm(){
       if(User::first()){
-        return view('branch.login');
+        return view('auth.login');
       } else {
         return Redirect()->route('setupUser');
       }

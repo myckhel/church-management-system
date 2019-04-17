@@ -119,7 +119,7 @@
               </span>
             </div>
             @endif
-            <form id="branch-form" action="{{route('branch.register')}}" method="POST">
+            <form id="branch-form" action="{{route('visitor.register')}}" method="POST">
             @csrf
                 <div class="row">
                     <div class="col-sm-6">
@@ -213,7 +213,7 @@
                           <select  id="country"class="form-control {{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" required placeholder="Enter member country">
                             @foreach($currencies as $currency)
                             @if($currency->currency_symbol)
-                            <option value="{{$currency->currency_symbol}}">{{$currency->name}}</option>
+                            <option value="{{$currency->name}}">{{$currency->name}}</option>
                             @endif
                             @endforeach
                           </select>
@@ -231,7 +231,7 @@
                              <option value="" selected disabled>Currency</option>
                              @foreach($currencies as $currency)
                              @if($currency->currency_symbol)
-                             <option value="{{$currency->currency_name}}">{{$currency->currency_name}} - {{$currency->currency_symbol}}</option>
+                             <option value="{{$currency->currency_symbol}}">{{$currency->currency_name}} - {{$currency->currency_symbol}}</option>
                              @endif
                              @endforeach
                            </select>

@@ -75,7 +75,6 @@ class BranchController extends Controller
 
     public function register(Request $request)
     {
-      print(1);
       $data = [];
       $data['branchname'] = $request->branchname;
       $data['branchcode'] = $request->branchcode;
@@ -93,15 +92,11 @@ class BranchController extends Controller
 
       $validate = self::validator($data);
       if($validate->fails()){
-        print('v');
-        return $validate;
         return redirect()->back()->withErrors($validate)->withInput();
       }
       $creation = self::creator($data);
-      print('s');
       //
       $s = 'Successfully Registered';
-      return $creation;
       return redirect()->back()->with('s');
     }
 

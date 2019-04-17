@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Daveismyname\Countries\Facades\Countries;
 use \App\User;
+use \App\Branch;
 
 class VisitorController extends Controller
 {
@@ -111,5 +112,9 @@ class VisitorController extends Controller
         return view('auth.register', compact('currencies'));
       }
       return;
+    }
+
+    public function register(Request $request){
+      return Branch::register($request);
     }
 }

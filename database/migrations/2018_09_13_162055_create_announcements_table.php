@@ -13,7 +13,7 @@ class CreateAnnouncementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('announcement', function (Blueprint $table) {
+        Schema::create('announcements', function (Blueprint $table) {
             $table->increments('id');
              $table->bigInteger('branch_id')->unsigned();
             $table->string('branchcode');
@@ -23,7 +23,7 @@ class CreateAnnouncementsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('announcement', function (Blueprint $table) {
+        Schema::table('announcements', function (Blueprint $table) {
           $table->foreign('branch_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

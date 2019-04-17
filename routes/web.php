@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/setup/user', 'VisitorController@setupUser')->name('setupUser');
+Route::post('/setup/user', 'VisitorController@register')->name('visitor.register');
 
 Auth::routes();
 
@@ -158,19 +159,17 @@ Route::get('/admin/login', function () {
 
 //shared server clear cache
 Route::get('/clear-cache', function() {
-    $exitCode = Artisan::call('cache:clear');
+    return Artisan::call('cache:clear');
     // return what you want
 });
 
 // migrate db
 Route::get('/db/migrate', function() {
-    $exitCode = Artisan::call('migrate');
-    return $exitCode;
+    return Artisan::call('migrate');
 });
 
 Route::get('/db/migrate/fresh', function() {
-    $exitCode = Artisan::call('migrate:fresh');
-    return $exitCode;
+  return Artisan::call('migrate:fresh');
 });
 
 
