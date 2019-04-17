@@ -75,6 +75,7 @@ class BranchController extends Controller
 
     public function register(Request $request)
     {
+      print(1);
       $data = [];
       $data['branchname'] = $request->branchname;
       $data['branchcode'] = $request->branchcode;
@@ -83,19 +84,25 @@ class BranchController extends Controller
       $data['country'] = $request->country;
       $data['state'] = $request->state;
       $data['city'] = $request->city;
+      if (!User::first()) {
+        $data['isadmin'] = true;
+      }
       $data['currency'] = $request->currency;
       $data['password'] = $request->password;
       $data['password_confirmation'] = $request->password_confirmation;
 
       $validate = self::validator($data);
       if($validate->fails()){
-        return redirect('/branches/register')->withErrors($validate)->withInput();
+        print('v');
+        return $validate;
+        return redirect()->back()->withErrors($validate)->withInput();
       }
       $creation = self::creator($data);
+      print('s');
       //
-      $s = 'Success';
-
-      return redirect()->route('branch.register', ['s' => $s]);
+      $s = 'Successfully Registered';
+      return $creation;
+      return redirect()->back()->with('s');
     }
 
     protected function validator(array $data)
@@ -120,7 +127,7 @@ class BranchController extends Controller
         'branchcode' => $data['branchcode'],
         'address' => $data['address'],
         'email' => $data['email'],
-        'isadmin' => 'false',
+        'isadmin' => $data['isadmin'] ? $data['isadmin'] : false,
         'password' => Hash::make($data['password']),
         'country' => $data['country'],
         'state' => $data['state'],

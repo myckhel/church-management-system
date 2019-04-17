@@ -194,7 +194,7 @@
 															<select class="form-control {{ $errors->has('currency') ? ' is-invalid' : '' }}" name="currency" required placeholder="Enter Branch Currency">
 																 <option value="" selected disabled>Currency</option>
 																 @foreach($currencies as $currency)
-																 <option value="{{$currency->ID}}">{{$currency->currency_name}} - {{$currency->currency_symbol}}</option>
+																 <option value="{{$currency->code}}">{{$currency->currency_name}} - {{$currency->currency_symbol}}</option>
 																 @endforeach
 															 </select>
 															@if ($errors->has('currency'))
