@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a865b9c0cede6b3b1e88d0801e92e88d",
+    "content-hash": "fad36a595c8fd43e0fdfd105cd5b52c2",
     "packages": [
         {
             "name": "cornford/googlmapper",
@@ -65,6 +65,55 @@
                 "streetview"
             ],
             "time": "2018-09-06T08:49:31+00:00"
+        },
+        {
+            "name": "daveismyname/laravel-countries",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/daveismyname/laravel-countries.git",
+                "reference": "79c214d565dfd3be0b9af7d00b408ac84649a38a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/daveismyname/laravel-countries/zipball/79c214d565dfd3be0b9af7d00b408ac84649a38a",
+                "reference": "79c214d565dfd3be0b9af7d00b408ac84649a38a",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Daveismyname\\Countries\\CountriesServiceProvider"
+                    ],
+                    "aliases": {
+                        "Countries": "Daveismyname\\Countries\\Facades\\Countries"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Daveismyname\\Countries\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Carr",
+                    "email": "dave@daveismyname.com",
+                    "homepage": "https://daveismyname.blog"
+                }
+            ],
+            "description": "A Laravel countries list package",
+            "homepage": "https://github.com/daveismyname/laravel-countries",
+            "keywords": [
+                "countries",
+                "laravel"
+            ],
+            "time": "2019-02-24T15:19:37+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

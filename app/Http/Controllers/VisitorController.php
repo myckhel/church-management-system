@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Daveismyname\Countries\Facades\Countries;
+use \App\User;
 
 class VisitorController extends Controller
 {
@@ -97,5 +99,17 @@ class VisitorController extends Controller
         }
 
         return $ip;
+    }
+
+    public function setupUser(){
+      // check if user exist in table and redirect to home
+      if(User::first()){
+        return Redirect()->route('dashboard');
+      } else {
+        // show register view
+        $currencies = Countries::all();
+        return view('auth.register', compact('currencies'));
+      }
+      return;
     }
 }
