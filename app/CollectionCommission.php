@@ -68,8 +68,8 @@ class CollectionCommission extends Model
 
     public static function calculateUnsettledCommission(bool $type = false){
       $user = \Auth::user();
-      $percentage = (float)(\App\Options::getLatestCommission());
-      $percentage = $percentage ? $percentage->value : 0;
+      $percentage = \App\Options::getLatestCommission();
+      $percentage = $percentage ? (float)$percentage->value : 0;
       $total = $type ? [] : 0;
       $dueCommissions = $type ? [] : 0;
       if ($type) {
