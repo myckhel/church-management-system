@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Event;
 use DB;
 use Paystack;
+use App\Setting;
 // use Mapper;
 
 class HomeController extends Controller
@@ -27,6 +28,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+      if (Setting::notSet()) {
+        return view('setup');
+      }
         $user = \Auth::user();
         $c_types = \App\CollectionsType::getTypes();
          $eventsall =  \App\Announcement::leftjoin('users',"announcements.branchcode", '=','users.branchcode')->where('announcements.branchcode', $user->branchcode)->orWhere('announcements.branch_id', $user->branchcode)->orderBy('announcements.id', 'desc')->get();

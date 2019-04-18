@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Daveismyname\Countries\Facades\Countries;
 use \App\User;
 use \App\Branch;
+use \App\Setting;
 
 class VisitorController extends Controller
 {
@@ -116,5 +117,13 @@ class VisitorController extends Controller
 
     public function register(Request $request){
       return Branch::register($request);
+    }
+
+    public function setupApp(){
+      return view('setup');
+    }
+
+    public function saveApp(Request $request){
+      return ;
     }
 }
