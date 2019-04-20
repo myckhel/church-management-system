@@ -17,6 +17,7 @@ class CreateCollectionsCommissionsTable extends Migration
             $table->increments('id');
             $table->bigInteger('branch_id')->unsigned();
             $table->bigInteger('collection_id')->unique()->unsigned(); //unique
+            $table->boolean('settled');
             $table->date('collection_date');
             $table->timestamps();
         });

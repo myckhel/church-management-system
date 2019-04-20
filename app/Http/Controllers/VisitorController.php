@@ -126,4 +126,12 @@ class VisitorController extends Controller
     public function saveApp(Request $request){
       return ;
     }
+
+    public function uploadLogo(Request $request){
+      return Setting::uploadLogo($request);
+    }
+
+    public function saveAppName(Request $request){
+      return Setting::saveAppName($request);
+    }
 }

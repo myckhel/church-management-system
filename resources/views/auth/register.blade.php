@@ -7,90 +7,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>Register - {{config('app.name')}}</title>
-
-
-    <!--STYLESHEET-->
-    <!--=================================================-->
-
-    <!--Open Sans Font [ OPTIONAL ]-->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-
-
     <!--Bootstrap Stylesheet [ REQUIRED ]-->
     <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
-
-
     <!--Nifty Stylesheet [ REQUIRED ]-->
     <link href="{{ URL::asset('css/nifty.min.css') }}" rel="stylesheet">
-
-
     <!--Nifty Premium Icon [ DEMONSTRATION ]-->
     <link href="{{ URL::asset('css/demo/nifty-demo-icons.min.css') }}" rel="stylesheet">
-
-
-    <!--=================================================-->
-
-
-
     <!--Pace - Page Load Progress Par [OPTIONAL]-->
     <link href="{{ URL::asset('plugins/pace/pace.min.css') }}" rel="stylesheet">
     <script src="{{ URL::asset('plugins/pace/pace.min.js') }}"></script>
-
-
-
     <!--Demo [ DEMONSTRATION ]-->
     <link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet">
-
-
-    <!--=================================================
-
-    REQUIRED
-    You must include this in your project.
-
-
-    RECOMMENDED
-    This category must be included but you may modify which plugins or components which should be included in your project.
-
-
-    OPTIONAL
-    Optional plugins. You may choose whether to include it in your project or not.
-
-
-    DEMONSTRATION
-    This is to be removed, used for demonstration purposes only. This category must not be included in your project.
-
-
-    SAMPLE
-    Some script samples which explain how to initialize plugins or components. This category should not be included in your project.
-
-
-    Detailed information and more samples can be found in the document.
-
-    =================================================-->
-        <style type="text/css"> .cls-container {
-   background-image: url("{{ URL::asset('images/reg_bg.jpg') }}");
-   background-color: #cccccc;
-}
-</style>
+  <style type="text/css"> .cls-container {
+    background-image: url("{{ URL::asset('images/reg_bg.jpg') }}");
+    background-color: #cccccc;
+  }
+  </style>
 </head>
-
-<!--TIPS-->
-<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
 
 <body>
     <div id="container" class="cls-container">
-
-
     <!-- BACKGROUND IMAGE -->
     <!--===================================================-->
     <div id="bg-overlay"></div>
-
-
     <!-- REGISTRATION FORM -->
     <!--===================================================-->
     <div class="cls-content">
       <div class="title m-b-md">
-          <h1>Super Admin Registration</h1>
+          <h1 class=" text-light">Super Admin Registration</h1>
       </div>
 
       <div class="col-lg-10 col-lg-offset-2">
@@ -108,8 +52,8 @@
 
     <div class="cls-content-lg panel">
         <div class="panel-body">
-            <div class="mar-ver pad-btm">
-                <h1 class="h3">Create a New Branch Account</h1>
+            <div class="mar-ver pad-btm text-light">
+                <h1 class="h3 text-light">Create a New Branch Account</h1>
                 <p>Set up account.</p>
             </div>
             @if (isset($_GET['s']))

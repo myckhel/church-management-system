@@ -8,6 +8,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Cache;
 use App\ServiceType;
 use App\CollectionsType;
+use Daveismyname\Countries\Facades\Countries;
 
 class User extends Authenticatable
 {
@@ -40,21 +41,25 @@ class User extends Authenticatable
       return "$this->branchname";
     }
 
-    public static function currencySymbol(){
-      $currency = \App\Options::getOneBranchOption('currency', \Auth::user());
-      // $currency = \App\Options::where('name', 'currency')->first();
-      $currency = \DB::table('country')->where('currency_symbol', isset($currency->value) ? $currency->value : '₦')->first();
-      return $currency;
+    public static function getCurrency(){
+      $curObj;
+      $currency = auth()->user()->currency;
+      foreach (Countries::all() as $value) {
+        if ($value->currency_symbol == $currency) {
+          $curObj = $value;
+          break;
+        }
+      }
+      return $curObj;
     }
 
     public static function toMoney($number){
-      $symbol = self::currencySymbol();
-      return $symbol->currency_symbol.number_format((float) $number);
+      $currency = self::getCurrency();
+      return $currency->currency_symbol.number_format((float) $number);
     }
 
     public function getCurrencySymbol(){
-      $currency = $this->currency;
-      return \DB::table('country')->select('currency_symbol')->where('ID', '=', $currency)->first();
+      return self::getCurrency();
     }
 
     public function getServiceTypes(){

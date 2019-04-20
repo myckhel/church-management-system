@@ -24,6 +24,9 @@ Auth::routes();
 
 Route::group([ 'middleware' => [ 'auth'] ], function(){
 
+  Route::post('/setup/logo', 'VisitorController@uploadLogo')->name('app.logo');
+  Route::post('/setup/name', 'VisitorController@saveAppName')->name('app.name');
+
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     Route::get('/member/register', 'MemberController@create')->name('member.register.form');
     Route::post('/member/register', 'MemberController@store')->name('member.register');

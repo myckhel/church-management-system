@@ -41,11 +41,6 @@ $colors = colo();//$generateColor($c_types);
       <style>
       .img-center {        display: block;        margin-left: auto;        margin-right: auto;        width: 80%;      }
       </style>
-     <div class="text-center col-md-10 col-md-offset-1" style="background-color: #e8ddd3;">
-      <img src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="img-center img-responsive" alt="Cinque Terre">
-      <!--   <div class="img-responsive">
-      <img style="margin-top:-200px; max-width: 914px; min-width:500px ; min-height:150px ; max-height: 228px;" src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" class="center-block img-responsive" /> <!-- ./images/church-logo.png -->
-     </div>
     </div>
 
   <div class="panel">

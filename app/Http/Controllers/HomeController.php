@@ -7,6 +7,7 @@ use App\Event;
 use DB;
 use Paystack;
 use App\Setting;
+use Daveismyname\Countries\Facades\Countries;
 // use Mapper;
 
 class HomeController extends Controller
@@ -36,14 +37,16 @@ class HomeController extends Controller
          $eventsall =  \App\Announcement::leftjoin('users',"announcements.branchcode", '=','users.branchcode')->where('announcements.branchcode', $user->branchcode)->orWhere('announcements.branch_id', $user->branchcode)->orderBy('announcements.id', 'desc')->get();
         $members = \App\Member::where('branch_id', $user->branchcode)->get();
         $events = Event::where('branch_id', $user->branchcode)->orderBy('date', 'asc')->get();
-        $options = DB::table('head_office_options')->where('HOID',1)->first();
+        // dd($options);
         $num_members = $user->isAdmin() ? DB::table('members')->count() : DB::table('members')->where('branch_id', \Auth::user()->branchcode)->count();
         $num_pastors = $user->isAdmin() ? DB::table('members')->where('position', 'pastor')->orWhere('position', 'senior pastor')->count() : DB::table('members')->where('position', 'pastor')->orWhere('position', 'senior pastor')->where('branch_id', \Auth::user()->branchcode)->count();
         $num_workers = $user->isAdmin() ? DB::table('members')->where('position', 'worker')->count() : DB::table('members')->where('position', 'worker')->where('branch_id', \Auth::user()->branchcode)->count();
         $total = ['workers' => $num_workers, 'pastors' => $num_pastors, 'members' => $num_members];
-        $currency = \App\Options::getOneBranchOption('currency', \Auth::user());
+        $currencies = Countries::all();
+        $options = Setting::findName(['logo', 'name']);
+        // $currencies = findName(['logo', 'name'], $options);
+        $currency = auth()->user()->getCurrency();
         // $currency = \App\Options::where('name', 'currency')->first();
-        $currency = DB::table('country')->where('currency_symbol', isset($currency->value) ? $currency->value : '₦')->first();
         //$events = Event::all();
         // get due savings
         $dueSavings = \App\CollectionCommission::dueSavings($user);

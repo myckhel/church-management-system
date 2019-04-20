@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
-use App\Savings;
+use App\Collection;
 
 class CollectionCommission extends Model
 {
     //
     protected $fillable = [
-        'saving_id', 'branch_id', 'settled', 'saving_date_collected'
+        'collection_id', 'branch_id', 'settled', 'collection_date'
     ];
     protected $table = 'collections_commissions';
 
@@ -28,20 +28,20 @@ class CollectionCommission extends Model
     }
 
     public static function mySelfByDate($date){
-      return auth()->user()->collections_commissions->where('saving_date_collected', $date)->where('settled', false)->first();
+      return auth()->user()->collections_commissions->where('collection_date', $date)->where('settled', false)->first();
     }
 
     public static function getDueCommissions(User $user = null){
       return $due = CollectionCommission::
-        select('users.id as branch_id', 'savings.id', 'savings.service_types_id', 'savings.collections_types_id', 'savings.amount',
-         'collections_commissions.saving_date_collected')
+        select('users.id as branch_id', 'collections.id', 'collections.service_types_id', 'collections.collections_types_id', 'collections.amount',
+         'collections_commissions.collection_date')
         ->where(isset($user) ? 'collections_commissions.branch_id' : [] , isset($user) ? $user->id : [])
         ->where('settled', false)
         // ->with('savings.date_collected')
         // ->with('users')
-        ->leftJoin('savings', 'savings.date_collected', 'saving_date_collected')
-        ->leftJoin('users', 'users.id', 'savings.branch_id')
-        ->where(isset($user) ? 'savings.branch_id' : [], isset($user) ? $user->id : [])
+        ->leftJoin('collections', 'collections.date', 'collection_date')
+        ->leftJoin('users', 'users.id', 'collections.branch_id')
+        ->where(isset($user) ? 'collections.branch_id' : [], isset($user) ? $user->id : [])
         ->get();
     }
 
@@ -55,12 +55,12 @@ class CollectionCommission extends Model
           $savings[$commission->branch_id] = [];
         }
         //
-        $savings[$commission->branch_id][] = \App\Savings::find($commission->id);
+        $savings[$commission->branch_id][] = \App\Collection::find($commission->id);
       }
       //
       foreach ($savings as $key => $value) {
         // code...
-        $savings[$key] = \App\Savings::rowToColumn($value, 'no_obj');
+        $savings[$key] = \App\Collection::rowToColumn($value, 'no_obj');
       }
       // dd($savings);
       return $savings;
@@ -104,10 +104,10 @@ class CollectionCommission extends Model
       return $dueCommissions;
     }
 
-    public static function setCollection(Savings $savings){
+    public static function setCollection(Collection $savings){
       $user = \Auth::user();
       return CollectionCommission::create([
-        'saving_date_collected' => $savings->date_collected,
+        'collection_date' => $savings->date_collected,
         'branch_id' => $user->id,
       ]);
     }
@@ -128,6 +128,6 @@ class CollectionCommission extends Model
     }
 
     public function savings(){
-      return $this->belongsTo(Savings::class, 'date_collected');
+      return $this->belongsTo(Collection::class, 'date');
     }
 }
