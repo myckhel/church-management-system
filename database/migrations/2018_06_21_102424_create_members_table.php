@@ -36,6 +36,7 @@ class CreateMembersTable extends Migration
             $table->string('wedding_anniversary')->nullable();
             $table->string('photo');
             $table->string('relative')->nullable();
+            $table->enum('member_status', ['old', 'new'])->default('old');
             $table->timestamps();
         });
 

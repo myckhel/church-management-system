@@ -13,7 +13,7 @@ class CreateMembersCollectionsTable extends Migration
      */
     public function up()
     {
-      Schema::create('members_collections', function (Blueprint $table) {
+      Schema::create('member_collections', function (Blueprint $table) {
           $table->increments('id');
           $table->bigInteger('branch_id')->unsigned();
           $table->bigInteger('member_id')->unsigned();
@@ -24,7 +24,7 @@ class CreateMembersCollectionsTable extends Migration
           $table->timestamps();
       });
 
-      Schema::table('members_collections', function (Blueprint $table) {
+      Schema::table('member_collections', function (Blueprint $table) {
           $table->foreign('branch_id')->references('id')->on('users')->onDelete('cascade');
           $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
           $table->foreign('collections_types_id')->references('id')->on('collections_types')->onDelete('cascade');
@@ -39,6 +39,6 @@ class CreateMembersCollectionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('members_collections');
+        Schema::dropIfExists('member_collections');
     }
 }

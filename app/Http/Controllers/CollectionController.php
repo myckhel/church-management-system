@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
 use Yajra\Datatables\Datatables;
-use App\Savings;
 
 class CollectionController extends Controller
 {
@@ -23,8 +22,7 @@ class CollectionController extends Controller
         $members = \App\Member::where('branch_id', $user->branchcode)->get();
         $services = $user->getServiceTypes();
         $collections = $user->getCollectionTypes();
-        $currency = \App\Options::where('name', 'currency')->first();
-        $currency = DB::table('country')->where('currency_symbol', $currency->value)->first();
+        $currency = $user->getCurrency();
         return view('collection.offering', compact('members', 'services', 'collections', 'currency'));
     }
 
@@ -54,7 +52,7 @@ class CollectionController extends Controller
           return response()->json(['status' => false, 'text' => "**You can't save collection for a future date!"]);
       }
       // check if collection has already been saved for that date
-      $savings = \App\Savings::getByDate($branch, $request->get('date_collected'));
+      $savings = \App\Collection::getByDate($branch, $request->get('date'));
       if ($savings > 0){
           return response()->json(['status' => false, 'text' => "**Branch Collection for {$this->get_date_in_words(date('Y-m-d',strtotime($request->get('date_collected'))))} has been saved before!"]);
       }
@@ -63,12 +61,12 @@ class CollectionController extends Controller
       foreach ($c_type as $key => $type) {
         // code...
         $name = $type->name;
-        $savings = \App\Savings::create([
+        $savings = \App\Collection::create([
           'branch_id' => $branch->id,
           'collections_types_id' => $type->id,
           'service_types_id' => $request->type,
           'amount' => $request->$name,
-          'date_collected' => date('Y-m-d',strtotime($request->date_collected))
+          'date' => date('Y-m-d',strtotime($request->date_collected))
         ]);
       }
       // set the collection as due commission
@@ -171,7 +169,7 @@ class CollectionController extends Controller
     public function analysis()
     {
       $user = \Auth::user();
-      $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
+      $savings = \App\Collection::rowToColumn(\App\Collection::where('branch_id', $user->id)->get());
       $mSavings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->get());
       $c_types = \App\CollectionsType::getTypes();
 
@@ -209,7 +207,7 @@ class CollectionController extends Controller
     public function test (Request $request){
       $user = \Auth::user();
       $c_types = \App\CollectionsType::getTypes();
-      $savings = $request->show == 'true' ? Savings::rowToColumn(Savings::all()) : Savings::rowToColumn($user->savings()->get());
+      $savings = $request->show == 'true' ? Collection::rowToColumn(Collection::all()) : Collection::rowToColumn($user->collections()->get());
       $interval = $request->interval;
       $group = $request->group;
       $months = [];
@@ -248,9 +246,9 @@ class CollectionController extends Controller
 
   public function history(Request $request){
     $branch = \Auth::user();
-    $history = collect(new \App\Savings);//[];
+    $history = collect(new \App\Collection);//[];
     if (isset($request->branch)) {
-      $history = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $branch->id)
+      $history = \App\Collection::rowToColumn(\App\Collection::where('branch_id', $branch->id)
       ->with('collections_types')->with('service_types')->get());
     }
     if(isset($request->member)) {
@@ -265,12 +263,12 @@ class CollectionController extends Controller
     $c_types = \App\CollectionsType::getTypes();
     $user = \Auth::user();
 
-    $collections = \App\Savings::rowToColumn(\App\Savings::selectRaw("*, MONTH(date_collected) AS month")
+    $collections = \App\Collection::rowToColumn(\App\Collection::selectRaw("*, MONTH(date) AS month")
     ->with('collections_types')->with('service_types')
     // ->leftJoin('collections_types', 'collections_types.id', 'savings.collections_types_id')
-    ->whereRaw("date_collected > DATE(now() + INTERVAL - 12 MONTH)")->where("savings.branch_id", $user->id)
-    ->groupBy("date_collected", "month", "amount", 'savings.id', 'savings.branch_id', 'savings.collections_types_id',
-     'savings.service_types_id', 'savings.created_at', 'savings.updated_at')
+    ->whereRaw("date > DATE(now() + INTERVAL - 12 MONTH)")->where("collections.branch_id", $user->id)
+    ->groupBy("date", "month", "amount", 'collections.id', 'collections.branch_id', 'collections.collections_types_id',
+     'collections.service_types_id', 'collections.created_at', 'collections.updated_at')
     //
     ->get());
     // dd($collections);

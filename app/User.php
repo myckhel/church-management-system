@@ -88,8 +88,8 @@ class User extends Authenticatable
       return $this->hasMany(Group::class);
     }
 
-    public function member(){
-      return $this->hasMany(Member::class);
+    public function members(){
+      return $this->hasMany(Member::class, 'branch_id');
     }
 
     public function option(){
@@ -104,8 +104,8 @@ class User extends Authenticatable
       return $this->hasMany(ServiceType::class);
     }
 
-    public function savings(){
-      return $this->hasMany(Savings::class, 'branch_id');
+    public function collections(){
+      return $this->hasMany(Collection::class, 'branch_id');
     }
 
     public function MemberSavings(){

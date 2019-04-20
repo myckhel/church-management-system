@@ -14,7 +14,7 @@ class MembersAttendance extends Migration
     public function up()
     {
         //
-      Schema::create('members_attendance', function (Blueprint $table) {
+      Schema::create('members_attendances', function (Blueprint $table) {
         $table->bigIncrements('id');
         $table->bigInteger('member_id')->unsigned();
         $table->bigInteger('service_types_id')->unsigned();
@@ -23,7 +23,7 @@ class MembersAttendance extends Migration
         $table->timestamps();
       });
 
-      Schema::table('members_attendance', function (Blueprint $table) {
+      Schema::table('members_attendances', function (Blueprint $table) {
           $table->foreign('service_types_id')->references('id')->on('service_types')->onDelete('cascade');
           $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
       });
@@ -37,6 +37,6 @@ class MembersAttendance extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('members_attendance');
+        Schema::dropIfExists('members_attendances');
     }
 }

@@ -27,15 +27,12 @@ class MemberController extends Controller
      */
     public function index(Request $request)
     {
-        $user = \Auth::user();
-        //$members = Member::all();
-        if ($request->draw) {
-          $members = \App\Member::where('branch_id', $user->branchcode)->get();
-          return Datatables::of($members)->make(true);
-        } else {
-          // code...
-          return view('members.all', compact('members'));
-        }
+      $user = \Auth::user();
+      if ($request->draw) {
+        return Datatables::of($user->members)->make(true);
+      } else {
+        return view('members.all', compact('members'));
+      }
     }
 
     /**
@@ -113,7 +110,7 @@ class MemberController extends Controller
         }
 
         $member = new Member(array(
-            'branch_id' => $user->branchcode,
+            'branch_id' => $user->id,
             'title' => $request->get('title'),
             'firstname' => $request->get('firstname'),
             'lastname' => $request->get('lastname'),
@@ -351,7 +348,7 @@ class MemberController extends Controller
   public function memberAnalysis (Request $request){
     $user = \Auth::user();
     $c_types = \App\CollectionsType::getTypes();
-    $savings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->where('member_id', $request->id)->get());
+    $savings = \App\MemberCollection::rowToColumn(\App\MemberCollection::where('branch_id', $user->id)->where('member_id', $request->id)->get());
     $interval = $request->interval;
     $group = $request->group;
     $months = [];
