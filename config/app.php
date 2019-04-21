@@ -153,6 +153,7 @@ return [
          Yajra\Datatables\DatatablesServiceProvider::class,
          Cornford\Googlmapper\MapperServiceProvider::class,
          Unicodeveloper\Paystack\PaystackServiceProvider::class,
+         Daveismyname\Countries\CountriesServiceProvider::class,
 
         /*
          * Application Service Providers...
