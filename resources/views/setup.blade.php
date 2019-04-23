@@ -60,27 +60,25 @@
     </div>
 
     <div class="cls-content-lg panel">
-      <div class="panel-body">
+      <div class="panel-body text-light text-bold">
 
-          <form id="setup-form" enctype="multipart/form-data">
+          <form id="setup-form" class="form-horizontal form-padding" enctype="multipart/form-data">
             @csrf
-            <div class="input-group mb-3 input-group-sm">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-lg">church Name</span>
+            <div class="form-group">
+              <label class="control-label col-md-3" for="name">Church Name</label>
+              <div class="col-md-9">
+                <input id="name" required class="form-control" type="text" name="name" placeholder="e.g ccc">
               </div>
-              <input id="name" required class="form-control" type="text" name="name" placeholder="e.g New Light Parish">
             </div>
           </form>
 
-          <form class="" action="#" enctype="multipart/form-data">
-            <div class="input-group mb-3 input-group-sm">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-lg">church Logo</span>
+          <form class="form-horizontal form-padding" action="#" enctype="multipart/form-data">
+            <div class="form-group">
+              <div class="col-md-3">
+                <label class="control-label" for="logo">Church Logo</label>
               </div>
-              <div class="custom-file">
-                <span class="name">Choose File</span>
-                <input required id="logo" class="custom-file-input" type="file" accept="image/*" name="logo[]" >
-                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+              <div class="col-md-9">
+                <input required id="logo" class="file-control" type="file" accept="image/*" name="logo[]" >
               </div>
             </div>
           </form>
@@ -89,8 +87,8 @@
             <canvas id="img-show" class="img-thumbnail img-response"></canvas>
           </div>
           <button id="submit" class="float-right btn btn-primary" type="submit">Submit</button>
+        </div>
       </div>
-    </div>
 
     </div>
   </div>
@@ -99,10 +97,9 @@
     <!--=================================================-->
 
     <!--jQuery [ REQUIRED ]-->
-    <script src="{{ URL::asset('js/jquery-1.9.1.min.js') }}"></script>
+    <script src="{{ URL::asset('js/jquery.min.js') }}"></script>
 
     <!--BootstrapJS [ RECOMMENDED ]-->
-    <script src="{{ URL::asset('js/popper.min.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 
     <script type="text/javascript">
@@ -116,6 +113,7 @@
   		  // displayAsImage(file); // see Example 7
   		};
     })
+
     function uploadImg(fn) {
       var input = document.querySelector('input[type=file]');
       var file = input.files[0];
@@ -133,6 +131,7 @@
           fn()
         } else {
           alert('error try again')
+          fn()
         }
       }
 
@@ -164,7 +163,7 @@
       })
     })
 
-
+    // function to draw image on selection
     function drawOnCanvas(file) {
       var reader = new FileReader();
 
@@ -186,6 +185,7 @@
       reader.readAsDataURL(file);
     }
 
+    // function to convert img to blob
     var toBlob = (canvas) => {
         return new Promise(function(resolve, reject) {
             canvas.toBlob(function(blob) {
@@ -194,11 +194,13 @@
         })
       }
 
+      // function to reset image display dom
     function resetImgUpl(){
       $('#logo').val(null)
       $('#img-show-container').hide()
     }
 
+    // function to convert blob to file
     function blobToFile(theBlob, fileName){
         //A Blob() is almost a File() - it's just missing the two properties below which we will add
         theBlob.lastModifiedDate = new Date();
@@ -206,5 +208,5 @@
         return theBlob;
     }
     </script>
-</body>
+  </body>
 </html>
