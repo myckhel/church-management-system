@@ -273,7 +273,7 @@ class MemberController extends Controller
 
       $user = \Auth::user();
 
-      $sql = "SELECT * from members WHERE branch_id = '$user->branchcode' AND  MATCH (firstname,lastname)
+      $sql = "SELECT * from members WHERE branch_id = '$user->id' AND  MATCH (firstname,lastname)
       AGAINST ('$search_term')";
       $members = \DB::select($sql);
       return response()->json(['success' => true, "result"=> sizeof($members) > 0 ? $members : ['message'=>'no result found']]);
@@ -281,7 +281,7 @@ class MemberController extends Controller
 
     public function modify($id){
       $user = \Auth::user();
-      $member = Member::whereId($id)->where('branch_id',$user->branchcode)->first();
+      $member = Member::whereId($id)->where('branch_id',$user->id)->first();
       if (!$member) {
         return 'Member Not exists';
       }
@@ -434,10 +434,8 @@ class MemberController extends Controller
   public function memberRegStats(Request $request){
     $user = \Auth::user();
     $members = Member::selectRaw("COUNT(id) as total, SUM(CASE WHEN sex='male' THEN 1 ELSE 0 END) AS male, SUM(CASE WHEN sex='female' THEN 1 ELSE 0 END) AS female,
-    MONTH(member_since) AS month")->whereRaw("member_since > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->branchcode)->groupBy("month")->get();
-
+    MONTH(member_since) AS month")->whereRaw("member_since > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->id)->groupBy("month")->get();
     // dd($members);
-
     $group = 'month';
     $months = [];
     $interval = 0;
@@ -461,7 +459,6 @@ class MemberController extends Controller
       foreach ($months as $key => $value) {
   		$month = $value; $found = false;
   		foreach ($members as $member) {
-        // dd($member->$group,$month);
         $m;
         switch ($member->$group) {
           case 1: $m = 'Jan'; break;

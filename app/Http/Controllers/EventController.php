@@ -18,9 +18,9 @@ class EventController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        $pastors = Member::whereRaw('(position = "senior pastor" OR position = "pastor")')->where('branch_id',$user->branchcode)->get();
+        $pastors = Member::whereRaw('(position = "senior pastor" OR position = "pastor")')->where('branch_id',$user->id)->get();
         $events = Event::
-        where('events.branch_id',$user->branchcode)->get();
+        where('events.branch_id',$user->id)->get();
         return view('calendar.index', compact('events', 'pastors'));
     }
 //->where('events.assign_to', 'like', '%members.id,%')
@@ -59,7 +59,7 @@ class EventController extends Controller
             'assign_to' => $assign_to,
             'by_who' => $request->get('by_who'),
             'details' => $request->get('details'),
-            'branch_id' => $user = \Auth::user()->branchcode,
+            'branch_id' => $user = \Auth::user()->id,
 
             // convert date to acceptable mysql format
             'date' => date('Y-m-d',strtotime($request->get('date'))),
@@ -128,7 +128,7 @@ class EventController extends Controller
         $user = \Auth::user();
            //$contact =  \App\User::get();
 
-        $contact =  \App\User::where('branchcode' , '!=' , $user->branchcode)->get();
+        $contact =  \App\User::where('id' , '!=' , $user->id)->get();
        return view('notification.index',compact('contact'));
      }
 
@@ -158,11 +158,11 @@ class EventController extends Controller
         // register attendance
 
             $by_who = $request->get('by_who');
-             $branchcode = $to;
+             $id = $to;
             $details = $request->get('message');
             $time = $request->get('time');
             $stime = $request->get('stime');
-            $branch_id = $user = \Auth::user()->branchcode;
+            $branch_id = $user = \Auth::user()->id;
 
             // convert date to acceptable mysql format
             $sdate = date('Y-m-d',strtotime($request->get('sdate')));

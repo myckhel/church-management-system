@@ -17,10 +17,10 @@ class GroupController extends Controller
     public function index()
     {
       $user = \Auth::user();
-      //$members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branchcode)->get();
-      $groups = Group::where('branch_id', $user->branchcode)->get();//all();
+      //$members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->id)->get();
+      $groups = Group::where('branch_id', $user->id)->get();//all();
       //default groups
-      $firstimer_numbers = Member::where('branch_id', $user->branchcode)->where('member_status', 'new')->get(['id'])->count();
+      $firstimer_numbers = Member::where('branch_id', $user->id)->where('member_status', 'new')->get(['id'])->count();
 
       return view('groups.all', compact('groups', 'firstimer_numbers'));
     }
@@ -62,11 +62,11 @@ class GroupController extends Controller
     public function show($id)
     {
         $user = \Auth::user();
-        $members_in_branch = \App\Member::where('branch_id', $user->branchcode)->get();
+        $members_in_branch = \App\Member::where('branch_id', $user->id)->get();
 
         $members_in_group = [];
         $group = Group::find($id);
-        $member_ids = \App\GroupMember::where('group_id', $id)->where('for_branch',$user->branchcode)->get();
+        $member_ids = \App\GroupMember::where('group_id', $id)->where('for_branch',$user->id)->get();
         //print_r($member_ids);exit();
 
         foreach($member_ids as $member_id){
@@ -159,14 +159,14 @@ class GroupController extends Controller
         $group = new \App\Group();
         $group->name = 'First Timers Group';
         // $group->save();
-        $members_in_group = Member::where('branch_id', $user->branchcode)->where('member_status', 'new')->get();
+        $members_in_group = Member::where('branch_id', $user->id)->where('member_status', 'new')->get();
         return view('groups.view', compact('members_in_group', 'group'));
       }
       return ;
     }
 
     public function members(Request $request){
-      $user = \Auth::user()->branchcode;
+      $user = \Auth::user()->id;
       $names = $request->group;
       $groupMember = [];
       foreach ($names as $key => $value) {

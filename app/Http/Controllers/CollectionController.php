@@ -19,7 +19,7 @@ class CollectionController extends Controller
     {
         //
         $user = \Auth::user();
-        $members = \App\Member::where('branch_id', $user->branchcode)->get();
+        $members = \App\Member::where('branch_id', $user->id)->get();
         $services = $user->getServiceTypes();
         $collections = $user->getCollectionTypes();
         $currency = $user->getCurrency();
@@ -115,7 +115,7 @@ class CollectionController extends Controller
      */
     public function report()
     {
-      $code = \Auth::user()->branchcode;
+      $code = \Auth::user()->id;
       $user = \Auth::user();
       $c_types = $user->getCollectionTypes();
       \App\CollectionsType::disFormatStringAll($c_types);
