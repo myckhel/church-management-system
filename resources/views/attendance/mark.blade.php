@@ -43,6 +43,19 @@
               <div class="panel-heading">
                   <h3 class="panel-title text-center">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
               </div>
+              <!-- if service types not exists -->
+              @if(!count($services) > 0)
+              <div class="col-12 well text-center bg-danger">
+                <div class="text-lg">
+                  <div class="col-8">
+                    Oooops! to mark attendance please create service type here
+                  </div>
+                  <div class="col-4">
+                    <a class="btn btn-info" href="{{route('branch.tools')}}">Add Service Type</a>
+                  </div>
+                </div>
+              </div>
+              @else
 
               <!--Block Styled Form -->
               <!--===================================================-->
@@ -51,14 +64,16 @@
                   <input name="branch_id" value="3" type="text" hidden="hidden"/>
                   <div class="panel-body">
                       <div class="row">
-                          <div class="col-sm-12">
-                              <div class="form-group">
-                                  <label class="control-label">Date</label>
-                                  <input id="mark-date" type="date" name="date" class="form-control" required>
-                              </div>
-                          </div>
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6">
+                            <div class="form-group text-center">
+                                <label class="control-label">Date</label>
+                                <input id="mark-date" type="date" name="date" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-3"></div>
                       </div>
-                      <div class="row">
+                      <div class="row text-center">
                           <div class="col-sm-2">
                               <div class="form-group">
                                   <label class="control-label">Male</label>
@@ -79,9 +94,9 @@
                               </div>
                           </div>
 
-                          <div class="col-sm-4">
+                          <div class="col-sm-5">
                               <div class="form-group">
-                                <label class="control-label">Attendance Type</label>
+                                <label class="control-label">Service Type</label>
                                   <select name="type" id="mark-select" class="selectpicker" data-style="btn-success" required>
                                     @foreach($services as $service)
                                     <option value="{{$service->id}}">{{$service->name}}</option>
@@ -89,12 +104,6 @@
                                   </select>
                               </div>
                           </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label class="control-label" style="font-size:8pt">Other Attendance Type</label>
-                                <input type="text" name="custom_type" class="form-control">
-                            </div>
-                        </div>
                       <div class="row">
                       </div>
                       <div class="row">
@@ -105,6 +114,7 @@
                       <button id="btn-mark" class="btn btn-success" type="submit">Submit</button>
                   </div>
               </form>
+              @endif
             </div>
           </div>
                     <!--===================================================-->
@@ -115,6 +125,20 @@
                   <div class="panel-heading">
                       <h3 class="panel-title text-center">Mark Attendnace for <strong>{{\Auth::user()->branchname}} <i>{{\Auth::user()->branchcode}}</i></strong></h3>
                   </div>
+
+                  @if(!count($services) > 0)
+                  <div class="col-12 well text-center bg-danger">
+                    <div class="text-lg">
+                      <div class="col-8">
+                        Oooops! to mark attendance please create service type here
+                      </div>
+                      <div class="col-4">
+                        <a class="btn btn-info" href="{{route('branch.tools')}}">Add Service Type</a>
+                      </div>
+                    </div>
+                  </div>
+                  @else
+
                   <div class="panel-body">
                   <form id="m-attendance" action="{{route('attendance.mark')}}" method="post" >
                     @csrf
@@ -146,7 +170,6 @@
                                 </div>
                               </td>
                                 <input id="" type="hidden" value="{{$member->id}}" name="member_id[]" class="" />
-                                <input id="" type="hidden" value="{{$member->branch_id}}" name="branch_id[]" class="" />
                           </tr>
                           <?php $count++; ?>
                           @endforeach
@@ -178,6 +201,7 @@
                     </div>
                 </form>
               </div>
+              @endif
           </div>
       </div>
     </div>
@@ -262,6 +286,7 @@ $(document).ready(() => {
     poster({url, data}, (res) => {
       if (res.status) {
         // location.reload()
+        $('#m-attendance').trigger('reset')
       }
       toggleAble($('#m-submit-btn'), false)
     })

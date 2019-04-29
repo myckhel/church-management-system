@@ -99,13 +99,9 @@ class MemberController extends Controller
         if ($request->hasFile('photo'))
         {
             $image = $request->file('photo');
-
             $input['imagename'] = time().'.'.$image->getClientOriginalExtension();
-
             $destinationPath = public_path('/images');
-
             $image->move($destinationPath, $input['imagename']);
-
             $image_name = $input['imagename'];
         }
 
@@ -151,10 +147,9 @@ class MemberController extends Controller
       $c_types = CollectionsType::getTypes();
       // $sql = 'SELECT COUNT(case when attendance = "yes" then 1 end) AS present, COUNT(case when attendance = "no" then 1 end) AS absent,
       // MONTH(attendance_date) AS month FROM `members_attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND member_id = '.$member->id.' GROUP BY month';
-      $attendance = $member->members_attendances()->selectRaw("SUM(CASE when attendance = 'yes' then 1 else 0 end) As yes,
+      $attendance = $member->member_attendances()->selectRaw("SUM(CASE when attendance = 'yes' then 1 else 0 end) As yes,
         SUM(CASE when attendance = 'no' then 1 else 0 end) As no")->first();//->sum('');
       // dd($attendance);
-
       return view('members.profile', compact('member', 'attendance', 'member', 'c_types'));
     }
 
@@ -188,27 +183,17 @@ class MemberController extends Controller
     {
         // check if image isnt empty
         if (!empty($request->file('image'))){
-
             // validate image
             $this->validate($request, [
                 'class_id' => 'bail|required|integer|min:1',
                 'section_id' => 'required|integer|min:1',
-
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-
             ]);
-
             $image = $request->file('image');
-
             $input['imagename'] = time().'.'.$image->getClientOriginalExtension();
-
             $destinationPath = public_path('/images');
-
             $image->move($destinationPath, $input['imagename']);
-
             $image_name = $input['imagename'];
-
-
         }
 
         $member = Member::whereId($id)->firstOrFail();
@@ -282,16 +267,15 @@ class MemberController extends Controller
     public function modify($id){
       $user = \Auth::user();
       $member = Member::whereId($id)->where('branch_id',$user->id)->first();
-      if (!$member) {
-        return 'Member Not exists';
-      }
+      if (!$member) { return 'Member Not exists'; }
       return view('members.edit', compact('member'));
     }
 
     public function upgrade(Request $request){
       $status = false;
       $user = Member::where('id', $request->id)->first()->upgrade();
-      if ($user) { $status = true; $text = "$user is now a full member"; } else { $text = "Error occured Please try again"; }
+      if ($user) { $status = true; $text = "$user is now a full member"; }
+      else { $text = "Error occured Please try again"; }
       return response()->json(['status' => $status, 'text' => $text]);
     }
 
@@ -488,7 +472,6 @@ class MemberController extends Controller
   })($members, $c_types, $months, $group);
 
   return $dt;
-
   }
 
   private function flotY($member, $c_types, $value){
@@ -507,11 +490,9 @@ class MemberController extends Controller
     $y = [];
     $y['month'] = $value; $i=1;
     foreach ($c_types as $key => $value) {
-      $name = $value;
-      $y[$name] = 0;
-      $i++;
+      $name = $value;   $y[$name] = 0;    $i++;
     }
-    return $y;//. "},";
+    return $y;
   }
 
   public function calculateSingleTotalCollection($savings, $type){
@@ -540,35 +521,6 @@ class MemberController extends Controller
           }
         }
       }
-
-    // foreach ($savings as $key => $value) {
-    //   if (!$type) {
-    //     foreach ($value as $ke => $valu) {
-    //       try {
-    //         foreach ($valu['amounts'] as $savingName => $savingAmount) {
-    //           // dd($savingName);
-    //           if (!isset($obj[$savingName])) {
-    //             $obj[$savingName] = [];
-    //           }
-    //
-    //           $obj[$savingName]['total'] = isset($obj[$savingName]['total']) ? $obj[$savingName]['total'] + $savingAmount : $savingAmount;
-    //           // do for all time
-    //           $obj['total'] += $savingAmount;
-    //
-    //           if ($ke ==  now()->toDateString()) {
-    //             $obj[$savingName]['today'] = isset($obj[$savingName]['today']) ? $obj[$savingName]['today'] + $savingAmount : $savingAmount;
-    //             // do for todays total
-    //             $obj['today'] += $savingAmount;
-    //           }
-    //         }
-    //       } catch (\Exception $e) {
-    //         // print($e->getMessage());
-    //       }
-    //     }
-    //   }
-
-
-
     }
     return $obj;
   }

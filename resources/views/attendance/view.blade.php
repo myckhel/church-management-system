@@ -228,9 +228,11 @@ li {
                         <td>{{ucwords($li->firstname)}}</td>
                         <td>{{ucwords($li->lastname)}}</td>
                         <td>{{$li->attendance}}</td>
-                        <td>{{$li->service_types->name}}</td>
-                        <td >{{$li->attendance_date}}</td>
-                        <td >{{$li->updated_at}}</td>
+                        @foreach($li->member_attendances as $att)
+                        <td>{{$att->service_types->name}}</td>
+                        <td >{{$att->attendance_date}}</td>
+                        <td >{{$att->updated_at}}</td>
+                        @endforeach
                         <!--td><button id="{{$li->attendance_date}}" type="submit" class="btn btn-primary" onclick="view(this);">View</button></td-->
                     </tr>
                     <?php $count++;?>

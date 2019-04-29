@@ -16,9 +16,9 @@ class AttendanceController extends Controller
      */
     public function index(Request $request)
     {
-        $user = \Auth::user();
-        $date = $request->date;
-        return view('attendance.mark', compact('members', 'date'));
+        // $user = \Auth::user();
+        // $date = $request->date;
+        // return view('attendance.mark', compact('members', 'date', 'users'));
     }
 
     /**
@@ -61,7 +61,6 @@ class AttendanceController extends Controller
             'female' => $request->get('female'),
             'children' => $request->get('children'),
             'service_types_id' => $request->get('type'),
-            'other' => $request->get('custom_type'),
             'attendance_date' => $dateToSave,
         ));
         $attendance->save();
@@ -179,11 +178,7 @@ class AttendanceController extends Controller
     public function view(){
       $user = \Auth::user();
       $attendance = Attendance::where('branch_id', $user->id)->with('service_types')->orderBy('attendance_date', 'DESC')->get();
-      $attendances = \App\members_attendance::where('members_attendances.branch_id', $user->id)
-      ->with(array('service_types' => function($query){
-        $query->select('*');
-      }))
-      ->leftJoin('members', 'members_attendances.member_id', '=', 'members.id')->get();
+      $attendances = $user->members()->with('member_attendances.service_types')->get();
       // dd($attendances);
       return view('attendance.view', compact('attendance', 'attendances'));
     }
@@ -201,22 +196,20 @@ class AttendanceController extends Controller
       {
           return response()->json(['status' => false, 'text' => "**You can't save attendance for a future date!"]);
       }
-      if ($check = \App\members_attendance::where('attendance_date', date('Y-m-d', strtotime($request->date)))->first()) {
+      if ($check = \App\MemberAttendance::where('date', date('Y-m-d', strtotime($request->date)))->first()) {
         // code...
-        return response()->json(['status' => false, 'text' => "Member Attendance for {$this->get_date_in_words($check->attendance_date)} Already Marked"]);
+        return response()->json(['status' => false, 'text' => "Member Attendance for {$this->get_date_in_words($check->date)} Already Marked"]);
       }
       $offer = $request;
       for($i = 0; $i < count($offer['member_id']); $i++) {
         // code...
         $present = isset($offer['attendance'][$i]) ? $offer['attendance'][$i] : 'no';
-        $value = [
-        'member_id' => $offer['member_id'][$i],
-        'attendance' => $present,
-        'attendance_date' => date('Y-m-d',strtotime($offer['date'])),
-        'branch_id' => $offer['branch_id'][$i],
-        'service_types_id' => $offer['type'],
-        ];
-            \App\members_attendance::create($value);
+        \App\MemberAttendance::create([
+          'member_id' => $offer['member_id'][$i],
+          'attendance' => $present,
+          'date' => date('Y-m-d',strtotime($offer['date'])),
+          'service_types_id' => $offer['type'],
+        ]);
       }
       return response()->json(['status' => true, 'text' => 'Attendance Marked']);
     }

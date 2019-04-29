@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class members_attendance extends Model
+class MemberAttendance extends Model
 {
     //
     protected $fillable = [
-      'member_id','attendance','attendance_date','branch_id','service_types_id'
+      'member_id','attendance','date','branch_id','service_types_id'
     ];
 
     public function service_types(){
