@@ -31,7 +31,7 @@ class MemberController extends Controller
       if ($request->draw) {
         return Datatables::of($user->members)->make(true);
       } else {
-        return view('members.all', compact('members'));
+        return view('members.all');//, compact('members'));
       }
     }
 
@@ -42,7 +42,7 @@ class MemberController extends Controller
      */
     public function create()
     {
-        return view('members.register', compact('classes', 'sections'));
+      return view('members.register');//, compact('classes', 'sections'));
     }
 
     /**

@@ -63,18 +63,25 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
-        </style>
-        <style type="text/css"> body{
-   background-image: url("{{ URL::asset('images/church_bg.jpg') }}");
-   background-color: #cccccc;
-        background-size: cover;
-}
-</style>
+
+            body{
+               background-image: url("{{ URL::asset('images/church_bg.jpg') }}");
+               background-color: #cccccc;
+               background-size: cover;
+             }
+
+             /* append */
+             .auth-link a {
+               color: silver;
+               background-color: #636b6f;
+               padding: 1em;
+             }
+      </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
-                <div class="top-right links">
+                <div class="top-right links auth-link">
                     @auth
                         <a href="{{ url('/dashboard') }}">Home</a>
                     @else
@@ -86,21 +93,26 @@
             <div class="panel">
             <div class="content">
                 <div class="title m-b-md panel-heading">
-                    <b>CMS-HT</b>
+                    <b>ADBIN CMS</b>
                 </div>
-                <b><i>Church, the smarter way!</i></b>
+                <b><i>Binary made church easier</i></b>
                 <div class="panel-footer">
-                <b><h3 class="text-primary font-weight-bold">A Product Of <a href="http://hoffenheimtechnologies.com"> Hoffenheim Technologies</a></h3></b>
+                <b><h3 class="text-primary font-weight-bold">A Product Of <a href="http://myckhel.adbin.com.ng"> {{env('APP_NAME')}}</a></h3></b>
               </div>
               </div>
-
-                <!--<div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>-->
+              <div class="panel-footer">
+                <div class="content">
+                  @if (Route::has('login'))
+                      <div class="auth-link links">
+                          @auth
+                              <a href="{{ url('/dashboard') }}">Home</a>
+                          @else
+                              <a href="{{ route('login') }}">Login</a>
+                          @endauth
+                      </div>
+                  @endif
+                </div>
+              </div>
             </div>
         </div>
     </body>

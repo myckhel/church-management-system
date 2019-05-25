@@ -105,7 +105,7 @@ class AttendanceController extends Controller
 
         if ($attendance)
         {
-            $addedVariables = ['formatted_date'=>$thedate, 'date_in_words'=>"{$this->get_date_in_words($attendance->attendance_date)}",'request_date'=>$request->date];
+            // $addedVariables = ['formatted_date'=>$thedate, 'date_in_words'=>"{$this->get_date_in_words($attendance->attendance_date)}",'request_date'=>$request->date];
             return response()->json(['status' => true, 'attendance' => $attendance]);
             // return view('attendance.view', compact('attendance','addedVariables' ) );
         }

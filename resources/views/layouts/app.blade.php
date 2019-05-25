@@ -488,12 +488,12 @@
 			<!-- Visible when footer positions are static -->
 			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 			<div class="hide-fixed pull-right pad-rgt">
-			Powered By <a href="https://hoffenheimtechnologies.com" style="color:#274868;font-weight:bolder">Hoffenheim Technologies </a>
+			Powered By <a href="https://myckhel.adbin.com.ng" style="color:#274868;font-weight:bolder"> Myckhel </a>
 			</div>
 			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 			<!-- Remove the class "show-fixed" and "hide-fixed" to make the content always appears. -->
 			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-			<p class="pad-lft">&#0169; 2018 {{config('app.name')}}</p>
+			<p class="pad-lft">&#0169; {{date('Y')}} {{config('app.name')}}</p>
 		</footer>
 		<!--===================================================-->
 		<!-- END FOOTER -->
