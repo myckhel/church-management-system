@@ -15,13 +15,19 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('branch_id');
+            $table->bigInteger('branch_id')->unsigned();
             $table->string('title');
+            $table->string('details');
             $table->string('location');
             $table->string('time');
             $table->string('by_who');
-            $table->string('date');
+            $table->string('assign_to')->nullable();
+            $table->string('date')->nullable();
             $table->timestamps();
+        });
+
+        Schema::table('events', function (Blueprint $table) {
+            $table->foreign('branch_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

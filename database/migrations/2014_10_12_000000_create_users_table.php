@@ -19,10 +19,10 @@ class CreateUsersTable extends Migration
             $table->string('country');
             $table->string('state');
             $table->string('city');
-            $table->string('branchcode')->unique();
+            $table->string('branchcode', 60)->unique();
             $table->string('email', 30)->unique();
             $table->string('address');
-            $table->integer('currency', 5);
+            $table->string('currency');
             $table->enum('isadmin',['true','false'])->default('false');
             $table->string('password');
             $table->rememberToken();

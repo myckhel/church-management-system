@@ -20,7 +20,7 @@ return [
     | A Google API key to link Googlmapper to Google's API.
     |
     */
-    'key' => env('GOOGLE_API_KEY', 'AIzaSyAFNTj5VwvU0sdXE3Dp_wPvCQH7j7HLl-w'),
+    'key' => env('GOOGLE_API_KEY'),
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
     | The default zoom level Googlmapper should use.
     |
     */
-    'zoom' => 8,
+    'zoom' => 10,
 
     /*
     |--------------------------------------------------------------------------

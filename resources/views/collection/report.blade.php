@@ -37,7 +37,7 @@
   <div id="page-content">
     <div class="row">
       <div class="col-md-12 col-md-offset-0">
-      <!-- Basic Data Tables -->
+      <!-- Branch collection History -->
       <!--===================================================-->
       <div class="panel" style="background-color: #e8ddd3;">
         <div class="panel-heading">
@@ -127,7 +127,7 @@ var setup = (types) => {
           `{{\Auth::user()->getCurrencySymbol()->currency_symbol}}${data ? data : 0}`
         )})
       ))
-      cols.push({data: 'date_collected'})
+      cols.push({data: 'date'})
       cols.push({data: 'updated_at'})
       return cols
     })(types),

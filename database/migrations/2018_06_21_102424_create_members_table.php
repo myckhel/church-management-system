@@ -15,7 +15,7 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('branch_id')->index('branch_id_index');
+            $table->bigInteger('branch_id')->unsigned();
             $table->enum('title', ['Mr', 'Mrs', 'Miss','Dr (Mrs)', 'Dr', 'Prof', 'Chief', 'Chief (Mrs)', 'Engr', 'Surveyor', 'HRH','Elder','Oba','Olori']);
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
@@ -36,7 +36,12 @@ class CreateMembersTable extends Migration
             $table->string('wedding_anniversary')->nullable();
             $table->string('photo');
             $table->string('relative')->nullable();
+            $table->enum('member_status', ['old', 'new'])->default('old');
             $table->timestamps();
+        });
+
+        Schema::table('members', function (Blueprint $table) {
+            $table->foreign('branch_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

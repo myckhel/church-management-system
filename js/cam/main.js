@@ -229,9 +229,6 @@ function takeSnapshot() {
     // show the snapshot container
     $('#captured').show()
     $('#choose-img').show()
-
-
-
 }
 
 function blobToFile(theBlob, fileName){

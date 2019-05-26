@@ -4,12 +4,10 @@
 @section('title') Branch Registration @endsection
 
 @section('content')
-
 <!--CONTENT CONTAINER-->
 <!--===================================================-->
 <div id="content-container">
 	<div id="page-head">
-
 		<!--Page Title-->
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<div id="page-title">
@@ -17,8 +15,6 @@
 		</div>
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<!--End page title-->
-
-
 		<!--Breadcrumb-->
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<ol class="breadcrumb">
@@ -29,66 +25,36 @@
 		</ol>
 		<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 		<!--End breadcrumb-->
-
 	</div>
-
-
 	<!--Page content-->
 	<!--===================================================-->
 	<div id="page-content">
-
-
-
 		<div class="row">
 			<div class="col-lg-8 col-lg-offset-2">
 				<div class="panel" style="background-color: #e8ddd3;">
 					<div class="panel-heading">
 						<h2 class="panel-title text-center">Register Branch</h2>
 					</div>
-					<div class="col-lg-10 col-lg-offset-2">
-					@if (session('status'))
-
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    @if (count($errors) > 0)
-                        @foreach ($errors->all() as $error)
-
-                            <div class="alert alert-danger">{{ $error }}</div>
-
-                        @endforeach
-
-                    @endif
-					</div>
-
+					@include('layouts.error')
 
 					<!-- BASIC FORM ELEMENTS -->
 					<!--===================================================-->
-
-					<!--===================================================-->
-					<!-- END BASIC FORM ELEMENTS -->
-
-
-
-					<!--Default Bootstrap Modal-->
-					<!--===================================================-->
 					<div class="cls-content">
-        <div class="cls-content-lg panel">
-            <div class="panel-body">
-                <div class="mar-ver pad-btm">
-                    <h1 class="h3">Create a New Branch Account</h1>
-                    <p>Set up account.</p>
-                </div>
-								@if (isset($_GET['s']))
-								<div class="alert alert-success" role="alert">
-									<span class="text-danger">
-											<strong>New Branch added Successfully</strong>
-									</span>
-								</div>
-								@endif
-                <form id="branch-form" action="{{route('branch.register')}}" method="POST">
-                @csrf
+		        <div class="cls-content-lg panel">
+		            <div class="panel-body">
+		                <div class="mar-ver pad-btm">
+		                    <h1 class="h3">Create a New Branch Account</h1>
+		                    <p>Set up account.</p>
+		                </div>
+										@if (isset($_GET['s']))
+										<div class="alert alert-success" role="alert">
+											<span class="text-danger">
+													<strong>New Branch added Successfully</strong>
+											</span>
+										</div>
+										@endif
+		                <form id="branch-form" action="{{route('branch.register')}}" method="POST">
+		                @csrf
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -178,7 +144,8 @@
 											<div class="col-sm-3">
 													<div class="form-group">
 															<!--input id="country" type="country" placeholder="Country" class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" value="{{ old('country') }}" required-->
-															<select  id="country"class="form-control {{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" required placeholder="Enter member country">
+															<select  id="country"class="form-control {{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" required>
+																<option value="" selected disabled>Country</option>
                              		<!-- <option value="158">Nigeria</option> -->
                               </select>
 															@if ($errors->has('country'))
@@ -194,7 +161,9 @@
 															<select class="form-control {{ $errors->has('currency') ? ' is-invalid' : '' }}" name="currency" required placeholder="Enter Branch Currency">
 																 <option value="" selected disabled>Currency</option>
 																 @foreach($currencies as $currency)
-																 <option value="{{$currency->ID}}">{{$currency->currency_name}} - {{$currency->currency_symbol}}</option>
+																 @if($currency->currency_symbol)
+																 <option value="{{$currency->currency_symbol}}" {{$currency->name == 'Nigeria' ? 'selected' : '' }}>{{$currency->currency_name}} - {{$currency->currency_symbol}}</option>
+																 @endif
 																 @endforeach
 															 </select>
 															@if ($errors->has('currency'))
@@ -205,19 +174,12 @@
 													</div>
 											</div>
                     </div>
-                    <!--<div class="checkbox pad-btm text-left">
-                        <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">
-                        <label for="demo-form-checkbox">I agree with the <a href="pages-register.html#" class="btn-link text-bold">Terms and Conditions</a></label>
-                    </div>-->
                     <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
                 </form>
             </div>
         </div>
     </div>
     <!--===================================================-->
-					<!--===================================================-->
-					<!--End Default Bootstrap Modal-->
-
 				</div>
 			</div>
 		</div>
@@ -247,7 +209,7 @@ async function getCountries(){
 function options(countries){
 	opt = ''
 	countries.forEach((v) => {
-		opt += `<option ${(v.ID === 158) ? 'selected' : ''} value="${v.ID}">${v.name}</option>`
+		opt += `<option ${(v.name === 'Nigeria') ? 'selected' : ''} value="${v.name}">${v.name}</option>`
 	})
 	return opt
 }

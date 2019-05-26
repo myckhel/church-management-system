@@ -7,6 +7,7 @@ use App\Options;
 use Auth;
 use Yajra\Datatables\Datatables;
 use App\CollectionCommission;
+use Daveismyname\Countries\Facades\Countries;
 
 class OptionController extends Controller
 {
@@ -31,7 +32,7 @@ class OptionController extends Controller
       $branch = Auth::user();
       $status = false;
       $text = "Option Name Not Valid";
-      $optionName = array('smsbalanceapi', 'collection_commission', 'commission_account_bank', 'smsapi', 'commission_account_number', 'commission_account_name');
+      $optionName = array('smsbalanceapi', 'collection_commission', 'smsapi', 'sub_account');
       // 'currency', 'branchname', 'branchaddress',
       //   'branchline1', 'branchline2', 'branchcity', 'branchstate', 'branchcountry', 'branchlogo');
 
@@ -54,7 +55,8 @@ class OptionController extends Controller
         }
 
         $text = Options::putBranchOption($request, $branch);
-        $text = "Created"; $status = true;
+        $text = $text ? "Created" : $text;
+        $status = true;
       }
       return response()->json(['status' => $status, 'text' => $text]);
     }
@@ -82,31 +84,11 @@ class OptionController extends Controller
     }
 
     public function getCurrencies(Request $request){
-      $sql = "SELECT currency_symbol, ID FROM country WHERE currency_name != '' AND currency_symbol != ''";
-      $currencies = \DB::select($sql);
-      if ($request->_) {
-        $array = [];
-        foreach ($currencies as $key => $value) {
-          // code...
-          array_push($array, $value->currency_symbol);
-        }
-        return response()->json($array);
-      }
-      return response()->json($currencies);
+      return Countries::all();
     }
 
     public function getCountries(Request $request){
-      $sql = "SELECT name, ID FROM country";
-      $currencies = \DB::select($sql);
-      if ($request->_) {
-        $array = [];
-        foreach ($currencies as $key => $value) {
-          // code...
-          array_push($array, $value->currency_symbol);
-        }
-        return response()->json($array);
-      }
-      return response()->json($currencies);
+      return Countries::all();
     }
 
     public function collectionTypeGet(Request $request){

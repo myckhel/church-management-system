@@ -59,6 +59,10 @@ li {
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+.icon {
+  font-size: 100px;
+}
 </style>
 <div id="content-container">
     <div id="page-head">
@@ -228,9 +232,11 @@ li {
                         <td>{{ucwords($li->firstname)}}</td>
                         <td>{{ucwords($li->lastname)}}</td>
                         <td>{{$li->attendance}}</td>
-                        <td>{{$li->service_types->name}}</td>
-                        <td >{{$li->attendance_date}}</td>
-                        <td >{{$li->updated_at}}</td>
+                        @foreach($li->member_attendances as $att)
+                        <td>{{$att->service_types->name}}</td>
+                        <td >{{$att->attendance_date}}</td>
+                        <td >{{$att->updated_at}}</td>
+                        @endforeach
                         <!--td><button id="{{$li->attendance_date}}" type="submit" class="btn btn-primary" onclick="view(this);">View</button></td-->
                     </tr>
                     <?php $count++;?>
@@ -324,16 +330,31 @@ return  `
                   <p class="text-xs">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>-->
                   <ul class="list-unstyled text-center bord-to pad-top mar-no row">
                       <li class="col-xs-4">
+                        <div class="col">
                           <span class="text-lg text-semibold text-main">${attendance.male}</span>
                           <p class="text-sm text-muted mar-no">Men</p>
+                        </div>
+                        <div class="col">
+                          <span class="icon fa fa-male"></span>
+                        </div>
                       </li>
                       <li class="col-xs-4">
+                        <div class="col">
                           <span class="text-lg text-semibold text-main">${attendance.female}</span>
                           <p class="text-sm text-muted mar-no">Women</p>
+                        </div>
+                        <div class="col">
+                          <span class="icon fa fa-female"></span>
+                        </div>
                       </li>
                       <li class="col-xs-4">
+                        <div class="col">
                           <span class="text-lg text-semibold text-main">${attendance.children}</span>
                           <p class="text-sm text-muted mar-no">Children</p>
+                        </div>
+                        <div class="col">
+                          <span class="icon fa fa-child"></span>
+                        </div>
                       </li>
                   </ul>
               </div>
@@ -370,6 +391,8 @@ function view(d, fn){
   })
   .fail((e) => {
     swal("Oops", "internal server error", "error");
+    // stop loading element
+    loadElement($(d), false)
     console.log(e);
   })
 }

@@ -152,6 +152,8 @@ return [
          */
          Yajra\Datatables\DatatablesServiceProvider::class,
          Cornford\Googlmapper\MapperServiceProvider::class,
+         Unicodeveloper\Paystack\PaystackServiceProvider::class,
+         Daveismyname\Countries\CountriesServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -213,6 +215,7 @@ return [
         'Carbon' => 'Carbon\Carbon',
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
+        'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
 
     ],
 

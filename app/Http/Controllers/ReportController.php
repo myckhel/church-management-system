@@ -14,12 +14,12 @@ class ReportController extends Controller
 
       $sql = "SELECT count(id) AS total_member, count(case when sex = 'male' then 1 end) AS male, count(case when sex = 'female' then 1 end) AS female,
       count(case when marital_status = 'single' then 1 end) AS single, count(case when marital_status = 'married' then 1 end) AS married
-      FROM `members` WHERE branch_id = '$user->branchcode'";
+      FROM `members` WHERE branch_id = '$user->id'";
       $reports = \DB::select($sql);
 
       //Year of reg
       $sql = "SELECT COUNT(case when sex = 'male' then 1 end) AS male, COUNT(case when sex = 'female' then 1 end) AS female,
-      YEAR(created_at) AS year FROM `members` WHERE created_at >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branchcode' GROUP BY year";
+      YEAR(created_at) AS year FROM `members` WHERE created_at >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->id' GROUP BY year";
       $r_years = \DB::select($sql);
 
       return view('report.membership', compact('reports', 'r_years'));
@@ -27,8 +27,8 @@ class ReportController extends Controller
 
     public function collections(){
       $user = \Auth::user();
-      $savings = \App\Savings::rowToColumn(\App\Savings::where('branch_id', $user->id)->get());
-      $mSavings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->get());
+      $savings = \App\Collection::rowToColumn(\App\Collection::where('branch_id', $user->id)->get());
+      $mSavings = \App\MemberCollection::rowToColumn(\App\MemberCollection::where('branch_id', $user->id)->get());
       $obj = new \stdClass();
       $obj->total_collections = $this->calculateTotal($savings);
       $obj->todays_total_collections = $this->calculateTotal($savings, 'now');
@@ -59,7 +59,7 @@ class ReportController extends Controller
       $c_years = $this->calculateSingleTotal($savings, 'year');
       // dd($c_years);
 
-      return view('report.collections', compact('reports', 'memberTotal', 'ad_rep', 'c_years', 'c_types'));
+      return view('report.collections', compact('reports', 'memberTotal', 'c_years', 'c_types'));
     }
 
     public function attendance(){
@@ -68,24 +68,25 @@ class ReportController extends Controller
       $sql = "SUM(female + male + children) AS total_attendance, SUM(case when attendance_date = date(now()) then (female + male + children) end) AS todays_attendance,
       SUM(male) AS male, SUM(female) AS female, SUM(children) AS children, SUM(children + male + female) AS total, SUM(case when attendance_date = date(now()) then children + male + female end) AS totalt,
       SUM(case when attendance_date = date(now()) then male end) AS malet, SUM(case when attendance_date = date(now()) then female end) AS femalet, SUM(case when attendance_date = date(now()) then children end) AS childrent";
-      $reports = \App\Attendance::selectRaw($sql)->where('branch_id', $user->branchcode)->first();
+      $reports = \App\Attendance::selectRaw($sql)->where('branch_id', $user->id)->first();
 
-      $sql = "members.firstname, members.lastname, count(case when attendance = 'yes' then 1 end) as total, count(case when attendance_date = date(now()) then (case when attendance = 'yes' then 1 end) end) as totalt
+      $sql = "members.firstname, members.lastname, count(case when attendance = 'yes' then 1 end) as total, count(case when date = date(now()) then (case when attendance = 'yes' then 1 end) end) as totalt
       ";
-      $m_r = \App\members_attendance::selectRaw($sql)->where('members_attendances.branch_id', $user->branchcode)
-      ->leftjoin('members', 'members.id', '=', 'members_attendances.member_id')
+      $m_r = \App\MemberAttendance::selectRaw($sql)->where('member_attendances.branch_id', $user->id)
+      // $m_r = $user->members()->selectRaw($sql) //\App\MemberAttendance::selectRaw($sql)->where('member_attendances.branch_id')
+      ->leftjoin('members', 'members.id', '=', 'member_attendances.member_id')
       ->groupBy('firstname', 'lastname')->get();//\DB::select($sql);
       // dd($m_r);
       $sql = "SELECT SUM(a.male + a.female + a.children) as atotal,
       count(case when attendance = 'yes' then 1 end) as mtotal,
       branchname AS name
-      FROM members_attendances m, attendances a JOIN users u ON branch_id = u.branchcode GROUP BY name";
+      FROM member_attendances m, attendances a JOIN users u ON branch_id = u.id GROUP BY name";
       $ad_rep= \DB::select($sql);
       // dd($ad_rep);
 
       //Year
       $sql = "SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-      YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '".$user->branchcode."' GROUP BY year";
+      YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '".$user->id."' GROUP BY year";
       $a_years = \DB::select($sql);
       return view('report.attendance', compact('reports', 'm_r', 'ad_rep', 'a_years'));
     }
@@ -109,11 +110,11 @@ class ReportController extends Controller
 
       $sql = "SELECT COUNT(case when sex = 'male' then 1 end) AS male, COUNT(case when sex = 'female' then 1 end) as female,
       branchname AS name,
-      YEAR(m.created_at) AS year FROM members m RIGHT JOIN users u ON branch_id = u.branchcode WHERE m.created_at >= DATE(NOW() + INTERVAL - 10 YEAR) GROUP BY name, year";
+      YEAR(m.created_at) AS year FROM members m RIGHT JOIN users u ON branch_id = u.id WHERE m.created_at >= DATE(NOW() + INTERVAL - 10 YEAR) GROUP BY name, year";
 
       $i_years= \DB::select($sql);
 
-      return view('report.all-m', compact('reports', 'r_years', 'i_years', 'runs'));
+      return view('report.all-m', compact('reports', 'r_years', 'i_years'));
     }
 
     public function allCollections(){
@@ -122,8 +123,7 @@ class ReportController extends Controller
         return redirect()->route('report.collections');
       }
 
-      $bSavings = \App\Savings::rowToColumnByField(\App\Savings::with('users')->get());
-
+      $bSavings = \App\Collection::rowToColumnByField(\App\Collection::with('users')->get());
       $obj = new \stdClass();
       $obj->branch_collections = $this->calculateSingleTotalBranch($bSavings);
       $obj->collections = $this->calculateSingleTotalCollection($bSavings);
@@ -134,7 +134,7 @@ class ReportController extends Controller
 
       $reports = $obj;
 
-      return view('report.all-c', compact('reports', 'branches', 'ad_rep', 'c_years', 'c_types', 'branchesName'));
+      return view('report.all-c', compact('reports', 'c_years', 'c_types', 'branchesName'));
     }
 
     public function allAttendance(){
@@ -149,12 +149,12 @@ class ReportController extends Controller
       SUM(case when attendance_date = date(now()) then male end) AS malet, SUM(case when attendance_date = date(now()) then female end) AS femalet, SUM(case when attendance_date = date(now()) then children end) AS childrent";
       $reports = \App\Attendance::selectRaw($sql)->first();//\DB::select($sql);
 
-      $sql = "count(case when attendance = 'yes' then 1 end) as total, count(case when attendance_date = date(now()) then (case when attendance = 'yes' then 1 end) end) as totalt";
-      $m_r = \App\members_attendance::selectRaw($sql)->with('members')->get();
+      $sql = "count(case when attendance = 'yes' then 1 end) as total, count(case when date = date(now()) then (case when attendance = 'yes' then 1 end) end) as totalt";
+      $m_r = \App\MemberAttendance::selectRaw($sql)->with('members')->get();
 
       $sql = "SELECT SUM(a.male + a.female + a.children) as atotal, SUM(case when a.attendance_date = date(now()) then (a.male + a.female + a.children) end) as atotalt,
       branchname AS name
-      FROM attendances a JOIN users u ON branch_id = u.branchcode GROUP BY name";
+      FROM attendances a JOIN users u ON branch_id = u.id GROUP BY name";
       $ad_rep= \DB::select($sql);
 
       //Year

@@ -1,0 +1,37 @@
+{
+    "name": "cornford/googlmapper",
+    "description": "An easy way to integrate Google Maps with Laravel.",
+    "keywords": ["laravel", "google", "maps", "mapping", "streetview", "map"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bradley Cornford",
+            "email": "me@bradleycornford.co.uk"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/view": "5.*",
+        "illuminate/support": "5.*"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "2.0.*@dev",
+        "mockery/mockery": "0.9.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Cornford\\Googlmapper": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Cornford\\Googlmapper\\MapperServiceProvider"
+            ],
+            "aliases": {
+                "Mapper": "Cornford\\Googlmapper\\Facades\\MapperFacade"
+            }
+        }
+    }
+}

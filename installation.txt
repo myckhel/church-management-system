@@ -1,0 +1,8 @@
+clone project
+cd project
+composer install
+duplicate .env.example > .env
+configure .env
+php artisan key:generate
+create database table
+php artisan migrate

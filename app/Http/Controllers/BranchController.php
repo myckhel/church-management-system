@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Yajra\Datatables\Datatables;
+use Paystack;
+use Daveismyname\Countries\Facades\Countries;
 
 class BranchController extends Controller
 {
@@ -33,8 +35,7 @@ class BranchController extends Controller
       }
       //$members = Member::all();
       if ($request->draw) {
-        $users = User::select('users.*', 'c2.ID', 'c2.currency_symbol', 'c.name')->join('country AS c', 'c.ID', '=', 'users.country')->join('country AS c2', 'c2.ID', '=', 'users.currency')->get();
-        return Datatables::of($users)->make(true);
+        return Datatables::of(User::all())->make(true);
       } else {
         return view('branch.all');
       }
@@ -42,61 +43,6 @@ class BranchController extends Controller
 
     public function users(){
       return Datatables::of(User::all())->make(true);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Branch  $branch
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Branch $branch)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Branch  $branch
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Branch $branch)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Branch  $branch
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Branch $branch)
-    {
-        //
     }
 
     /**
@@ -118,9 +64,7 @@ class BranchController extends Controller
     {
         //
         $user = \Auth::user();
-
-        $sql = "SELECT currency_name, currency_symbol, ID FROM country WHERE currency_name != ''";
-        $currencies = \DB::select($sql);
+        $currencies = Countries::all();
 
         return ($user->isAdmin()) ? view('branch.register', compact('currencies')) : redirect()->route('dashboard');
     }
@@ -137,26 +81,28 @@ class BranchController extends Controller
       $data['country'] = $request->country;
       $data['state'] = $request->state;
       $data['city'] = $request->city;
+      if (!User::first()) {
+        $data['isadmin'] = true;
+      }
       $data['currency'] = $request->currency;
       $data['password'] = $request->password;
       $data['password_confirmation'] = $request->password_confirmation;
 
       $validate = self::validator($data);
       if($validate->fails()){
-        return redirect('/branches/register')->withErrors($validate)->withInput();
+        return redirect()->back()->withErrors($validate)->withInput();
       }
       $creation = self::creator($data);
       //
-      $s = 'Success';
-
-      return redirect()->route('branch.register', ['s' => $s]);
+      $success = 'Successfully Registered';
+      return redirect()->back()->with('status', $success);
     }
 
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'branchname' => 'bail|required|string|max:255',
-            'branchcode' => 'required|string|max:255',
+            'branchcode' => 'required|string|max:255|unique:users',
             'address' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -174,7 +120,7 @@ class BranchController extends Controller
         'branchcode' => $data['branchcode'],
         'address' => $data['address'],
         'email' => $data['email'],
-        'isadmin' => 'false',
+        'isadmin' => isset($data['isadmin']) ? $data['isadmin'] : 0,
         'password' => Hash::make($data['password']),
         'country' => $data['country'],
         'state' => $data['state'],
@@ -293,6 +239,9 @@ class BranchController extends Controller
       $user = \Auth::user();
       // get due savings
       $dueSavings = \App\CollectionCommission::dueSavings($user);
+      // if nothing found for the branch
+      // redirect back withErrors
+      if(!isset($dueSavings[$user->id])) return back()->withErrors(['message' => 'Nothing to pay']);
       // get the commission percentage
       $percentage = (int)(\App\Options::getLatestCommission())->value;
       // dd($dueSavings);
@@ -300,6 +249,6 @@ class BranchController extends Controller
       // dd($details);
       $options = DB::table('head_office_options')->where('HOID',1)->first();
       $blanceDue = \App\CollectionCommission::calculateUnsettledCommission();
-      return view('branch.invoice', compact('details', 'dueSavings', 'percentage', 'blanceDue', 'user', 'options'));
+      return view('branch.invoice', compact('details', 'dueSavings', 'percentage', 'blanceDue', 'user', 'options', 'Paystack'));
     }
 }

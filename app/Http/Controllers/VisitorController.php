@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Daveismyname\Countries\Facades\Countries;
+use \App\User;
+use \App\Branch;
+use \App\Setting;
 
 class VisitorController extends Controller
 {
@@ -97,5 +101,37 @@ class VisitorController extends Controller
         }
 
         return $ip;
+    }
+
+    public function setupUser(){
+      // check if user exist in table and redirect to home
+      if(User::first()){
+        return Redirect()->route('dashboard');
+      } else {
+        // show register view
+        $currencies = Countries::all();
+        return view('auth.register', compact('currencies'));
+      }
+      return;
+    }
+
+    public function register(Request $request){
+      return Branch::register($request);
+    }
+
+    public function setupApp(){
+      return view('setup');
+    }
+
+    public function saveApp(Request $request){
+      return ;
+    }
+
+    public function uploadLogo(Request $request){
+      return Setting::uploadLogo($request);
+    }
+
+    public function saveAppName(Request $request){
+      return Setting::saveAppName($request);
     }
 }

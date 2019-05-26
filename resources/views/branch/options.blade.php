@@ -59,6 +59,42 @@
             @endforeach
           @endif
         </div>
+        <div class="col-md-4">
+          <div class="panel">
+            <div class="panel-heading">
+              Collection Payment Account
+            </div>
+            <div class="panel-body">
+              <form id="sub-account" method="post">
+                <div class="form-group row">
+                  <label for="staticEmail" class="col-sm-4 col-form-label">Account Name</label>
+                  <div class="col-sm-8">
+                    <input id="commission_account_name" class="form-control" type="text" name="commission_account_name" value="">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="staticEmail" class="col-sm-4 col-form-label">Account Number</label>
+                  <div class="col-sm-8">
+                    <input id="commission_account_number" class="form-control" type="number" name="commission_account_number" value="">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="staticEmail" class="col-sm-4 col-form-label">Bank Name</label>
+                  <div class="col-sm-8">
+                    <select id="bank_select" class="form-control" name="commission_account_bank">
+                    </select>
+                  </div>
+                </div>
+                <input type="text" hidden name="name" value="sub_account">
+                <input type="text" hidden name="percentage_charge" value="0">
+                @csrf
+                <input class="btn btn-primary pull-right" type="submit" name="" value="submit">
+              </form>
+            </div>
+          </div>
+        </div>
         <div class="col-12">
             <div class="panel" style="overflow:scroll; background-color: #e8ddd3;">
                 <!--Block Styled Form -->
@@ -91,55 +127,6 @@
 					                        <td width="35%">Sms Balance Api</td>
 					                        <td width="65%"><a href="#" id="smsbalanceapi"></a></td>
 					                    </tr>
-                              <!-- <tr>
-					                        <td width="35%">Branch Name</td>
-					                        <td width="65%"><a href="#" id="branchname"></a></td>
-					                    </tr>
-                              <tr>
-					                        <td width="35%">Branch Address</td>
-					                        <td width="65%"><a href="#" id="branchaddress"></a></td>
-					                    </tr>
-                              <tr>
-					                        <td width="35%">Branch City</td>
-					                        <td width="65%"><a href="#" id="branchcity"></a></td>
-					                    </tr>
-                              <tr>
-					                        <td width="35%">Branch State</td>
-					                        <td width="65%"><a href="#" id="branchstate"></a></td>
-					                    </tr>
-                              <tr>
-					                        <td width="35%">Branch Country</td>
-					                        <td width="65%"><a href="#" id="branchcountry"></a></td>
-					                    </tr>
-					                    <tr>
-					                        <td>Branch Logo</td>
-					                        <td>
-                                    <div class="row">
-                                       <div class="col-md-3">
-                                         <form id="upload-form" action="{{route('option.branch.post')}}" method="post" enctype="multipart/form-data">
-                                           <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                           <input id="img-logo-input" style="display:none" name="branchlogo" type="file" accept=".jpg,.gif,.png"  class="form-control">
-                                           <img id="img-logo" class="img-responsive" src="{{url('/images/')}}/church-logo.png">
-                                           <button id="edit-ho" type='button' class="btn btn-danger" onclick="">Edit</button>
-                                           <button style="display:none" id="save-ho" type='submit' name="update" class="btn btn-danger" onclick="">Save</button>
-                                           <button style="display:none" id="cancel-ho" type='button' class="btn btn-warning" onclick="">Cancel</button>
-                                          </form>
-                                        </div>
-                                    </div>
-                                  </td>
-					                    </tr>
-					                    <tr>
-					                        <td>Branch Currency Symbol</td>
-					                        <td><a href="#" id="currency" data-type="select" data-pk="1" data-source="{{route('option.currencies')}}" data-title="Select currency Symbol"></a></td>
-					                    </tr> -->
-                              <!-- <tr>
-					                        <td>Branch Line 1</td>
-					                        <td><a href="#" id="branchline1" data-type="number" data-pk="1" data-placement="right" data-placeholder="e.g, 081100000000" data-title="Enter Branch's Line 1"></a></td>
-					                    </tr>
-                              <tr>
-					                        <td>Branch Line 2</td>
-					                        <td><a href="#" id="branchline2" data-type="number" data-pk="1" data-placement="right" data-placeholder="e.g, 081100000000" data-title="Enter Branch's Line 2"></a></td>
-					                    </tr> -->
                               @if(Auth::user()->isAdmin())
                               <tr>
 					                        <td>Collection Commission</td>
@@ -147,7 +134,7 @@
                                     data-placeholder="e.g, 20" data-title="Collection's commission percentage"></a>
                                   </td>
 					                    </tr>
-                              <tr>
+                              <!-- <tr>
 					                        <td>Commission Account Number</td>
 					                        <td><a href="#" id="commission_account_number" data-type="number" data-pk="1" data-placement="right"
                                     data-placeholder="e.g, 01100000001" data-title="Account Number"></a></td>
@@ -155,17 +142,17 @@
                               <tr>
 					                        <td width="35%">Commission Account Name</td>
 					                        <td width="65%"><a href="#" id="commission_account_name" data-title="Account Name"></a></td>
-					                    </tr>
-                              <tr>
+					                    </tr> -->
+                              <!-- <tr>
 					                        <td width="35%">Commission Account Bank</td>
                                   <td>
                                     <a href="#" id="commission_account_bank" data-type="select" data-pk="1"
                                     data-source="{{route('banks')}}"
                                       data-title="Choose Bank">
-                                    </a>
+                                    </a> -->
                                     <!-- data-source="{{url('https://api.paystack.co/bank')}}" -->
-                                  </td>
-					                    </tr>
+                                  <!-- </td>
+					                    </tr> -->
                               @endif
 					                </tbody>
 					            </table>
@@ -222,14 +209,31 @@ $.ajax({url: "{{route('option.branch.get')}}"})
     // $("#branchstate").editable(opt, dt.branchstate)
     // $("#branchcountry").editable(opt, dt.branchcountry)
     $("#collection_commission").editable(opt, dt.collection_commission)
-    $("#commission_account_bank").editable(opt, dt.commission_account_bank)
-    $("#commission_account_name").editable(opt, dt.commission_account_name)
-    $("#commission_account_number").editable(opt, dt.commission_account_number)
+    $("#bank_select").append(`<option selected value="${dt.commission_account_bank}">${dt.commission_account_bank}</option>`)
+    $("#commission_account_name").val(dt.commission_account_name)
+    $("#commission_account_number").val(dt.commission_account_number)
     // $("#collection_commission").editable(opt, dt.collection_commission)
   }
 })
 .fail((e) => {console.log(e);})
 $(document).ready( () => {
+  // on submit sub account
+  $('#sub-account').submit((e) => {
+    e.preventDefault();
+    const data = $('#sub-account').serializeArray()
+    $.post({url: "{{route('option.branch.post')}}", data})
+    .done((res) => {
+      alert(res.text)
+    }).fail((e) => alert('Error invalid details'))
+  })
+  // fetch banks for select drop down
+  $.get("{{route('banks')}}")
+  .done((res) => {
+    res.map((v) => {
+      $('#bank_select').append(`<option value="${v.value}">${v.text}</option>`)
+    })
+  })
+
       // datas
       var dT = {sex: {male: {value: 1, text: 'Male'}, female: { value: 1, text: "Female"} } }
 			//defaults
@@ -349,41 +353,20 @@ $(document).ready( () => {
 			});
 
       // commission account number
-      $("#commission_account_number").editable({
-			    validate: function(value) {
-			       if($.trim(value) == "") return "This field is required";
-			    }
-			});
+      // $("#commission_account_number").editable({
+			//     validate: function(value) {
+			//        if($.trim(value) == "") return "This field is required";
+			//     }
+			// });
+      //
+      // // commission account name
+      // $("#commission_account_name").editable({
+			//     validate: function(value) {
+			//        if($.trim(value) == "") return "This field is required";
+			//     }
+			// });
 
-      // commission account name
-      $("#commission_account_name").editable({
-			    validate: function(value) {
-			       if($.trim(value) == "") return "This field is required";
-			    }
-			});
-
-      // commission account bank
-      // $.ajax({url: "{{url('https://api.paystack.co/bank')}}",})
-      // .done((res) => {
-        $("#commission_account_bank").editable({
-          // source: function(){
-          //   return res.data;
-          // }
-          // display: function(value, sourceData) {
-          //   $(this).text(sourceData.data)
-               // var colors = {"": "gray", 1: "green", 2: "blue"},
-               //     elem = $.grep(sourceData, function(o){return o.value == value;});
-               //
-               // if(elem.length) {
-               //     $(this).text(elem[0].text).css("color", colors[value]);
-               // } else {
-               //     $(this).empty();
-               // }
-          // }
-        });
-      // })
-
-
+      // $("#commission_account_bank").editable({});
 
 			$("#demo-editable-sex").editable({
 			    prepend: "not selected",

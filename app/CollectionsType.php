@@ -62,7 +62,7 @@ class CollectionsType extends Model
     }
 
     public function savings(){
-      $this->hasMany(Savings::class);
+      $this->hasMany(Collection::class);
     }
 
     public function MemberSavings(){

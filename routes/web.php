@@ -15,11 +15,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/setup/user', 'VisitorController@setupUser')->name('setupUser');
+Route::post('/setup/user', 'VisitorController@register')->name('visitor.register');
+
 Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group([ 'middleware' => [ 'auth'] ], function(){
+
+  Route::post('/setup/logo', 'VisitorController@uploadLogo')->name('app.logo');
+  Route::post('/setup/name', 'VisitorController@saveAppName')->name('app.name');
 
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     Route::get('/member/register', 'MemberController@create')->name('member.register.form');
@@ -128,6 +134,12 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/branches/tools/service-type/update', 'OptionController@updateServiceType')->name('update.service.type');
     Route::post('/branches/tools/collection-type/update', 'OptionController@updateCollectionType')->name('update.collection.type');
     // Route::post('/branches/tools', 'OptionController@toolsPost')->name('branch.toolsPost');
+    // PAYMENT
+    Route::resource('/payments', 'PaymentController');
+    Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
+    Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
+    Route::get('/payment/status', 'PaymentController@status');
+
     // test
     Route::get('/currencies/get', 'OptionController@getCurrencies')->name('option.currencies');
     Route::get('/countries/get', 'OptionController@getCountries')->name('option.countries');
@@ -150,9 +162,19 @@ Route::get('/admin/login', function () {
 
 //shared server clear cache
 Route::get('/clear-cache', function() {
-    $exitCode = Artisan::call('cache:clear');
+    return Artisan::call('cache:clear');
     // return what you want
 });
+
+// migrate db
+Route::get('/db/migrate', function() {
+    return Artisan::call('migrate');
+});
+
+Route::get('/db/migrate/fresh', function() {
+  return Artisan::call('migrate:fresh');
+});
+
 
 //Route::get('/registerr', function () {
     //return view('auth.register');
@@ -160,8 +182,28 @@ Route::get('/clear-cache', function() {
 Route::get('/recover', 'Auth\RecoverPasswordController@index')->name('recover');
 
 Route::get('/test', function(){
-  // $savings = \App\Savings::where('id', 116)->first();
-  // \App\CollectionCommission::setCollection($savings);
+//   name: commission_account_bank
+//   value: Guaranty Trust Bank
+  dd(Paystack::fetchSubAccount('ACCT_j8lho5oa7elp4pr'));
+  dd(Paystack::listSubAccounts(500,1));
+  if ($option = Options::getOneBranchOption($request->name, $branch)) {
+    if (in_array($request->name, ['commission_account_bank', 'commission_account_name', 'commission_account_number'])) {
+      $acounts = (Paystack::listSubAccounts(500,1))['data'];
+      // code...
+    }
+    // code...
+    $option->name = $request->name;
+    $option->value = $request->value;
+    $option->save();
+    return $option;
+  }
+  // create part
+  return Options::create([
+    'branch_id' => $branch->id,
+    'name' => $request->name,
+    'value' => $request->value
+  ]);
+  // return response()->json($currencies);
 })->name('test');
 
 Route::get('/users', 'BranchController@users')->name('users');
