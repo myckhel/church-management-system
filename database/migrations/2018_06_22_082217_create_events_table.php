@@ -21,7 +21,7 @@ class CreateEventsTable extends Migration
             $table->string('location');
             $table->string('time');
             $table->string('by_who');
-            $table->string('assign_to')nullable();
+            $table->string('assign_to')->nullable();
             $table->string('date')->nullable();
             $table->timestamps();
         });
