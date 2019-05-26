@@ -15,11 +15,13 @@ class CreateAnnouncementsTable extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->increments('id');
-             $table->bigInteger('branch_id')->unsigned();
-            $table->string('branchcode');
+            $table->bigInteger('branch_id')->unsigned();
             $table->string('details');
             $table->string('by_who');
-            $table->string('date');
+            $table->date('start_date');
+            $table->date('stop_date');
+            $table->time('start_time');
+            $table->time('stop_time');
             $table->timestamps();
         });
 

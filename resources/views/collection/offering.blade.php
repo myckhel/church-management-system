@@ -248,7 +248,7 @@ $(document).ready(() => {
     let url = "{{route('collection.save.member')}}"
     poster({url, data}, (res) => {
       toggleAble('#m-save', false)
-      if (res.status) {
+      if (res.status && res.status !== 500) {
         resetForm('#member-collection-form')
       }
     })
@@ -261,7 +261,7 @@ $(document).ready(() => {
     let data = $('#branch-collection-form').serializeArray()
     poster({url, data}, (res) => {
       toggleAble('#b-save', false)
-      if (res.status) {
+      if (res.status && res.status !== 500) {
         resetForm('#branch-collection-form')
       }
     })

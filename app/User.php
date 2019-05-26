@@ -34,7 +34,7 @@ class User extends Authenticatable
 
     public function isAdmin(){
 
-        return ($this->isadmin == "true") ? true : false;
+        return $this->isadmin;
     }
 
     public function getName(){

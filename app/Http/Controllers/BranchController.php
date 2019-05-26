@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Yajra\Datatables\Datatables;
 use Paystack;
+use Daveismyname\Countries\Facades\Countries;
 
 class BranchController extends Controller
 {
@@ -34,8 +35,7 @@ class BranchController extends Controller
       }
       //$members = Member::all();
       if ($request->draw) {
-        $users = User::select('users.*', 'c2.ID', 'c2.currency_symbol', 'c.name')->join('country AS c', 'c.ID', '=', 'users.country')->join('country AS c2', 'c2.ID', '=', 'users.currency')->get();
-        return Datatables::of($users)->make(true);
+        return Datatables::of(User::all())->make(true);
       } else {
         return view('branch.all');
       }
@@ -64,9 +64,7 @@ class BranchController extends Controller
     {
         //
         $user = \Auth::user();
-
-        $sql = "SELECT currency_name, currency_symbol, ID FROM country WHERE currency_name != ''";
-        $currencies = \DB::select($sql);
+        $currencies = Countries::all();
 
         return ($user->isAdmin()) ? view('branch.register', compact('currencies')) : redirect()->route('dashboard');
     }
@@ -96,15 +94,15 @@ class BranchController extends Controller
       }
       $creation = self::creator($data);
       //
-      $s = 'Successfully Registered';
-      return redirect()->back()->with('s');
+      $success = 'Successfully Registered';
+      return redirect()->back()->with('status', $success);
     }
 
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'branchname' => 'bail|required|string|max:255',
-            'branchcode' => 'required|string|max:255',
+            'branchcode' => 'required|string|max:255|unique:users',
             'address' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -122,7 +120,7 @@ class BranchController extends Controller
         'branchcode' => $data['branchcode'],
         'address' => $data['address'],
         'email' => $data['email'],
-        'isadmin' => $data['isadmin'] ? $data['isadmin'] : false,
+        'isadmin' => isset($data['isadmin']) ? $data['isadmin'] : 0,
         'password' => Hash::make($data['password']),
         'country' => $data['country'],
         'state' => $data['state'],

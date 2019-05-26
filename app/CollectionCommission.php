@@ -10,7 +10,7 @@ class CollectionCommission extends Model
 {
     //
     protected $fillable = [
-        'collection_id', 'branch_id', 'settled', 'collection_date'
+        'branch_id', 'settled', 'collection_date'
     ];
     protected $table = 'collections_commissions';
 
@@ -107,7 +107,7 @@ class CollectionCommission extends Model
     public static function setCollection(Collection $savings){
       $user = \Auth::user();
       return CollectionCommission::create([
-        'collection_date' => $savings->date_collected,
+        'collection_date' => $savings->date,
         'branch_id' => $user->id,
       ]);
     }

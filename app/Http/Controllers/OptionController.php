@@ -7,6 +7,7 @@ use App\Options;
 use Auth;
 use Yajra\Datatables\Datatables;
 use App\CollectionCommission;
+use Daveismyname\Countries\Facades\Countries;
 
 class OptionController extends Controller
 {
@@ -83,31 +84,11 @@ class OptionController extends Controller
     }
 
     public function getCurrencies(Request $request){
-      $sql = "SELECT currency_symbol, ID FROM country WHERE currency_name != '' AND currency_symbol != ''";
-      $currencies = \DB::select($sql);
-      if ($request->_) {
-        $array = [];
-        foreach ($currencies as $key => $value) {
-          // code...
-          array_push($array, $value->currency_symbol);
-        }
-        return response()->json($array);
-      }
-      return response()->json($currencies);
+      return Countries::all();
     }
 
     public function getCountries(Request $request){
-      $sql = "SELECT name, ID FROM country";
-      $currencies = \DB::select($sql);
-      if ($request->_) {
-        $array = [];
-        foreach ($currencies as $key => $value) {
-          // code...
-          array_push($array, $value->currency_symbol);
-        }
-        return response()->json($array);
-      }
-      return response()->json($currencies);
+      return Countries::all();
     }
 
     public function collectionTypeGet(Request $request){

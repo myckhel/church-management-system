@@ -52,14 +52,14 @@ class CollectionController extends Controller
           return response()->json(['status' => false, 'text' => "**You can't save collection for a future date!"]);
       }
       // check if collection has already been saved for that date
-      $savings = \App\Collection::getByDate($branch, $request->get('date'));
+      $savings = \App\Collection::getByDate($branch, $request->get('date_collected'));
       if ($savings > 0){
           return response()->json(['status' => false, 'text' => "**Branch Collection for {$this->get_date_in_words(date('Y-m-d',strtotime($request->get('date_collected'))))} has been saved before!"]);
       }
 
       $c_type = \App\CollectionsType::all();
       foreach ($c_type as $key => $type) {
-        // code...
+        // save collection
         $name = $type->name;
         $savings = \App\Collection::create([
           'branch_id' => $branch->id,
@@ -83,7 +83,7 @@ class CollectionController extends Controller
           return response()->json(['status' => false, 'text' => "**You can't save collection for a future date!"]);
       }
       // check if collection has already been saved for that date
-      $savings = \App\MemberSavings::getByDate($branch, $request->get('date_collected'));
+      $savings = \App\MemberCollection::getByDate($branch, $request->get('date_collected'));
       if ($savings > 0){
           return response()->json(['status' => false, 'text' => "**Member Collection for {$this->get_date_in_words(date('Y-m-d',strtotime($request->get('date_collected'))))} has been saved before!"]);
       }
@@ -93,7 +93,7 @@ class CollectionController extends Controller
         // code...
         $name = $type->name;
         for($i = 0; $i < count($request['member_id']); $i++){
-          $savings = \App\MemberSavings::create([
+          $savings = \App\MemberCollection::create([
             'branch_id' => $branch->id,
             'member_id' => $request['member_id'][$i],
             'collections_types_id' => $type->id,
@@ -170,7 +170,7 @@ class CollectionController extends Controller
     {
       $user = \Auth::user();
       $savings = \App\Collection::rowToColumn(\App\Collection::where('branch_id', $user->id)->get());
-      $mSavings = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $user->id)->get());
+      $mSavings = \App\MemberCollection::rowToColumn(\App\MemberCollection::where('branch_id', $user->id)->get());
       $c_types = \App\CollectionsType::getTypes();
 
       $collections = $this->calculateSingleTotal($savings, 'month');
@@ -252,7 +252,7 @@ class CollectionController extends Controller
       ->with('collections_types')->with('service_types')->get());
     }
     if(isset($request->member)) {
-      $history = \App\MemberSavings::rowToColumn(\App\MemberSavings::where('branch_id', $branch->id)
+      $history = \App\MemberCollection::rowToColumn(\App\MemberCollection::where('branch_id', $branch->id)
       ->with('member')->with('collections_types')->with('service_types')->get());
 
     }

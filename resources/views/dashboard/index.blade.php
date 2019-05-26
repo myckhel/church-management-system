@@ -536,10 +536,10 @@ $colors = colo();//$generateColor($c_types);
                               <span class="box-inline">
                                   <label class="label label-warning">From <i class="icofont-location-arrow"></i> {{$event->branchname}}</label>
                                   <label class="label label-danger">By <i class="icofont-user"></i> {{ucwords($event->by_who)}}</label>
-                                  <label class="label label-primary">Start Date <i class="icofont-stop-watch"></i> {{$event->start_date}}</label>
+                                  <!-- <label class="label label-primary">Start Date <i class="icofont-stop-watch"></i> {{$event->start_date}}</label>
                                   <label class="label label-primary">Start Time <i class="icofont-stop-watch"></i> {{$event->start_time}}</label>
                                   <label class="label label-info">End Date <i class="icofont-wall-clock icon-fw text-main"></i> {{$event->stop_date}}</label>
-                                  <label class="label label-info">End Time <i class="icofont-wall-clock icon-fw text-main"></i> {{$event->stop_time}}</label>
+                                  <label class="label label-info">End Time <i class="icofont-wall-clock icon-fw text-main"></i> {{$event->stop_time}}</label> -->
                               </span>
                           </a>
                       </div>

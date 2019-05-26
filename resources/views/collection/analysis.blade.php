@@ -90,12 +90,6 @@
                   </div>
                 </div>
 
-              <!-- <ul class="nav nav-pills ranges">
-                <li class="active"><a href="#" data-range='7'>7 Days</a></li>
-                <li><a href="#" data-range='30'>30 Days</a></li>
-                <li><a href="#" data-range='60'>60 Days</a></li>
-                <li><a href="#" data-range='90'>90 Days</a></li>
-              </ul> -->
                 <div id="stats-container" class="legendInline" style="height: 250px;"></div>
               </div>
           </div>

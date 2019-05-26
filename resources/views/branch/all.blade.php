@@ -12,36 +12,23 @@
 <!--===================================================-->
 <div id="content-container">
     <div id="page-head">
-
         <!--Page Title-->
-        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <div id="page-title">
             <h1 class="page-header text-overflow">Branch</h1>
         </div>
-        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <!--End page title-->
-
-
         <!--Breadcrumb-->
-        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <ol class="breadcrumb">
           <li>
               <i class="fa fa-home"></i><a href="{{route('dashboard')}}"> Dashboard</a>
           </li>
             <li class="active">All</li>
         </ol>
-        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <!--End breadcrumb-->
-
     </div>
-
-
     <!--Page content-->
     <!--===================================================-->
     <div id="page-content">
-
-
-
         <!-- Basic Data Tables -->
         <!--===================================================-->
         <div class="panel" style="overflow:scroll; background-color: #e8ddd3;">
@@ -66,12 +53,9 @@
         </div>
         <!--===================================================-->
         <!-- End Striped Table -->
-
-
     </div>
     <!--===================================================-->
     <!--End page content-->
-
 </div>
 <!--===================================================-->
 <!--END CONTENT CONTAINER-->
@@ -81,25 +65,14 @@
 <!--DataTables [ OPTIONAL ]-->
 <script src="{{ URL::asset('plugins/datatables/media/js/jquery.dataTables.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/media/js/dataTables.bootstrap.js') }}"></script>
-<!--<script src="{{ URL::asset('plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>-->
-
-<!--DataTables Sample [ SAMPLE ]-->
-<!--<script src="{{ URL::asset('js/demo/tables-datatables.js') }}"></script>-->
-
 <script src="{{ URL::asset('plugins/datatables/dataTables.semanticui.min.js') }}"></script>
-
 <script src="{{ URL::asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
-<!--<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>-->
-
-
 <script src="{{ URL::asset('plugins/datatables/buttons.semanticui.min.js') }}"></script>
-
 <script src="{{ URL::asset('plugins/datatables/jszip.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/pdfmake.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/vfs_fonts.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.html5.min.js') }}"></script>
 <script src="{{ URL::asset('plugins/datatables/buttons.print.min.js') }}"></script>
-
 <script src="{{ URL::asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
 <script src="{{ URL::asset('js/functions.js') }}"></script>
 <script src="{{ URL::asset('js/sweetalert.min.js') }}"></script>
@@ -147,14 +120,14 @@ $(document).ready(function () {
           },
           { title: "State", data: 'state', name: 'state' },
           { title: "City", data: 'city', name: 'city' },
-          { title: "Country", data: {name: 'name', ID: 'ID'}, name: 'country', render : (data) => (`
-            ${data.name}
-            <input type="hidden" value="${data.ID}" id="countryId" />
+          { title: "Country", data: 'country', name: 'country', render : (data) => (`
+            ${data}
+            <input type="hidden" value="${data}" id="countryId" />
             `)
           },
-          { title: "Currency", data: {currency_symbol: 'currency_symbol', ID: 'ID'}, name: 'currency_symbol', render : (data) => (`
-            ${data.currency_symbol}
-            <input type="hidden" value="${data.ID}" id="currencyId" />
+          { title: "Currency", data: 'currency', name: 'currency', render : (data) => (`
+            ${data}
+            <input type="hidden" value="${data}" id="currencyId" />
             `)
           },
           { title: "Action", data: 'id', name: 'action', render: (id) => (`
@@ -228,7 +201,7 @@ $(document).ready(function () {
         function options(countries){
           opt = ''
           countries.forEach((v) => {
-            opt += `<option value="${v.ID}">${v.name}</option>`
+            opt += `<option value="${v.name}">${v.name}</option>`
           })
           return opt
         }
@@ -244,7 +217,9 @@ $(document).ready(function () {
         function options(currencies){
           opt = ''
           currencies.forEach((v) => {
-            opt += `<option value="${v.ID}">${v.currency_symbol}</option>`
+            if (v.currency_symbol) {
+              opt += `<option value="${v.currency_symbol}">${v.name} - ${v.currency_symbol}</option>`
+            }
           })
           return opt
         }

@@ -6,6 +6,7 @@ use App\Event;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Member;
+use App\Announcement;
 use App\Mail\EventNotice;
 
 class EventController extends Controller
@@ -135,47 +136,43 @@ class EventController extends Controller
 
 
        public function add(Request $request)
-    {
+       {
         $this->validate($request, [
-            'message' => 'required|string|min:0',
-            'by_who' => 'required|string|min:0',
-            'date' => 'required|date ',
+          'message' => 'required|string|min:0',
+          'by_who'  => 'required|string|min:0',
+          'date'    => 'required|date ',
         ]);
 
-          $today = Carbon::now()->toDateString();
-          $split_sdate_array = explode("-", date('Y-m-d',strtotime($request->get('sdate'))));
+        $today = Carbon::now()->toDateString();
+        $split_sdate_array = explode("-", date('Y-m-d',strtotime($request->get('sdate'))));
         $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date'))));
         if(Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2]) < $today || Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2]) < Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2])){
         //if($request->get('sdate') < $today) {
-          $request->session()->flash('message', 'Announcement Not saved Only Future Date Allowed!');
+        $request->session()->flash('message', 'Announcement Not saved Only Future Date Allowed!');
         $request->session()->flash('alert-class', 'alert-danger');
         //echo $request->get('sdate') . '  ' .$today .'            '. print_r($split_sdate_array) . '         ' . print_r($split_date_array) . ' carb ' . Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2]) . ' carb end '. Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2]);
         return redirect()->route('notification');
-      }
-      else{
-     foreach ($request->to as $to)
-     {
-        // register attendance
-
-            $by_who = $request->get('by_who');
-             $id = $to;
-            $details = $request->get('message');
-            $time = $request->get('time');
-            $stime = $request->get('stime');
-            $branch_id = $user = \Auth::user()->id;
-
-            // convert date to acceptable mysql format
-            $sdate = date('Y-m-d',strtotime($request->get('sdate')));
-                $date = date('Y-m-d',strtotime($request->get('date')));
-
-  $sql="INSERT INTO announcements (branch_id,branchcode,details,by_who,start_date,stop_date,start_time,stop_time) VALUES ('$branch_id','$branchcode','$details','$by_who','$date','$sdate','$time','$stime')";
-      \DB::insert($sql);
-
-    }
-       $request->session()->flash('message', 'Announcement successfully saved!');
+      } else {
+       // foreach ($request->to as $to)
+       // {
+          // $id = $to;
+          // convert date to acceptable mysql format
+          $sdate = date('Y-m-d',strtotime($request->get('sdate')));
+          $date = date('Y-m-d',strtotime($request->get('date')));
+          $announcement = Announcement::create([
+            'branch_id'  => auth()->user()->id,
+            'details'    => $request->get('message'),
+            'by_who'     => $request->get('by_who'),
+            'start_date' => $date,
+            'stop_date'  => $sdate,
+            'start_time' => $request->get('time'),
+            'stop_time'  => $request->get('stime'),
+          ]);
+        }
+        $request->session()->flash('message', 'Announcement successfully saved!');
         $request->session()->flash('alert-class', 'alert-success');
-           return redirect()->route('notification');
-}
+        return redirect()->route('notification');
+      // }
 
     }
 

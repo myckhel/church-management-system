@@ -19,6 +19,7 @@ class CreateMessagingTable extends Migration
             $table->bigInteger('msg_from')->unsigned();
             $table->string('subject');
             $table->text('msg');
+            $table->boolean('seen')->default(0);
             $table->timestamp('date');
             $table->timestamps();
         });

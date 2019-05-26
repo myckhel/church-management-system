@@ -9,11 +9,11 @@ class Collection extends Model
     protected $guarded = ['id'];
 
     protected $fillable = [
-      'branch_id','collections_types_id','service_types_id','amount','date_collected'
+      'branch_id','collections_types_id','service_types_id','amount','date'
     ];
 
     public static function getByDate(User $user, $date){
-      return Savings::where('date_collected', date('Y-m-d',strtotime($date)) )->where('branch_id',$user->id )->get(['id'])->count();
+      return self::where('date', date('Y-m-d',strtotime($date)) )->where('branch_id',$user->id )->get(['id'])->count();
     }
 
     public static function rowToColumn($data, $type = false) {
