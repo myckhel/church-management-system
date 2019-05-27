@@ -27,7 +27,8 @@ class ReportController extends Controller
 
     public function collections(){
       $user = \Auth::user();
-      $savings = \App\Collection::rowToColumn(\App\Collection::where('branch_id', $user->id)->get());
+      $savings = \App\Collection::rowToColumn(\App\Collection::with('service_types')->where('branch_id', $user->id)->get());
+      // dd($savings);
       $mSavings = \App\MemberCollection::rowToColumn(\App\MemberCollection::where('branch_id', $user->id)->get());
       $obj = new \stdClass();
       $obj->total_collections = $this->calculateTotal($savings);
@@ -54,7 +55,7 @@ class ReportController extends Controller
       }
       $reports = $obj;
       $memberTotal = $this->calculateSingleTotal($mSavings, 'memberTotal');
-      // dd($memberTotal);
+      // dd($obj);
       //year
       $c_years = $this->calculateSingleTotal($savings, 'year');
       // dd($c_years);
@@ -70,12 +71,10 @@ class ReportController extends Controller
       SUM(case when attendance_date = date(now()) then male end) AS malet, SUM(case when attendance_date = date(now()) then female end) AS femalet, SUM(case when attendance_date = date(now()) then children end) AS childrent";
       $reports = \App\Attendance::selectRaw($sql)->where('branch_id', $user->id)->first();
 
-      $sql = "members.firstname, members.lastname, count(case when attendance = 'yes' then 1 end) as total, count(case when date = date(now()) then (case when attendance = 'yes' then 1 end) end) as totalt
-      ";
-      $m_r = \App\MemberAttendance::selectRaw($sql)->where('member_attendances.branch_id', $user->id)
-      // $m_r = $user->members()->selectRaw($sql) //\App\MemberAttendance::selectRaw($sql)->where('member_attendances.branch_id')
-      ->leftjoin('members', 'members.id', '=', 'member_attendances.member_id')
-      ->groupBy('firstname', 'lastname')->get();//\DB::select($sql);
+      $sql = "members.firstname, members.lastname, count(case when member_attendances.attendance = 'yes' then 1 end) as total, count(case when member_attendances.date = date(now()) then (case when member_attendances.attendance = 'yes' then 1 end) end) as totalt";
+      $m_r = $user->members()->selectRaw($sql)
+      ->leftjoin('member_attendances', 'members.id', '=', 'member_attendances.member_id')
+      ->groupBy('members.firstname', 'members.lastname')->get();
       // dd($m_r);
       $sql = "SELECT SUM(a.male + a.female + a.children) as atotal,
       count(case when attendance = 'yes' then 1 end) as mtotal,
@@ -275,6 +274,7 @@ class ReportController extends Controller
           $total += array_sum($value->amounts);
         }
       }
+      // dd($savings);
       return $total;
     }
 
