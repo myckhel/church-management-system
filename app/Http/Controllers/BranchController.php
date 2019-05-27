@@ -140,53 +140,6 @@ class BranchController extends Controller
 
       return view('branch.ho', ['options' => $options]);
     }
-    public function ho_up(Request $request){
-      if(Input::file('img')){
-        $img = file_get_contents(Input::file('img')->getRealPath());
-      }
-        $user = \Auth::user();
-        $sname = $request->sname;
-        $lname = $request->lname;
-        $addr1 = $request->addr1;
-        $addr2 = $request->addr2;
-        $city = $request->city;
-        $state = $request->state;
-        $postal = $request->postal;
-        $country = $request->country;
-        $phone1 = $request->phone1;
-        $phone2 = $request->phone2;
-        $phone3 = $request->phone3;
-        $phone4 = $request->phone4;
-        $email  = $request->email;
-        //$img = $request->img;
-        $id = $request->id;
-        $data = ['HOSNAME'=>$sname,
-                 'HOLNAME'=>$lname,
-                 'HOADDRESS'=>$addr1,
-                 'HOADDRESS2'=>$addr2,
-                 'HOCITY'=>$city,
-                 'HOSTATE'=>$state,
-                 'HOPOSTAL_CODE'=>$postal,
-                 'HOCOUNTRY'=>$country,
-                 'HOPHONE1'=>$phone1,
-                 'HOPHONE2'=>$phone2,
-                 'HOPHONE3'=>$phone3,
-                 'HOPHONE4'=>$phone4,
-                 'HOEMAIL'=>$email,
-                 ];
-                 if(isset($img)){
-                  $data['HOLOGO'] = $img;
-                 }
-        DB::table('head_office_options')->where('HOID', $id)->update($data);
-
-        //foreach($request as $key => $value){
-
-        //}
-        //$success =
-        //DB::table('head_office_options')->where($options->column, $options->column)->update([$options->column => $options->value]);
-
-        return redirect('/branches/head_office_options');
-    }
 
     public function delete(Request $request){
       $failed = 0;
@@ -246,9 +199,9 @@ class BranchController extends Controller
       $percentage = (int)(\App\Options::getLatestCommission())->value;
       // dd($dueSavings);
       $details = \App\Options::getLatestCommissionBankDetails();
-      // dd($details);
-      $options = DB::table('head_office_options')->where('HOID',1)->first();
+      // app logo
+      $logo = \App\Setting::findName(['logo']);
       $blanceDue = \App\CollectionCommission::calculateUnsettledCommission();
-      return view('branch.invoice', compact('details', 'dueSavings', 'percentage', 'blanceDue', 'user', 'options', 'Paystack'));
+      return view('branch.invoice', compact('details', 'dueSavings', 'percentage', 'blanceDue', 'user', 'logo'));
     }
 }

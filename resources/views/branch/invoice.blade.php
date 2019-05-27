@@ -69,7 +69,7 @@
                 <input id="imageloc" type="text" size="50" value="" /><br />
                 (max width: 540px, max height: 100px)
               </div> -->
-              <img id="image" style="width:100%; height:100%;" src="data:image/jpeg;base64, {{base64_encode($options->HOLOGO) . ''}}" alt="logo" />
+              <img id="image" style="width:100%; height:100%;" src="{{URL::asset('public/images/'. $logo['logo'])}}" alt="logo" />
             </div>
 
       		</div>
@@ -182,7 +182,7 @@
           </div>
           <div class="pull-right">
             <form class="" action="{{route('pay')}}" method="post">
-              <input type="hidden" name="email" value="myckhel1@hotmail.com"> {{-- required --}}
+              <input type="hidden" name="email" value="{{auth::user()->email}}"> {{-- required --}}
             <input type="hidden" name="orderID" value="345">
             <input type="hidden" name="amount" value="{{str_replace('.', '', $totalCommission)}}"> {{-- required in kobo --}}
             <input type="hidden" name="quantity" value="1">
