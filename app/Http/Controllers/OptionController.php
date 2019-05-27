@@ -23,9 +23,10 @@ class OptionController extends Controller
     public function getBranchOption(){
       $branch = Auth::user();
       $status = false;
-      $text = "Option not found";
-      if ($option = Options::getBranchOption($branch)){ $text = $option; $status = true;}
-      return response()->json(['status' => $status, 'text' => $text]);
+      $options = Options::getBranchOption($branch);
+      if (sizeof($options)){ $status = true;}
+      // dd($text);
+      return response()->json(['status' => $status, 'text' => $options]);
     }
 
     public function putBranchOption(Request $request){

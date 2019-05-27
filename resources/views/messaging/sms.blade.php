@@ -43,25 +43,24 @@
     <!--===================================================-->
     <div id="page-content">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3"  >
-                @if (session('status'))
+          @include('layouts.error')
 
-                    <div class="alert alert-success">
-                        {{ session('status') }}
-                    </div>
-                @endif
-                @if (count($errors) > 0)
-                    @foreach ($errors->all() as $error)
-                        <div class="alert alert-danger">{{ $error }}</div>
-                    @endforeach
-                @endif
-            </div>
             <div class="col-sm-6 col-sm-offset-3" style="margin-bottom:420px">
                 <div class="panel" style="background-color: #e8ddd3;">
                     <div class="panel-heading">
                         <h3 class="panel-title">SMS Messaging</h3>
                     </div>
 
+                    @if(!$smsapi)
+                    <div class="col-sm-12 col-md-12 col-md-offset-0">
+                      <div class="panel" style="background-color: #e8ddd3;">
+                        <div class="panel-body bg-danger demo-nifty-btn table-responsive">
+                          <h1 class="text-center text-light">Ooops! SMS API Not Set.</h1>
+                          <h1 class="text-center text-light">Please <a class="btn btn-primary" href="{{route('branch.options')}}" > Set The SMS API </a> to be able to send sms.</h1>
+                        </div>
+                      </div>
+                    </div>
+                    @else
                     <!--Block Styled Form -->
                     <!--===================================================-->
                     <form id="send-sms-form" method="POST" action="{{route('sendSMS')}}">
@@ -125,6 +124,7 @@
                             <button id="send-btn" class="btn btn-success" type="submit">Send</button>
                         </div>
                     </form>
+                    @endif
                     <!--===================================================-->
                     <!--End Block Styled Form -->
 
@@ -254,6 +254,10 @@ $(document).ready(function(){
       alert('Group Members Added');
     });
   });
+
+  // set the balance
+  setBalance()
+
 });
  //selected="selected" value="' + item +'" >'+ item +'</option>'
 function rm_num(d){
@@ -264,20 +268,26 @@ function rm_num(d){
 
 var setBalance = async () => {
   // tell the user about to fetch sms balance
-  $('#sms_balance_container').html('<h3>Loading sms Balance...</h3>')
+  $('#sms_balance_container').html('<h3>Fetching sms Balance...</h3>')
   // fetch the sms balance api
   balanceUrl = await getSmsBalanceApi( async (url) => {
-    // fetch the sms balance units
-    balance = await getBalance(url, (res) => {
-      if (!res) {
-        // tell the user
-        $('#sms_balance_container').html(`<h3>${res}</h3>`)
-        return
-      }
-      // display result to user
-      console.log(res);
-      $('#sms_balance_container').html(`<h3>${res} Units</h3>`)
-    })
+    if(url){
+      // fetch the sms balance units
+      balance = await getBalance(url, (res) => {
+        if (!res) {
+          // tell the user
+          smsBalanceMessage(res)
+          return ;
+        }
+        // display result to user
+        console.log(res);
+        smsBalanceMessage(res + 'Units')
+        $('#sms_balance_container').html(`<h3>${res} Units</h3>`)
+      })
+    } else {
+
+    }
+
   })
   // if not set
   // if (!balanceUrl) {
@@ -302,21 +312,19 @@ var setBalance = async () => {
 
 var getSmsBalanceApi = async (fn) => {
   let value = false
-  url = "{{route('option.branch.get')}}"
-  $.ajax({url, type: 'GET'})
+  $.get("{{route('option.branch.get')}}")
   .done((res) => {
-    res.text.forEach((v) => {
-      if (v.name === 'smsbalanceapi') {
-        value = v.value
-        console.log(v.value);
-        // return fn(v.value)
-      }
-      // else {
-      //   return value
-      // }
-    })
-    fn(value)
+    if (res.status) {
+      res.text.forEach((v) => {
+        if (v.name === 'smsbalanceapi') {
+          fn(v.value)
+        }
+      })
+    } else {
+      fn(false)
+    }
   })
+  .fail((err) => {fn(false); console.log(err);} )
 }
 
 var getBalance = (url, fn) => {
@@ -325,14 +333,19 @@ var getBalance = (url, fn) => {
   .done((res) => {
     if (res === '-2905') {
       value = "Invalid username/password combination"
+      smsBalanceMessage("Invalid username/password combination")
       fn(value)
     } else {
       value = res
       fn(value)
     }
   })
+  .fail((err) => smsBalanceMessage())
   return value
 }
-setBalance()
+
+const smsBalanceMessage = (msg = 'cannot fetch sms unit balance') => {
+  $('#sms_balance_container').html(`<h3>${msg}</h3>`)
+}
 </script>
 @endsection

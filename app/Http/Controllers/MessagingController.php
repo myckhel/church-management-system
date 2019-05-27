@@ -29,8 +29,10 @@ class MessagingController extends Controller
       $group->name = 'First Timers Group';
       $group->id = 1000;
       $default_groups = [];
+      // get the sms api
+      $smsapi = \App\Options::getOneBranchOption('smsapi', $user);
       array_push($default_groups, $group);
-      return view('messaging.sms', compact('members', 'groups', 'default_groups'));
+      return view('messaging.sms', compact('members', 'groups', 'default_groups', 'smsapi'));
     }
 
     public function sendEmail(Request $request){
