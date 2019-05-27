@@ -129,7 +129,7 @@ class MessagingController extends Controller
       $chat = \App\User::selectRaw('messaging.*, users.branchname')->
       leftjoin('messaging', 'messaging.msg_from', '=', 'users.id')->where('messaging.msg_to', '=', $from)->
       where('messaging.msg_from', '=', $to)->orWhere('messaging.msg_from', '=', $from)->where('messaging.msg_to', '=', $to)->
-      groupby('users.branchname','users.id','messaging.id','messaging.msg_to','messaging.msg_from','messaging.msg','messaging.date','messaging.seen')->orderby('messaging.date')->get();
+      groupby('users.branchname','users.id','messaging.id', 'messaging.updated_at', 'messaging.created_at', 'messaging.subject', 'messaging.msg_to','messaging.msg_from','messaging.msg','messaging.date','messaging.seen')->orderby('messaging.date')->get();
 
 
       return response()->json(['success' => true, 'chats' => $chat]);

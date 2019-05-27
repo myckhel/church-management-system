@@ -144,10 +144,11 @@ class MemberController extends Controller
     {
       $member = Member::find($id);
       $user = \Auth::user();
+      // dd($user->members()->where('members.id', $id)->get());
       $c_types = CollectionsType::getTypes();
       // $sql = 'SELECT COUNT(case when attendance = "yes" then 1 end) AS present, COUNT(case when attendance = "no" then 1 end) AS absent,
       // MONTH(attendance_date) AS month FROM `members_attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND member_id = '.$member->id.' GROUP BY month';
-      $attendance = $member->member_attendances()->selectRaw("SUM(CASE when attendance = 'yes' then 1 else 0 end) As yes,
+      $attendance = $member->attendances()->selectRaw("SUM(CASE when attendance = 'yes' then 1 else 0 end) As yes,
         SUM(CASE when attendance = 'no' then 1 else 0 end) As no")->first();//->sum('');
       // dd($attendance);
       return view('members.profile', compact('member', 'attendance', 'member', 'c_types'));
