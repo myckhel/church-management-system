@@ -155,7 +155,7 @@ li {
                 <div class="panel-heading text-center">
                   <h1 class="panel-title">Branch Attendance History<h1>
                 </div>
-                <div class="panel-body clearfix" style="overflow:scroll">
+                <div class="panel-body clearfix table-resposive">
                   <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
                 <thead>
                     <tr>
@@ -203,51 +203,38 @@ li {
                   <div class="panel-heading">
                     <h1 class="panel-title text-center">Members Attendance History<h1>
                   </div>
-                <div class="panel-body text-center clearfix" style="overflow:scroll">
-            <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
-                <thead>
-                    <tr>
-                        <th>S/N</th>
-                        <th class="min-tablet">Title</th>
-                        <th class="min-tablet">First Name</th>
-                        <th class="min-tablet">Last Name</th>
-                        <th class="min-tablet">Attendance</th>
-                        <th class="min-tablet">Service type</th>
-                        <th class="min-tablet">Transaction Date</th>
-                        <th class="min-tablet">Processed Date</th>
-                        <!--th class="min-desktop">Action</th-->
-                    </tr>
-                </thead>
-                <tbody>
-                  <?php $count=1;?>
-                    @foreach($attendances as $li)
-                    <?php
-                      $date = $li->attendance_date;
-                      $d = date("F,Y,D", strtotime($date));
-                      $p = explode(',',$d);
-                    ?>
-                    <tr>
-                        <td><strong>{{$count}}</strong></td>
-                        <td>{{ucwords($li->title)}}</td>
-                        <td>{{ucwords($li->firstname)}}</td>
-                        <td>{{ucwords($li->lastname)}}</td>
-                        <td>{{$li->attendance}}</td>
-                        @foreach($li->member_attendances as $att)
-                        <td>{{$att->service_types->name}}</td>
-                        <td >{{$att->attendance_date}}</td>
-                        <td >{{$att->updated_at}}</td>
-                        @endforeach
-                        <!--td><button id="{{$li->attendance_date}}" type="submit" class="btn btn-primary" onclick="view(this);">View</button></td-->
-                    </tr>
-                    <?php $count++;?>
-                    @endforeach
-                </tbody>
-            </table>
-          </div>
+                  <div class="panel-body text-center clearfix table-response">
+                    <table id="demo-dt-basic" class="table table-striped table-bordered datatable" cellspacing="0" width="100%" >
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th class="min-tablet">Title</th>
+                                <th class="min-tablet">First Name</th>
+                                <th class="min-tablet">Last Name</th>
+                                <th class="min-tablet">View History</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <?php $count=1;?>
+                            @foreach($members as $member)
+                            <tr>
+                                <td><strong>{{$count}}</strong></td>
+                                <td>{{ucwords($member->title)}}</td>
+                                <td>{{ucwords($member->firstname)}}</td>
+                                <td>{{ucwords($member->lastname)}}</td>
+                                <td>
+                                  <button data-fullname="{{$member->getFullname()}}" data-id="{{$member->id}}" class="btn btn-primary show-member-history fa fa-eye"> View</button>
+                                </td>
+                            </tr>
+                            <?php $count++;?>
+                            @endforeach
+                        </tbody>
+                    </table>
+                  </div>
           </div>
         </div>
 
-          <!-- Modal -->
+          <!-- ATTENDANCE Modal -->
           <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog" style="width: 50%; margin: 0 auto;">
               <!-- Modal content-->
@@ -259,6 +246,31 @@ li {
                 </div>
                 <div id="modal-body" class="modal-body">
 
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MEMBER ATTENDANCE Modal -->
+          <div id="memberAttendanceModal" class="modal fade" role="dialog">
+            <div class="modal-dialog" style="width: 50%; margin: 0 auto;">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header bg-warning">
+                  <button type="button" class="close" data-dismiss="modal"><h1>&times;</h1></button>
+                  <!-- <div class="d-inline pull-left"><h1 class="">Date: </h1></div> -->
+                  <div class="d-inline text-center text-white"><h1 id="member-fullname"></h1></div>
+                </div>
+                <div id="modal-body" class="modal-body">
+                  <div class="table-responsive">
+                    <table id="member-attendance-table" class="table table-striped table-bordered" cellspacing="0" width="100%" >
+                      <thead></thead>
+                      <tbody> </tbody>
+                    </table>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -287,7 +299,6 @@ $(document).ready(() => {
       select: handleSelect,
     });
   });
-
   //Attnedance Module
   $('#view-year').click(function (){
   	$('#show-year').show();
@@ -307,6 +318,14 @@ $(document).ready(() => {
     })
   });
 
+  // member attendance event
+  $('.show-member-history').click( e => {
+    const id = $(e.target).data('id')
+    const fullname = $(e.target).data('fullname')
+    $('#member-fullname').text(fullname)
+    viewMemberAttendance(id, $(e.target))
+  })
+
 })
 const viewer = (element) => {
   loadElement($(element), true)
@@ -314,6 +333,72 @@ const viewer = (element) => {
     loadElement($(element), false)
   })
 }
+
+function handleSelect(date, context){
+  let h1 = document.createElement('h1')
+  $(h1).attr('id')
+  let sdate = date[0].format('YYYY-MM-DD');
+  h1.setAttribute("id", sdate);
+  view(h1, () => {})
+}
+
+function showe(date){
+  $('#date-title').html(date)
+  $('#myModal').modal('show')
+}
+
+function viewMemberAttendance(id, element){
+  // show the Modal
+  $('#memberAttendanceModal').modal('show')
+  // uninitialize the datatable
+  // console.log($('#member-attendance-table').DataTable({}));
+  if ($.fn.DataTable.isDataTable('#member-attendance-table')) {
+    $('#member-attendance-table').DataTable().clear().destroy()
+  }
+  // initialize the database
+  member_attendance_table = $('#member-attendance-table').DataTable({
+      processing: true,
+      serverSide: true,
+      "columnDefs": [
+        // { "orderable": false, "targets": 0 }
+      ],
+      oLanguage: {sProcessing: divLoader()},
+      ajax: `../member/attendance/${id}`,
+      columns: [
+          { title: "Service type", data: 'service_types.name', name: 'service_types.name' },
+          { title: "Attendance", data: 'attendance', name: 'attendance' },
+          { title: "Transaction Date", data: 'updated_at', name: 'updated_at' },
+          { title: "Processed Date", data: 'date', name: 'date' },
+      ],
+      dom: 'Bfrtip',
+      lengthChange: false,
+      buttons: ['copy', 'excel', 'pdf', 'colvis']
+  });
+  return ;
+}
+
+function view(d, fn){
+  var id = $(d).attr('id');
+  $.ajax({url: "{{route('attendance.view')}}", data: {'date': id, '_token' : '{{ csrf_token() }}'}, type: 'POST'})
+  .done((res) => {
+    if (res.status) {
+      $('#modal-body').html(viewAttendance(res.attendance))
+      showe(res.attendance.attendance_date)
+    }else {
+      swal("Oops", res.text, "error");
+    }
+    if (typeof(fn) === 'function') {
+      fn(res)
+    }
+  })
+  .fail((e) => {
+    swal("Oops", "internal server error", "error");
+    // stop loading element
+    loadElement($(d), false)
+    console.log(e);
+  })
+}
+
 const viewAttendance = (attendance) => {
 return  `
   <div class="col-md-12">
@@ -361,40 +446,6 @@ return  `
           </div>
       </div>
   </div>`
-}
-function handleSelect(date, context){
-  let h1 = document.createElement('h1')
-  $(h1).attr('id')
-  let sdate = date[0].format('YYYY-MM-DD');
-  h1.setAttribute("id", sdate);
-  view(h1, () => {})
-}
-
-function showe(date){
-  $('#date-title').html(date)
-  $('#myModal').modal('show')
-}
-
-function view(d, fn){
-  var id = $(d).attr('id');
-  $.ajax({url: "{{route('attendance.view')}}", data: {'date': id, '_token' : '{{ csrf_token() }}'}, type: 'POST'})
-  .done((res) => {
-    if (res.status) {
-      $('#modal-body').html(viewAttendance(res.attendance))
-      showe(res.attendance.attendance_date)
-    }else {
-      swal("Oops", res.text, "error");
-    }
-    if (typeof(fn) === 'function') {
-      fn(res)
-    }
-  })
-  .fail((e) => {
-    swal("Oops", "internal server error", "error");
-    // stop loading element
-    loadElement($(d), false)
-    console.log(e);
-  })
 }
 </script>
 @endsection

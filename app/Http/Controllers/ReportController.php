@@ -28,7 +28,6 @@ class ReportController extends Controller
     public function collections(){
       $user = \Auth::user();
       $savings = \App\Collection::rowToColumn(\App\Collection::with('service_types')->where('branch_id', $user->id)->get());
-      // dd($savings);
       $mSavings = \App\MemberCollection::rowToColumn(\App\MemberCollection::where('branch_id', $user->id)->get());
       $obj = new \stdClass();
       $obj->total_collections = $this->calculateTotal($savings);

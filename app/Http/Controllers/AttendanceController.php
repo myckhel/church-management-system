@@ -177,10 +177,10 @@ class AttendanceController extends Controller
     //form view
     public function view(){
       $user = \Auth::user();
+      $members = $user->members()->get();
       $attendance = Attendance::where('branch_id', $user->id)->with('service_types')->orderBy('attendance_date', 'DESC')->get();
-      $attendances = $user->members()->with('member_attendances.service_types')->get();
-      // dd($attendances);
-      return view('attendance.view', compact('attendance', 'attendances'));
+      // $attendances = $user->members()->with('member_attendances.service_types')->get();
+      return view('attendance.view', compact('attendance', 'members'));
     }
 
     public function mark(){

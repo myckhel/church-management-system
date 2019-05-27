@@ -329,6 +329,13 @@ class MemberController extends Controller
       return response()->json(['status' => true, 'text' => "Member has been updated!"]);
     }
 
+    public function attendance($id, Request $request){
+      $member = Member::find($id);
+      if ($member) {  $member = $member->attendances()->with(['service_types'])->get(); }
+      // dd($member);
+      return Datatables::of($member)->make(true);
+    }
+
   public function memberAnalysis (Request $request){
     $user = \Auth::user();
     $c_types = \App\CollectionsType::getTypes();

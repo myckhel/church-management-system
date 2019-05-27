@@ -40,6 +40,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
     Route::post('/member/update', 'MemberController@updateMember')->name('member.update');
     Route::get('/member/analysis', 'MemberController@memberAnalysis')->name('member.analysis');
     Route::get('/member/stats', 'MemberController@memberRegStats')->name('member.reg.stats');
+    Route::get('/member/attendance/{id}', 'MemberController@attendance')->name('member.attendance');
 
     Route::get('/branches', 'BranchController@index')->name('branches');
     Route::get('/branches/{id}/destroy', 'BranchController@destroy')->name('branch.destroy');
