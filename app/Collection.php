@@ -16,32 +16,38 @@ class Collection extends Model
       return self::where('date', date('Y-m-d',strtotime($date)) )->where('branch_id',$user->id )->get(['id'])->count();
     }
 
+    // function to turn multiple table row to a single row of the same date column
     public static function rowToColumn($data, $type = false) {
+      // dd($data);
       $row = [];
       $dates = [];
       $i = 0;
       foreach($data as $index => $v) {
-        if(isset($dates[$i-1]) && $v->date_collected == $dates[$i-1]){
-            $row[$v->date_collected]->amounts[$v->collections_types->name] = $v->amount;
-            $row[$v->date_collected]->total += $v->amount;
+        // we have a date and collection's date is date we have
+        if(isset($dates[$i-1]) && $v->date == $dates[$i-1]){
+          // insert collection with same date to the $row
+          $row[$v->date]->amounts[$v->collections_types->name] = $v->amount;
+          $row[$v->date]->total += $v->amount;
         } else {
           $obj = new \stdClass();
+          // copy collection to $obj
           foreach (get_object_vars($v) as $key => $value) {
             $obj->$key = $value;
           }
-          // $obj->collections_types = $v->collections_types->name;
+          // give $obj some of the collection property's name
           $obj->service_types = $v->service_types->name;
           if ($type == 'branch') {
             $obj->branch_name = $v->users->branchname;
           }
-          $obj->date_collected = $v->date_collected;
+          $obj->date_collected = $v->date;
           $obj->updated_at = $v['updated_at']->toDateTimeString();
           $obj->amounts = [];
           $obj->amounts[$v->collections_types->name] = $v->amount;
           $obj->total = $v->amount;
-          $row[$v->date_collected] = $obj;
+          $row[$v->date] = $obj;
         }
-        array_push($dates, $v->date_collected);
+        // insert to $dates the colllection date
+        array_push($dates, $v->date);
         $i++;
       }
       return $row;
@@ -54,7 +60,7 @@ class Collection extends Model
         $amount = $v->amount;
         $collectionName = $v->collections_types->name;
         $serviceName = $v->service_types->name;
-        $date_collected = $v->date_collected;
+        $date_collected = $v->date;
 
         if(!isset($row[$name])) {
           $row[$name] = [];

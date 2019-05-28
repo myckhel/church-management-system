@@ -41,7 +41,7 @@ class LoginController extends Controller
 
     public function showLoginForm(){
       if(User::first()){
-        if (!Setting::notSet()) {
+        if (Setting::notSet()) {
           return view('setup');
         } else {
           return view('auth.login');

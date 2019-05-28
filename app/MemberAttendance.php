@@ -15,7 +15,7 @@ class MemberAttendance extends Model
       return $this->belongsTo(ServiceType::class);
     }
 
-    public function members(){
+    public function member(){
       return $this->belongsTo(Member::class);
     }
 }

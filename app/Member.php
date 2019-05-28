@@ -57,7 +57,7 @@ class Member extends Model
     return $this->hasMany(MemberSavings::class);
   }
 
-  public function member_attendances(){
+  public function attendances(){
     return $this->hasMany(MemberAttendance::class);
   }
 }

@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title') View Collection Report @endsection
@@ -127,7 +126,7 @@ var setup = (types) => {
           `{{\Auth::user()->getCurrencySymbol()->currency_symbol}}${data ? data : 0}`
         )})
       ))
-      cols.push({data: 'date'})
+      cols.push({data: 'date_collected'})
       cols.push({data: 'updated_at'})
       return cols
     })(types),

@@ -728,6 +728,7 @@ $(document).ready(() => {
   $.ajax({url: "{{route('attendance.stats')}}"})
   .done((res) => {
     attendance = setPeriod(res, {male: 0, female: 0, children: 0, total: 0}, ["male", "female", "children"])
+    // console.log(attendance);
     // display calulations
     $("#attendance-male").html(numberWithCommas(attendance.total.male))
     $("#attendance-female").html(numberWithCommas(attendance.total.female))

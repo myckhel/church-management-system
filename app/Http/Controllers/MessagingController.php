@@ -29,8 +29,10 @@ class MessagingController extends Controller
       $group->name = 'First Timers Group';
       $group->id = 1000;
       $default_groups = [];
+      // get the sms api
+      $smsapi = \App\Options::getOneBranchOption('smsapi', $user);
       array_push($default_groups, $group);
-      return view('messaging.sms', compact('members', 'groups', 'default_groups'));
+      return view('messaging.sms', compact('members', 'groups', 'default_groups', 'smsapi'));
     }
 
     public function sendEmail(Request $request){
@@ -119,15 +121,11 @@ class MessagingController extends Controller
     public function getMsg(Request $request){
       $from = $request->from;
       $to = $request->to;
-      // $sql = "UPDATE messaging
-      //   SET    messaging.seen = 1
-      //   WHERE  messaging.msg_to = $to AND (messaging.msg_from = $from AND messaging.msg_to = $to)";
-      //   \DB::update($sql);
 
       $chat = \App\User::selectRaw('messaging.*, users.branchname')->
       leftjoin('messaging', 'messaging.msg_from', '=', 'users.id')->where('messaging.msg_to', '=', $from)->
       where('messaging.msg_from', '=', $to)->orWhere('messaging.msg_from', '=', $from)->where('messaging.msg_to', '=', $to)->
-      groupby('users.branchname','users.id','messaging.id','messaging.msg_to','messaging.msg_from','messaging.msg','messaging.date','messaging.seen')->orderby('messaging.date')->get();
+      groupby('users.branchname','users.id','messaging.id', 'messaging.updated_at', 'messaging.created_at', 'messaging.subject', 'messaging.msg_to','messaging.msg_from','messaging.msg','messaging.date','messaging.seen')->orderby('messaging.date')->get();
 
 
       return response()->json(['success' => true, 'chats' => $chat]);

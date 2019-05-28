@@ -33,18 +33,7 @@
   <!--===================================================-->
   <div id="page-content">
     <div class="row">
-      <div class="col-md-6 col-md-offset-3"  >
-        @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-        @endif
-        @if (count($errors) > 0)
-          @foreach ($errors->all() as $error)
-        <div class="alert alert-danger">{{ $error }}</div>
-          @endforeach
-        @endif
-      </div>
+      @include('layouts.error')
       <style>
       table td input {
         position: absolute;

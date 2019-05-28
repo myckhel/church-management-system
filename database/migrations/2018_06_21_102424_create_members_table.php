@@ -19,7 +19,7 @@ class CreateMembersTable extends Migration
             $table->enum('title', ['Mr', 'Mrs', 'Miss','Dr (Mrs)', 'Dr', 'Prof', 'Chief', 'Chief (Mrs)', 'Engr', 'Surveyor', 'HRH','Elder','Oba','Olori']);
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
-            $table->string('email', 30)->unique();
+            $table->string('email', 50)->unique();
             $table->string('dob')->nullable();
             $table->string('phone')->nullable();
             $table->string('occupation')->nullable();
