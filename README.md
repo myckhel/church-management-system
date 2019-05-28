@@ -11,6 +11,16 @@
     it manages the church's attendances, collections, members, events, announcements.
     features also includes bulk sms, email messaging, analysis on attendance, collection, members etc
 
+# Installation
+    clone project
+    cd project
+    composer install
+    duplicate .env.example > .env
+    configure .env
+    php artisan key:generate
+    create database table
+    php artisan migrate
+
 ![Dashboard view](https://github.com/myckhel/church-management-system/blob/master/img/cms.JPG)
 ![Dashboard view2](https://github.com/myckhel/church-management-system/blob/master/img/cms2.JPG)
 ![Dashboard view3](https://github.com/myckhel/church-management-system/blob/master/img/cms3.JPG)
