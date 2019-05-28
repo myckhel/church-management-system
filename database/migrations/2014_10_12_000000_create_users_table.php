@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('state');
             $table->string('city');
             $table->string('branchcode', 60)->unique();
-            $table->string('email', 30)->unique();
+            $table->string('email', 50)->unique();
             $table->string('address');
             $table->string('currency');
             $table->enum('isadmin',['true','false'])->default('false');

@@ -121,10 +121,6 @@ class MessagingController extends Controller
     public function getMsg(Request $request){
       $from = $request->from;
       $to = $request->to;
-      // $sql = "UPDATE messaging
-      //   SET    messaging.seen = 1
-      //   WHERE  messaging.msg_to = $to AND (messaging.msg_from = $from AND messaging.msg_to = $to)";
-      //   \DB::update($sql);
 
       $chat = \App\User::selectRaw('messaging.*, users.branchname')->
       leftjoin('messaging', 'messaging.msg_from', '=', 'users.id')->where('messaging.msg_to', '=', $from)->

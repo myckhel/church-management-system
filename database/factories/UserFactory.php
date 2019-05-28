@@ -15,10 +15,32 @@ use Faker\Generator as Faker;
 
 $factory->define(App\User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
+        'branchname' => $faker->name . ' Church',
+        'branchcode' => $faker->randomNumber(6),
+        'country' => $faker->country,
         'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'state' => $faker->state,
+        'city' => $faker->city,
+        'address' => $faker->address,
+        'currency' => $faker->randomElement(['$', '₦']),
+        'isadmin' => $faker->boolean,
+        'password' => bcrypt('admin'),//'$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => str_random(10),
     ];
 });
+
+// $factory->define(App\Customer::class, function (Faker $faker) {
+//     return [
+//         'email' => $faker->unique()->safeEmail,
+//         'gfx_id' => $faker->unique()->randomNumber(6),
+//         'firstname' => $faker->firstname,
+//         'lastname' => $faker->lastname,
+//         'phone' => $faker->unique()->phoneNumber,
+//     ];
+// });
+//
+// $factory->define(App\Service::class, function (Faker $faker) {
+//     return [
+//         'name' => $faker->unique()->word,
+//     ];
+// });
