@@ -18,7 +18,7 @@
     duplicate .env.example > .env
     configure .env
     php artisan key:generate
-    create database table
+    create database
     php artisan migrate
 
 ![Dashboard view](https://github.com/myckhel/church-management-system/blob/master/img/cms.JPG)
