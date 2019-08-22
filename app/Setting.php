@@ -47,10 +47,11 @@ class Setting extends Model
     }
 
     public static function saveAppName(Request $request){
-      $setting = self::getOneSetting('name');
       $name = $request->name;
       if ($name)
       {
+        $setting = self::getOneSetting('name');
+
         if (!$setting) {
           $setting = new self();
           $setting->name = 'name';

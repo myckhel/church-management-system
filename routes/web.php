@@ -12,20 +12,19 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+  return view('welcome');
 });
 
 Route::get('/setup/user', 'VisitorController@setupUser')->name('setupUser');
 Route::post('/setup/user', 'VisitorController@register')->name('visitor.register');
+Route::post('/setup/logo', 'VisitorController@uploadLogo')->name('app.logo');
+Route::post('/setup/name', 'VisitorController@saveAppName')->name('app.name');
 
 Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group([ 'middleware' => [ 'auth'] ], function(){
-
-  Route::post('/setup/logo', 'VisitorController@uploadLogo')->name('app.logo');
-  Route::post('/setup/name', 'VisitorController@saveAppName')->name('app.name');
 
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     Route::get('/member/register', 'MemberController@create')->name('member.register.form');

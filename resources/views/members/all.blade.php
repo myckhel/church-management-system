@@ -101,28 +101,28 @@ $(document).ready(function () {
         columns: [
             { title: '<input id="select-all" type="checkbox" /> Select all', data: 'id', render : ( data ) => (`<input type="checkbox" name="member[]" value="${data}" />`)
             , name: 'id' },
-            { title: "S/N", render: () => (i++), name: 'id' },
+            // { title: "S/N", render: () => (i++), name: 'id' },
             { title: "Photo", data: 'photo', render: (photo) => (`<img src="{{url('/public/images/')}}/${photo}"  class="img-md img-circle" alt="Profile Picture">`), name: 'photo' },
             { title: "Full Name", data: {firstname: 'firstname', lastname: 'lastname'}, name: 'fullname', render: (data) => (`${data.firstname + ' ' + data.lastname}`) },
-            { title: "Occupation", data: 'occupation', name: 'occupation' },
+            // { title: "Occupation", data: 'occupation', name: 'occupation' },
             { title: "Member Status", data: {member_status: 'member_status', id: 'id', firstname: 'firstname', lastname: 'lastname'}, name: 'member_status',
              render: (data) => (`${data.member_status == 'new' ? 'First Timer ' : 'Full Member '}
              ${data.member_status == 'new' ? '<button value="' + data.id + '" onClick="makeMember(this, users_table.ajax.reload)" class="btn-info" data-placement="up" title="Make ' + data.firstname + ' ' + data.lastname +
              ' a Full Member"><i class="fa fa-level-up"></i> <i class="fa fa-user"></i></button>' : ''}`)
             },
-            { title: "Marital Status", data: 'marital_status', name: 'marital_status' },
+            // { title: "Marital Status", data: 'marital_status', name: 'marital_status' },
             { title: "phone Number", data: 'phone', name: 'phone' },
             { title: "Email", data: 'email', name: 'email' },
             { title: "Sex", data: 'sex', name: 'sex' },
-            { title: "Birthdate", data: 'dob', name: 'dob' },
-            { title: "Member Since", data: 'member_since', name: 'member_since' },
+            // { title: "Birthdate", data: 'dob', name: 'dob' },
+            // { title: "Member Since", data: 'member_since', name: 'member_since' },
             { title: "Position", data: 'position', name: 'position' },
             { title: "Address", data: 'address', name: 'address' },
-            { title: "Address2", data: 'address2', name: 'address2' },
-            { title: "State", data: 'state', name: 'state' },
-            { title: "City", data: 'city', name: 'city' },
-            { title: "Country", data: 'country', name: 'country' },
-            { title: "wedding Anniversary", data: 'wedding_anniversary', name: 'wedding_anniversary' },
+            // { title: "Address2", data: 'address2', name: 'address2' },
+            // { title: "State", data: 'state', name: 'state' },
+            // { title: "City", data: 'city', name: 'city' },
+            // { title: "Country", data: 'country', name: 'country' },
+            // { title: "wedding Anniversary", data: 'wedding_anniversary', name: 'wedding_anniversary' },
             { title: "Action", data: 'id', name: 'action', render: (id) => (`
               <div class="btn-group">
                 <button style="background-color:orange" class="btn text-light edit" data-id="${id}"><i class="fa fa-edit"></i></button>
