@@ -14,5 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('client.dashboard');
+});
+Route::get('login', function () {
+    return view('client.auth.login');
+});
+Route::get('password-recovery', function () {
+    return view('client.auth.password-recovery');
 });
