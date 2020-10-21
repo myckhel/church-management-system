@@ -1,0 +1,110 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+      $request->validate([
+        'orderBy'     => '',
+        'search'      => 'min:3',
+        'order'       => 'in:asc,desc',
+        'pageSize'    => 'int',
+      ]);
+      $user     = $request->user();
+      $pageSize = $request->pageSize;
+      $order    = $request->order;
+      $orderBy  = $request->orderBy;
+      $search   = $request->search;
+
+      return {{model}}::search($search)
+      ->orderBy($orderBy ?? 'id', $order ?? 'asc')
+      ->paginate($pageSize);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+      $request->validate([]);
+      $user     = $request->user();
+
+      return {{model}}::create($request->only([]));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function show({{ model }} ${{ modelVariable }})
+    {
+      $this->authorize('view', ${{ modelVariable }});
+      return ${{ modelVariable }};
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function edit({{ model }} ${{ modelVariable }})
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, {{ model }} ${{ modelVariable }})
+    {
+      $this->authorize('update', ${{modelVariable}});
+      $request->validate([]);
+      $user     = $request->user();
+      ${{modelVariable}}->update(array_filter($request->only(${{modelVariable}}->getFillable())));
+      return ${{modelVariable}};
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy({{ model }} ${{ modelVariable }})
+    {
+      $this->authorize('delete', ${{modelVariable}});
+      ${{modelVariable}}->delete();
+      return ['status' => true];
+    }
+}
