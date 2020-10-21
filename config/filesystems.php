@@ -1,4 +1,5 @@
 <?php
+use App\Helper;
 
 return [
 
@@ -54,6 +55,8 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
+
+        'user_avatars'    => Helper::useConfig('user_avatars'),
 
         's3' => [
             'driver' => 's3',
