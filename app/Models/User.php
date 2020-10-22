@@ -24,6 +24,16 @@ class User extends Authenticatable implements HasMedia
 {
     use HasFactory, HasApiTokens, Notifiable, HasPermissions, HasRoles, InteractsWithMedia, HasImage, SoftDeletes, HasMeta;
 
+    public function state(){
+      return $this->belongsTo(State::class);
+    }
+    public function country(){
+      return $this->belongsTo(Country::class);
+    }
+    public function churches(){
+      return $this->hasMany(Church::class, 'church_id');
+    }
+
     public function registerMediaCollections(): void{
       $mimes = ['image/jpeg', 'image/png', 'image/gif'];
       $this->addMediaCollection('avatar')

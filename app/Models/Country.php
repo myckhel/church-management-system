@@ -10,6 +10,13 @@ class Country extends Model
     use Searchable;
     protected $searches = [];
 
+    public function users(){
+      return $this->hasMany(User::class);
+    }
+    public function churches(){
+      return $this->hasMany(Church::class);
+    }
+
     public static function scopeSearchWithState($q, $country, $state)
     {
       $q->addSelect(['name', 'id'])->where('name', $country)->with(['state' => function ($q) use($state){
