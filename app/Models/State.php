@@ -11,6 +11,13 @@ class State extends Model
     protected $fillable = ['country_id', 'name'];
     protected $searches = [];
 
+    public function users(){
+      return $this->hasMany(User::class);
+    }
+    public function churches(){
+      return $this->hasMany(Church::class);
+    }
+
     public static function scopeSearchState($q, $state)
     {
       $terms = stringToTerms($state);
