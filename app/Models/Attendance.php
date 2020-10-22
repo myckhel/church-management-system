@@ -7,17 +7,14 @@ use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class Attendance extends Model
 {
     use HasFactory, Searchable, HasMeta;
-    protected $fillable = ['service_id', 'start_at', 'end_at'];
+    protected $fillable = ['event_id', 'male', 'female', 'children'];
     protected $casts    = [];
     protected $searches = [];
 
-    public function service(){
-      return $this->belongsTo(Service::class);
-    }
-    public function attendances(){
-      return $this->hasMany(Attendance::class);
+    public function event(){
+      return $this->belongsTo(Event::class);
     }
 }
