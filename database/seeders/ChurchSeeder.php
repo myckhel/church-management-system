@@ -15,7 +15,9 @@ class ChurchSeeder extends Seeder
     public function run()
     {
       Church::factory()
-      ->hasChurches(11)
+      ->has(
+        Church::factory()->hasMembers(50)
+      )->hasMembers(50)
       ->count(7)->create();
     }
 }

@@ -32,6 +32,9 @@ class Church extends Model
     public function groups(){
       return $this->hasMany(Group::class);
     }
+    public function members(){
+      return $this->hasMany(Member::class);
+    }
     public function church(){
       return $this->belongsTo(Church::class, 'church_id');
     }
