@@ -29,6 +29,9 @@ class Church extends Model
     public function services(){
       return $this->hasMany(Service::class);
     }
+    public function groups(){
+      return $this->hasMany(Group::class);
+    }
     public function church(){
       return $this->belongsTo(Church::class, 'church_id');
     }
