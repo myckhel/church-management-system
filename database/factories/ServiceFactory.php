@@ -25,9 +25,15 @@ class ServiceFactory extends Factory
         'name'              => $this->faker->name.' Service',
         'start'             => now(),
         'duration'          => $this->faker->numberBetween(1, 20) * 30, // * 30 mins
-        'recurrence'        => json_encode(['week' => 1]),
+        'recurrence'        => ['day' => $this->faker->numberBetween(1, 7), 'week' => 1],
         'regular'           => true,
       ];
+    }
+
+    public function configure(){
+      return $this->afterCreating(function (Service $service) {
+        $service->makeEvent();
+      });
     }
 
     private function multipleOf($of = 1, $times = 10){
