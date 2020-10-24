@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use App\Models\Church;
 
-class UserSeeder extends Seeder
+class ChurchSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-      User::factory()
-      ->times(200)->create();
+      Church::factory()
+      ->hasChurches(11)
+      ->count(7)->create();
     }
 }

@@ -24,7 +24,7 @@ class Church extends Model
       return $this->belongsTo(Country::class, 'currency_id');
     }
     public function churches(){
-      return $this->hasMany(Church::class, 'church_id');
+      return $this->hasMany(Church::class);
     }
     public function services(){
       return $this->hasMany(Service::class);
