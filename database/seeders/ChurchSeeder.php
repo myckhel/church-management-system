@@ -19,7 +19,8 @@ class ChurchSeeder extends Seeder
       ->has(
         Church::factory()->hasMembers($membersCount)
       )->hasMembers($membersCount)
-      ->hasServices(5)
+      ->hasServices(1)
+      ->hasGivings(3)
       ->count(1)->create();
     }
 }
