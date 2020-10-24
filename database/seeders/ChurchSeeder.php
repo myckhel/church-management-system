@@ -14,10 +14,12 @@ class ChurchSeeder extends Seeder
      */
     public function run()
     {
+      $membersCount = 1;
       Church::factory()
       ->has(
-        Church::factory()->hasMembers(50)
-      )->hasMembers(50)
-      ->count(7)->create();
+        Church::factory()->hasMembers($membersCount)
+      )->hasMembers($membersCount)
+      ->hasServices(5)
+      ->count(1)->create();
     }
 }
