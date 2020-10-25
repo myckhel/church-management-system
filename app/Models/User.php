@@ -33,6 +33,9 @@ class User extends Authenticatable implements HasMedia
     public function churches(){
       return $this->hasMany(Church::class, 'church_id');
     }
+    public function groupMemberships(){
+      return $this->hasManyThrough(GroupMember::class, Member::class);
+    }
 
     public function registerMediaCollections(): void{
       $mimes = ['image/jpeg', 'image/png', 'image/gif'];
