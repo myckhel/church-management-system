@@ -21,6 +21,7 @@ class ChurchSeeder extends Seeder
       )->hasMembers($membersCount)
       ->hasServices(1)
       ->hasGivings(3)
+      ->hasGroups(3)
       ->count(1)->create();
     }
 }

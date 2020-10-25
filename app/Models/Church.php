@@ -32,6 +32,9 @@ class Church extends Model
     public function groups(){
       return $this->hasMany(Group::class);
     }
+    public function groupMembers(){
+      return $this->hasManyThrough(GroupMember::class, Group::class);
+    }
     public function givings(){
       return $this->hasMany(Giving::class);
     }
