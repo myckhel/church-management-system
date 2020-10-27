@@ -30,6 +30,9 @@ class User extends Authenticatable implements HasMedia
     public function country(){
       return $this->belongsTo(Country::class);
     }
+    public function memberChurches(){
+      return $this->hasManyThrough(Member::class, Church::class);
+    }
     public function churches(){
       return $this->hasMany(Church::class);
     }
