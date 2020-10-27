@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Artisan;
 
 class Init extends Command
@@ -52,6 +53,9 @@ class Init extends Command
         case 'permissions':
           $this->initPermissions($bar);
           break;
+        case 'roles':
+          $this->initRoles($bar);
+          break;
         default:
           break;
       }
@@ -88,6 +92,17 @@ class Init extends Command
 
       $this->info(" Done");
       // $output['MigrateDB'] = Artisan::call('migrate');
+    }
+
+    public function initRoles($bar){
+      $roles = ['admin', 'super-admin'];
+
+      $this->info(" \nCreating Roles");
+
+      $bar->setMaxSteps($bar->getMaxSteps() + 1);
+
+      array_map(fn ($role) => Role::create(['name' => $role, 'guard_name' => 'api']), $roles);
+      $bar->advance();
     }
 
     public function initPermissions($bar)
