@@ -31,7 +31,7 @@ class User extends Authenticatable implements HasMedia
       return $this->belongsTo(Country::class);
     }
     public function churches(){
-      return $this->hasMany(Church::class, 'church_id');
+      return $this->hasMany(Church::class);
     }
     public function groupMemberships(){
       return $this->hasManyThrough(GroupMember::class, Member::class);
@@ -80,10 +80,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @var array
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = [ 'password', 'remember_token', 'media'];
 
     /**
      * The attributes that should be cast to native types.
@@ -91,4 +88,5 @@ class User extends Authenticatable implements HasMedia
      * @var array
      */
      protected $casts = ['email_verified_at' => 'datetime', 'country_id' => 'int', 'state_id' => 'int', 'phone' => 'int'];
+     protected $guard_name = ['api'];
 }
