@@ -17,7 +17,7 @@ class CreateMembersTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('church_id')->unsigned();
-            $table->date('member_since')->useCurrent();
+            $table->date('member_since')->nullable();
             $table->timestamps();
             // $table->enum('position',['worker','senior pastor','pastor', 'elder','usher','member', 'chorister','technician','instrumentalist', 'deacon','deaconess','evangelist','minister','protocol'])->default('member');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\HasMeta;
 use App\Traits\Searchable;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,10 @@ class Church extends Model
     protected $fillable = ['user_id', 'church_id', 'name', 'email', 'code', 'country_id', 'state_id', 'city', 'address', 'currency_id'];
     protected $casts    = [];
     protected $searches = [];
+
+    function hasMember(User $user) {
+      return $this->members($user->id);
+    }
 
     public function state(){
       return $this->belongsTo(State::class);
@@ -38,8 +43,9 @@ class Church extends Model
     public function givings(){
       return $this->hasMany(Giving::class);
     }
-    public function members(){
-      return $this->hasMany(Member::class);
+    public function members($user_id = null){
+      return $this->hasMany(Member::class)
+      ->when($user_id, fn ($q) => $q->whereUserId($user_id));
     }
     public function church(){
       return $this->belongsTo(Church::class, 'church_id');

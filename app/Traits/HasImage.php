@@ -8,15 +8,17 @@ use \Illuminate\Database\Eloquent\Collection;
 trait HasImage
 {
   public function saveImage($image, $collection, $getMedia = false){
-    $medias = [];
-    if (\is_array($image))
-      foreach ($image as $img)
-        $medias[] = $this->uploadImage($img, $collection);
-    else $medias[] = $this->uploadImage($image, $collection);
-    if ($getMedia) {
-      return $medias;
-    } else {
-      return $this->withUrls($collection, \is_array($image), $medias);
+    if ($image) {
+      $medias = [];
+      if (\is_array($image))
+        foreach ($image as $img)
+          $medias[] = $this->uploadImage($img, $collection);
+      else $medias[] = $this->uploadImage($image, $collection);
+      if ($getMedia) {
+        return $medias;
+      } else {
+        return $this->withUrls($collection, \is_array($image), $medias);
+      }
     }
   }
 
