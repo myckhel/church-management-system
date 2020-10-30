@@ -57,6 +57,7 @@ return [
         ],
 
         'user_avatars'    => Helper::useConfig('user_avatars'),
+        'group_avatars'   => Helper::useConfig('group_avatars'),
 
         's3' => [
             'driver' => 's3',
