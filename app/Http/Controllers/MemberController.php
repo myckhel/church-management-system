@@ -86,9 +86,10 @@ class MemberController extends Controller
      * @param  \App\Models\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function show(Member $member)
+    public function show(Request $request, Member $member)
     {
-      // $this->authorize('view', $member);
+      $church = $request->church();
+      $this->authorize('view', [$member, $church]);
       $member->load(['user'])->user->withUrls('avatar');
       return $member;
     }
@@ -113,14 +114,13 @@ class MemberController extends Controller
      */
     public function update(Request $request, Member $member)
     {
-      // $this->authorize('update', $member);
+      $this->authorize('update', $member);
       $request->validate([
         'member_since' => 'date',
         'sex'          => 'in:male,female',
       ]);
       $user     = $request->user();
-      $church   = $user->church;
-      $cuser    = $church->user;
+      $cuser    = $member->user;
 
       if($request->member_since) $member->update($request->only(['member_since']));
 
@@ -140,9 +140,9 @@ class MemberController extends Controller
      * @param  \App\Models\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Member $member)
+    public function destroy(Request $request, Member $member)
     {
-      // $this->authorize('delete', $member);
+      $this->authorize('delete', $member);
       $member->delete();
       return ['status' => true];
     }

@@ -15,8 +15,8 @@ class Church extends Model
     protected $casts    = [];
     protected $searches = [];
 
-    function hasMember(User $user) {
-      return $this->members($user->id);
+    function hasMember($user) {
+      return $this->members($user->id ?? $user);
     }
 
     public function state(){
@@ -45,7 +45,7 @@ class Church extends Model
     }
     public function members($user_id = null){
       return $this->hasMany(Member::class)
-      ->when($user_id, fn ($q) => $q->whereUserId($user_id));
+      ->when($user_id, fn ($q) => $q->whereUserId($user_id)->orWhere('id', $user_id));
     }
     public function church(){
       return $this->belongsTo(Church::class, 'church_id');
