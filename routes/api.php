@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ChurchController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 Route::group(['middleware' => ['auth:api:member', 'role:super-admin|admin']], function () {
   Route::apiResources([
     'members' =>  MemberController::class,
+    'groups'  =>  GroupController::class,
   ]);
   Route::get('churches/whoami',                 [ChurchController::class, 'whoami']);
 });

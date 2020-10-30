@@ -10,7 +10,7 @@ class Helper
       [
         'driver'    => env('FILESYSTEM_DRIVER', 'local'),
         'root'      => public_path("medias/$name"),
-        'url'       => env('APP_URL')."/storage/medias/$name",
+        'url'       => env('APP_URL')."/medias/$name",
         'visibility'=> 'public',
         // 'prefix'    => "medias/$name"
       ]);

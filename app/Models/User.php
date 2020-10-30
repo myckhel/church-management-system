@@ -49,16 +49,6 @@ class User extends Authenticatable implements HasMedia
       ->registerMediaConversions($this->convertionCallback());
     }
 
-    private function convertionCallback(){
-      return (function (Media $media = null) {
-        $this->addMediaConversion('thumb')->nonQueued()
-        ->width(368)->height(232);
-        //->sharpen(10)
-        $this->addMediaConversion('medium')->nonQueued()
-        ->width(400)->height(400);
-      });
-    }
-
     public function grantMeToken(){
         $token          =  $this->createToken('MyApp');
 

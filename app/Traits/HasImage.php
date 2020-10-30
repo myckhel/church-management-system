@@ -1,6 +1,6 @@
 <?php
 namespace App\Traits;
-use \Illuminate\Database\Eloquent\Collection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  *
@@ -96,19 +96,13 @@ trait HasImage
     ->toMediaCollection($collection);
   }
 
-  public function newCollection(array $models = Array()){
-    return new Models($models);
-  }
-}
-
-
-/**
- *
- */
-class Models extends Collection
-{
-  public function withUrls($collections)
-  {
-    return array_map(fn ($model) => $model->withUrls($collections), $this->items);
+  private function convertionCallback(){
+    return (function (Media $media = null) {
+      $this->addMediaConversion('thumb')->nonQueued()
+      ->width(368)->height(232);
+      //->sharpen(10)
+      $this->addMediaConversion('medium')->nonQueued()
+      ->width(400)->height(400);
+    });
   }
 }
