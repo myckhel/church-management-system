@@ -6,14 +6,32 @@ Illuminate\Http\Request::macro(
 
 \Illuminate\Support\Collection::macro(
   'withUrls',
-  function($collections, $relations = null){
+  function($collections = null, $relations = null){
     $this->map(function ($model) use ($collections, $relations){
       if ($relations) {
-        array_map(fn ($relate) => $model->$relate->withUrls($collections), $relations);
-      } else {
+        array_walk(
+          $relations,
+          fn ($collection, $relate) =>
+            nestedProp($model, $relate)->withUrls(is_int($collection) ? $collections : $collection
+          ),
+        );
+      }
+
+      if($collections) {
         $model->withUrls($collections);
       }
     });
     return $this;
   }
 );
+
+function nestedProp ($model, $relate) {
+  $relates = explode('.', $relate);
+  $prop = $relates[0];
+  $related = $model->$prop;
+  if (sizeof($relates) > 1) {
+    return nestedProp($related, substr($relate, strpos($relate, '.')+1));
+  } else {
+    return $related;
+  }
+}
