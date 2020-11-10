@@ -100,7 +100,7 @@ class GroupController extends Controller
     {
       $this->authorize('update', $group);
       $request->validate([
-        'name' => 'required|min:3',
+        'name' => 'min:3',
       ]);
       $user     = $request->user();
       $group->update(array_filter($request->only($group->getFillable())));
