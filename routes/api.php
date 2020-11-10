@@ -8,6 +8,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ChurchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\GroupMemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,9 +41,13 @@ Route::group(['middleware' => ['auth:api']], function () {
 });
 
 Route::group(['middleware' => ['auth:api:member', 'role:super-admin|admin']], function () {
+  Route::get('groups/{group}/members',      [GroupMemberController::class, 'index']);
+  Route::post('groups/{group}/members',     [GroupMemberController::class, 'store']);
+  Route::resource('group_members',          GroupMemberController::class)->only(['show', 'destroy']);
   Route::apiResources([
-    'members' =>  MemberController::class,
-    'groups'  =>  GroupController::class,
+    'members'                 =>  MemberController::class,
+    'groups'                  =>  GroupController::class,
+    // 'group_members'           =>  GroupMemberController::class,
   ]);
-  Route::get('churches/whoami',                 [ChurchController::class, 'whoami']);
+  Route::get('churches/whoami',   [ChurchController::class, 'whoami']);
 });
