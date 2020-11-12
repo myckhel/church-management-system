@@ -32,7 +32,13 @@ class Church extends Model
       return $this->hasMany(Church::class);
     }
     public function services(){
-      return $this->hasMany(Service::class);
+      return $this->hasMany(Service::class)
+      ->orWhere(fn ($q) =>
+        $q->whereIsGlobal(true)->whereRegular(true)
+        ->whereHas('church', fn ($q) =>
+          $q->whereId($this->church_id)
+        )
+      );
     }
     public function groups(){
       return $this->hasMany(Group::class);

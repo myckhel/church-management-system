@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ChurchController;
 use App\Http\Controllers\UserController;
@@ -47,7 +48,7 @@ Route::group(['middleware' => ['auth:api:member', 'role:super-admin|admin']], fu
   Route::apiResources([
     'members'                 =>  MemberController::class,
     'groups'                  =>  GroupController::class,
-    // 'group_members'           =>  GroupMemberController::class,
+    'services'                =>  ServiceController::class,
   ]);
   Route::get('churches/whoami',   [ChurchController::class, 'whoami']);
 });

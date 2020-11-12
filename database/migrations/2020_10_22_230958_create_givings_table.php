@@ -17,6 +17,7 @@ class CreateGivingsTable extends Migration
             $table->id();
             $table->bigInteger('church_id')->unsigned();
             $table->string('name')->index();
+            $table->boolean('is_global')->default(false);
             $table->timestamps();
             $table->foreign('church_id')->references('id')->on('churches')->onDelete('cascade');
         });

@@ -26,7 +26,9 @@ class ServiceFactory extends Factory
         'start'             => now(),
         'duration'          => $this->faker->numberBetween(1, 20) * 30, // * 30 mins
         'recurrence'        => ['day' => $this->faker->numberBetween(1, 7), 'week' => 1],
-        'regular'           => true,
+        // {day, weekDay, week, monthWeek, month, yearMonth, year}
+        'regular'           => $this->faker->randomElement([true, false]),
+        'is_global'         => $this->faker->randomElement([true, false]),
       ];
     }
 

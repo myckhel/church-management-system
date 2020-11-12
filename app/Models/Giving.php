@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 class Giving extends Model
 {
     use HasFactory, Searchable, HasMeta;
-    protected $fillable = ['church_id', 'name'];
-    protected $casts    = [];
+    protected $fillable = ['church_id', 'name', 'is_global'];
+    protected $casts    = ['is_global' => 'bool'];
     protected $searches = [];
 
     public function eventGivigs(){
