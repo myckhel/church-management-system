@@ -20,8 +20,9 @@ class CreateServicesTable extends Migration
             $table->datetime('start');
             $table->bigInteger('duration'); //mins
             // $table->enum('recurrence', ['daily', 'weekly', 'monthly', 'yearly'])->nullable();
-            $table->json('recurrence'); //{day:1, week: 2}
+            $table->json('recurrence')->nullable(); //{day:1, week: 2}
             $table->boolean('regular')->default(false);
+            $table->boolean('isGlobal')->default(false);
             $table->timestamps();
             $table->foreign('church_id')->references('id')->on('churches')->onDelete('cascade');
         });

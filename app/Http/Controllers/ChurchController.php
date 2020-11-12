@@ -9,7 +9,7 @@ use \Illuminate\Http\Request;
 class ChurchController extends Controller
 {
   public function auth(Request $request, Church $church){
-    $member = $church->hasMember($request->user())->firstOrFail();
+    $member = $church->hasMember($request->user())->latest()->firstOrFail();
 
     return ['church_token' => $member->createToken('PAT')->plainTextToken];
   }

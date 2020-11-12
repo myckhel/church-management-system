@@ -23,6 +23,7 @@ class GivingFactory extends Factory
     {
         return [
           'name'              => $this->faker->name.' Offering',
+          'is_global'         => $this->faker->randomElement([true, false]),
         ];
     }
 }

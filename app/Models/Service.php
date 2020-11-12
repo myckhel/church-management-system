@@ -11,8 +11,8 @@ use Carbon\Carbon;
 class Service extends Model
 {
     use HasFactory, Searchable, HasMeta;
-    protected $fillable = ['church_id', 'regular', 'name', 'start', 'duration', 'recurrence'];
-    protected $casts    = ['recurrence' => 'array', 'church_id' => 'int'];
+    protected $fillable = ['church_id', 'is_global', 'regular', 'name', 'start', 'duration', 'recurrence'];
+    protected $casts    = ['recurrence' => 'array', 'church_id' => 'int', 'is_global' => 'bool', 'regular' => 'bool', 'duration' => 'int'];
     protected $searches = [];
 
     public function makeEvent() {

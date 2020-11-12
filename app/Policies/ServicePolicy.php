@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\GroupMember;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class GroupMemberPolicy
+class ServicePolicy
 {
     use HandlesAuthorization;
 
@@ -25,12 +25,12 @@ class GroupMemberPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\GroupMember  $groupMember
+     * @param  \App\Models\Service  $service
      * @return mixed
      */
-    public function view($user, GroupMember $groupMember)
+    public function view($user, Service $service)
     {
-      return $user->church_id == $groupMember->group->church_id;
+      return $user->church_id == $service->church_id || $user->church->church_id == $service->church_id;
     }
 
     /**
@@ -48,34 +48,34 @@ class GroupMemberPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\GroupMember  $groupMember
+     * @param  \App\Models\Service  $service
      * @return mixed
      */
-    public function update(User $user, GroupMember $groupMember)
+    public function update($user, Service $service)
     {
-        //
+      return $user->church_id == $service->church_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\GroupMember  $groupMember
+     * @param  \App\Models\Service  $service
      * @return mixed
      */
-    public function delete($user, GroupMember $groupMember)
+    public function delete($user, Service $service)
     {
-      return $user->church_id == $groupMember->group->church_id;
+      return $user->church_id == $service->church_id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\GroupMember  $groupMember
+     * @param  \App\Models\Service  $service
      * @return mixed
      */
-    public function restore(User $user, GroupMember $groupMember)
+    public function restore(User $user, Service $service)
     {
         //
     }
@@ -84,10 +84,10 @@ class GroupMemberPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\GroupMember  $groupMember
+     * @param  \App\Models\Service  $service
      * @return mixed
      */
-    public function forceDelete(User $user, GroupMember $groupMember)
+    public function forceDelete(User $user, Service $service)
     {
         //
     }
