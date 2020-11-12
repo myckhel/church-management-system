@@ -21,7 +21,7 @@ class Service extends Model
         ? Carbon::now()->setTime($start->hour, $start->minute, $start->second)->weekDay($this->recurrence['day'])
         : $this->start;
 
-      $this->events()->create([
+      return $this->events()->create([
         'start_at'  => $start,
         'end_at'    => Carbon::parse($start)->add('mins', $this->duration),
       ]);

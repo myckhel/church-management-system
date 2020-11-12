@@ -14,6 +14,10 @@ class Event extends Model
     protected $casts    = [];
     protected $searches = [];
 
+    function getChurchId() {
+      return $this->loadMissing('service:id,name,church_id')->service->church_id;
+    }
+
     public function service(){
       return $this->belongsTo(Service::class);
     }
