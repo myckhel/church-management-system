@@ -7,10 +7,11 @@ use App\Traits\Searchable;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Church extends Model
 {
-    use HasFactory, Searchable, HasMeta;
+    use HasRelationships, HasFactory, Searchable, HasMeta;
     protected $fillable = ['user_id', 'church_id', 'name', 'email', 'code', 'country_id', 'state_id', 'city', 'address', 'currency_id'];
     protected $casts    = [];
     protected $searches = [];
@@ -47,6 +48,19 @@ class Church extends Model
           $q->whereIsGlobal(true)->whereRegular(true)
           ->whereHas('church', fn ($q) =>
             $q->whereId($this->church_id)
+          )
+        )
+      );
+    }
+    public function attendances(){
+      return $this->hasManyDeep(Attendance::class, [Service::class, Event::class])
+      ->orWhere(fn ($q) =>
+        $q->whereHas('event', fn ($q) =>
+          $q->whereHas('service', fn ($q) =>
+            $q->whereIsGlobal(true)->whereRegular(true)
+            ->whereHas('church', fn ($q) =>
+              $q->whereId($this->church_id)
+            )
           )
         )
       );
