@@ -17,7 +17,9 @@
         "laravel/sanctum": "^2.7",
         "laravel/tinker": "^2.0",
         "spatie/laravel-medialibrary": "^8.10",
-        "spatie/laravel-permission": "^3.17"
+        "spatie/laravel-permission": "^3.17",
+        "staudenmeir/belongs-to-through": "^2.11",
+        "staudenmeir/eloquent-has-many-deep": "^1.13"
     },
     "require-dev": {
         "beyondcode/laravel-er-diagram-generator": "^1.5",
