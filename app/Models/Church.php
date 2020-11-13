@@ -65,6 +65,19 @@ class Church extends Model
         )
       );
     }
+    public function eventGivings(){
+      return $this->hasManyDeep(EventGiving::class, [Service::class, Event::class])
+      ->orWhere(fn ($q) =>
+        $q->whereHas('event', fn ($q) =>
+          $q->whereHas('service', fn ($q) =>
+            $q->whereIsGlobal(true)->whereRegular(true)
+            ->whereHas('church', fn ($q) =>
+              $q->whereId($this->church_id)
+            )
+          )
+        )
+      );
+    }
     public function groups(){
       return $this->hasMany(Group::class);
     }
