@@ -11,10 +11,13 @@ class Giving extends Model
 {
     use HasFactory, Searchable, HasMeta;
     protected $fillable = ['church_id', 'name', 'is_global'];
-    protected $casts    = ['is_global' => 'bool'];
+    protected $casts    = ['is_global' => 'bool', 'church_id' => 'int'];
     protected $searches = [];
 
     public function eventGivigs(){
       return $this->hasMany(EventGiving::class);
+    }
+    public function church(){
+      return $this->belongsTo(Church::class);
     }
 }

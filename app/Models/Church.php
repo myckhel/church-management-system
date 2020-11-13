@@ -72,7 +72,13 @@ class Church extends Model
       return $this->hasManyThrough(GroupMember::class, Group::class);
     }
     public function givings(){
-      return $this->hasMany(Giving::class);
+      return $this->hasMany(Giving::class)
+      ->orWhere(fn ($q) =>
+        $q->whereIsGlobal(true)
+        ->whereHas('church', fn ($q) =>
+          $q->whereId($this->church_id)
+        )
+      );
     }
     public function members($user_id = null){
       return $this->hasMany(Member::class)

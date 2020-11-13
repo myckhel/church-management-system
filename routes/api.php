@@ -12,6 +12,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupMemberController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\GivingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,7 @@ Route::group(['middleware' => ['auth:api:member', 'role:super-admin|admin']], fu
     'services'                =>  ServiceController::class,
     'events'                  =>  EventController::class,
     'attendances'             =>  AttendanceController::class,
+    'givings'                 =>  GivingController::class,
   ]);
   Route::get('churches/whoami',   [ChurchController::class, 'whoami']);
 });
