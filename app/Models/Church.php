@@ -97,6 +97,9 @@ class Church extends Model
       return $this->hasMany(Member::class)
       ->when($user_id, fn ($q) => $q->whereUserId($user_id)->orWhere('id', $user_id));
     }
+    public function smsClients($user_id = null){
+      return $this->hasMany(SmsClient::class);
+    }
     public function church(){
       return $this->belongsTo(Church::class, 'church_id');
     }
