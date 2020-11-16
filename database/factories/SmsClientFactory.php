@@ -31,6 +31,7 @@ class SmsClientFactory extends Factory
             ['token' => 'token'],
             ['token' => 'token', 'name' => 'name']
           ])),
+          'is_global'         => $this->faker->randomElement([true, false]),
         ];
     }
 }
