@@ -10,7 +10,7 @@ class SmsClient extends Model
 {
     use HasFactory, Searchable;
     protected $fillable = ['name', 'church_id', 'endpoint', 'auth_type', 'auth', 'is_primary', 'is_global'];
-    protected $casts    = ['church_id' => 'int', 'is_global' => 'bool', 'is_primary' => 'bool'];
+    protected $casts    = ['church_id' => 'int', 'auth' => 'array', 'is_global' => 'bool', 'is_primary' => 'bool'];
     protected $searches = ['name'];
 
     function church() {
