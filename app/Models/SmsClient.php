@@ -16,4 +16,8 @@ class SmsClient extends Model
     function church() {
       return $this->belongsTo(Church::class);
     }
+
+    function methods() {
+      return $this->hasMany(SmsMethod::class, 'sms_client_id');
+    }
 }
