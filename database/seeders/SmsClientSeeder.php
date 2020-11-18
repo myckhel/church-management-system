@@ -20,6 +20,7 @@ class SmsClientSeeder extends Seeder
       $cid = Church::inRandomOrder()->limit(300)->pluck('id');
       SmsClient::factory()->count($faker->numberBetween(50, 300))
       ->state(['church_id'=> fn () => $faker->randomElement($cid)])
+      ->hasMethods($faker->numberBetween(3, 10))
       ->create();
     }
 }
