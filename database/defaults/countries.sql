@@ -1,5 +1,5 @@
 
-INSERT INTO `countries` (`id`, `sortname`, `name`, `phonecode`, `flag`, `currency_symbol`, `currency_code`) VALUES
+INSERT INTO countries (id, sortname, name, phonecode, flag, currency_symbol, currency_code) VALUES
 (1, 'AF', 'Afghanistan', 93, 'af.png', '؋', 'AFN'),
 (2, 'AL', 'Albania', 355, 'al.png', 'L', 'ALL'),
 (3, 'DZ', 'Algeria', 213, 'dz.png', 'د.ج', 'DZD'),
@@ -52,7 +52,7 @@ INSERT INTO `countries` (`id`, `sortname`, `name`, `phonecode`, `flag`, `currenc
 (50, 'CD', 'Congo The Democratic Republic Of The', 242, 'cd.png', '', 'CDF'),
 (51, 'CK', 'Cook Islands', 682, 'ck.png', '', 'NZD'),
 (52, 'CR', 'Costa Rica', 506, 'cr.png', '', 'CRC'),
-(53, 'CI', 'Cote D\'Ivoire (Ivory Coast)', 225, 'ci.png', '', 'XOF'),
+(53, 'CI', 'Cote D''Ivoire (Ivory Coast)', 225, 'ci.png', '', 'XOF'),
 (54, 'HR', 'Croatia (Hrvatska)', 385, 'hr.png', '', 'HRK'),
 (55, 'CU', 'Cuba', 53, 'cu.png', '', 'CUC'),
 (56, 'CY', 'Cyprus', 357, 'cy.png', '', 'EUR'),
