@@ -84,6 +84,10 @@ class Church extends Model
     public function groupMembers(){
       return $this->hasManyThrough(GroupMember::class, Group::class);
     }
+    public function smsMethods($client = null){
+      return $this->hasManyThrough(SmsMethod::class, SmsClient::class)
+      ->when($client, fn ($q) => $q->whereSmsClientId($client->id ?? $client));
+    }
     public function givings(){
       return $this->hasMany(Giving::class)
       ->orWhere(fn ($q) =>

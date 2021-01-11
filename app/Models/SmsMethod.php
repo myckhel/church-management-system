@@ -14,7 +14,7 @@ class SmsMethod extends Model
     protected $casts    = ['sms_client_id' => 'int', 'params' => 'array'];
     protected $searches = ['name'];
 
-    function smsClient() {
-      return $this->belongsTo(SmsClient::class);
+    function client() {
+      return $this->belongsTo(SmsClient::class, 'sms_client_id');
     }
 }
