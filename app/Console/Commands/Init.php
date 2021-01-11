@@ -86,9 +86,9 @@ class Init extends Command
       $output['ImportData'] = Artisan::call('db:import_default_data');
       $bar->advance();
 
-      $this->info(" Running Databaase Seeder");
-      $output['dbSeed'] = Artisan::call('db:seed');
-      $bar->advance();
+      // $this->info(" Running Databaase Seeder");
+      // $output['dbSeed'] = Artisan::call('db:seed');
+      // $bar->advance();
 
       $this->info(" Done");
       // $output['MigrateDB'] = Artisan::call('migrate');
