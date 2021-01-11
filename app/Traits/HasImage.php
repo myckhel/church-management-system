@@ -22,7 +22,7 @@ trait HasImage
     }
   }
 
-  public function withImageUrl($medias = null, $collection, $is_array = false){
+  public function withImageUrl($collection, $medias = null, $is_array = false){
     if (!$medias) $medias = $is_array ? $this->getMedia($collection) : $this->getFirstMedia($collection);
 
     $this->generateCollectionUrl($medias, $is_array, $collection);

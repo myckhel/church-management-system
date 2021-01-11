@@ -8,7 +8,7 @@ use App\Meta;
  */
 trait HasMeta
 {
-  public function addMeta($check = [], $metas){
+  public function addMeta($metas, $check = []){
     $meta = $this->metas()->updateOrCreate($check, $metas);
     $this->load('metas');
     return $meta;
