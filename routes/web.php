@@ -16,9 +16,9 @@ use App\Http\Controllers\Web\HomeController;
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('login', function () {
-    return view('client.auth.login');
-});
+Route::get('/login', function () {
+    return inertia('Auth/Login');
+})->name('auth.login');
 Route::get('password-recovery', function () {
     return view('client.auth.password-recovery');
 });

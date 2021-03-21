@@ -1,7 +1,7 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
+        "dev": "npm run development TAILWIND_MODE=build",
         "development": "mix",
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
@@ -10,6 +10,9 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@tailwindcss/jit": "^0.1.5",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^7.22.0",
         "eslint-plugin-react": "^7.22.0",
         "postcss": "^8.2.6"
     },
@@ -19,6 +22,7 @@
         "@inertiajs/inertia": "^0.8.5",
         "@inertiajs/inertia-react": "^0.5.4",
         "@inertiajs/progress": "^0.2.4",
+        "autoprefixer": "^10.2.5",
         "axios": "^0.19",
         "cross-env": "^7.0",
         "laravel-mix": "^6.0.13",
@@ -27,8 +31,10 @@
         "postcss-import": "^14.0.0",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
+        "react-helmet": "^6.1.0",
         "react-redux": "^7.2.2",
         "redux": "^4.0.5",
+        "tailwindcss": "^2.0.4",
         "ziggy-js": "^1.0.5"
     }
 }
