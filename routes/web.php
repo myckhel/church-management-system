@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('client.dashboard');
-});
+Route::get('/', [HomeController::class, 'index']);
+
 Route::get('login', function () {
     return view('client.auth.login');
 });
 Route::get('password-recovery', function () {
     return view('client.auth.password-recovery');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -12,13 +12,16 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "inertiajs/inertia-laravel": "^0.4.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^8.16",
         "laravel/sanctum": "^2.8",
+        "laravel/ui": "^3.2",
         "spatie/laravel-medialibrary": "^9.2",
         "spatie/laravel-permission": "dev-master",
         "staudenmeir/belongs-to-through": "^2.11",
-        "staudenmeir/eloquent-has-many-deep": "^1.13"
+        "staudenmeir/eloquent-has-many-deep": "^1.13",
+        "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
