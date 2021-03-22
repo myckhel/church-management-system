@@ -44,6 +44,10 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    function showLoginForm() {
+      return inertia('Auth/Login');
+    }
+
     public function login(Request $request)
     {
       $path     = $request->getPathInfo();

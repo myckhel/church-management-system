@@ -1,1 +1,0 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[337],{4337:(e,n,s)=>{"use strict";s.r(n),s.d(n,{default:()=>c});s(7294);var u=s(5893);const c=function(){return(0,u.jsx)("h1",{children:"123"})}}}]);

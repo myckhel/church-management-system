@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 /public/medias
+/public/js/chunks/dev
 .env
 .env.backup
 .phpunit.result.cache

@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const path = require('path');
 
 /*
  |--------------------------------------------------------------------------
@@ -13,12 +14,29 @@ const mix = require('laravel-mix');
 
 // mix.extract();
 
+let config = {
+  output: { chunkFilename: 'js/chunks/dev/[name].js' },
+  resolve: {
+    alias: {
+      '@': path.resolve('resources/js')
+    }
+  },
+};
+
 mix.js('resources/js/app.js', 'public/js')
     .react()
-    .postCss('resources/css/app.css', 'public/css/app.css', [
+    .postCss('resources/css/app.css', 'public/css', [
       require('postcss-import'),
       require('tailwindcss'),
+      // require('@tailwindcss/jit'),
       require('autoprefixer')
     ])
+    .webpackConfig((env, argv) => {
+      if (argv.mode === 'production') {
+        config.output.chunkFilename = 'js/chunks/prod/[name].js';
+      }
+      return config;
+    })
     .version()
-    .sourceMaps();
+    .sourceMaps()
+    .browserSync('localhost:8000');

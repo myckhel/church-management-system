@@ -42,6 +42,14 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    function showLoginForm() {
+      return inertia('Auth/Register');
+    }
+
+    function registerWeb() {
+      // code...
+    }
+
     public function register(Request $request)
     {
       $path     = $request->getPathInfo();

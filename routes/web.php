@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,16 +15,18 @@ use App\Http\Controllers\Web\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'loginWeb'])->name('login.attempt');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('register', [RegisterController::class, 'regForm'])->name('register');
+Route::post('register', [RegisterController::class, 'registerWeb'])->name('register.attempt');
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/login', function () {
-    return inertia('Auth/Login');
-})->name('auth.login');
 Route::get('password-recovery', function () {
     return view('client.auth.password-recovery');
 });
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

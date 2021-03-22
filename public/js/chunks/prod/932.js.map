@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./resources/js/Pages/Landing/index.js"],"names":[],"mappings":"sIAEA,mBACE,OAAO","file":"js/chunks/prod/932.js","sourcesContent":["import React from 'react';\r\n\r\nexport default () => {\r\n  return <h1>123</h1>;\r\n};\r\n"],"sourceRoot":""}
