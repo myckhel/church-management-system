@@ -15,18 +15,17 @@ use App\Http\Controllers\Auth\RegisterController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class, 'loginWeb'])->name('login.attempt');
+// Route::post('login', [LoginController::class, 'loginWeb'])->name('login.attempt');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('register', [RegisterController::class, 'regForm'])->name('register');
-Route::post('register', [RegisterController::class, 'registerWeb'])->name('register.attempt');
+// Route::post('register', [RegisterController::class, 'attempt'])->name('register.attempt');
 
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('password-recovery', function () {
     return view('client.auth.password-recovery');
 });
-
-// Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

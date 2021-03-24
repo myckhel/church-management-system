@@ -42,12 +42,8 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    function showLoginForm() {
-      return inertia('Auth/Register');
-    }
-
-    function registerWeb() {
-      // code...
+    function regForm() {
+      return inertia('Auth/Login');
     }
 
     public function register(Request $request)
@@ -72,6 +68,11 @@ class RegisterController extends Controller
       } catch (\Exception $e) {
         // $user->active = 1;
         // $user->save();
+      }
+
+      if (!$request->wantsJson()) {
+        auth('web')->attempt($request->only(['password', 'email']));
+        return redirect('/home');
       }
 
       $token       = $user->grantMeToken();

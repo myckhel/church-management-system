@@ -50,6 +50,14 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+      if (!$request->wantsJson()) {
+        if(auth('web')->attempt($request->only(['password', 'email']))){
+          return redirect('/home');
+        } else {
+          return redirect()->back()->withErrors(['message' => 'credentials does not match']);
+        }
+      }
+
       $path     = $request->getPathInfo();
       $is_admin = $path == '/api/admin/login';
       $guard    = $is_admin ? 'api:admin' : 'api';
@@ -88,6 +96,11 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+      if (!$request->wantsJson()) {
+        auth('web')->logout();
+        return redirect('login');
+      }
+
       $request->user()->currentAccessToken()->delete();
       return response()->json([
           'message' => 'Successfully logged out'

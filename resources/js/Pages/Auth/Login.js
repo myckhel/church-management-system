@@ -1,19 +1,28 @@
-import React, {useState} from 'react';
+import React, { useState, useMemo } from 'react';
 import Helmet from 'react-helmet';
 import { InertiaLink } from '@inertiajs/inertia-react';
-import { useForm } from '@inertiajs/inertia-react';
+import { useForm, usePage } from '@inertiajs/inertia-react';
 
 export default () => {
-  const [title] = useState('Login')
+  const { url } = usePage();
+  // const [title] = useState('Login')
+  const { title, isLogin } = useMemo(() => {
+    const page = url.split('/')[1];
+    return {
+      title: capitalize(page),
+      isLogin: page === 'login'
+    };
+  }, [url]);
   const { errors, setData, post } = useForm({
     password: '',
+    password_confirmation: '',
     email: '',
     remember: ''
   });
 
   function submit(e) {
     e.preventDefault();
-    post('/login');
+    post(url);
   }
 
   return (
@@ -27,15 +36,15 @@ export default () => {
             alt="Workflow"
           />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+            {isLogin ? 'Sign in to your account' : 'Signup a new account'}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Or
             <InertiaLink
-              href={route('register')}
+              href={route(isLogin ? 'register' : 'login')}
               className="font-medium text-indigo-600 hover:text-indigo-500"
             >
-              Register
+              {isLogin ? 'Register' : 'Login'}
             </InertiaLink>
           </p>
         </div>
@@ -57,6 +66,12 @@ export default () => {
                 placeholder="Email address"
                 autoFocus
               />
+
+              {errors.email && (
+                <span className="ring-red-50" role="alert">
+                  <strong>{errors.email}</strong>
+                </span>
+              )}
             </div>
             <div>
               <label htmlFor="password" className="sr-only">
@@ -74,8 +89,28 @@ export default () => {
               />
 
               {errors.password && (
-                <span className="invalid-feedback" role="alert">
+                <span className="ring-red-50" role="alert">
                   <strong>{errors.password}</strong>
+                </span>
+              )}
+            </div>
+            <div>
+              <label htmlFor="password_confirmation" className="sr-only">
+                Confirm Password
+              </label>
+              <input
+                id="password_confirmation"
+                type="password"
+                onChange={e => setData('password_confirmation', e.target.value)}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                name="password"
+                required
+                placeholder="Confirm password"
+              />
+
+              {errors.password_confirmation && (
+                <span className="ring-red-50" role="alert">
+                  <strong>{errors.password_confirmation}</strong>
                 </span>
               )}
             </div>
@@ -130,11 +165,16 @@ export default () => {
                   />
                 </svg>
               </span>
-              Sign in
+              {isLogin ? 'Sign in' : 'Sign up'}
             </button>
           </div>
         </form>
       </div>
     </div>
   );
+};
+
+const capitalize = s => {
+  if (typeof s !== 'string') return '';
+  return s.charAt(0).toUpperCase() + s.slice(1);
 };

@@ -25,12 +25,14 @@ let config = {
 
 mix.js('resources/js/app.js', 'public/js')
     .react()
-    .postCss('resources/css/app.css', 'public/css', [
-      require('postcss-import'),
-      require('tailwindcss'),
-      // require('@tailwindcss/jit'),
-      require('autoprefixer')
-    ])
+    .postCss('resources/css/app.css', 'public/css')
+    .options({
+      postCss: [
+        require('postcss-import'),
+        require('@tailwindcss/jit'),
+        require('autoprefixer')
+      ]
+    })
     .webpackConfig((env, argv) => {
       if (argv.mode === 'production') {
         config.output.chunkFilename = 'js/chunks/prod/[name].js';
