@@ -12,7 +12,7 @@ const path = require('path');
  |
  */
 
-// mix.extract();
+mix.extract();
 
 let config = {
   output: { chunkFilename: 'js/chunks/dev/[name].js' },
@@ -25,7 +25,7 @@ let config = {
 
 mix.js('resources/js/app.js', 'public/js')
     .react()
-    .postCss('resources/css/app.css', 'public/css')
+    .sass('resources/sass/app.scss', 'public/css')
     .options({
       postCss: [
         require('postcss-import'),
