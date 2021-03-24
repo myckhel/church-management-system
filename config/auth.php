@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'web:member' => [
+            'driver' => 'session',
+            'provider' => 'members',
+        ],
+
         'api' => [
             'driver' => 'sanctum',
             'provider' => 'users',
