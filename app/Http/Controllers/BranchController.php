@@ -120,7 +120,7 @@ class BranchController extends Controller
         'branchcode' => $data['branchcode'],
         'address' => $data['address'],
         'email' => $data['email'],
-        'isadmin' => isset($data['isadmin']) ? $data['isadmin'] : 0,
+        'isadmin' => isset($data['isadmin']) ? $data['isadmin'] : 'false',
         'password' => Hash::make($data['password']),
         'country' => $data['country'],
         'state' => $data['state'],
