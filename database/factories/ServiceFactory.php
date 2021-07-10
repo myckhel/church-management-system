@@ -28,7 +28,7 @@ class ServiceFactory extends Factory
         'recurrence'        => ['day' => $this->faker->numberBetween(1, 7), 'week' => 1],
         // {day, weekDay, week, monthWeek, month, yearMonth, year}
         'regular'           => $this->faker->randomElement([true, false]),
-        'is_global'         => $this->faker->randomElement([true, false]),
+        'isGlobal'          => $this->faker->randomElement([true, false]),
       ];
     }
 
