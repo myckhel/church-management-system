@@ -3,7 +3,7 @@
 /*
  * This file is part of Psy Shell.
  *
- * (c) 2012-2018 Justin Hileman
+ * (c) 2012-2020 Justin Hileman
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,14 +11,11 @@
 
 namespace Psy\Command;
 
-use JakubOnderka\PhpConsoleHighlighter\Highlighter;
-use Psy\Configuration;
-use Psy\ConsoleColorFactory;
 use Psy\Exception\RuntimeException;
+use Psy\Exception\UnexpectedTargetException;
 use Psy\Formatter\CodeFormatter;
 use Psy\Formatter\SignatureFormatter;
 use Psy\Input\CodeArgument;
-use Psy\Output\ShellOutput;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,18 +26,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ShowCommand extends ReflectingCommand
 {
-    private $colorMode;
-    private $highlighter;
     private $lastException;
     private $lastExceptionIndex;
 
     /**
-     * @param null|string $colorMode (default: null)
+     * @param string|null $colorMode (deprecated and ignored)
      */
     public function __construct($colorMode = null)
     {
-        $this->colorMode = $colorMode ?: Configuration::COLOR_MODE_AUTO;
-
         parent::__construct();
     }
 
@@ -53,7 +46,7 @@ class ShowCommand extends ReflectingCommand
             ->setName('show')
             ->setDefinition([
                 new CodeArgument('target', CodeArgument::OPTIONAL, 'Function, class, instance, constant, method or property to show.'),
-                new InputOption('ex', null,  InputOption::VALUE_OPTIONAL, 'Show last exception context. Optionally specify a stack index.', 1),
+                new InputOption('ex', null, InputOption::VALUE_OPTIONAL, 'Show last exception context. Optionally specify a stack index.', 1),
             ])
             ->setDescription('Show the code for an object, class, constant, method or property.')
             ->setHelp(
@@ -99,11 +92,15 @@ HELP
                 throw new \InvalidArgumentException('Too many arguments (supply either "target" or "--ex")');
             }
 
-            return $this->writeExceptionContext($input, $output);
+            $this->writeExceptionContext($input, $output);
+
+            return 0;
         }
 
         if ($input->getArgument('target')) {
-            return $this->writeCodeContext($input, $output);
+            $this->writeCodeContext($input, $output);
+
+            return 0;
         }
 
         throw new RuntimeException('Not enough arguments (missing: "target")');
@@ -111,13 +108,31 @@ HELP
 
     private function writeCodeContext(InputInterface $input, OutputInterface $output)
     {
-        list($target, $reflector) = $this->getTargetAndReflector($input->getArgument('target'));
+        try {
+            list($target, $reflector) = $this->getTargetAndReflector($input->getArgument('target'));
+        } catch (UnexpectedTargetException $e) {
+            // If we didn't get a target and Reflector, maybe we got a filename?
+            $target = $e->getTarget();
+            if (\is_string($target) && \is_file($target) && $code = @\file_get_contents($target)) {
+                $file = \realpath($target);
+                if ($file !== $this->context->get('__file')) {
+                    $this->context->setCommandScopeVariables([
+                        '__file' => $file,
+                        '__dir'  => \dirname($file),
+                    ]);
+                }
+
+                return $output->page(CodeFormatter::formatCode($code));
+            } else {
+                throw $e;
+            }
+        }
 
         // Set some magic local variables
         $this->setCommandScopeVariables($reflector);
 
         try {
-            $output->page(CodeFormatter::format($reflector, $this->colorMode), ShellOutput::OUTPUT_RAW);
+            $output->page(CodeFormatter::format($reflector));
         } catch (RuntimeException $e) {
             $output->writeln(SignatureFormatter::format($reflector));
             throw $e;
@@ -140,7 +155,7 @@ HELP
                 $index = 0;
             }
         } else {
-            $index = \max(0, \intval($input->getOption('ex')) - 1);
+            $index = \max(0, (int) $input->getOption('ex') - 1);
         }
 
         $trace = $exception->getTrace();
@@ -170,7 +185,7 @@ HELP
         $line = isset($trace[$index]['line']) ? $trace[$index]['line'] : 'n/a';
 
         $output->writeln(\sprintf(
-            'From <info>%s:%d</info> at <strong>level %d</strong> of backtrace (of %d).',
+            'From <info>%s:%d</info> at <strong>level %d</strong> of backtrace (of %d):',
             OutputFormatter::escape($file),
             OutputFormatter::escape($line),
             $index + 1,
@@ -181,13 +196,13 @@ HELP
     private function replaceCwd($file)
     {
         if ($cwd = \getcwd()) {
-            $cwd = \rtrim($cwd, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            $cwd = \rtrim($cwd, \DIRECTORY_SEPARATOR).\DIRECTORY_SEPARATOR;
         }
 
         if ($cwd === false) {
             return $file;
         } else {
-            return \preg_replace('/^' . \preg_quote($cwd, '/') . '/', '', $file);
+            return \preg_replace('/^'.\preg_quote($cwd, '/').'/', '', $file);
         }
     }
 
@@ -216,17 +231,10 @@ HELP
             return;
         }
 
-        $output->write($this->getHighlighter()->getCodeSnippet($code, $line, 5, 5), ShellOutput::OUTPUT_RAW);
-    }
+        $startLine = \max($line - 5, 0);
+        $endLine = $line + 5;
 
-    private function getHighlighter()
-    {
-        if (!$this->highlighter) {
-            $factory = new ConsoleColorFactory($this->colorMode);
-            $this->highlighter = new Highlighter($factory->getConsoleColor());
-        }
-
-        return $this->highlighter;
+        $output->write(CodeFormatter::formatCode($code, $startLine, $endLine, $line), false);
     }
 
     private function setCommandScopeVariablesFromContext(array $context)

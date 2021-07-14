@@ -20,11 +20,13 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
  *
  * It manages an environment made of application kernel and bundles.
  *
- * @author Fabien Potencier <fabien@symfony.com>
+ * @method string getBuildDir() Returns the build directory - not implementing it is deprecated since Symfony 5.2.
+ *                              This directory should be used to store build artifacts, and can be read-only at runtime.
+ *                              Caches written at runtime should be stored in the "cache directory" ({@see KernelInterface::getCacheDir()}).
  *
- * @method string getProjectDir() Gets the project dir (path of the project's composer file) - not defining it is deprecated since Symfony 4.2
+ * @author Fabien Potencier <fabien@symfony.com>
  */
-interface KernelInterface extends HttpKernelInterface, \Serializable
+interface KernelInterface extends HttpKernelInterface
 {
     /**
      * Returns an array of bundles to register.
@@ -60,13 +62,11 @@ interface KernelInterface extends HttpKernelInterface, \Serializable
     /**
      * Returns a bundle.
      *
-     * @param string $name Bundle name
-     *
      * @return BundleInterface A BundleInterface instance
      *
      * @throws \InvalidArgumentException when the bundle is not enabled
      */
-    public function getBundle($name);
+    public function getBundle(string $name);
 
     /**
      * Returns the file path for a given bundle resource.
@@ -80,32 +80,12 @@ interface KernelInterface extends HttpKernelInterface, \Serializable
      * where BundleName is the name of the bundle
      * and the remaining part is the relative path in the bundle.
      *
-     * If $dir is passed, and the first segment of the path is "Resources",
-     * this method will look for a file named:
-     *
-     *     $dir/<BundleName>/path/without/Resources
-     *
-     * before looking in the bundle resource folder.
-     *
-     * @param string $name  A resource name to locate
-     * @param string $dir   A directory where to look for the resource first
-     * @param bool   $first Whether to return the first path or paths for all matching bundles
-     *
-     * @return string|array The absolute path of the resource or an array if $first is false
+     * @return string The absolute path of the resource
      *
      * @throws \InvalidArgumentException if the file cannot be found or the name is not valid
      * @throws \RuntimeException         if the name contains invalid/unsafe characters
      */
-    public function locateResource($name, $dir = null, $first = true);
-
-    /**
-     * Gets the name of the kernel.
-     *
-     * @return string The kernel name
-     *
-     * @deprecated since Symfony 4.2
-     */
-    public function getName();
+    public function locateResource(string $name);
 
     /**
      * Gets the environment.
@@ -122,30 +102,32 @@ interface KernelInterface extends HttpKernelInterface, \Serializable
     public function isDebug();
 
     /**
-     * Gets the application root dir (path of the project's Kernel class).
+     * Gets the project dir (path of the project's composer file).
      *
-     * @return string The Kernel root dir
-     *
-     * @deprecated since Symfony 4.2
+     * @return string
      */
-    public function getRootDir();
+    public function getProjectDir();
 
     /**
      * Gets the current container.
      *
-     * @return ContainerInterface|null A ContainerInterface instance or null when the Kernel is shutdown
+     * @return ContainerInterface
      */
     public function getContainer();
 
     /**
      * Gets the request start time (not available if debug is disabled).
      *
-     * @return int The request start timestamp
+     * @return float The request start timestamp
      */
     public function getStartTime();
 
     /**
      * Gets the cache directory.
+     *
+     * Since Symfony 5.2, the cache directory should be used for caches that are written at runtime.
+     * For caches and artifacts that can be warmed at compile-time and deployed as read-only,
+     * use the new "build directory" returned by the {@see getBuildDir()} method.
      *
      * @return string The cache directory
      */

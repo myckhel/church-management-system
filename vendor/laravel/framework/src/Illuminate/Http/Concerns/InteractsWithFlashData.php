@@ -7,9 +7,9 @@ trait InteractsWithFlashData
     /**
      * Retrieve an old input item.
      *
-     * @param  string  $key
+     * @param  string|null  $key
      * @param  string|array|null  $default
-     * @return string|array
+     * @return string|array|null
      */
     public function old($key = null, $default = null)
     {

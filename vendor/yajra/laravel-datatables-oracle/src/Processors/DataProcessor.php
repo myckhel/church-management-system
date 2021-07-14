@@ -2,7 +2,9 @@
 
 namespace Yajra\DataTables\Processors;
 
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Arr;
+use Yajra\DataTables\Contracts\Formatter;
 use Yajra\DataTables\Utilities\Helper;
 
 class DataProcessor
@@ -82,6 +84,8 @@ class DataProcessor
         $this->escapeColumns = $columnDef['escape'];
         $this->includeIndex  = $columnDef['index'];
         $this->rawColumns    = $columnDef['raw'];
+        $this->makeHidden    = $columnDef['hidden'];
+        $this->makeVisible   = $columnDef['visible'];
         $this->templates     = $templates;
         $this->start         = $start;
     }
@@ -98,7 +102,7 @@ class DataProcessor
         $indexColumn  = config('datatables.index_column', 'DT_RowIndex');
 
         foreach ($this->results as $row) {
-            $data  = Helper::convertToArray($row);
+            $data  = Helper::convertToArray($row, ['hidden' => $this->makeHidden, 'visible' => $this->makeVisible]);
             $value = $this->addColumns($data, $row);
             $value = $this->editColumns($value, $row);
             $value = $this->setupRowVariables($value, $row);
@@ -124,9 +128,16 @@ class DataProcessor
      */
     protected function addColumns($data, $row)
     {
-        foreach ($this->appendColumns as $key => $value) {
-            $value['content'] = Helper::compileContent($value['content'], $data, $row);
-            $data             = Helper::includeInArray($value, $data);
+        foreach ($this->appendColumns as $value) {
+            if ($value['content'] instanceof Formatter) {
+                $column = str_replace('_formatted', '', $value['name']);
+
+                $value['content'] = $value['content']->format($data[$column], $row);
+            } else {
+                $value['content'] = Helper::compileContent($value['content'], $data, $row);
+            }
+
+            $data = Helper::includeInArray($value, $data);
         }
 
         return $data;
@@ -179,7 +190,17 @@ class DataProcessor
         if (is_null($this->onlyColumns)) {
             return $data;
         } else {
-            return array_intersect_key($data, array_flip(array_merge($this->onlyColumns, $this->exceptions)));
+            $results = [];
+            foreach ($this->onlyColumns as $onlyColumn) {
+                Arr::set($results, $onlyColumn, Arr::get($data, $onlyColumn));
+            }
+            foreach ($this->exceptions as $exception) {
+                if ($column = Arr::get($data, $exception)) {
+                    Arr::set($results, $exception, $column);
+                }
+            }
+
+            return $results;
         }
     }
 
@@ -192,7 +213,7 @@ class DataProcessor
     protected function removeExcessColumns(array $data)
     {
         foreach ($this->excessColumns as $value) {
-            unset($data[$value]);
+            Arr::forget($data, $value);
         }
 
         return $data;
@@ -232,7 +253,7 @@ class DataProcessor
             } elseif (is_array($this->escapeColumns)) {
                 $columns = array_diff($this->escapeColumns, $this->rawColumns);
                 foreach ($columns as $key) {
-                    array_set($row, $key, e(array_get($row, $key)));
+                    Arr::set($row, $key, e(Arr::get($row, $key)));
                 }
             }
 
@@ -241,22 +262,22 @@ class DataProcessor
     }
 
     /**
-     * Escape all values of row.
+     * Escape all string or Htmlable values of row.
      *
      * @param array $row
      * @return array
      */
     protected function escapeRow(array $row)
     {
-        $arrayDot = array_filter(array_dot($row));
+        $arrayDot = array_filter(Arr::dot($row));
         foreach ($arrayDot as $key => $value) {
             if (! in_array($key, $this->rawColumns)) {
-                $arrayDot[$key] = e($value);
+                $arrayDot[$key] = (is_string($value) || $value instanceof Htmlable) ? e($value) : $value;
             }
         }
 
         foreach ($arrayDot as $key => $value) {
-            array_set($row, $key, $value);
+            Arr::set($row, $key, $value);
         }
 
         return $row;

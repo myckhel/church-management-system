@@ -15,27 +15,35 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @final
  */
 class RequestDataCollector extends DataCollector implements EventSubscriberInterface, LateDataCollectorInterface
 {
     protected $controllers;
+    private $sessionUsages = [];
+    private $requestStack;
 
-    public function __construct()
+    public function __construct(?RequestStack $requestStack = null)
     {
         $this->controllers = new \SplObjectStorage();
+        $this->requestStack = $requestStack;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function collect(Request $request, Response $response, \Exception $exception = null)
+    public function collect(Request $request, Response $response, \Throwable $exception = null)
     {
         // attributes are serialized and as they can be anything, they need to be converted to strings.
         $attributes = [];
@@ -49,23 +57,16 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
             }
         }
 
-        $content = null;
-        try {
-            $content = $request->getContent();
-        } catch (\LogicException $e) {
-            // the user already got the request content as a resource
-            $content = false;
-        }
+        $content = $request->getContent();
 
         $sessionMetadata = [];
         $sessionAttributes = [];
-        $session = null;
         $flashes = [];
         if ($request->hasSession()) {
             $session = $request->getSession();
             if ($session->isStarted()) {
-                $sessionMetadata['Created'] = date(DATE_RFC822, $session->getMetadataBag()->getCreated());
-                $sessionMetadata['Last used'] = date(DATE_RFC822, $session->getMetadataBag()->getLastUsed());
+                $sessionMetadata['Created'] = date(\DATE_RFC822, $session->getMetadataBag()->getCreated());
+                $sessionMetadata['Last used'] = date(\DATE_RFC822, $session->getMetadataBag()->getLastUsed());
                 $sessionMetadata['Lifetime'] = $session->getMetadataBag()->getLifetime();
                 $sessionAttributes = $session->all();
                 $flashes = $session->getFlashBag()->peekAll();
@@ -80,18 +81,17 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         }
 
         $dotenvVars = [];
-        foreach (explode(',', getenv('SYMFONY_DOTENV_VARS')) as $name) {
-            if ('' !== $name && false !== $value = getenv($name)) {
-                $dotenvVars[$name] = $value;
+        foreach (explode(',', $_SERVER['SYMFONY_DOTENV_VARS'] ?? $_ENV['SYMFONY_DOTENV_VARS'] ?? '') as $name) {
+            if ('' !== $name && isset($_ENV[$name])) {
+                $dotenvVars[$name] = $_ENV[$name];
             }
         }
 
         $this->data = [
             'method' => $request->getMethod(),
             'format' => $request->getRequestFormat(),
-            'content' => $content,
             'content_type' => $response->headers->get('Content-Type', 'text/html'),
-            'status_text' => isset(Response::$statusTexts[$statusCode]) ? Response::$statusTexts[$statusCode] : '',
+            'status_text' => Response::$statusTexts[$statusCode] ?? '',
             'status_code' => $statusCode,
             'request_query' => $request->query->all(),
             'request_request' => $request->request->all(),
@@ -105,6 +105,8 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
             'response_cookies' => $responseCookies,
             'session_metadata' => $sessionMetadata,
             'session_attributes' => $sessionAttributes,
+            'session_usages' => array_values($this->sessionUsages),
+            'stateless_check' => $this->requestStack && $this->requestStack->getMainRequest()->attributes->get('_stateless', false),
             'flashes' => $flashes,
             'path_info' => $request->getPathInfo(),
             'controller' => 'n/a',
@@ -121,8 +123,12 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         }
 
         if (isset($this->data['request_request']['_password'])) {
+            $encodedPassword = rawurlencode($this->data['request_request']['_password']);
+            $content = str_replace('_password='.$encodedPassword, '_password=******', $content);
             $this->data['request_request']['_password'] = '******';
         }
+
+        $this->data['content'] = $content;
 
         foreach ($this->data as $key => $value) {
             if (!\is_array($value)) {
@@ -175,6 +181,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
     {
         $this->data = [];
         $this->controllers = new \SplObjectStorage();
+        $this->sessionUsages = [];
     }
 
     public function getMethod()
@@ -242,6 +249,16 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['session_attributes']->getValue();
     }
 
+    public function getStatelessCheck()
+    {
+        return $this->data['stateless_check'];
+    }
+
+    public function getSessionUsages()
+    {
+        return $this->data['session_usages'];
+    }
+
     public function getFlashes()
     {
         return $this->data['flashes']->getValue();
@@ -250,6 +267,18 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
     public function getContent()
     {
         return $this->data['content'];
+    }
+
+    public function isJsonRequest()
+    {
+        return 1 === preg_match('{^application/(?:\w+\++)*json$}i', $this->data['request_headers']['content-type']);
+    }
+
+    public function getPrettyJson()
+    {
+        $decoded = json_decode($this->getContent());
+
+        return \JSON_ERROR_NONE === json_last_error() ? json_encode($decoded, \JSON_PRETTY_PRINT) : null;
     }
 
     public function getContentType()
@@ -330,22 +359,22 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
      */
     public function getRedirect()
     {
-        return isset($this->data['redirect']) ? $this->data['redirect'] : false;
+        return $this->data['redirect'] ?? false;
     }
 
     public function getForwardToken()
     {
-        return isset($this->data['forward_token']) ? $this->data['forward_token'] : null;
+        return $this->data['forward_token'] ?? null;
     }
 
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController(ControllerEvent $event)
     {
         $this->controllers[$event->getRequest()] = $event->getController();
     }
 
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event)
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
 
@@ -370,6 +399,37 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return 'request';
     }
 
+    public function collectSessionUsage(): void
+    {
+        $trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
+
+        $traceEndIndex = \count($trace) - 1;
+        for ($i = $traceEndIndex; $i > 0; --$i) {
+            if (null !== ($class = $trace[$i]['class'] ?? null) && (is_subclass_of($class, SessionInterface::class) || is_subclass_of($class, SessionBagInterface::class))) {
+                $traceEndIndex = $i;
+                break;
+            }
+        }
+
+        if ((\count($trace) - 1) === $traceEndIndex) {
+            return;
+        }
+
+        // Remove part of the backtrace that belongs to session only
+        array_splice($trace, 0, $traceEndIndex);
+
+        // Merge identical backtraces generated by internal call reports
+        $name = sprintf('%s:%s', $trace[1]['class'] ?? $trace[0]['file'], $trace[0]['line']);
+        if (!\array_key_exists($name, $this->sessionUsages)) {
+            $this->sessionUsages[$name] = [
+                'name' => $name,
+                'file' => $trace[0]['file'],
+                'line' => $trace[0]['line'],
+                'trace' => $trace,
+            ];
+        }
+    }
+
     /**
      * Parse a controller.
      *
@@ -388,7 +448,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
                 $r = new \ReflectionMethod($controller[0], $controller[1]);
 
                 return [
-                    'class' => \is_object($controller[0]) ? \get_class($controller[0]) : $controller[0],
+                    'class' => \is_object($controller[0]) ? get_debug_type($controller[0]) : $controller[0],
                     'method' => $controller[1],
                     'file' => $r->getFileName(),
                     'line' => $r->getStartLine(),
@@ -397,7 +457,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
                 if (\is_callable($controller)) {
                     // using __call or  __callStatic
                     return [
-                        'class' => \is_object($controller[0]) ? \get_class($controller[0]) : $controller[0],
+                        'class' => \is_object($controller[0]) ? get_debug_type($controller[0]) : $controller[0],
                         'method' => $controller[1],
                         'file' => 'n/a',
                         'line' => 'n/a',

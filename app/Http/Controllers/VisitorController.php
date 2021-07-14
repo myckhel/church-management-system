@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Daveismyname\Countries\Facades\Countries;
+use Dcblogdev\Countries\Facades\Countries;
 use \App\User;
 use \App\Branch;
 use \App\Setting;

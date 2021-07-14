@@ -2,10 +2,10 @@
 
 namespace Illuminate\Database\Eloquent;
 
-use RuntimeException;
+use Illuminate\Database\RecordsNotFoundException;
 use Illuminate\Support\Arr;
 
-class ModelNotFoundException extends RuntimeException
+class ModelNotFoundException extends RecordsNotFoundException
 {
     /**
      * Name of the affected Eloquent model.

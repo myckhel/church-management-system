@@ -3,7 +3,7 @@
 /*
  * This file is part of Psy Shell.
  *
- * (c) 2012-2018 Justin Hileman
+ * (c) 2012-2020 Justin Hileman
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,13 +23,13 @@ use Symfony\Component\Console\Input\InputInterface;
 abstract class Enumerator
 {
     // Output styles
-    const IS_PUBLIC    = 'public';
+    const IS_PUBLIC = 'public';
     const IS_PROTECTED = 'protected';
-    const IS_PRIVATE   = 'private';
-    const IS_GLOBAL    = 'global';
-    const IS_CONSTANT  = 'const';
-    const IS_CLASS     = 'class';
-    const IS_FUNCTION  = 'function';
+    const IS_PRIVATE = 'private';
+    const IS_GLOBAL = 'global';
+    const IS_CONSTANT = 'const';
+    const IS_CLASS = 'class';
+    const IS_FUNCTION = 'function';
 
     private $filter;
     private $presenter;
@@ -48,9 +48,9 @@ abstract class Enumerator
     /**
      * Return a list of categorized things with the given input options and target.
      *
-     * @param InputInterface $input
-     * @param \Reflector     $reflector
-     * @param mixed          $target
+     * @param InputInterface  $input
+     * @param \Reflector|null $reflector
+     * @param mixed           $target
      *
      * @return array
      */
@@ -76,9 +76,9 @@ abstract class Enumerator
      *         ],
      *     ]
      *
-     * @param InputInterface $input
-     * @param \Reflector     $reflector
-     * @param mixed          $target
+     * @param InputInterface  $input
+     * @param \Reflector|null $reflector
+     * @param mixed           $target
      *
      * @return array
      */

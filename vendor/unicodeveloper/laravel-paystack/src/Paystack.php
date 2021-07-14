@@ -100,38 +100,79 @@ class Paystack
         );
     }
 
-    /**
+
+     /**
+
      * Initiate a payment request to Paystack
+     * Included the option to pass the payload to this method for situations
+     * when the payload is built on the fly (not passed to the controller from a view)
      * @return Paystack
      */
-    public function makePaymentRequest()
-    {
-        $data = [
-            "amount" => intval(request()->amount),
-            "reference" => request()->reference,
-            "email" => request()->email,
-            "plan" => request()->plan,
-            "first_name" => request()->first_name,
-            "last_name" => request()->last_name,
-            "callback_url" => request()->callback_url,
-            /*
-            * to allow use of metadata on Paystack dashboard and a means to return additional data back to redirect url
-            * form need an input field: <input type="hidden" name="metadata" value="{{ json_encode($array) }}" >
-            *array must be set up as: $array = [ 'custom_fields' => [
-            *                                                            ['display_name' => "Cart Id", "variable_name" => "cart_id", "value" => "2"],
-            *                                                            ['display_name' => "Sex", "variable_name" => "sex", "value" => "female"],
-            *                                                            .
-            *                                                            .
-            *                                                            .
-            *                                                        ]
-            *                                        
-            *                                  ]
-            */
-            'metadata' => request()->metadata 
-        ];
 
-        // Remove the fields which were not sent (value would be null)
-        array_filter($data);
+    public function makePaymentRequest( $data = null)
+    {
+        if ( $data == null ) {
+
+            $quantity = intval(request()->quantity ?? 1);
+
+            $data = array_filter([
+                "amount" => intval(request()->amount) * $quantity,
+                "reference" => request()->reference,
+                "email" => request()->email,
+                "plan" => request()->plan,
+                "first_name" => request()->first_name,
+                "last_name" => request()->last_name,
+                "callback_url" => request()->callback_url,
+                "currency" => (request()->currency != ""  ? request()->currency : "NGN"),
+
+                /*
+                    Paystack allows for transactions to be split into a subaccount -
+                    The following lines trap the subaccount ID - as well as the ammount to charge the subaccount (if overriden in the form)
+                    both values need to be entered within hidden input fields
+                */
+                "subaccount" => request()->subaccount,
+                "transaction_charge" => request()->transaction_charge,
+
+                /**
+                 * Paystack allows for transaction to be split into multi accounts(subaccounts)
+                 * The following lines trap the split ID handling the split
+                 * More details here: https://paystack.com/docs/payments/multi-split-payments/#using-transaction-splits-with-payments
+                 */
+                "split_code" => request()->split_code,
+
+                /**
+                 * Paystack allows transaction to be split into multi account(subaccounts) on the fly without predefined split
+                 * form need an input field: <input type="hidden" name="split" value="{{ json_encode($split) }}" >
+                 * array must be set up as:
+                 *  $split = [
+                 *    "type" => "percentage",
+                 *     "currency" => "KES",
+                 *     "subaccounts" => [
+                 *       { "subaccount" => "ACCT_li4p6kte2dolodo", "share" => 10 },
+                 *       { "subaccount" => "ACCT_li4p6kte2dolodo", "share" => 30 },
+                 *     ],
+                 *     "bearer_type" => "all",
+                 *     "main_account_share" => 70,
+                 * ]
+                 * More details here: https://paystack.com/docs/payments/multi-split-payments/#dynamic-splits
+                 */
+                "split" => request()->split,
+                /*
+                * to allow use of metadata on Paystack dashboard and a means to return additional data back to redirect url
+                * form need an input field: <input type="hidden" name="metadata" value="{{ json_encode($array) }}" >
+                * array must be set up as:
+                * $array = [ 'custom_fields' => [
+                *                   ['display_name' => "Cart Id", "variable_name" => "cart_id", "value" => "2"],
+                *                   ['display_name' => "Sex", "variable_name" => "sex", "value" => "female"],
+                *                   .
+                *                   .
+                *                   .
+                *                  ]
+                *          ]
+                */
+                'metadata' => request()->metadata
+            ]);
+        }
 
         $this->setHttpResponse('/transaction/initialize', 'POST', $data);
 
@@ -171,6 +212,21 @@ class Paystack
         $this->url = $this->getResponse()['data']['authorization_url'];
 
         return $this;
+    }
+
+     /**
+     * Get the authorization callback response
+     * In situations where Laravel serves as an backend for a detached UI, the api cannot redirect
+     * and might need to take different actions based on the success or not of the transaction
+     * @return array
+     */
+    public function getAuthorizationResponse($data)
+    {
+        $this->makePaymentRequest($data);
+
+        $this->url = $this->getResponse()['data']['authorization_url'];
+
+        return $this->getResponse();
     }
 
     /**
@@ -318,7 +374,7 @@ class Paystack
 
         $this->setRequestOptions();
 
-        $this->setHttpResponse("/plan", 'POST', $data);
+        return $this->setHttpResponse("/plan", 'POST', $data)->getResponse();
 
     }
 
@@ -369,7 +425,7 @@ class Paystack
         ];
 
         $this->setRequestOptions();
-        $this->setHttpResponse('/customer', 'POST', $data);
+        return $this->setHttpResponse('/customer', 'POST', $data)->getResponse();
     }
 
     /**
@@ -431,7 +487,45 @@ class Paystack
         ];
 
         $this->setRequestOptions();
-        $this->setHttpResponse('/subscription', 'POST', $data);
+        return $this->setHttpResponse('/subscription', 'POST', $data)->getResponse();
+    }
+
+    /**
+     * Get all the subscriptions made on Paystack.
+     *
+     * @return array
+     */
+    public function getAllSubscriptions()
+    {
+        $this->setRequestOptions();
+
+        return $this->setHttpResponse("/subscription", 'GET', [])->getData();
+    }
+
+    /**
+     * Get customer subscriptions
+     *
+     * @param integer $customer_id
+     * @return array
+     */
+    public function getCustomerSubscriptions($customer_id)
+    {
+        $this->setRequestOptions();
+
+        return $this->setHttpResponse('/subscription?customer=' . $customer_id, 'GET', [])->getData();
+    }
+
+    /**
+     * Get plan subscriptions
+     *
+     * @param  integer $plan_id
+     * @return array
+     */
+    public function getPlanSubscriptions($plan_id)
+    {
+        $this->setRequestOptions();
+
+        return $this->setHttpResponse('/subscription?plan=' . $plan_id, 'GET', [])->getData();
     }
 
     /**
@@ -487,7 +581,7 @@ class Paystack
         ];
 
         $this->setRequestOptions();
-        $this->setHttpResponse('/page', 'POST', $data);
+        return $this->setHttpResponse('/page', 'POST', $data)->getResponse();
     }
 
     /**
@@ -526,5 +620,79 @@ class Paystack
 
         $this->setRequestOptions();
         return $this->setHttpResponse('/page/'.$page_id, 'PUT', $data)->getResponse();
+    }
+
+     /**
+     * Creates a subaccount to be used for split payments . Required    params are business_name , settlement_bank , account_number ,   percentage_charge
+     *
+     * @return array
+     */
+
+    public function createSubAccount(){
+        $data = [
+            "business_name" => request()->business_name,
+            "settlement_bank" => request()->settlement_bank,
+            "account_number" => request()->account_number,
+            "percentage_charge" => request()->percentage_charge,
+            "primary_contact_email" => request()->primary_contact_email,
+            "primary_contact_name" => request()->primary_contact_name,
+            "primary_contact_phone" => request()->primary_contact_phone,
+            "metadata" => request()->metadata,
+            'settlement_schedule' => request()->settlement_schedule
+        ];
+
+        $this->setRequestOptions();
+        return $this->setHttpResponse('/subaccount', 'POST', array_filter($data))->getResponse();
+
+    }
+
+     /**
+     * Fetches details of a subaccount
+     * @param subaccount code
+     * @return array
+     */
+    public function fetchSubAccount($subaccount_code){
+
+        $this->setRequestOptions();
+        return $this->setHttpResponse("/subaccount/{$subaccount_code}","GET",[])->getResponse();
+
+    }
+
+     /**
+     * Lists all the subaccounts associated with the account
+     * @param $per_page - Specifies how many records to retrieve per page , $page - SPecifies exactly what page to retrieve
+     * @return array
+     */
+    public function listSubAccounts($per_page,$page){
+
+        $this->setRequestOptions();
+        return $this->setHttpResponse("/subaccount/?perPage=".(int) $per_page."&page=".(int) $page,"GET")->getResponse();
+
+    }
+
+
+    /**
+     * Updates a subaccount to be used for split payments . Required params are business_name , settlement_bank , account_number , percentage_charge
+     * @param subaccount code
+     * @return array
+     */
+
+    public function updateSubAccount($subaccount_code){
+        $data = [
+            "business_name" => request()->business_name,
+            "settlement_bank" => request()->settlement_bank,
+            "account_number" => request()->account_number,
+            "percentage_charge" => request()->percentage_charge,
+            "description" => request()->description,
+            "primary_contact_email" => request()->primary_contact_email,
+            "primary_contact_name" => request()->primary_contact_name,
+            "primary_contact_phone" => request()->primary_contact_phone,
+            "metadata" => request()->metadata,
+            'settlement_schedule' => request()->settlement_schedule
+        ];
+
+        $this->setRequestOptions();
+        return $this->setHttpResponse("/subaccount/{$subaccount_code}", "PUT", array_filter($data))->getResponse();
+
     }
 }

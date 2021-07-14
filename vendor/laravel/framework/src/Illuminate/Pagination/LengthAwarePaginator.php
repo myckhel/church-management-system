@@ -2,17 +2,17 @@
 
 namespace Illuminate\Pagination;
 
-use Countable;
 use ArrayAccess;
-use JsonSerializable;
-use IteratorAggregate;
-use Illuminate\Support\Collection;
-use Illuminate\Support\HtmlString;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
+use Countable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator as LengthAwarePaginatorContract;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Collection;
+use IteratorAggregate;
+use JsonSerializable;
+use ReturnTypeWillChange;
 
-class LengthAwarePaginator extends AbstractPaginator implements Arrayable, ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Jsonable, LengthAwarePaginatorContract
+class LengthAwarePaginator extends AbstractPaginator implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable, JsonSerializable, LengthAwarePaginatorContract
 {
     /**
      * The total number of items before slicing.
@@ -73,7 +73,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
      *
      * @param  string|null  $view
      * @param  array  $data
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
     public function links($view = null, $data = [])
     {
@@ -85,14 +85,44 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
      *
      * @param  string|null  $view
      * @param  array  $data
-     * @return \Illuminate\Support\HtmlString
+     * @return \Illuminate\Contracts\Support\Htmlable
      */
     public function render($view = null, $data = [])
     {
-        return new HtmlString(static::viewFactory()->make($view ?: static::$defaultView, array_merge($data, [
+        return static::viewFactory()->make($view ?: static::$defaultView, array_merge($data, [
             'paginator' => $this,
             'elements' => $this->elements(),
-        ]))->render());
+        ]));
+    }
+
+    /**
+     * Get the paginator links as a collection (for JSON responses).
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function linkCollection()
+    {
+        return collect($this->elements())->flatMap(function ($item) {
+            if (! is_array($item)) {
+                return [['url' => null, 'label' => '...', 'active' => false]];
+            }
+
+            return collect($item)->map(function ($url, $page) {
+                return [
+                    'url' => $url,
+                    'label' => (string) $page,
+                    'active' => $this->currentPage() === $page,
+                ];
+            });
+        })->prepend([
+            'url' => $this->previousPageUrl(),
+            'label' => function_exists('__') ? __('pagination.previous') : 'Previous',
+            'active' => false,
+        ])->push([
+            'url' => $this->nextPageUrl(),
+            'label' => function_exists('__') ? __('pagination.next') : 'Next',
+            'active' => false,
+        ]);
     }
 
     /**
@@ -140,7 +170,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
      */
     public function nextPageUrl()
     {
-        if ($this->lastPage() > $this->currentPage()) {
+        if ($this->hasMorePages()) {
             return $this->url($this->currentPage() + 1);
         }
     }
@@ -169,8 +199,9 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
             'from' => $this->firstItem(),
             'last_page' => $this->lastPage(),
             'last_page_url' => $this->url($this->lastPage()),
+            'links' => $this->linkCollection()->toArray(),
             'next_page_url' => $this->nextPageUrl(),
-            'path' => $this->path,
+            'path' => $this->path(),
             'per_page' => $this->perPage(),
             'prev_page_url' => $this->previousPageUrl(),
             'to' => $this->lastItem(),
@@ -183,6 +214,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
      *
      * @return array
      */
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();

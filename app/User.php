@@ -8,7 +8,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Cache;
 use App\ServiceType;
 use App\CollectionsType;
-use Daveismyname\Countries\Facades\Countries;
+use Dcblogdev\Countries\Facades\Countries;
 
 class User extends Authenticatable
 {

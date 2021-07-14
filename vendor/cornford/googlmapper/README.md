@@ -5,7 +5,9 @@
 [![Build Status](https://travis-ci.org/bradcornford/Googlmapper.svg?branch=master)](https://travis-ci.org/bradcornford/Googlmapper)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bradcornford/Googlmapper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bradcornford/Googlmapper/?branch=master)
 
-### For Laravel 4.x, check [version 1.0.1](https://github.com/bradcornford/Googlmapper/tree/v1.0.1)
+### For Laravel 5.x, check [version 2.35.1](https://github.com/bradcornford/Googlmapper/tree/v2.35.1)
+
+### For Laravel 4.x, check [version 1.27.0](https://github.com/bradcornford/Googlmapper/tree/v1.27.0)
 
 Think of Googlmapper as an easy way to integrate Google Maps with Laravel, providing a variety of helpers to speed up the utilisation of mapping. These include:
 
@@ -25,7 +27,7 @@ Think of Googlmapper as an easy way to integrate Google Maps with Laravel, provi
 Begin by installing this package through Composer. Edit your project's `composer.json` file to require `cornford/googlmapper`.
 
 	"require": {
-		"cornford/googlmapper": "2.*"
+		"cornford/googlmapper": "3.*"
 	}
 
 Next, update Composer from the Terminal:
@@ -68,6 +70,7 @@ You can now configure Googlmapper in a few simple steps. Open `app/config/packag
 - `streetViewControl` - Set the default street view control for Google Maps, e.g. true.
 - `rotateControl` - Set the default rotate control for Google Maps, e.g. true.
 - `fullscreenControl` - Set the default fullscreen control for Google Maps, e.g. true.
+- `gestureHandling` - Set the default gesture handling for Google Maps, e.g. auto, none, cooperative, greedy.
 - `type` - Set the default map type for Google Maps, e.g. ROADMAP, SATELLITE, HYBRID, TERRAIN.
 - `ui` - Show the Google Maps default UI options, e.g. true.
 - `markers.icon` - Set the default marker icon, e.g. img/icon.png.
@@ -104,13 +107,13 @@ This will give you access to
 
 Initialize the map in your controller `MapController.php`:
 
-    use Mapper;
+	use Mapper;
 
 	public function index()
 	{
-	    Mapper::map(53.381128999999990000, -1.470085000000040000);
+		Mapper::map(53.381128999999990000, -1.470085000000040000);
 
-	    return view('map')
+		return view('map')
 	}
 
 Within in the view `map.blade.php` add following code to render the map:
@@ -163,8 +166,35 @@ The `streetview` method allows a streetview map to be created, with latitude, lo
 The `marker` method allows a marker to be added to a map, with latitude, longitude, and optional parameters for options.
 
 	Mapper::marker(53.381128999999990000, -1.470085000000040000);
-	Mapper::marker(53.381128999999990000, -1.470085000000040000, ['symbol' => 'circle', 'scale' => 1000]);
-	Mapper::map(52.381128999999990000, 0.470085000000040000)->marker(53.381128999999990000, -1.470085000000040000, ['markers' => ['symbol' => 'circle', 'scale' => 1000, 'animation' => 'DROP']]);
+	Mapper::marker(53.381128999999990000, -1.470085000000040000, ['animation' => 'DROP', 'label' => 'Marker', 'title' => 'Marker', 'draggable' => true]);
+	Mapper::marker(53.381128999999990000, -1.470085000000040000, ['icon' => 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=|FE6256|000000']);
+	Mapper::marker(53.381128999999990000, -1.470085000000040000, ['icon' => ['url' => 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=|FE6256|000000', 'scale' => 100]]);
+	Mapper::map(52.381128999999990000, 0.470085000000040000, ['markers' => ['icon' => ['symbol' => 'CIRCLE', 'scale' => 10], 'animation' => 'DROP', 'label' => 'Marker', 'title' => 'Marker']])->marker(53.381128999999990000, -1.470085000000040000);
+	Mapper::marker(53.381128999999990000, -1.470085000000040000, [
+		'title' 	=> 'title',
+		'icon'      => [
+			'path'         => 'M10.5,0C4.7,0,0,4.7,0,10.5c0,10.2,9.8,19,10.2,19.4c0.1,0.1,0.2,0.1,0.3,0.1s0.2,0,0.3-0.1C11.2,29.5,21,20.7,21,10.5 C21,4.7,16.3,0,10.5,0z M10.5,5c3,0,5.5,2.5,5.5,5.5S13.5,16,10.5,16S5,13.5,5,10.5S7.5,5,10.5,5z',
+			'fillColor'    => '#DD716C',
+			'fillOpacity'  => 1,
+			'strokeWeight' => 0,
+			'anchor'       => [0, 0],
+			'origin'       => [0, 0],
+			'size'         => [21, 30]
+		],
+		'label'     => [
+			'text' => 'Marker',
+			'color' => '#B9B9B9',
+			'fontFamily' => 'Arial',
+			'fontSize' => '13px',
+			'fontWeight' => 'bold',
+		],
+		'autoClose' => true,
+		'clickable' => false,
+		'cursor' => 'default',
+		'opacity' => 0.5,
+		'visible' => true,
+		'zIndex' => 1000,
+	]);
 
 #### Draggable Markers
 
@@ -196,7 +226,7 @@ This event is fired for a right click on the marker.
 
 This event is fired when the mouse enters the area of the marker icon.
 
- 	Mapper::marker(53.381128999999990000, -1.470085000000040000, ['draggable' => true, 'eventMouseOver' => 'console.log("mouse over");']);
+	Mapper::marker(53.381128999999990000, -1.470085000000040000, ['draggable' => true, 'eventMouseOver' => 'console.log("mouse over");']);
 
 **Mouse Down**
 
@@ -239,7 +269,7 @@ This event is fired when the user stops dragging the marker.
 The `informationWindow` method allows an information window to be added to to a map, with latitude, longitude, content, and optional parameters for options.
 
 	Mapper::informationWindow(53.381128999999990000, -1.470085000000040000, 'Content');
-	Mapper::informationWindow(53.381128999999990000, -1.470085000000040000, 'Content', ['open' => true, 'maxWidth'=> 300, markers' => ['title' => 'Title']]);
+	Mapper::informationWindow(53.381128999999990000, -1.470085000000040000, 'Content', ['open' => true, 'maxWidth'=> 300, 'autoClose' => true, 'markers' => ['title' => 'Title']]);
 	Mapper::map(52.381128999999990000, 0.470085000000040000)->informationWindow(53.381128999999990000, -1.470085000000040000, 'Content', ['markers' => ['animation' => 'DROP']]);
 
 ### Polyline
@@ -285,7 +315,7 @@ The `render` method allows all maps to be rendered to the page, this method can 
 
 The `renderJavascript` method allows all required javascript to be rendered to the page, this method can be included in Views or added as controller passed parameter.
 
-    Mapper::renderJavascript();
+	Mapper::renderJavascript();
 
 ### License
 

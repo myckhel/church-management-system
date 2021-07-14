@@ -7,7 +7,7 @@ use App\Event;
 use DB;
 use Paystack;
 use App\Setting;
-use Daveismyname\Countries\Facades\Countries;
+use Dcblogdev\Countries\Facades\Countries;
 // use Mapper;
 
 class HomeController extends Controller

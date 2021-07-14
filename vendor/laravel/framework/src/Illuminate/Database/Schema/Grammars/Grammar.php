@@ -2,14 +2,15 @@
 
 namespace Illuminate\Database\Schema\Grammars;
 
-use RuntimeException;
-use Illuminate\Support\Fluent;
+use Doctrine\DBAL\Schema\AbstractSchemaManager as SchemaManager;
 use Doctrine\DBAL\Schema\TableDiff;
 use Illuminate\Database\Connection;
+use Illuminate\Database\Grammar as BaseGrammar;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Grammar as BaseGrammar;
-use Doctrine\DBAL\Schema\AbstractSchemaManager as SchemaManager;
+use Illuminate\Support\Fluent;
+use LogicException;
+use RuntimeException;
 
 abstract class Grammar extends BaseGrammar
 {
@@ -26,6 +27,33 @@ abstract class Grammar extends BaseGrammar
      * @var array
      */
     protected $fluentCommands = [];
+
+    /**
+     * Compile a create database command.
+     *
+     * @param  string  $name
+     * @param  \Illuminate\Database\Connection  $connection
+     * @return void
+     *
+     * @throws \LogicException
+     */
+    public function compileCreateDatabase($name, $connection)
+    {
+        throw new LogicException('This database driver does not support creating databases.');
+    }
+
+    /**
+     * Compile a drop database if exists command.
+     *
+     * @param  string  $name
+     * @return void
+     *
+     * @throws \LogicException
+     */
+    public function compileDropDatabaseIfExists($name)
+    {
+        throw new LogicException('This database driver does not support dropping databases.');
+    }
 
     /**
      * Compile a rename column command.
@@ -45,7 +73,7 @@ abstract class Grammar extends BaseGrammar
      *
      * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
      * @param  \Illuminate\Support\Fluent  $command
-     * @param  \Illuminate\Database\Connection $connection
+     * @param  \Illuminate\Database\Connection  $connection
      * @return array
      *
      * @throws \RuntimeException
@@ -98,7 +126,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Compile the blueprint's column definitions.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint $blueprint
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
      * @return array
      */
     protected function getColumns(Blueprint $blueprint)
@@ -194,7 +222,7 @@ abstract class Grammar extends BaseGrammar
      * Add a prefix to an array of values.
      *
      * @param  string  $prefix
-     * @param  array   $values
+     * @param  array  $values
      * @return array
      */
     public function prefixArray($prefix, array $values)
@@ -207,7 +235,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Wrap a table in keyword identifiers.
      *
-     * @param  mixed   $table
+     * @param  mixed  $table
      * @return string
      */
     public function wrapTable($table)
@@ -221,7 +249,7 @@ abstract class Grammar extends BaseGrammar
      * Wrap a value in keyword identifiers.
      *
      * @param  \Illuminate\Database\Query\Expression|string  $value
-     * @param  bool    $prefixAlias
+     * @param  bool  $prefixAlias
      * @return string
      */
     public function wrap($value, $prefixAlias = false)
@@ -234,7 +262,7 @@ abstract class Grammar extends BaseGrammar
     /**
      * Format a value so that it can be used in "default" clauses.
      *
-     * @param  mixed   $value
+     * @param  mixed  $value
      * @return string
      */
     protected function getDefaultValue($value)

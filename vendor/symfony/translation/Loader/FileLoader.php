@@ -23,7 +23,7 @@ abstract class FileLoader extends ArrayLoader
     /**
      * {@inheritdoc}
      */
-    public function load($resource, $locale, $domain = 'messages')
+    public function load($resource, string $locale, string $domain = 'messages')
     {
         if (!stream_is_local($resource)) {
             throw new InvalidResourceException(sprintf('This is not a local file "%s".', $resource));
@@ -47,7 +47,7 @@ abstract class FileLoader extends ArrayLoader
 
         $catalogue = parent::load($messages, $locale, $domain);
 
-        if (class_exists('Symfony\Component\Config\Resource\FileResource')) {
+        if (class_exists(FileResource::class)) {
             $catalogue->addResource(new FileResource($resource));
         }
 

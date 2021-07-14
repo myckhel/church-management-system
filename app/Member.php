@@ -20,11 +20,13 @@ class Member extends Model
     }
 
     public static function getNameById($id){
-      return \DB::table('members')->select('firstname','lastname')->where('id',$id)->orderby('firstname','lastname')->first();
+      return \DB::table('members')->select('firstname','lastname')
+        ->where('id',$id)->orderby('firstname')->orderBy('lastname')->first();
     }
 
     public static function getNameByEmail($email){
-      if($std = Member::select('firstname','lastname')->where('email',$email)->orderby('firstname','lastname')->first()){
+      if($std = Member::select('firstname','lastname')
+        ->where('email',$email)->orderby('firstname')->orderBy('lastname')->first()){
         $name = $std->firstname.' '.$std->lastname;
         return $name;
       }

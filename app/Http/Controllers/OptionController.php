@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Options;
 use Auth;
-use Yajra\Datatables\Datatables;
+use DataTables;
 use App\CollectionCommission;
-use Daveismyname\Countries\Facades\Countries;
+use Dcblogdev\Countries\Facades\Countries;
 
 class OptionController extends Controller
 {
@@ -95,13 +95,13 @@ class OptionController extends Controller
     public function collectionTypeGet(Request $request){
       $branch_id = Auth::user()->id;
       $types = \App\CollectionsType::all();
-      return Datatables::of($types)->make(true);
+      return DataTables::of($types)->make(true);
     }
 
     public function serviceTypeGet(Request $request){
       $branch_id = Auth::user()->id;
       $types = \App\ServiceType::all();
-      return Datatables::of($types)->make(true);
+      return DataTables::of($types)->make(true);
     }
 
     public function deleteCollectionType(Request $request){

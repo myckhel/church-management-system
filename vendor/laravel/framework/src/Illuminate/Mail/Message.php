@@ -2,9 +2,9 @@
 
 namespace Illuminate\Mail;
 
-use Swift_Image;
-use Swift_Attachment;
 use Illuminate\Support\Traits\ForwardsCalls;
+use Swift_Attachment;
+use Swift_Image;
 
 /**
  * @mixin \Swift_Message
@@ -137,7 +137,7 @@ class Message
     }
 
     /**
-     * Add a reply to address to the message.
+     * Add a "reply to" address to the message.
      *
      * @param  string|array  $address
      * @param  string|null  $name

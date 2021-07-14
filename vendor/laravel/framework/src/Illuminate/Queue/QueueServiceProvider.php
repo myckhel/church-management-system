@@ -2,28 +2,24 @@
 
 namespace Illuminate\Queue;
 
-use Illuminate\Support\Str;
-use Opis\Closure\SerializableClosure;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Queue\Connectors\SqsConnector;
-use Illuminate\Queue\Connectors\NullConnector;
-use Illuminate\Queue\Connectors\SyncConnector;
-use Illuminate\Queue\Connectors\RedisConnector;
+use Aws\DynamoDb\DynamoDbClient;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Queue\Connectors\DatabaseConnector;
-use Illuminate\Queue\Failed\NullFailedJobProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Queue\Connectors\BeanstalkdConnector;
+use Illuminate\Queue\Connectors\DatabaseConnector;
+use Illuminate\Queue\Connectors\NullConnector;
+use Illuminate\Queue\Connectors\RedisConnector;
+use Illuminate\Queue\Connectors\SqsConnector;
+use Illuminate\Queue\Connectors\SyncConnector;
 use Illuminate\Queue\Failed\DatabaseFailedJobProvider;
+use Illuminate\Queue\Failed\DatabaseUuidFailedJobProvider;
+use Illuminate\Queue\Failed\DynamoDbFailedJobProvider;
+use Illuminate\Queue\Failed\NullFailedJobProvider;
+use Illuminate\Support\Arr;
+use Illuminate\Support\ServiceProvider;
 
-class QueueServiceProvider extends ServiceProvider
+class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
     /**
      * Register the service provider.
      *
@@ -36,7 +32,6 @@ class QueueServiceProvider extends ServiceProvider
         $this->registerWorker();
         $this->registerListener();
         $this->registerFailedJobServices();
-        $this->registerOpisSecurityKey();
     }
 
     /**
@@ -166,9 +161,25 @@ class QueueServiceProvider extends ServiceProvider
      */
     protected function registerWorker()
     {
-        $this->app->singleton('queue.worker', function () {
+        $this->app->singleton('queue.worker', function ($app) {
+            $isDownForMaintenance = function () {
+                return $this->app->isDownForMaintenance();
+            };
+
+            $resetScope = function () use ($app) {
+                if (method_exists($app['log']->driver(), 'withoutContext')) {
+                    $app['log']->withoutContext();
+                }
+
+                return $app->forgetScopedInstances();
+            };
+
             return new Worker(
-                $this->app['queue'], $this->app['events'], $this->app[ExceptionHandler::class]
+                $app['queue'],
+                $app['events'],
+                $app[ExceptionHandler::class],
+                $isDownForMaintenance,
+                $resetScope
             );
         });
     }
@@ -180,8 +191,8 @@ class QueueServiceProvider extends ServiceProvider
      */
     protected function registerListener()
     {
-        $this->app->singleton('queue.listener', function () {
-            return new Listener($this->app->basePath());
+        $this->app->singleton('queue.listener', function ($app) {
+            return new Listener($app->basePath());
         });
     }
 
@@ -192,12 +203,18 @@ class QueueServiceProvider extends ServiceProvider
      */
     protected function registerFailedJobServices()
     {
-        $this->app->singleton('queue.failer', function () {
-            $config = $this->app['config']['queue.failed'];
+        $this->app->singleton('queue.failer', function ($app) {
+            $config = $app['config']['queue.failed'];
 
-            return isset($config['table'])
-                        ? $this->databaseFailedJobProvider($config)
-                        : new NullFailedJobProvider;
+            if (isset($config['driver']) && $config['driver'] === 'dynamodb') {
+                return $this->dynamoFailedJobProvider($config);
+            } elseif (isset($config['driver']) && $config['driver'] === 'database-uuids') {
+                return $this->databaseUuidFailedJobProvider($config);
+            } elseif (isset($config['table'])) {
+                return $this->databaseFailedJobProvider($config);
+            } else {
+                return new NullFailedJobProvider;
+            }
         });
     }
 
@@ -215,17 +232,43 @@ class QueueServiceProvider extends ServiceProvider
     }
 
     /**
-     * Configure Opis Closure signing for security.
+     * Create a new database failed job provider that uses UUIDs as IDs.
      *
-     * @return void
+     * @param  array  $config
+     * @return \Illuminate\Queue\Failed\DatabaseUuidFailedJobProvider
      */
-    protected function registerOpisSecurityKey()
+    protected function databaseUuidFailedJobProvider($config)
     {
-        if (Str::startsWith($key = $this->app['config']->get('app.key'), 'base64:')) {
-            $key = base64_decode(substr($key, 7));
+        return new DatabaseUuidFailedJobProvider(
+            $this->app['db'], $config['database'], $config['table']
+        );
+    }
+
+    /**
+     * Create a new DynamoDb failed job provider.
+     *
+     * @param  array  $config
+     * @return \Illuminate\Queue\Failed\DynamoDbFailedJobProvider
+     */
+    protected function dynamoFailedJobProvider($config)
+    {
+        $dynamoConfig = [
+            'region' => $config['region'],
+            'version' => 'latest',
+            'endpoint' => $config['endpoint'] ?? null,
+        ];
+
+        if (! empty($config['key']) && ! empty($config['secret'])) {
+            $dynamoConfig['credentials'] = Arr::only(
+                $config, ['key', 'secret', 'token']
+            );
         }
 
-        SerializableClosure::setSecretKey($key);
+        return new DynamoDbFailedJobProvider(
+            new DynamoDbClient($dynamoConfig),
+            $this->app['config']['app.name'],
+            $config['table']
+        );
     }
 
     /**
@@ -236,8 +279,11 @@ class QueueServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'queue', 'queue.worker', 'queue.listener',
-            'queue.failer', 'queue.connection',
+            'queue',
+            'queue.connection',
+            'queue.failer',
+            'queue.listener',
+            'queue.worker',
         ];
     }
 }

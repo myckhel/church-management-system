@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Member;
-use Yajra\Datatables\Datatables;
+use DataTables;
 use App\CollectionsType;
 
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class MemberController extends Controller
     {
       $user = \Auth::user();
       if ($request->draw) {
-        return Datatables::of($user->members)->make(true);
+        return DataTables::of($user->members)->make(true);
       } else {
         return view('members.all');//, compact('members'));
       }
@@ -334,7 +334,7 @@ class MemberController extends Controller
       $member = Member::find($id);
       if ($member) {  $member = $member->attendances()->with(['service_types'])->get(); }
       // dd($member);
-      return Datatables::of($member)->make(true);
+      return DataTables::of($member)->make(true);
     }
 
   public function memberAnalysis (Request $request){

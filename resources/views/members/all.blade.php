@@ -102,7 +102,7 @@ $(document).ready(function () {
             { title: '<input id="select-all" type="checkbox" /> Select all', data: 'id', render : ( data ) => (`<input type="checkbox" name="member[]" value="${data}" />`)
             , name: 'id' },
             // { title: "S/N", render: () => (i++), name: 'id' },
-            { title: "Photo", data: 'photo', render: (photo) => (`<img src="{{url('/public/images/')}}/${photo}"  class="img-md img-circle" alt="Profile Picture">`), name: 'photo' },
+            { title: "Photo", data: 'photo', render: (photo) => (`<img src="{{url('images/')}}/${photo}"  class="img-md img-circle" alt="Profile Picture">`), name: 'photo' },
             { title: "Full Name", data: {firstname: 'firstname', lastname: 'lastname'}, name: 'fullname', render: (data) => (`${data.firstname + ' ' + data.lastname}`) },
             // { title: "Occupation", data: 'occupation', name: 'occupation' },
             { title: "Member Status", data: {member_status: 'member_status', id: 'id', firstname: 'firstname', lastname: 'lastname'}, name: 'member_status',

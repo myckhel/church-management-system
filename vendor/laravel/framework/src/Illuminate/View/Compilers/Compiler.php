@@ -2,8 +2,8 @@
 
 namespace Illuminate\View\Compilers;
 
-use InvalidArgumentException;
 use Illuminate\Filesystem\Filesystem;
+use InvalidArgumentException;
 
 abstract class Compiler
 {
@@ -70,5 +70,18 @@ abstract class Compiler
 
         return $this->files->lastModified($path) >=
                $this->files->lastModified($compiled);
+    }
+
+    /**
+     * Create the compiled file directory if necessary.
+     *
+     * @param  string  $path
+     * @return void
+     */
+    protected function ensureCompiledDirectoryExists($path)
+    {
+        if (! $this->files->exists(dirname($path))) {
+            $this->files->makeDirectory(dirname($path), 0777, true, true);
+        }
     }
 }

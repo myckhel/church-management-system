@@ -124,7 +124,7 @@
 
                 <tr>
                     <th>{{$count}}</th>
-                    <th><img src="{{url('public/images/')}}/{{$member->photo}}"  class="img-md img-circle" alt="Profile Picture"></th>
+                    <th><img src="{{url('images/')}}/{{$member->photo}}"  class="img-md img-circle" alt="Profile Picture"></th>
                     <td><strong>{{strtoupper($member->position)}}</strong></td>
                     <td>{{$member->getFullname()}}</td>
                     <td>{{$member->occupation}}</td>

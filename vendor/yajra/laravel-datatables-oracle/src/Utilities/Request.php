@@ -3,14 +3,7 @@
 namespace Yajra\DataTables\Utilities;
 
 /**
- * @method mixed input($key, $default = null)
- * @method mixed get($key, $default = null)
- * @method mixed query($key, $default = null)
- * @method mixed has($key)
- * @method mixed merge(array $values)
- * @method bool wantsJson()
- * @method bool ajax()
- * @method array all()
+ * @mixin \Illuminate\Http\Request
  */
 class Request
 {
@@ -154,10 +147,19 @@ class Request
     public function isColumnSearchable($i, $column_search = true)
     {
         if ($column_search) {
-            return $this->request->input("columns.$i.searchable", 'true') === 'true' && $this->columnKeyword($i) != '';
+            return
+                (
+                    $this->request->input("columns.$i.searchable", 'true') === 'true'
+                    ||
+                    $this->request->input("columns.$i.searchable", 'true') === true
+                )
+                && $this->columnKeyword($i) != '';
         }
 
-        return $this->request->input("columns.$i.searchable", 'true') === 'true';
+        return
+            $this->request->input("columns.$i.searchable", 'true') === 'true'
+            ||
+            $this->request->input("columns.$i.searchable", 'true') === true;
     }
 
     /**

@@ -10,9 +10,9 @@ use App\H_O_Options;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
-use Yajra\Datatables\Datatables;
+use DataTables;
 use Paystack;
-use Daveismyname\Countries\Facades\Countries;
+use Dcblogdev\Countries\Facades\Countries;
 
 class BranchController extends Controller
 {
@@ -35,14 +35,14 @@ class BranchController extends Controller
       }
       //$members = Member::all();
       if ($request->draw) {
-        return Datatables::of(User::all())->make(true);
+        return DataTables::of(User::all())->make(true);
       } else {
         return view('branch.all');
       }
     }
 
     public function users(){
-      return Datatables::of(User::all())->make(true);
+      return DataTables::of(User::all())->make(true);
     }
 
     /**

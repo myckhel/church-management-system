@@ -52,11 +52,24 @@ class SesTransport extends Transport
             )
         );
 
-        $message->getHeaders()->addTextHeader('X-SES-Message-ID', $result->get('MessageId'));
+        $messageId = $result->get('MessageId');
+
+        $message->getHeaders()->addTextHeader('X-Message-ID', $messageId);
+        $message->getHeaders()->addTextHeader('X-SES-Message-ID', $messageId);
 
         $this->sendPerformed($message);
 
         return $this->numberOfRecipients($message);
+    }
+
+    /**
+     * Get the Amazon SES client for the SesTransport instance.
+     *
+     * @return \Aws\Ses\SesClient
+     */
+    public function ses()
+    {
+        return $this->ses;
     }
 
     /**

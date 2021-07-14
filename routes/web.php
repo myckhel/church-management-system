@@ -43,7 +43,7 @@ Route::group([ 'middleware' => [ 'auth'] ], function(){
 
     Route::get('/branches', 'BranchController@index')->name('branches');
     Route::get('/branches/{id}/destroy', 'BranchController@destroy')->name('branch.destroy');
-    Route::get('/branches/register', 'BranchController@registerForm')->name('branch.register');
+    Route::get('/branches/register', 'BranchController@registerForm')->name('branch.register.form');
     Route::post('/branches/register', 'BranchController@register')->name('branch.register');
     Route::post('/branches/update', 'BranchController@updateBranch')->name('branch.update');
     Route::post('/branches/delete', 'BranchController@delete')->name('branch.delete.multi');
@@ -223,6 +223,6 @@ Route::get('/users', 'BranchController@users')->name('users');
 
 
 Route::post('/recover', 'Auth\RecoverPasswordController@recover');
-Route::get('/password/reset/{token}', 'Auth\RecoverPasswordController@reset')->name('password.reset');
-Route::post('/password/reset/{token}', 'Auth\RecoverPasswordController@reset')->name('password.reset');
+// Route::get('/password/reset/{token}', 'Auth\RecoverPasswordController@reset')->name('password.reset');
+// Route::post('/password/reset/{token}', 'Auth\RecoverPasswordController@reset')->name('password.reset');
 Route::post('/recover/{selector}/{token}', 'Auth\RecoverPasswordController@reset')->name('recover.reset');

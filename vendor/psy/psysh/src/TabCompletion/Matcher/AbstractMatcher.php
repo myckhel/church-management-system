@@ -3,7 +3,7 @@
 /*
  * This file is part of Psy Shell.
  *
- * (c) 2012-2018 Justin Hileman
+ * (c) 2012-2020 Justin Hileman
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -31,6 +31,7 @@ abstract class AbstractMatcher
     const T_CLONE = 'T_CLONE';
     const T_NS_SEPARATOR = 'T_NS_SEPARATOR';
     const T_STRING = 'T_STRING';
+    const T_NAME_QUALIFIED = 'T_NAME_QUALIFIED';
     const T_WHITESPACE = 'T_WHITESPACE';
     const T_AND_EQUAL = 'T_AND_EQUAL';
     const T_BOOLEAN_AND = 'T_BOOLEAN_AND';
@@ -83,14 +84,14 @@ abstract class AbstractMatcher
     {
         $class = '';
         while (self::hasToken(
-            [self::T_NS_SEPARATOR, self::T_STRING],
+            [self::T_NS_SEPARATOR, self::T_STRING, self::T_NAME_QUALIFIED],
             $token = \array_pop($tokens)
         )) {
             if (self::needCompleteClass($token)) {
                 continue;
             }
 
-            $class = $token[1] . $class;
+            $class = $token[1].$class;
         }
 
         return $class;
@@ -141,8 +142,8 @@ abstract class AbstractMatcher
     /**
      * Check whether $token type is $which.
      *
-     * @param string $which A PHP token type
      * @param mixed  $token A PHP token (see token_get_all)
+     * @param string $which A PHP token type
      *
      * @return bool
      */

@@ -26,7 +26,7 @@ class EngineResolver
      *
      * The engine string typically corresponds to a file extension.
      *
-     * @param  string   $engine
+     * @param  string  $engine
      * @param  \Closure  $resolver
      * @return void
      */
@@ -56,5 +56,16 @@ class EngineResolver
         }
 
         throw new InvalidArgumentException("Engine [{$engine}] not found.");
+    }
+
+    /**
+     * Remove a resolved engine.
+     *
+     * @param  string  $engine
+     * @return void
+     */
+    public function forget($engine)
+    {
+        unset($this->resolved[$engine]);
     }
 }
