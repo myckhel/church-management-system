@@ -148,7 +148,7 @@ class ReportController extends Controller
       $reports = \App\Attendance::selectRaw($sql)->first();//\DB::select($sql);
 
       $sql = "count(case when attendance = 'yes' then 1 end) as total, count(case when date = date(now()) then (case when attendance = 'yes' then 1 end) end) as totalt";
-      $m_r = \App\MemberAttendance::selectRaw($sql)->with('members')->get();
+      $m_r = \App\MemberAttendance::selectRaw($sql)->with('member')->get();
 
       $sql = "SELECT SUM(a.male + a.female + a.children) as atotal, SUM(case when a.attendance_date = date(now()) then (a.male + a.female + a.children) end) as atotalt,
       branchname AS name

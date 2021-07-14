@@ -64,7 +64,7 @@ $colors = colo();//$generateColor($c_types);
                   <div class="col-sm-12 col-md-4" style="border-right:1pt solid rgba(0, 0, 0, 0.1)">
                     <div class="text-center">
                       <div class="pad-ver">
-                        <img src="{{url('/public/images/')}}/{{$member->photo}}" class="img-lg img-circle" alt="Profile Picture">
+                        <img src="{{url('images/')}}/{{$member->photo}}" class="img-lg img-circle" alt="Profile Picture">
                       </div>
                       <h4 class="text-lg text-overflow mar-no">{{$member->title}}. {{$member->getFullname()}}</h4>
                       <p class="text-sm text-muted">{{$member->occupation}}</p>

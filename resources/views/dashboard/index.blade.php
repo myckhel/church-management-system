@@ -282,7 +282,7 @@ $colors = colo();//$generateColor($c_types);
                           @if(date('F', (strtotime($member->wedding_anniversary))) == date('F'))
                             <tr>
                                 <td class="min-w-td">{{$i}}</td>
-                                <td class="text-center"><img src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image" class="img-circle img-sm"></td>
+                                <td class="text-center"><img src="{{url('images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image" class="img-circle img-sm"></td>
                                 <td class="text-center"><a class="btn-link" href="{{$member->profile()}}">{{ucwords($member->getFullname())}}</a></td>
                                 <td class="text-center">{{$member->email}}</td>
                                 <td class="text-center">
@@ -342,7 +342,7 @@ $colors = colo();//$generateColor($c_types);
                             @if(date('F', (strtotime($member->dob))) == date('F'))
                               <tr>
                                   <td class="min-w-td">{{$i}}</td>
-                                  <td class="text-center"><img src="{{url('/public/images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image" class="img-circle img-sm"></td>
+                                  <td class="text-center"><img src="{{url('images/')}}/{{$member->photo}}" alt="{{$member->firstname}} image" class="img-circle img-sm"></td>
                                   <td class="text-center"><a class="btn-link" href="{{$member->profile()}}">{{ucwords($member->getFullname())}}</a></td>
                                   <td class="text-center">{{$member->email}}</td>
                                   <td class="text-center">
@@ -494,7 +494,7 @@ $colors = colo();//$generateColor($c_types);
                                   foreach($emails as $email){
                                     $name = App\Member::getNameByEmail($email);
                                     if($name){
-                                      echo "<img class='img-xs img-circle' src='".url('/public/images/')."/".App\Member::getPhotoByEmail($email)."' alt='".ucwords($name)."'> ".ucwords($name).", ";
+                                      echo "<img class='img-xs img-circle' src='".url('images/')."/".App\Member::getPhotoByEmail($email)."' alt='".ucwords($name)."'> ".ucwords($name).", ";
                                     }
                                   }
                               }else{

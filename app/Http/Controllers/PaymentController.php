@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Payment;
 use Illuminate\Http\Request;
-use Yajra\Datatables\Datatables;
+use DataTables;
 use Paystack;
 
 class PaymentController extends Controller
@@ -17,7 +17,7 @@ class PaymentController extends Controller
     public function index()
     {
       //
-      return Datatables::of(Payment::with('users')->get())->make(true);
+      return DataTables::of(Payment::with('users')->get())->make(true);
     }
 
     /**

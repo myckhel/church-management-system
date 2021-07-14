@@ -69,7 +69,7 @@
                 <input id="imageloc" type="text" size="50" value="" /><br />
                 (max width: 540px, max height: 100px)
               </div> -->
-              <img id="image" style="width:100%; height:100%;" src="{{URL::asset('public/images/'. $logo['logo'])}}" alt="logo" />
+              <img id="image" style="width:100%; height:100%;" src="{{URL::asset('images/'. $logo['logo'])}}" alt="logo" />
             </div>
 
       		</div>
@@ -186,9 +186,9 @@
             <input type="hidden" name="orderID" value="345">
             <input type="hidden" name="amount" value="{{str_replace('.', '', $totalCommission)}}"> {{-- required in kobo --}}
             <input type="hidden" name="quantity" value="1">
-            <input type="hidden" name="order_ids" value="{{implode($order_ids, ',')}}">
-            <input type="hidden" name="metadata" value="{{ json_encode($array = ['order_ids' => implode($order_ids, ',')]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
-            <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}"> {{-- required --}}
+            <input type="hidden" name="order_ids" value="{{implode(',', $order_ids)}}">
+            <input type="hidden" name="metadata" value="{{ json_encode($array = ['order_ids' => implode(',', $order_ids)]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
+            <input type="hidden" name="reference" value="{{ rand() }}"> {{-- required --}}
             <input type="hidden" name="key" value="{{ config('paystack.secretKey') }}"> {{-- required --}}
             {{ csrf_field() }} {{-- works only when using laravel 5.1, 5.2 --}}
 

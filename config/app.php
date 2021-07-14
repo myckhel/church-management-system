@@ -213,7 +213,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Carbon' => 'Carbon\Carbon',
-        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
         'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
 

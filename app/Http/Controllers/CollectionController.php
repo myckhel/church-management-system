@@ -6,7 +6,7 @@ use App\Collection;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
-use Yajra\Datatables\Datatables;
+use DataTables;
 
 class CollectionController extends Controller
 {
@@ -256,7 +256,7 @@ class CollectionController extends Controller
       ->with('member')->with('collections_types')->with('service_types')->get());
 
     }
-    return Datatables::of($history)->make(true);
+    return DataTables::of($history)->make(true);
   }
 
   public function collectionStats(Request $request){
