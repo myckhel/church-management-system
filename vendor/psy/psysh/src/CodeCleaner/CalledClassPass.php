@@ -3,7 +3,7 @@
 /*
  * This file is part of Psy Shell.
  *
- * (c) 2012-2018 Justin Hileman
+ * (c) 2012-2020 Justin Hileman
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -61,7 +61,7 @@ class CalledClassPass extends CodeCleanerPass
             $name = \strtolower($node->name);
             if (\in_array($name, ['get_class', 'get_called_class'])) {
                 $msg = \sprintf('%s() called without object from outside a class', $name);
-                throw new ErrorException($msg, 0, E_USER_WARNING, null, $node->getLine());
+                throw new ErrorException($msg, 0, \E_USER_WARNING, null, $node->getLine());
             }
         }
     }

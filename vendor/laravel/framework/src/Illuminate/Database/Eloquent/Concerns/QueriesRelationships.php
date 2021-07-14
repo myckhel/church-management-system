@@ -3,36 +3,39 @@
 namespace Illuminate\Database\Eloquent\Concerns;
 
 use Closure;
-use RuntimeException;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Database\Query\Expression;
+use Illuminate\Support\Str;
 
 trait QueriesRelationships
 {
     /**
      * Add a relationship count / exists condition to the query.
      *
-     * @param  string  $relation
+     * @param  \Illuminate\Database\Eloquent\Relations\Relation|string  $relation
      * @param  string  $operator
-     * @param  int     $count
+     * @param  int  $count
      * @param  string  $boolean
      * @param  \Closure|null  $callback
      * @return \Illuminate\Database\Eloquent\Builder|static
+     *
+     * @throws \RuntimeException
      */
     public function has($relation, $operator = '>=', $count = 1, $boolean = 'and', Closure $callback = null)
     {
-        if (strpos($relation, '.') !== false) {
-            return $this->hasNested($relation, $operator, $count, $boolean, $callback);
+        if (is_string($relation)) {
+            if (strpos($relation, '.') !== false) {
+                return $this->hasNested($relation, $operator, $count, $boolean, $callback);
+            }
+
+            $relation = $this->getRelationWithoutConstraints($relation);
         }
 
-        $relation = $this->getRelationWithoutConstraints($relation);
-
         if ($relation instanceof MorphTo) {
-            throw new RuntimeException('has() and whereHas() do not support MorphTo relationships.');
+            return $this->hasMorph($relation, ['*'], $operator, $count, $boolean, $callback);
         }
 
         // If we only need to check for the existence of the relation, then we can optimize
@@ -65,7 +68,7 @@ trait QueriesRelationships
      *
      * @param  string  $relations
      * @param  string  $operator
-     * @param  int     $count
+     * @param  int  $count
      * @param  string  $boolean
      * @param  \Closure|null  $callback
      * @return \Illuminate\Database\Eloquent\Builder|static
@@ -98,7 +101,7 @@ trait QueriesRelationships
      *
      * @param  string  $relation
      * @param  string  $operator
-     * @param  int     $count
+     * @param  int  $count
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function orHas($relation, $operator = '>=', $count = 1)
@@ -136,7 +139,7 @@ trait QueriesRelationships
      * @param  string  $relation
      * @param  \Closure|null  $callback
      * @param  string  $operator
-     * @param  int     $count
+     * @param  int  $count
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function whereHas($relation, Closure $callback = null, $operator = '>=', $count = 1)
@@ -147,10 +150,10 @@ trait QueriesRelationships
     /**
      * Add a relationship count / exists condition to the query with where clauses and an "or".
      *
-     * @param  string    $relation
-     * @param  \Closure  $callback
-     * @param  string    $operator
-     * @param  int       $count
+     * @param  string  $relation
+     * @param  \Closure|null  $callback
+     * @param  string  $operator
+     * @param  int  $count
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function orWhereHas($relation, Closure $callback = null, $operator = '>=', $count = 1)
@@ -173,8 +176,8 @@ trait QueriesRelationships
     /**
      * Add a relationship count / exists condition to the query with where clauses and an "or".
      *
-     * @param  string    $relation
-     * @param  \Closure  $callback
+     * @param  string  $relation
+     * @param  \Closure|null  $callback
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function orWhereDoesntHave($relation, Closure $callback = null)
@@ -183,12 +186,177 @@ trait QueriesRelationships
     }
 
     /**
-     * Add subselect queries to count the relations.
+     * Add a polymorphic relationship count / exists condition to the query.
+     *
+     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  string|array  $types
+     * @param  string  $operator
+     * @param  int  $count
+     * @param  string  $boolean
+     * @param  \Closure|null  $callback
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function hasMorph($relation, $types, $operator = '>=', $count = 1, $boolean = 'and', Closure $callback = null)
+    {
+        if (is_string($relation)) {
+            $relation = $this->getRelationWithoutConstraints($relation);
+        }
+
+        $types = (array) $types;
+
+        if ($types === ['*']) {
+            $types = $this->model->newModelQuery()->distinct()->pluck($relation->getMorphType())->filter()->all();
+        }
+
+        foreach ($types as &$type) {
+            $type = Relation::getMorphedModel($type) ?? $type;
+        }
+
+        return $this->where(function ($query) use ($relation, $callback, $operator, $count, $types) {
+            foreach ($types as $type) {
+                $query->orWhere(function ($query) use ($relation, $callback, $operator, $count, $type) {
+                    $belongsTo = $this->getBelongsToRelation($relation, $type);
+
+                    if ($callback) {
+                        $callback = function ($query) use ($callback, $type) {
+                            return $callback($query, $type);
+                        };
+                    }
+
+                    $query->where($this->qualifyColumn($relation->getMorphType()), '=', (new $type)->getMorphClass())
+                                ->whereHas($belongsTo, $callback, $operator, $count);
+                });
+            }
+        }, null, null, $boolean);
+    }
+
+    /**
+     * Get the BelongsTo relationship for a single polymorphic type.
+     *
+     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo  $relation
+     * @param  string  $type
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    protected function getBelongsToRelation(MorphTo $relation, $type)
+    {
+        $belongsTo = Relation::noConstraints(function () use ($relation, $type) {
+            return $this->model->belongsTo(
+                $type,
+                $relation->getForeignKeyName(),
+                $relation->getOwnerKeyName()
+            );
+        });
+
+        $belongsTo->getQuery()->mergeConstraintsFrom($relation->getQuery());
+
+        return $belongsTo;
+    }
+
+    /**
+     * Add a polymorphic relationship count / exists condition to the query with an "or".
+     *
+     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  string|array  $types
+     * @param  string  $operator
+     * @param  int  $count
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function orHasMorph($relation, $types, $operator = '>=', $count = 1)
+    {
+        return $this->hasMorph($relation, $types, $operator, $count, 'or');
+    }
+
+    /**
+     * Add a polymorphic relationship count / exists condition to the query.
+     *
+     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  string|array  $types
+     * @param  string  $boolean
+     * @param  \Closure|null  $callback
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function doesntHaveMorph($relation, $types, $boolean = 'and', Closure $callback = null)
+    {
+        return $this->hasMorph($relation, $types, '<', 1, $boolean, $callback);
+    }
+
+    /**
+     * Add a polymorphic relationship count / exists condition to the query with an "or".
+     *
+     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  string|array  $types
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function orDoesntHaveMorph($relation, $types)
+    {
+        return $this->doesntHaveMorph($relation, $types, 'or');
+    }
+
+    /**
+     * Add a polymorphic relationship count / exists condition to the query with where clauses.
+     *
+     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  string|array  $types
+     * @param  \Closure|null  $callback
+     * @param  string  $operator
+     * @param  int  $count
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function whereHasMorph($relation, $types, Closure $callback = null, $operator = '>=', $count = 1)
+    {
+        return $this->hasMorph($relation, $types, $operator, $count, 'and', $callback);
+    }
+
+    /**
+     * Add a polymorphic relationship count / exists condition to the query with where clauses and an "or".
+     *
+     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  string|array  $types
+     * @param  \Closure|null  $callback
+     * @param  string  $operator
+     * @param  int  $count
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function orWhereHasMorph($relation, $types, Closure $callback = null, $operator = '>=', $count = 1)
+    {
+        return $this->hasMorph($relation, $types, $operator, $count, 'or', $callback);
+    }
+
+    /**
+     * Add a polymorphic relationship count / exists condition to the query with where clauses.
+     *
+     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  string|array  $types
+     * @param  \Closure|null  $callback
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function whereDoesntHaveMorph($relation, $types, Closure $callback = null)
+    {
+        return $this->doesntHaveMorph($relation, $types, 'and', $callback);
+    }
+
+    /**
+     * Add a polymorphic relationship count / exists condition to the query with where clauses and an "or".
+     *
+     * @param  \Illuminate\Database\Eloquent\Relations\MorphTo|string  $relation
+     * @param  string|array  $types
+     * @param  \Closure|null  $callback
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function orWhereDoesntHaveMorph($relation, $types, Closure $callback = null)
+    {
+        return $this->doesntHaveMorph($relation, $types, 'or', $callback);
+    }
+
+    /**
+     * Add subselect queries to include an aggregate value for a relationship.
      *
      * @param  mixed  $relations
+     * @param  string  $column
+     * @param  string  $function
      * @return $this
      */
-    public function withCount($relations)
+    public function withAggregate($relations, $column, $function = null)
     {
         if (empty($relations)) {
             return $this;
@@ -198,12 +366,12 @@ trait QueriesRelationships
             $this->query->select([$this->query->from.'.*']);
         }
 
-        $relations = is_array($relations) ? $relations : func_get_args();
+        $relations = is_array($relations) ? $relations : [$relations];
 
         foreach ($this->parseWithRelations($relations) as $name => $constraints) {
             // First we will determine if the name has been aliased using an "as" clause on the name
             // and if it has we will extract the actual relationship name and the desired name of
-            // the resulting column. This allows multiple counts on the same relationship name.
+            // the resulting column. This allows multiple aggregates on the same relationships.
             $segments = explode(' ', $name);
 
             unset($alias);
@@ -214,30 +382,133 @@ trait QueriesRelationships
 
             $relation = $this->getRelationWithoutConstraints($name);
 
-            // Here we will get the relationship count query and prepare to add it to the main query
+            if ($function) {
+                $hashedColumn = $this->getQuery()->from === $relation->getQuery()->getQuery()->from
+                                            ? "{$relation->getRelationCountHash(false)}.$column"
+                                            : $column;
+
+                $wrappedColumn = $this->getQuery()->getGrammar()->wrap(
+                    $column === '*' ? $column : $relation->getRelated()->qualifyColumn($hashedColumn)
+                );
+
+                $expression = $function === 'exists' ? $wrappedColumn : sprintf('%s(%s)', $function, $wrappedColumn);
+            } else {
+                $expression = $column;
+            }
+
+            // Here, we will grab the relationship sub-query and prepare to add it to the main query
             // as a sub-select. First, we'll get the "has" query and use that to get the relation
-            // count query. We will normalize the relation name then append _count as the name.
-            $query = $relation->getRelationExistenceCountQuery(
-                $relation->getRelated()->newQuery(), $this
-            );
+            // sub-query. We'll format this relationship name and append this column if needed.
+            $query = $relation->getRelationExistenceQuery(
+                $relation->getRelated()->newQuery(), $this, new Expression($expression)
+            )->setBindings([], 'select');
 
             $query->callScope($constraints);
 
             $query = $query->mergeConstraintsFrom($relation->getQuery())->toBase();
 
+            // If the query contains certain elements like orderings / more than one column selected
+            // then we will remove those elements from the query so that it will execute properly
+            // when given to the database. Otherwise, we may receive SQL errors or poor syntax.
+            $query->orders = null;
+            $query->setBindings([], 'order');
+
             if (count($query->columns) > 1) {
                 $query->columns = [$query->columns[0]];
+                $query->bindings['select'] = [];
             }
 
-            // Finally we will add the proper result column alias to the query and run the subselect
-            // statement against the query builder. Then we will return the builder instance back
-            // to the developer for further constraint chaining that needs to take place on it.
-            $column = $alias ?? Str::snake($name.'_count');
+            // Finally, we will make the proper column alias to the query and run this sub-select on
+            // the query builder. Then, we will return the builder instance back to the developer
+            // for further constraint chaining that needs to take place on the query as needed.
+            $alias = $alias ?? Str::snake(
+                preg_replace('/[^[:alnum:][:space:]_]/u', '', "$name $function $column")
+            );
 
-            $this->selectSub($query, $column);
+            if ($function === 'exists') {
+                $this->selectRaw(
+                    sprintf('exists(%s) as %s', $query->toSql(), $this->getQuery()->grammar->wrap($alias)),
+                    $query->getBindings()
+                )->withCasts([$alias => 'bool']);
+            } else {
+                $this->selectSub(
+                    $function ? $query : $query->limit(1),
+                    $alias
+                );
+            }
         }
 
         return $this;
+    }
+
+    /**
+     * Add subselect queries to count the relations.
+     *
+     * @param  mixed  $relations
+     * @return $this
+     */
+    public function withCount($relations)
+    {
+        return $this->withAggregate(is_array($relations) ? $relations : func_get_args(), '*', 'count');
+    }
+
+    /**
+     * Add subselect queries to include the max of the relation's column.
+     *
+     * @param  string|array  $relation
+     * @param  string  $column
+     * @return $this
+     */
+    public function withMax($relation, $column)
+    {
+        return $this->withAggregate($relation, $column, 'max');
+    }
+
+    /**
+     * Add subselect queries to include the min of the relation's column.
+     *
+     * @param  string|array  $relation
+     * @param  string  $column
+     * @return $this
+     */
+    public function withMin($relation, $column)
+    {
+        return $this->withAggregate($relation, $column, 'min');
+    }
+
+    /**
+     * Add subselect queries to include the sum of the relation's column.
+     *
+     * @param  string|array  $relation
+     * @param  string  $column
+     * @return $this
+     */
+    public function withSum($relation, $column)
+    {
+        return $this->withAggregate($relation, $column, 'sum');
+    }
+
+    /**
+     * Add subselect queries to include the average of the relation's column.
+     *
+     * @param  string|array  $relation
+     * @param  string  $column
+     * @return $this
+     */
+    public function withAvg($relation, $column)
+    {
+        return $this->withAggregate($relation, $column, 'avg');
+    }
+
+    /**
+     * Add subselect queries to include the existence of related models.
+     *
+     * @param  string|array  $relation
+     * @return $this
+     */
+    public function withExists($relation)
+    {
+        return $this->withAggregate($relation, '*', 'exists');
     }
 
     /**
@@ -282,7 +553,7 @@ trait QueriesRelationships
     /**
      * Add a sub-query count clause to this query.
      *
-     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @param  string  $operator
      * @param  int  $count
      * @param  string  $boolean

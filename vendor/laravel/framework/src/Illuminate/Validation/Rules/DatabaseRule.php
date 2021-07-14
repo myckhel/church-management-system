@@ -3,6 +3,8 @@
 namespace Illuminate\Validation\Rules;
 
 use Closure;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 trait DatabaseRule
 {
@@ -43,15 +45,43 @@ trait DatabaseRule
      */
     public function __construct($table, $column = 'NULL')
     {
-        $this->table = $table;
         $this->column = $column;
+
+        $this->table = $this->resolveTableName($table);
+    }
+
+    /**
+     * Resolves the name of the table from the given string.
+     *
+     * @param  string  $table
+     * @return string
+     */
+    public function resolveTableName($table)
+    {
+        if (! Str::contains($table, '\\') || ! class_exists($table)) {
+            return $table;
+        }
+
+        if (is_subclass_of($table, Model::class)) {
+            $model = new $table;
+
+            if (Str::contains($model->getTable(), '.')) {
+                return $table;
+            }
+
+            return implode('.', array_map(function (string $part) {
+                return trim($part, '.');
+            }, array_filter([$model->getConnectionName(), $model->getTable()])));
+        }
+
+        return $table;
     }
 
     /**
      * Set a "where" constraint on the query.
      *
-     * @param  string|\Closure  $column
-     * @param  array|string|null  $value
+     * @param  \Closure|string  $column
+     * @param  array|string|int|null  $value
      * @return $this
      */
     public function where($column, $value = null)
@@ -62,6 +92,10 @@ trait DatabaseRule
 
         if ($column instanceof Closure) {
             return $this->using($column);
+        }
+
+        if (is_null($value)) {
+            return $this->whereNull($column);
         }
 
         $this->wheres[] = compact('column', 'value');
@@ -166,7 +200,7 @@ trait DatabaseRule
     protected function formatWheres()
     {
         return collect($this->wheres)->map(function ($where) {
-            return $where['column'].','.$where['value'];
+            return $where['column'].','.'"'.str_replace('"', '""', $where['value']).'"';
         })->implode(',');
     }
 }

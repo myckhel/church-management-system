@@ -31,15 +31,15 @@ class ClosureLoader extends Loader
      *
      * @return RouteCollection A RouteCollection instance
      */
-    public function load($closure, $type = null)
+    public function load($closure, string $type = null)
     {
-        return $closure();
+        return $closure($this->env);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function supports($resource, $type = null)
+    public function supports($resource, string $type = null)
     {
         return $resource instanceof \Closure && (!$type || 'closure' === $type);
     }

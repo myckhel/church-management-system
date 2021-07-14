@@ -36,64 +36,72 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
     // \SessionHandlerInterface
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function open($savePath, $sessionName)
     {
         return (bool) $this->handler->open($savePath, $sessionName);
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function close()
     {
         return (bool) $this->handler->close();
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
+    #[\ReturnTypeWillChange]
     public function read($sessionId)
     {
         return (string) $this->handler->read($sessionId);
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function write($sessionId, $data)
     {
         return (bool) $this->handler->write($sessionId, $data);
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function destroy($sessionId)
     {
         return (bool) $this->handler->destroy($sessionId);
     }
 
     /**
-     * {@inheritdoc}
+     * @return int|false
      */
+    #[\ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
-        return (bool) $this->handler->gc($maxlifetime);
+        return $this->handler->gc($maxlifetime);
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function validateId($sessionId)
     {
         return !$this->handler instanceof \SessionUpdateTimestampHandlerInterface || $this->handler->validateId($sessionId);
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function updateTimestamp($sessionId, $data)
     {
         return $this->handler instanceof \SessionUpdateTimestampHandlerInterface ? $this->handler->updateTimestamp($sessionId, $data) : $this->write($sessionId, $data);

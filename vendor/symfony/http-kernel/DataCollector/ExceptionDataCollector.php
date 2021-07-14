@@ -11,7 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\DataCollector;
 
-use Symfony\Component\Debug\Exception\FlattenException;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,17 +19,19 @@ use Symfony\Component\HttpFoundation\Response;
  * ExceptionDataCollector.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @final
  */
 class ExceptionDataCollector extends DataCollector
 {
     /**
      * {@inheritdoc}
      */
-    public function collect(Request $request, Response $response, \Exception $exception = null)
+    public function collect(Request $request, Response $response, \Throwable $exception = null)
     {
         if (null !== $exception) {
             $this->data = [
-                'exception' => FlattenException::create($exception),
+                'exception' => FlattenException::createFromThrowable($exception),
             ];
         }
     }
@@ -55,7 +57,7 @@ class ExceptionDataCollector extends DataCollector
     /**
      * Gets the exception.
      *
-     * @return \Exception The exception
+     * @return \Exception|FlattenException
      */
     public function getException()
     {

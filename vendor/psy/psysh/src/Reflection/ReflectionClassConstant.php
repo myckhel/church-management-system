@@ -3,7 +3,7 @@
 /*
  * This file is part of Psy Shell.
  *
- * (c) 2012-2018 Justin Hileman
+ * (c) 2012-2020 Justin Hileman
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -35,11 +35,11 @@ class ReflectionClassConstant implements \Reflector
         }
 
         $this->class = $class;
-        $this->name  = $name;
+        $this->name = $name;
 
         $constants = $class->getConstants();
         if (!\array_key_exists($name, $constants)) {
-            throw new \InvalidArgumentException('Unknown constant: ' . $name);
+            throw new \InvalidArgumentException('Unknown constant: '.$name);
         }
 
         $this->value = $constants[$name];
@@ -52,7 +52,7 @@ class ReflectionClassConstant implements \Reflector
      * @param string        $name
      * @param bool          $return pass true to return the export, as opposed to emitting it
      *
-     * @return null|string
+     * @return string|null
      */
     public static function export($class, $name, $return = false)
     {
@@ -65,7 +65,7 @@ class ReflectionClassConstant implements \Reflector
             return $str;
         }
 
-        echo $str . "\n";
+        echo $str."\n";
     }
 
     /**
@@ -83,7 +83,7 @@ class ReflectionClassConstant implements \Reflector
         //
         // While this isn't _technically_ correct, it's prolly close enough.
         do {
-            $class  = $parent;
+            $class = $parent;
             $parent = $class->getParentClass();
         } while ($parent && $parent->hasConstant($this->name) && $parent->getConstant($this->name) === $this->value);
 
@@ -219,7 +219,7 @@ class ReflectionClassConstant implements \Reflector
      */
     public static function create($class, $name)
     {
-        if (\class_exists('\\ReflectionClassConstant')) {
+        if (\class_exists(\ReflectionClassConstant::class)) {
             return new \ReflectionClassConstant($class, $name);
         }
 

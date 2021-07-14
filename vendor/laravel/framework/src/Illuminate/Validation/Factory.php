@@ -3,10 +3,10 @@
 namespace Illuminate\Validation;
 
 use Closure;
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Contracts\Validation\Factory as FactoryContract;
+use Illuminate\Support\Str;
 
 class Factory implements FactoryContract
 {
@@ -67,6 +67,13 @@ class Factory implements FactoryContract
     protected $fallbackMessages = [];
 
     /**
+     * Indicates that unvalidated array keys should be excluded, even if the parent array was validated.
+     *
+     * @var bool
+     */
+    protected $excludeUnvalidatedArrayKeys;
+
+    /**
      * The Validator resolver instance.
      *
      * @var \Closure
@@ -77,7 +84,7 @@ class Factory implements FactoryContract
      * Create a new Validator factory instance.
      *
      * @param  \Illuminate\Contracts\Translation\Translator  $translator
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \Illuminate\Contracts\Container\Container|null  $container
      * @return void
      */
     public function __construct(Translator $translator, Container $container = null)
@@ -114,6 +121,8 @@ class Factory implements FactoryContract
         if (! is_null($this->container)) {
             $validator->setContainer($this->container);
         }
+
+        $validator->excludeUnvalidatedArrayKeys = $this->excludeUnvalidatedArrayKeys;
 
         $this->addExtensions($validator);
 
@@ -181,7 +190,7 @@ class Factory implements FactoryContract
      *
      * @param  string  $rule
      * @param  \Closure|string  $extension
-     * @param  string  $message
+     * @param  string|null  $message
      * @return void
      */
     public function extend($rule, $extension, $message = null)
@@ -198,7 +207,7 @@ class Factory implements FactoryContract
      *
      * @param  string  $rule
      * @param  \Closure|string  $extension
-     * @param  string  $message
+     * @param  string|null  $message
      * @return void
      */
     public function extendImplicit($rule, $extension, $message = null)
@@ -215,7 +224,7 @@ class Factory implements FactoryContract
      *
      * @param  string  $rule
      * @param  \Closure|string  $extension
-     * @param  string  $message
+     * @param  string|null  $message
      * @return void
      */
     public function extendDependent($rule, $extension, $message = null)
@@ -237,6 +246,16 @@ class Factory implements FactoryContract
     public function replacer($rule, $replacer)
     {
         $this->replacers[$rule] = $replacer;
+    }
+
+    /**
+     * Indicate that unvalidated array keys should be excluded, even if the parent array was validated.
+     *
+     * @return void
+     */
+    public function excludeUnvalidatedArrayKeys()
+    {
+        $this->excludeUnvalidatedArrayKeys = true;
     }
 
     /**
@@ -279,5 +298,28 @@ class Factory implements FactoryContract
     public function setPresenceVerifier(PresenceVerifierInterface $presenceVerifier)
     {
         $this->verifier = $presenceVerifier;
+    }
+
+    /**
+     * Get the container instance used by the validation factory.
+     *
+     * @return \Illuminate\Contracts\Container\Container
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * Set the container instance used by the validation factory.
+     *
+     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @return $this
+     */
+    public function setContainer(Container $container)
+    {
+        $this->container = $container;
+
+        return $this;
     }
 }

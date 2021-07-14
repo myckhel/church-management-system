@@ -195,7 +195,7 @@
 								<div id="mainnav-profile" class="mainnav-profile">
 									<div class="profile-wrap text-center">
 										<div class="pad-btm">
-											<img class="img-circle img-md" src="{{URL::asset('public/images/logo.png')}}" alt="Profile Picture">
+											<img class="img-circle img-md" src="{{URL::asset('images/logo.png')}}" alt="Profile Picture">
 										</div>
 										<a href="dashboardprofile-nav" class="box-block" data-toggle="collapse" aria-expanded="false">
 											<span class="pull-right dropdown-toggle">

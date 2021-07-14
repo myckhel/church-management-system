@@ -3,11 +3,13 @@
 namespace Yajra\DataTables;
 
 use Illuminate\Database\Eloquent\Builder;
-use Yajra\DataTables\Exceptions\Exception;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Yajra\DataTables\Exceptions\Exception;
 
 class EloquentDataTable extends QueryDataTable
 {
@@ -90,9 +92,15 @@ class EloquentDataTable extends QueryDataTable
             return parent::compileQuerySearch($query, $columnName, $keyword, $boolean);
         }
 
-        $query->{$boolean . 'WhereHas'}($relation, function (Builder $query) use ($column, $keyword) {
-            parent::compileQuerySearch($query, $column, $keyword, '');
-        });
+        if ($this->isMorphRelation($relation)) {
+            $query->{$boolean . 'WhereHasMorph'}($relation, '*', function (Builder $query) use ($column, $keyword) {
+                parent::compileQuerySearch($query, $column, $keyword, '');
+            });
+        } else {
+            $query->{$boolean . 'WhereHas'}($relation, function (Builder $query) use ($column, $keyword) {
+                parent::compileQuerySearch($query, $column, $keyword, '');
+            });
+        }
     }
 
     /**
@@ -112,6 +120,25 @@ class EloquentDataTable extends QueryDataTable
         }
 
         return $this->joinEagerLoadedColumn($relation, $columnName);
+    }
+
+    /**
+     * Check if a relation is a morphed one or not.
+     *
+     * @param  string $relation
+     * @return bool
+     */
+    protected function isMorphRelation($relation)
+    {
+        $isMorph = false;
+        if ($relation !== null && $relation !== '') {
+            $relationParts = explode('.', $relation);
+            $firstRelation = array_shift($relationParts);
+            $model         = $this->query->getModel();
+            $isMorph       = method_exists($model, $firstRelation) && $model->$firstRelation() instanceof MorphTo;
+        }
+
+        return $isMorph;
     }
 
     /**
@@ -138,7 +165,6 @@ class EloquentDataTable extends QueryDataTable
     protected function joinEagerLoadedColumn($relation, $relationColumn)
     {
         $table     = '';
-        $deletedAt = false;
         $lastQuery = $this->query;
         foreach (explode('.', $relation) as $eachRelation) {
             $model = $lastQuery->getRelation($eachRelation);
@@ -160,37 +186,40 @@ class EloquentDataTable extends QueryDataTable
 
                     break;
 
+                case $model instanceof HasOneThrough:
+                    $pivot    = explode('.', $model->getQualifiedParentKeyName())[0]; // extract pivot table from key
+                    $pivotPK  = $pivot . '.' . $model->getLocalKeyName();
+                    $pivotFK  = $model->getQualifiedLocalKeyName();
+                    $this->performJoin($pivot, $pivotPK, $pivotFK);
+
+                    $related = $model->getRelated();
+                    $table   = $related->getTable();
+                    $tablePK = $related->getForeignKey();
+                    $foreign = $pivot . '.' . $tablePK;
+                    $other   = $related->getQualifiedKeyName();
+
+                    break;
+
                 case $model instanceof HasOneOrMany:
                     $table     = $model->getRelated()->getTable();
                     $foreign   = $model->getQualifiedForeignKeyName();
                     $other     = $model->getQualifiedParentKeyName();
-                    $deletedAt = $this->checkSoftDeletesOnModel($model->getRelated());
                     break;
 
                 case $model instanceof BelongsTo:
                     $table     = $model->getRelated()->getTable();
-                    $foreign   = $model->getQualifiedForeignKey();
+                    $foreign   = $model->getQualifiedForeignKeyName();
                     $other     = $model->getQualifiedOwnerKeyName();
-                    $deletedAt = $this->checkSoftDeletesOnModel($model->getRelated());
                     break;
 
                 default:
                     throw new Exception('Relation ' . get_class($model) . ' is not yet supported.');
             }
-            $this->performJoin($table, $foreign, $other, $deletedAt);
+            $this->performJoin($table, $foreign, $other);
             $lastQuery = $model->getQuery();
         }
 
         return $table . '.' . $relationColumn;
-    }
-
-    protected function checkSoftDeletesOnModel($model)
-    {
-        if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($model))) {
-            return $model->getQualifiedDeletedAtColumn();
-        }
-
-        return false;
     }
 
     /**
@@ -199,10 +228,9 @@ class EloquentDataTable extends QueryDataTable
      * @param string $table
      * @param string $foreign
      * @param string $other
-     * @param string $deletedAt
      * @param string $type
      */
-    protected function performJoin($table, $foreign, $other, $deletedAt = false, $type = 'left')
+    protected function performJoin($table, $foreign, $other, $type = 'left')
     {
         $joins = [];
         foreach ((array) $this->getBaseQueryBuilder()->joins as $key => $join) {
@@ -211,10 +239,6 @@ class EloquentDataTable extends QueryDataTable
 
         if (! in_array($table, $joins)) {
             $this->getBaseQueryBuilder()->join($table, $foreign, '=', $other, $type);
-        }
-
-        if ($deletedAt !== false) {
-            $this->getBaseQueryBuilder()->whereNull($deletedAt);
         }
     }
 }

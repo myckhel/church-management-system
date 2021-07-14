@@ -50,7 +50,7 @@ class DumpServerServiceProvider extends ServiceProvider
         ]);
 
         VarDumper::setHandler(function ($var) use ($connection) {
-            (new Dumper($connection))->dump($var);
+            $this->app->makeWith(Dumper::class, ['connection' => $connection])->dump($var);
         });
     }
 }

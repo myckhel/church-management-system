@@ -34,6 +34,14 @@ to learn how to use Mockery.
 
 The current version can be seen at [docs.mockery.io](http://docs.mockery.io).
 
+## PHPUnit Integration
+
+Mockery ships with some helpers if you are using PHPUnit. You can extend the
+[`Mockery\Adapter\Phpunit\MockeryTestCase`](library/Mockery/Adapter/Phpunit/MockeryTestCase.php)
+class instead of `PHPUnit\Framework\TestCase`, or if you are already using a
+custom base class for your tests, take a look at the traits available in the
+[`Mockery\Adapter\Phpunit`](library/Mockery/Adapter/Phpunit) namespace.
+
 ## Test Doubles
 
 Test doubles (often called mocks) simulate the behaviour of real objects. They are
@@ -258,21 +266,6 @@ $double->allows()->doFoo()->andReturns(123);
 $double->foo(); // int(123)
 ```
 
-### Testing the constructor arguments of hard Dependencies
-
-See [Mocking hard dependencies](http://docs.mockery.io/en/latest/cookbook/mocking_hard_dependencies.html)
-
-``` php
-$implementationMock = Mockery::mock('overload:\Some\Implementation');
-
-$implementationMock->shouldReceive('__construct')
-    ->once()
-    ->with(['host' => 'localhost']);
-// add other expectations as usual
-
-$implementation = new \Some\Implementation(['host' => 'localhost']);
-```
-
 ## Versioning
 
 The Mockery team attempts to adhere to [Semantic Versioning](http://semver.org),
@@ -283,7 +276,7 @@ versioning scheme.
 
 ### Alternative Runtimes
 
-Mockery will attempt to continue support HHVM, but will not make any guarantees.
+Mockery 1.3 was the last version to support HHVM 3 and PHP 5. There is no support for HHVM 4+.
 
 ## A new home for Mockery
 

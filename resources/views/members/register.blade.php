@@ -208,7 +208,7 @@ display: none;
 							</div>
 							<div class="col-md-6">
 								<?php $ipInfo = app('App\Http\Controllers\VisitorController')->ip_info(app('App\Http\Controllers\VisitorController')->getUserIP(), "Location"); ?>
-								<?php if($ipInfo['continent'] != 'Africa'){ ?>
+								<?php if($ipInfo && $ipInfo['continent'] != 'Africa'){ ?>
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="demo-textarea-input">Postal</label>
 									<div class="col-md-9">
@@ -233,7 +233,7 @@ display: none;
 									<div class="col-md-9">
 										<!--input type="text" class="form-control" name="country" placeholder="Enter member country" required-->
 										<select class="form-control" name="country" required placeholder="Enter member country">
-                                                               <option selected value="{{$ipInfo['country']}}">{{$ipInfo['country']}}</option>
+                                                               <option selected value="{{$ipInfo && $ipInfo['country']}}">{{$ipInfo && $ipInfo['country']}}</option>
                                                             	 <option value="United States">United States</option>
                                                             	<option value="United Kingdom">United Kingdom</option>
                                                             	<option value="Afghanistan">Afghanistan</option>

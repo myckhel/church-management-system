@@ -2,8 +2,8 @@
 
 namespace Illuminate\Http\Resources;
 
-use JsonSerializable;
 use Illuminate\Support\Collection;
+use JsonSerializable;
 
 class MergeValue
 {
@@ -15,7 +15,7 @@ class MergeValue
     public $data;
 
     /**
-     * Create new merge value instance.
+     * Create a new merge value instance.
      *
      * @param  \Illuminate\Support\Collection|\JsonSerializable|array  $data
      * @return void

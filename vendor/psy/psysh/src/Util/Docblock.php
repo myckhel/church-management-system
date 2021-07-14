@@ -3,7 +3,7 @@
 /*
  * This file is part of Psy Shell.
  *
- * (c) 2012-2018 Justin Hileman
+ * (c) 2012-2020 Justin Hileman
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -84,8 +84,8 @@ class Docblock
      */
     protected function setComment($comment)
     {
-        $this->desc    = '';
-        $this->tags    = [];
+        $this->desc = '';
+        $this->tags = [];
         $this->comment = $comment;
 
         $this->parseComment($comment);
@@ -109,7 +109,12 @@ class Docblock
         \sort($lines);
 
         $first = \reset($lines);
-        $last  = \end($lines);
+        $last = \end($lines);
+
+        // Special case for single-line comments
+        if (\count($lines) === 1) {
+            return \strspn($first, "* \t\n\r\0\x0B");
+        }
 
         // find the longest common substring
         $count = \min(\strlen($first), \strlen($last));
@@ -164,7 +169,7 @@ class Docblock
                 $this->desc = $body;
             } else {
                 // This block is tagged
-                $tag  = \substr(self::strTag($body), 1);
+                $tag = \substr(self::strTag($body), 1);
                 $body = \ltrim(\substr($body, \strlen($tag) + 2));
 
                 if (isset(self::$vectors[$tag])) {

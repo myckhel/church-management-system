@@ -7,7 +7,7 @@ use App\Options;
 use Auth;
 use Yajra\Datatables\Datatables;
 use App\CollectionCommission;
-use Daveismyname\Countries\Facades\Countries;
+use Dcblogdev\Countries\Facades\Countries;
 
 class OptionController extends Controller
 {

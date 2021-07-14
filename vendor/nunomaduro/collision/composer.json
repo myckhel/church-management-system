@@ -14,20 +14,29 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "filp/whoops": "^2.1.4",
-        "symfony/console": "~2.8|~3.3|~4.0",
-        "jakub-onderka/php-console-highlighter": "0.3.*|0.4.*"
+        "php": "^7.3 || ^8.0",
+        "facade/ignition-contracts": "^1.0",
+        "filp/whoops": "^2.7.2",
+        "symfony/console": "^5.0"
     },
     "require-dev": {
-        "laravel/framework": "5.7.*",
-        "nunomaduro/larastan": "^0.3.0",
-        "phpstan/phpstan": "^0.10",
-        "phpunit/phpunit": "~7.3"
+        "brianium/paratest": "^6.1",
+        "fideloper/proxy": "^4.4.1",
+        "friendsofphp/php-cs-fixer": "^2.17.3",
+        "fruitcake/laravel-cors": "^2.0.3",
+        "laravel/framework": "^9.0",
+        "nunomaduro/larastan": "^0.6.2",
+        "nunomaduro/mock-final-classes": "^1.0",
+        "orchestra/testbench": "^7.0",
+        "phpstan/phpstan": "^0.12.64",
+        "phpunit/phpunit": "^9.5.0"
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\Unit\\": "tests/Unit",
+            "Tests\\FakeProgram\\": "tests/FakeProgram",
+            "Tests\\": "tests/LaravelApp/tests",
+            "App\\": "tests/LaravelApp/app/"
         }
     },
     "minimum-stability": "dev",
@@ -47,5 +56,16 @@
                 "NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "lint": "php-cs-fixer fix -v --allow-risky=yes",
+        "test:types": "phpstan analyse --ansi",
+        "test:unit": "phpunit --colors=always",
+        "test:lint": "php-cs-fixer fix -v --dry-run --allow-risky=yes",
+        "test": [
+            "@test:lint",
+            "@test:types",
+            "@test:unit"
+        ]
     }
 }

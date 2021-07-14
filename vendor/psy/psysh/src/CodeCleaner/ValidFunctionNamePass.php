@@ -3,7 +3,7 @@
 /*
  * This file is part of Psy Shell.
  *
- * (c) 2012-2018 Justin Hileman
+ * (c) 2012-2020 Justin Hileman
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -52,7 +52,7 @@ class ValidFunctionNamePass extends NamespaceAwarePass
                 if (\function_exists($name) ||
                     isset($this->currentScope[\strtolower($name)])) {
                     $msg = \sprintf('Cannot redeclare %s()', $name);
-                    throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
+                    throw new FatalErrorException($msg, 0, \E_ERROR, null, $node->getLine());
                 }
             }
 
@@ -77,11 +77,11 @@ class ValidFunctionNamePass extends NamespaceAwarePass
             $name = $node->name;
             if (!$name instanceof Expr && !$name instanceof Variable) {
                 $shortName = \implode('\\', $name->parts);
-                $fullName  = $this->getFullyQualifiedName($name);
-                $inScope   = isset($this->currentScope[\strtolower($fullName)]);
+                $fullName = $this->getFullyQualifiedName($name);
+                $inScope = isset($this->currentScope[\strtolower($fullName)]);
                 if (!$inScope && !\function_exists($shortName) && !\function_exists($fullName)) {
                     $message = \sprintf('Call to undefined function %s()', $name);
-                    throw new FatalErrorException($message, 0, E_ERROR, null, $node->getLine());
+                    throw new FatalErrorException($message, 0, \E_ERROR, null, $node->getLine());
                 }
             }
         }

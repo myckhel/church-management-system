@@ -5,7 +5,7 @@ namespace PhpParser\Node;
 use PhpParser\NodeAbstract;
 
 /**
- * @property Name $namespacedName Namespaced name (for class constants, if using NameResolver)
+ * @property Name $namespacedName Namespaced name (for global constants, if using NameResolver)
  */
 class Const_ extends NodeAbstract
 {
@@ -22,7 +22,7 @@ class Const_ extends NodeAbstract
      * @param array             $attributes Additional attributes
      */
     public function __construct($name, Expr $value, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->name = \is_string($name) ? new Identifier($name) : $name;
         $this->value = $value;
     }

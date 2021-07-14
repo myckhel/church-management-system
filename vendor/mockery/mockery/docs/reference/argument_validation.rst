@@ -212,7 +212,7 @@ the ``\Mockery::pattern()``:
 
     // Hamcrest equivalent
     $mock->shouldReceive('foo')
-        with(matchesPattern('/^foo/'));
+        ->with(matchesPattern('/^foo/'));
 
 The ``ducktype()`` matcher is an alternative to matching by class type:
 
@@ -228,6 +228,27 @@ methods to call.
 .. note::
 
     There is no Hamcrest version of the ``ducktype()`` matcher.
+
+Capturing Arguments
+-------------------
+
+If we want to perform multiple validations on a single argument, the ``capture``
+matcher provides a streamlined alternative to using the ``on()`` matcher.
+It accepts a variable which the actual argument will be assigned.
+
+.. code-block:: php
+
+    $mock = \Mockery::mock('MyClass');
+    $mock->shouldReceive("foo")
+        ->with(\Mockery::capture($bar));
+
+This will assign *any* argument passed to ``foo`` to the local ``$bar`` variable to
+then perform additional validation using assertions.
+
+.. note::
+
+    The ``capture`` matcher always evaluates to ``true``. As such, we should always
+    perform additional argument validation.
 
 Additional Argument Matchers
 ----------------------------

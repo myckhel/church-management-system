@@ -21,7 +21,7 @@ final class ArgumentMetadataFactory implements ArgumentMetadataFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createArgumentMetadata($controller)
+    public function createArgumentMetadata($controller): array
     {
         $arguments = [];
 
@@ -34,7 +34,16 @@ final class ArgumentMetadataFactory implements ArgumentMetadataFactoryInterface
         }
 
         foreach ($reflection->getParameters() as $param) {
-            $arguments[] = new ArgumentMetadata($param->getName(), $this->getType($param, $reflection), $param->isVariadic(), $param->isDefaultValueAvailable(), $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null, $param->allowsNull());
+            $attributes = [];
+            if (\PHP_VERSION_ID >= 80000) {
+                foreach ($param->getAttributes() as $reflectionAttribute) {
+                    if (class_exists($reflectionAttribute->getName())) {
+                        $attributes[] = $reflectionAttribute->newInstance();
+                    }
+                }
+            }
+
+            $arguments[] = new ArgumentMetadata($param->getName(), $this->getType($param, $reflection), $param->isVariadic(), $param->isDefaultValueAvailable(), $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null, $param->allowsNull(), $attributes);
         }
 
         return $arguments;
@@ -42,30 +51,24 @@ final class ArgumentMetadataFactory implements ArgumentMetadataFactoryInterface
 
     /**
      * Returns an associated type to the given parameter if available.
-     *
-     * @param \ReflectionParameter $parameter
-     *
-     * @return string|null
      */
-    private function getType(\ReflectionParameter $parameter, \ReflectionFunctionAbstract $function)
+    private function getType(\ReflectionParameter $parameter, \ReflectionFunctionAbstract $function): ?string
     {
         if (!$type = $parameter->getType()) {
-            return;
+            return null;
         }
-        $name = $type->getName();
-        $lcName = strtolower($name);
+        $name = $type instanceof \ReflectionNamedType ? $type->getName() : (string) $type;
 
-        if ('self' !== $lcName && 'parent' !== $lcName) {
-            return $name;
+        if ($function instanceof \ReflectionMethod) {
+            $lcName = strtolower($name);
+            switch ($lcName) {
+                case 'self':
+                    return $function->getDeclaringClass()->name;
+                case 'parent':
+                    return ($parent = $function->getDeclaringClass()->getParentClass()) ? $parent->name : null;
+            }
         }
-        if (!$function instanceof \ReflectionMethod) {
-            return;
-        }
-        if ('self' === $lcName) {
-            return $function->getDeclaringClass()->name;
-        }
-        if ($parent = $function->getDeclaringClass()->getParentClass()) {
-            return $parent->name;
-        }
+
+        return $name;
     }
 }

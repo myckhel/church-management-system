@@ -2,11 +2,11 @@
 
 namespace Illuminate\Cache\Console;
 
-use Illuminate\Console\Command;
 use Illuminate\Cache\CacheManager;
+use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class ClearCommand extends Command
 {
@@ -116,7 +116,7 @@ class ClearCommand extends Command
      */
     protected function tags()
     {
-        return array_filter(explode(',', $this->option('tags')));
+        return array_filter(explode(',', $this->option('tags') ?? ''));
     }
 
     /**

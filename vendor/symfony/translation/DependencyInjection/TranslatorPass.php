@@ -26,6 +26,10 @@ class TranslatorPass implements CompilerPassInterface
 
     public function __construct(string $translatorServiceId = 'translator.default', string $readerServiceId = 'translation.reader', string $loaderTag = 'translation.loader', string $debugCommandServiceId = 'console.command.translation_debug', string $updateCommandServiceId = 'console.command.translation_update')
     {
+        if (0 < \func_num_args()) {
+            trigger_deprecation('symfony/translation', '5.3', 'Configuring "%s" is deprecated.', __CLASS__);
+        }
+
         $this->translatorServiceId = $translatorServiceId;
         $this->readerServiceId = $readerServiceId;
         $this->loaderTag = $loaderTag;
@@ -68,12 +72,22 @@ class TranslatorPass implements CompilerPassInterface
             return;
         }
 
+        $paths = array_keys($container->getDefinition('twig.template_iterator')->getArgument(1));
         if ($container->hasDefinition($this->debugCommandServiceId)) {
-            $container->getDefinition($this->debugCommandServiceId)->replaceArgument(4, $container->getParameter('twig.default_path'));
-        }
+            $definition = $container->getDefinition($this->debugCommandServiceId);
+            $definition->replaceArgument(4, $container->getParameter('twig.default_path'));
 
+            if (\count($definition->getArguments()) > 6) {
+                $definition->replaceArgument(6, $paths);
+            }
+        }
         if ($container->hasDefinition($this->updateCommandServiceId)) {
-            $container->getDefinition($this->updateCommandServiceId)->replaceArgument(5, $container->getParameter('twig.default_path'));
+            $definition = $container->getDefinition($this->updateCommandServiceId);
+            $definition->replaceArgument(5, $container->getParameter('twig.default_path'));
+
+            if (\count($definition->getArguments()) > 7) {
+                $definition->replaceArgument(7, $paths);
+            }
         }
     }
 }

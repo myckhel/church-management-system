@@ -10,6 +10,7 @@ class RedisTaggedCache extends TaggedCache
      * @var string
      */
     const REFERENCE_KEY_FOREVER = 'forever_ref';
+
     /**
      * Standard reference key.
      *
@@ -21,57 +22,61 @@ class RedisTaggedCache extends TaggedCache
      * Store an item in the cache.
      *
      * @param  string  $key
-     * @param  mixed   $value
-     * @param  \DateTime|float|int|null  $minutes
-     * @return void
+     * @param  mixed  $value
+     * @param  \DateTimeInterface|\DateInterval|int|null  $ttl
+     * @return bool
      */
-    public function put($key, $value, $minutes = null)
+    public function put($key, $value, $ttl = null)
     {
+        if ($ttl === null) {
+            return $this->forever($key, $value);
+        }
+
         $this->pushStandardKeys($this->tags->getNamespace(), $key);
 
-        parent::put($key, $value, $minutes);
+        return parent::put($key, $value, $ttl);
     }
 
     /**
      * Increment the value of an item in the cache.
      *
      * @param  string  $key
-     * @param  mixed   $value
-     * @return void
+     * @param  mixed  $value
+     * @return int|bool
      */
     public function increment($key, $value = 1)
     {
         $this->pushStandardKeys($this->tags->getNamespace(), $key);
 
-        parent::increment($key, $value);
+        return parent::increment($key, $value);
     }
 
     /**
      * Decrement the value of an item in the cache.
      *
      * @param  string  $key
-     * @param  mixed   $value
-     * @return void
+     * @param  mixed  $value
+     * @return int|bool
      */
     public function decrement($key, $value = 1)
     {
         $this->pushStandardKeys($this->tags->getNamespace(), $key);
 
-        parent::decrement($key, $value);
+        return parent::decrement($key, $value);
     }
 
     /**
      * Store an item in the cache indefinitely.
      *
      * @param  string  $key
-     * @param  mixed   $value
-     * @return void
+     * @param  mixed  $value
+     * @return bool
      */
     public function forever($key, $value)
     {
         $this->pushForeverKeys($this->tags->getNamespace(), $key);
 
-        parent::forever($key, $value);
+        return parent::forever($key, $value);
     }
 
     /**
@@ -175,7 +180,7 @@ class RedisTaggedCache extends TaggedCache
 
         if (count($values) > 0) {
             foreach (array_chunk($values, 1000) as $valuesChunk) {
-                call_user_func_array([$this->store->connection(), 'del'], $valuesChunk);
+                $this->store->connection()->del(...$valuesChunk);
             }
         }
     }
