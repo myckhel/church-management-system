@@ -68,7 +68,7 @@
 
     =================================================-->
     <style type="text/css"> .cls-container {
-   background-image: url("{{ URL::asset('images/Banff2.jpg') }}");
+   background-image: url("{{ URL::asset('img/Banff2.jpg') }}");
    background-color: #cccccc;
         background-size: cover;
 }

@@ -65,7 +65,7 @@
             }
 
             body{
-               background-image: url("{{ URL::asset('images/church_bg.jpg') }}");
+               background-image: url("{{ URL::asset('img/church_bg.jpg') }}");
                background-color: #cccccc;
                background-size: cover;
              }

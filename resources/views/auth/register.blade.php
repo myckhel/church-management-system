@@ -19,7 +19,7 @@
     <!--Demo [ DEMONSTRATION ]-->
     <link href="{{ URL::asset('css/demo/nifty-demo.min.css') }}" rel="stylesheet">
   <style type="text/css"> .cls-container {
-    background-image: url("{{ URL::asset('images/reg_bg.jpg') }}");
+    background-image: url("{{ URL::asset('img/reg_bg.jpg') }}");
     background-color: #cccccc;
   }
   </style>
