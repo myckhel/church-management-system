@@ -61,6 +61,11 @@ php artisan key:generate
 php artisan migrate
 ```
 
+## Running Server
+```bash
+php artisan serve
+```
+
 ## Previews
 
 ![Dashboard view](https://github.com/myckhel/church-management-system/blob/master/public/img/cms.JPG)
