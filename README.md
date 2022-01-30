@@ -5,6 +5,13 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 <a href="https://cms.trueworthfabrics.com.ng">Project Link</a>
+<details>
+  <summary>Logins!</summary>
+    ```
+- Email: kylemoose45@gmail.com
+    - Password: 123456789
+    ```
+</details>
 
 # About Church Management System
     Its a web application for churches that manages administrative activities in the church.
