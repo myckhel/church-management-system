@@ -692,11 +692,7 @@ function uploadImg() {
   var file = input.files[0];
   var form = new FormData(),
       xhr = new XMLHttpRequest();
-	// form.append("filename", imageData);
-	// console.log(file);
-	console.log(blobs);
-	form.append('photo', blobs);
-  // form.append('photo', file);
+    form.append('photo', blobs || file);
   form.append('_token', "{{csrf_token()}}");
   xhr.open('post', "{{route('member.upload.img')}}", true);
   xhr.send(form);
