@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Branch;
 use App\User;
 use Illuminate\Http\Request;
 use DB;
-use App\H_O_Options;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Input;
 use DataTables;
-use Paystack;
 use Dcblogdev\Countries\Facades\Countries;
 
 class BranchController extends Controller

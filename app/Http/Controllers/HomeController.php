@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Event;
 use DB;
-use Paystack;
 use App\Setting;
 use Dcblogdev\Countries\Facades\Countries;
-// use Mapper;
 
 class HomeController extends Controller
 {
@@ -29,12 +26,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-      if (Setting::notSet()) {
-        return view('setup');
-      }
+        if (Setting::notSet()) {
+            return view('setup');
+        }
         $user = \Auth::user();
         $c_types = \App\CollectionsType::getTypes();
-         $eventsall =  \App\Announcement::leftjoin('users',"announcements.branch_id", '=','users.id')->where('announcements.branch_id', $user->id)->orWhere('announcements.branch_id', $user->id)->orderBy('announcements.id', 'desc')->get();
+        $eventsall =  \App\Announcement::leftjoin('users', "announcements.branch_id", '=', 'users.id')->where('announcements.branch_id', $user->id)->orWhere('announcements.branch_id', $user->id)->orderBy('announcements.id', 'desc')->get();
         $members = \App\Member::where('branch_id', $user->id)->get();
         $events = Event::where('branch_id', $user->id)->orderBy('date', 'asc')->get();
         // dd($options);
@@ -87,11 +84,11 @@ class HomeController extends Controller
         // Mapper::marker(6.5437548, 3.7859518, ['title' => 'Marker 3', 'symbol' => 'circle', 'scale' => 1000]);
         // Mapper::marker(6.5437548, 3.8859518, ['title' => 'Marker 4', 'markers' => ['symbol' => 'circle', 'scale' => 1000, 'animation' => 'DROP']]);
         // ed map area
-        return view('dashboard.index', compact('events','options','total','members', 'eventsall', 'c_types', 'currency', 'dueSavings', 'percentage', 'allDueSavings'));
+        return view('dashboard.index', compact('events', 'options', 'total', 'members', 'eventsall', 'c_types', 'currency', 'dueSavings', 'percentage', 'allDueSavings'));
     }
 
     public function gallery()
     {
-      return view('gallery.gallery');
+        return view('gallery.gallery');
     }
 }
