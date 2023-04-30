@@ -20,12 +20,11 @@ class EventController extends Controller
     {
         $user = \Auth::user();
         $pastors = Member::whereIn('position', ['senior pastor', 'pastor'])
-            ->where('branch_id',$user->id)->get();
-        $events = Event::
-        where('events.branch_id',$user->id)->get();
+            ->where('branch_id', $user->id)->get();
+        $events = Event::where('events.branch_id', $user->id)->get();
         return view('calendar.index', compact('events', 'pastors'));
     }
-//->where('events.assign_to', 'like', '%members.id,%')
+    //->where('events.assign_to', 'like', '%members.id,%')
     /**
      * Show the form for creating a new resource.
      *
@@ -52,7 +51,7 @@ class EventController extends Controller
             'by_who' => 'required|string|min:0',
             'date' => 'required|date ',
         ]);
-        $assign_to = implode(",", $request->get('assign'));
+        $assign_to = implode(",", $request->get('assign') ?? []);
         // register attendance
         $event = new Event([
             'title' => $request->get('title'),
@@ -64,15 +63,15 @@ class EventController extends Controller
             'branch_id' => $user = \Auth::user()->id,
 
             // convert date to acceptable mysql format
-            'date' => date('Y-m-d',strtotime($request->get('date'))),
+            'date' => date('Y-m-d', strtotime($request->get('date'))),
         ]);
         $event->save();
-        foreach ($request->assign as $to){
-          \Mail::to($to)//$request->to)
-              //->cc($request->cc)
-              //->bcc($request->bcc)
-              ->send(new EventNotice($request));
-            }
+        foreach (($request->assign ?? []) as $to) {
+            \Mail::to($to) //$request->to)
+                //->cc($request->cc)
+                //->bcc($request->bcc)
+                ->send(new EventNotice($request));
+        }
 
         return redirect()->route('calendar')->with('status', 'Event successfully saved');
     }
@@ -122,59 +121,58 @@ class EventController extends Controller
         //
         $event = Event::find($id);
         $event->delete();
-        return redirect()->back()->with('status','Event Successfully Deleted');
-      }
+        return redirect()->back()->with('status', 'Event Successfully Deleted');
+    }
 
-      public function news()
-     {
+    public function news()
+    {
         $user = \Auth::user();
-           //$contact =  \App\User::get();
+        //$contact =  \App\User::get();
 
-        $contact =  \App\User::where('id' , '!=' , $user->id)->get();
-       return view('notification.index',compact('contact'));
-     }
+        $contact =  \App\User::where('id', '!=', $user->id)->get();
+        return view('notification.index', compact('contact'));
+    }
 
 
 
-       public function add(Request $request)
-       {
+    public function add(Request $request)
+    {
         $this->validate($request, [
-          'message' => 'required|string|min:0',
-          'by_who'  => 'required|string|min:0',
-          'date'    => 'required|date ',
+            'message' => 'required|string|min:0',
+            'by_who'  => 'required|string|min:0',
+            'date'    => 'required|date ',
         ]);
 
         $today = Carbon::now()->toDateString();
-        $split_sdate_array = explode("-", date('Y-m-d',strtotime($request->get('sdate'))));
-        $split_date_array = explode("-",date('Y-m-d',strtotime($request->get('date'))));
-        if(Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2]) < $today || Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2]) < Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2])){
-        //if($request->get('sdate') < $today) {
-        $request->session()->flash('message', 'Announcement Not saved Only Future Date Allowed!');
-        $request->session()->flash('alert-class', 'alert-danger');
-        //echo $request->get('sdate') . '  ' .$today .'            '. print_r($split_sdate_array) . '         ' . print_r($split_date_array) . ' carb ' . Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2]) . ' carb end '. Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2]);
-        return redirect()->route('notification');
-      } else {
-       // foreach ($request->to as $to)
-       // {
-          // $id = $to;
-          // convert date to acceptable mysql format
-          $sdate = date('Y-m-d',strtotime($request->get('sdate')));
-          $date = date('Y-m-d',strtotime($request->get('date')));
-          $announcement = Announcement::create([
-            'branch_id'  => auth()->user()->id,
-            'details'    => $request->get('message'),
-            'by_who'     => $request->get('by_who'),
-            'start_date' => $date,
-            'stop_date'  => $sdate,
-            'start_time' => $request->get('time'),
-            'stop_time'  => $request->get('stime'),
-          ]);
+        $split_sdate_array = explode("-", date('Y-m-d', strtotime($request->get('sdate'))));
+        $split_date_array = explode("-", date('Y-m-d', strtotime($request->get('date'))));
+        if (Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2]) < $today || Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2]) < Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2])) {
+            //if($request->get('sdate') < $today) {
+            $request->session()->flash('message', 'Announcement Not saved Only Future Date Allowed!');
+            $request->session()->flash('alert-class', 'alert-danger');
+            //echo $request->get('sdate') . '  ' .$today .'            '. print_r($split_sdate_array) . '         ' . print_r($split_date_array) . ' carb ' . Carbon::createFromDate($split_sdate_array[0], $split_sdate_array[1], $split_sdate_array[2]) . ' carb end '. Carbon::createFromDate($split_date_array[0], $split_date_array[1], $split_date_array[2]);
+            return redirect()->route('notification');
+        } else {
+            // foreach ($request->to as $to)
+            // {
+            // $id = $to;
+            // convert date to acceptable mysql format
+            $sdate = date('Y-m-d', strtotime($request->get('sdate')));
+            $date = date('Y-m-d', strtotime($request->get('date')));
+            $announcement = Announcement::create([
+                'branch_id'  => auth()->user()->id,
+                'details'    => $request->get('message'),
+                'by_who'     => $request->get('by_who'),
+                'start_date' => $date,
+                'stop_date'  => $sdate,
+                'start_time' => $request->get('time'),
+                'stop_time'  => $request->get('stime'),
+            ]);
         }
         $request->session()->flash('message', 'Announcement successfully saved!');
         $request->session()->flash('alert-class', 'alert-success');
         return redirect()->route('notification');
-      // }
+        // }
 
     }
-
 }
