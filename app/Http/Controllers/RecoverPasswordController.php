@@ -70,4 +70,3 @@ class RecoverPasswordController extends Controller
 
     }
 }
-?>

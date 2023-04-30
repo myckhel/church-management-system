@@ -11,27 +11,29 @@ class CollectionsType extends Model
         'name', 'branch_id'
     ];
 
-    public static function formatString ($input) {
+    public static function formatString($input)
+    {
         $newName = '';
         for ($l = 0; $l < strlen($input); $l++) {
-          if ($input[$l] == '-' || $input[$l] == ' ') {
-            $newName .= '_';
-          } else {
-            $newName .= $input[$l];
-          }
+            if ($input[$l] == '-' || $input[$l] == ' ') {
+                $newName .= '_';
+            } else {
+                $newName .= $input[$l];
+            }
         }
         return $newName;
     }
 
-    public function disFormatString () {
-      $input = $this->name;
+    public function disFormatString()
+    {
+        $input = $this->name;
         $newName = '';
         for ($l = 0; $l < strlen($input); $l++) {
-          if ($input[$l] == '_') {
-            $newName .= ' ';
-          } else {
-            $newName .= $input[$l];
-          }
+            if ($input[$l] == '_') {
+                $newName .= ' ';
+            } else {
+                $newName .= $input[$l];
+            }
         }
         return ucwords($newName);
     }
@@ -47,25 +49,30 @@ class CollectionsType extends Model
     //     return ucwords($newName);
     // }
 
-    public static function disFormatStringAll($types){
-      foreach ($types as $key => $value) {
-        $value->name = $value->disFormatString();
-      }
+    public static function disFormatStringAll($types)
+    {
+        foreach ($types as $key => $value) {
+            $value->name = $value->disFormatString();
+        }
     }
 
-    public function user(){
-      $this->belongsTo(User::class);
+    public function user()
+    {
+        $this->belongsTo(User::class);
     }
 
-    public static function getTypes(){
-      return CollectionsType::all();
+    public static function getTypes()
+    {
+        return CollectionsType::all();
     }
 
-    public function savings(){
-      $this->hasMany(Collection::class);
+    public function savings()
+    {
+        $this->hasMany(Collection::class);
     }
 
-    public function MemberSavings(){
-      $this->hasMany(MemberSavings::class);
+    public function MemberSavings()
+    {
+        $this->hasMany(MemberSavings::class);
     }
 }

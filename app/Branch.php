@@ -27,29 +27,29 @@ class Branch extends Authenticatable
 
     public static function register(Request $request)
     {
-      $data = [];
-      $data['branchname'] = $request->branchname;
-      $data['branchcode'] = $request->branchcode;
-      $data['address'] = $request->address;
-      $data['email'] = $request->email;
-      $data['country'] = $request->country;
-      $data['state'] = $request->state;
-      $data['city'] = $request->city;
-      if (!User::first()) {
-        $data['isadmin'] = true;
-      }
-      $data['currency'] = $request->currency;
-      $data['password'] = $request->password;
-      $data['password_confirmation'] = $request->password_confirmation;
+        $data = [];
+        $data['branchname'] = $request->branchname;
+        $data['branchcode'] = $request->branchcode;
+        $data['address'] = $request->address;
+        $data['email'] = $request->email;
+        $data['country'] = $request->country;
+        $data['state'] = $request->state;
+        $data['city'] = $request->city;
+        if (!User::first()) {
+            $data['isadmin'] = true;
+        }
+        $data['currency'] = $request->currency;
+        $data['password'] = $request->password;
+        $data['password_confirmation'] = $request->password_confirmation;
 
-      $validate = self::validator($data);
-      if($validate->fails()){
-        return redirect()->back()->withErrors($validate)->withInput();
-      }
-      $creation = self::creator($data);
-      //
-      $s = 'Successfully Registered';
-      return redirect()->back()->with('s');
+        $validate = self::validator($data);
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate)->withInput();
+        }
+        $creation = self::creator($data);
+        //
+        $s = 'Successfully Registered';
+        return redirect()->back()->with('s');
     }
 
     protected static function validator(array $data)
@@ -69,20 +69,19 @@ class Branch extends Authenticatable
 
     protected static function creator(array $data)
     {
-      $branch = User::create([
-        'branchname' => $data['branchname'],
-        'branchcode' => $data['branchcode'],
-        'address' => $data['address'],
-        'email' => $data['email'],
-        'isadmin' => $data['isadmin'] ? $data['isadmin'] : false,
-        'password' => Hash::make($data['password']),
-        'country' => $data['country'],
-        'state' => $data['state'],
-        'city' => $data['city'],
-        'currency' => $data['currency'],
-      ]);
+        $branch = User::create([
+            'branchname' => $data['branchname'],
+            'branchcode' => $data['branchcode'],
+            'address' => $data['address'],
+            'email' => $data['email'],
+            'isadmin' => $data['isadmin'] ? $data['isadmin'] : false,
+            'password' => Hash::make($data['password']),
+            'country' => $data['country'],
+            'state' => $data['state'],
+            'city' => $data['city'],
+            'currency' => $data['currency'],
+        ]);
 
-      return $branch;
-
+        return $branch;
     }
 }

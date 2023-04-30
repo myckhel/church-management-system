@@ -8,14 +8,16 @@ class MemberAttendance extends Model
 {
     //
     protected $fillable = [
-      'member_id','attendance','date','branch_id','service_types_id'
+        'member_id', 'attendance', 'date', 'branch_id', 'service_types_id'
     ];
 
-    public function service_types(){
-      return $this->belongsTo(ServiceType::class);
+    public function service_types()
+    {
+        return $this->belongsTo(ServiceType::class);
     }
 
-    public function member(){
-      return $this->belongsTo(Member::class);
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
     }
 }

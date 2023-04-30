@@ -1,119 +1,126 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>CMS-HT</title>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>CMS-HT</title>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-            .full-height {
-                height: 100vh;
-            }
+    <!-- Styles -->
+    <style>
+        html,
+        body {
+            background-color: #fff;
+            color: #636b6f;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 100;
+            height: 100vh;
+            margin: 0;
+        }
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+        .full-height {
+            height: 100vh;
+        }
 
-            .position-ref {
-                position: relative;
-            }
+        .flex-center {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+        .position-ref {
+            position: relative;
+        }
 
-            .content {
-                text-align: center;
-            }
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+        }
 
-            .title {
-                font-size: 84px;
-            }
+        .content {
+            text-align: center;
+        }
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
+        .title {
+            font-size: 84px;
+        }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
+        .links>a {
+            color: #636b6f;
+            padding: 0 25px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
 
-            body{
-               background-image: url("{{ URL::asset('img/church_bg.jpg') }}");
-               background-color: #cccccc;
-               background-size: cover;
-             }
+        .m-b-md {
+            margin-bottom: 30px;
+        }
 
-             /* append */
-             .auth-link a {
-               color: silver;
-               background-color: #636b6f;
-               padding: 1em;
-             }
-      </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links auth-link">
-                    @auth
-                        <a href="{{ url('/dashboard') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                    @endauth
-                </div>
-            @endif
+        body {
+            background-image: url("{{ URL::asset('img/church_bg.jpg') }}");
+            background-color: #cccccc;
+            background-size: cover;
+        }
 
-            <div class="panel">
+        /* append */
+        .auth-link a {
+            color: silver;
+            background-color: #636b6f;
+            padding: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-center position-ref full-height">
+        @if (Route::has('login'))
+            <div class="top-right links auth-link">
+                @auth
+                    <a href="{{ url('/dashboard') }}">Home</a>
+                @else
+                    <a href="{{ route('login') }}">Login</a>
+                @endauth
+            </div>
+        @endif
+
+        <div class="panel">
             <div class="content">
                 <div class="title m-b-md panel-heading">
                     <b>ADBIN CMS</b>
                 </div>
                 <b><i>Binary made church easier</i></b>
                 <div class="panel-footer">
-                <b><h3 class="text-primary font-weight-bold">A Product Of <a href="http://myckhel.adbin.com.ng"> {{env('APP_NAME')}}</a></h3></b>
-              </div>
-              </div>
-              <div class="panel-footer">
-                <div class="content">
-                  @if (Route::has('login'))
-                      <div class="auth-link links">
-                          @auth
-                              <a href="{{ url('/dashboard') }}">Home</a>
-                          @else
-                              <a href="{{ route('login') }}">Login</a>
-                          @endauth
-                      </div>
-                  @endif
+                    <b>
+                        <h3 class="text-primary font-weight-bold">A Product Of <a href="http://myckhel.adbin.com.ng">
+                                {{ env('APP_NAME') }}</a></h3>
+                    </b>
                 </div>
-              </div>
+            </div>
+            <div class="panel-footer">
+                <div class="content">
+                    @if (Route::has('login'))
+                        <div class="auth-link links">
+                            @auth
+                                <a href="{{ url('/dashboard') }}">Home</a>
+                            @else
+                                <a href="{{ route('login') }}">Login</a>
+                            @endauth
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

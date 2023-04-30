@@ -1,339 +1,412 @@
 <!doctype html>
 <html>
-  <head>
+
+<head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Simple Transactional Email</title>
     <style>
+        img {
+            border: none;
+            -ms-interpolation-mode: bicubic;
+            max-width: 100%;
+        }
 
-      img {
-        border: none;
-        -ms-interpolation-mode: bicubic;
-        max-width: 100%; }
+        body {
+            background-color: #f6f6f6;
+            font-family: sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
 
-      body {
-        background-color: #f6f6f6;
-        font-family: sans-serif;
-        -webkit-font-smoothing: antialiased;
-        font-size: 14px;
-        line-height: 1.4;
-        margin: 0;
-        padding: 0;
-        -ms-text-size-adjust: 100%;
-        -webkit-text-size-adjust: 100%; }
+        table {
+            border-collapse: separate;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+            width: 100%;
+        }
 
-      table {
-        border-collapse: separate;
-        mso-table-lspace: 0pt;
-        mso-table-rspace: 0pt;
-        width: 100%; }
         table td {
-          font-family: sans-serif;
-          font-size: 14px;
-          vertical-align: top; }
+            font-family: sans-serif;
+            font-size: 14px;
+            vertical-align: top;
+        }
 
 
- <p>
-You received a message from : {{$request->email}}
-</p>
+        <p>You received a message from : {{ $request->email }} </p>.body {
+            background-color: #f6f6f6;
+            width: 100%;
+        }
 
-      .body {
-        background-color: #f6f6f6;
-        width: 100%; }
+        /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+        .container {
+            display: block;
+            Margin: 0 auto !important;
+            /* makes it centered */
+            max-width: 580px;
+            padding: 10px;
+            width: 580px;
+        }
 
-      /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
-      .container {
-        display: block;
-        Margin: 0 auto !important;
-        /* makes it centered */
-        max-width: 580px;
-        padding: 10px;
-        width: 580px; }
+        /* This should also be a block element, so that it will fill 100% of the .container */
+        .content {
+            box-sizing: border-box;
+            display: block;
+            Margin: 0 auto;
+            max-width: 580px;
+            padding: 10px;
+        }
 
-      /* This should also be a block element, so that it will fill 100% of the .container */
-      .content {
-        box-sizing: border-box;
-        display: block;
-        Margin: 0 auto;
-        max-width: 580px;
-        padding: 10px; }
+        .main {
+            background: #ffffff;
+            border-radius: 3px;
+            width: 100%;
+        }
 
-      .main {
-        background: #ffffff;
-        border-radius: 3px;
-        width: 100%; }
+        .wrapper {
+            box-sizing: border-box;
+            padding: 20px;
+        }
 
-      .wrapper {
-        box-sizing: border-box;
-        padding: 20px; }
+        .content-block {
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
 
-      .content-block {
-        padding-bottom: 10px;
-        padding-top: 10px;
-      }
+        .footer {
+            clear: both;
+            Margin-top: 10px;
+            text-align: center;
+            width: 100%;
+        }
 
-      .footer {
-        clear: both;
-        Margin-top: 10px;
-        text-align: center;
-        width: 100%; }
         .footer td,
         .footer p,
         .footer span,
         .footer a {
-          color: #999999;
-          font-size: 12px;
-          text-align: center; }
+            color: #999999;
+            font-size: 12px;
+            text-align: center;
+        }
 
-      h1,
-      h2,
-      h3,
-      h4 {
-        color: #000000;
-        font-family: sans-serif;
-        font-weight: 400;
-        line-height: 1.4;
-        margin: 0;
-        Margin-bottom: 30px; }
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: #000000;
+            font-family: sans-serif;
+            font-weight: 400;
+            line-height: 1.4;
+            margin: 0;
+            Margin-bottom: 30px;
+        }
 
-      h1 {
-        font-size: 35px;
-        font-weight: 300;
-        text-align: center;
-        text-transform: capitalize; }
+        h1 {
+            font-size: 35px;
+            font-weight: 300;
+            text-align: center;
+            text-transform: capitalize;
+        }
 
-      p,
-      ul,
-      ol {
-        font-family: sans-serif;
-        font-size: 14px;
-        font-weight: normal;
-        margin: 0;
-        Margin-bottom: 15px; }
+        p,
+        ul,
+        ol {
+            font-family: sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            margin: 0;
+            Margin-bottom: 15px;
+        }
+
         p li,
         ul li,
         ol li {
-          list-style-position: inside;
-          margin-left: 5px; }
+            list-style-position: inside;
+            margin-left: 5px;
+        }
 
-      a {
-        color: #3498db;
-        text-decoration: underline; }
+        a {
+            color: #3498db;
+            text-decoration: underline;
+        }
 
 
-      .btn {
-        box-sizing: border-box;
-        width: 100%; }
-        .btn > tbody > tr > td {
-          padding-bottom: 15px; }
+        .btn {
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .btn>tbody>tr>td {
+            padding-bottom: 15px;
+        }
+
         .btn table {
-          width: auto; }
+            width: auto;
+        }
+
         .btn table td {
-          background-color: #ffffff;
-          border-radius: 5px;
-          text-align: center; }
+            background-color: #ffffff;
+            border-radius: 5px;
+            text-align: center;
+        }
+
         .btn a {
-          background-color: #ffffff;
-          border: solid 1px #3498db;
-          border-radius: 5px;
-          box-sizing: border-box;
-          color: #3498db;
-          cursor: pointer;
-          display: inline-block;
-          font-size: 14px;
-          font-weight: bold;
-          margin: 0;
-          padding: 12px 25px;
-          text-decoration: none;
-          text-transform: capitalize; }
+            background-color: #ffffff;
+            border: solid 1px #3498db;
+            border-radius: 5px;
+            box-sizing: border-box;
+            color: #3498db;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0;
+            padding: 12px 25px;
+            text-decoration: none;
+            text-transform: capitalize;
+        }
 
-      .btn-primary table td {
-        background-color: #3498db; }
+        .btn-primary table td {
+            background-color: #3498db;
+        }
 
-      .btn-primary a {
-        background-color: #3498db;
-        border-color: #3498db;
-        color: #ffffff; }
-      .last {
-        margin-bottom: 0; }
+        .btn-primary a {
+            background-color: #3498db;
+            border-color: #3498db;
+            color: #ffffff;
+        }
 
-      .first {
-        margin-top: 0; }
+        .last {
+            margin-bottom: 0;
+        }
 
-      .align-center {
-        text-align: center; }
+        .first {
+            margin-top: 0;
+        }
 
-      .align-right {
-        text-align: right; }
+        .align-center {
+            text-align: center;
+        }
 
-      .align-left {
-        text-align: left; }
+        .align-right {
+            text-align: right;
+        }
 
-      .clear {
-        clear: both; }
+        .align-left {
+            text-align: left;
+        }
 
-      .mt0 {
-        margin-top: 0; }
+        .clear {
+            clear: both;
+        }
 
-      .mb0 {
-        margin-bottom: 0; }
+        .mt0 {
+            margin-top: 0;
+        }
 
-      .preheader {
-        color: transparent;
-        display: none;
-        height: 0;
-        max-height: 0;
-        max-width: 0;
-        opacity: 0;
-        overflow: hidden;
-        mso-hide: all;
-        visibility: hidden;
-        width: 0; }
+        .mb0 {
+            margin-bottom: 0;
+        }
 
-      .powered-by a {
-        text-decoration: none; }
+        .preheader {
+            color: transparent;
+            display: none;
+            height: 0;
+            max-height: 0;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            mso-hide: all;
+            visibility: hidden;
+            width: 0;
+        }
 
-      hr {
-        border: 0;
-        border-bottom: 1px solid #f6f6f6;
-        Margin: 20px 0; }
+        .powered-by a {
+            text-decoration: none;
+        }
 
-      @media only screen and (max-width: 620px) {
-        table[class=body] h1 {
-          font-size: 28px !important;
-          margin-bottom: 10px !important; }
-        table[class=body] p,
-        table[class=body] ul,
-        table[class=body] ol,
-        table[class=body] td,
-        table[class=body] span,
-        table[class=body] a {
-          font-size: 16px !important; }
-        table[class=body] .wrapper,
-        table[class=body] .article {
-          padding: 10px !important; }
-        table[class=body] .content {
-          padding: 0 !important; }
-        table[class=body] .container {
-          padding: 0 !important;
-          width: 100% !important; }
-        table[class=body] .main {
-          border-left-width: 0 !important;
-          border-radius: 0 !important;
-          border-right-width: 0 !important; }
-        table[class=body] .btn table {
-          width: 100% !important; }
-        table[class=body] .btn a {
-          width: 100% !important; }
-        table[class=body] .img-responsive {
-          height: auto !important;
-          max-width: 100% !important;
-          width: auto !important; }}
+        hr {
+            border: 0;
+            border-bottom: 1px solid #f6f6f6;
+            Margin: 20px 0;
+        }
 
-      @media all {
-        .ExternalClass {
-          width: 100%; }
-        .ExternalClass,
-        .ExternalClass p,
-        .ExternalClass span,
-        .ExternalClass font,
-        .ExternalClass td,
-        .ExternalClass div {
-          line-height: 100%; }
-        .apple-link a {
-          color: inherit !important;
-          font-family: inherit !important;
-          font-size: inherit !important;
-          font-weight: inherit !important;
-          line-height: inherit !important;
-          text-decoration: none !important; }
-        .btn-primary table td:hover {
-          background-color: #34495e !important; }
-        .btn-primary a:hover {
-          background-color: #34495e !important;
-          border-color: #34495e !important; } }
+        @media only screen and (max-width: 620px) {
+            table[class=body] h1 {
+                font-size: 28px !important;
+                margin-bottom: 10px !important;
+            }
 
+            table[class=body] p,
+            table[class=body] ul,
+            table[class=body] ol,
+            table[class=body] td,
+            table[class=body] span,
+            table[class=body] a {
+                font-size: 16px !important;
+            }
+
+            table[class=body] .wrapper,
+            table[class=body] .article {
+                padding: 10px !important;
+            }
+
+            table[class=body] .content {
+                padding: 0 !important;
+            }
+
+            table[class=body] .container {
+                padding: 0 !important;
+                width: 100% !important;
+            }
+
+            table[class=body] .main {
+                border-left-width: 0 !important;
+                border-radius: 0 !important;
+                border-right-width: 0 !important;
+            }
+
+            table[class=body] .btn table {
+                width: 100% !important;
+            }
+
+            table[class=body] .btn a {
+                width: 100% !important;
+            }
+
+            table[class=body] .img-responsive {
+                height: auto !important;
+                max-width: 100% !important;
+                width: auto !important;
+            }
+        }
+
+        @media all {
+            .ExternalClass {
+                width: 100%;
+            }
+
+            .ExternalClass,
+            .ExternalClass p,
+            .ExternalClass span,
+            .ExternalClass font,
+            .ExternalClass td,
+            .ExternalClass div {
+                line-height: 100%;
+            }
+
+            .apple-link a {
+                color: inherit !important;
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                text-decoration: none !important;
+            }
+
+            .btn-primary table td:hover {
+                background-color: #34495e !important;
+            }
+
+            .btn-primary a:hover {
+                background-color: #34495e !important;
+                border-color: #34495e !important;
+            }
+        }
     </style>
-  </head>
-    <body class="">
+</head>
 
- <br>
- You received a message from : {{$request->email}}
+<body class="">
 
-
- Error Code : {{$request->error_code }}  ||  Ticket ID : {{$request->TicketID}}  ||  Error Name : {{$request->error_name}}
-
-  <table border="0" cellpadding="0" cellspacing="0" class="body">
-      <tr>
-        <td>&nbsp;</td>
-        <td class="container">
-          <div class="content">
-   <!-- START CENTERED WHITE CONTAINER -->
-            <span class="preheader">This is preheader text. Some clients will show this text as a preview.</span>
-            <table class="main">
-              <tr>
-                <td class="wrapper">
-                  <table border="0" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td>
-<p>
-Name: {{$request->full_name}}
-</p>
-
-<p>
-Email: {{$request->email}}
-</p>
+    <br>
+    You received a message from : {{ $request->email }}
 
 
+    Error Code : {{ $request->error_code }} || Ticket ID : {{ $request->TicketID }} || Error Name :
+    {{ $request->error_name }}
 
-<p>
-Severity: {{$request->severity}}
-</p>
+    <table border="0" cellpadding="0" cellspacing="0" class="body">
+        <tr>
+            <td>&nbsp;</td>
+            <td class="container">
+                <div class="content">
+                    <!-- START CENTERED WHITE CONTAINER -->
+                    <span class="preheader">This is preheader text. Some clients will show this text as a
+                        preview.</span>
+                    <table class="main">
+                        <tr>
+                            <td class="wrapper">
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <p>
+                                                Name: {{ $request->full_name }}
+                                            </p>
 
-
-<p>
-Service Level: {{$request->servicelevel}}
-</p>
-
-<p>
-Time: {{$request->time}}
-</p>
-
-
-<p>
-Date: {{$request->date}}
-</p>
-
-<p>
-Phone Number: {{$request->phone_number}}
-</p>
-
-<p>
-Message: {{$request->message}}
-</p>
- </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-
-            </table>
+                                            <p>
+                                                Email: {{ $request->email }}
+                                            </p>
 
 
-   <div class="footer">
-             <table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; margin: 0 auto; padding: 0; text-align: center; width: 570px; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px;">
-                                <tr>
-                                    <td class="content-cell" align="center" style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; padding: 35px;">
-                                        <p style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; line-height: 1.5em; margin-top: 0; color: #ffffff; font-size: 12px; text-align: center;">© 2018 {{ config('app.name') }}. All rights reserved.</p>
-                                    </td>
-                                </tr>
-                            </table>
-            </div>
 
-          </div>
-        </td>
-        <td>&nbsp;</td>
-      </tr>
+                                            <p>
+                                                Severity: {{ $request->severity }}
+                                            </p>
+
+
+                                            <p>
+                                                Service Level: {{ $request->servicelevel }}
+                                            </p>
+
+                                            <p>
+                                                Time: {{ $request->time }}
+                                            </p>
+
+
+                                            <p>
+                                                Date: {{ $request->date }}
+                                            </p>
+
+                                            <p>
+                                                Phone Number: {{ $request->phone_number }}
+                                            </p>
+
+                                            <p>
+                                                Message: {{ $request->message }}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </table>
+
+
+                    <div class="footer">
+                        <table class="footer" align="center" width="570" cellpadding="0" cellspacing="0"
+                            style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; margin: 0 auto; padding: 0; text-align: center; width: 570px; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px;">
+                            <tr>
+                                <td class="content-cell" align="center"
+                                    style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; padding: 35px;">
+                                    <p
+                                        style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; line-height: 1.5em; margin-top: 0; color: #ffffff; font-size: 12px; text-align: center;">
+                                        © 2018 {{ config('app.name') }}. All rights reserved.</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
     </table>
 </body>
+
 </html>

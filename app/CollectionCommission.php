@@ -37,13 +37,13 @@ class CollectionCommission extends Model
     public static function getDueCommissions(User $user = null)
     {
         return $due = CollectionCommission::select(
-                'users.id as branch_id',
-                'collections.id',
-                'collections.service_types_id',
-                'collections.collections_types_id',
-                'collections.amount',
-                'collections_commissions.collection_date'
-            )
+            'users.id as branch_id',
+            'collections.id',
+            'collections.service_types_id',
+            'collections.collections_types_id',
+            'collections.amount',
+            'collections_commissions.collection_date'
+        )
             ->where(isset($user) ? 'collections_commissions.branch_id' : [], isset($user) ? $user->id : [])
             ->where('settled', false)
             // ->with('savings.date_collected')

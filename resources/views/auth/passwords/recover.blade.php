@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Recover Password - {{config('app.name')}}</title>
+    <title>Recover Password - {{ config('app.name') }}</title>
 
 
     <!--STYLESHEET-->
@@ -69,13 +69,14 @@
     =================================================-->
     <style type="text/css">
         .cls-container {
-           background-image: url("{{ URL::asset('images/reg_bg.jpg') }}");
-           background-color: #cccccc;
+            background-image: url("{{ URL::asset('images/reg_bg.jpg') }}");
+            background-color: #cccccc;
         }
-        .cls-content-lg{
+
+        .cls-content-lg {
             background-color: aqua;
         }
-</style>
+    </style>
 </head>
 
 <!--TIPS-->
@@ -85,58 +86,65 @@
     <div id="container" class="cls-container">
 
 
-    <!-- BACKGROUND IMAGE -->
-    <!--===================================================-->
-    <div id="bg-overlay"></div>
+        <!-- BACKGROUND IMAGE -->
+        <!--===================================================-->
+        <div id="bg-overlay"></div>
 
 
-    <!-- REGISTRATION FORM -->
-    <!--===================================================-->
-    <div class="cls-content">
-        <div class="cls-content-lg panel">
-          <div class="" id="" tabindex="-1" role="" aria-labelledby="myModalLabel" aria-hidden="">
-              <div class="" role="">
-                  <div class="modal-content">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+        <!-- REGISTRATION FORM -->
+        <!--===================================================-->
+        <div class="cls-content">
+            <div class="cls-content-lg panel">
+                <div class="" id="" tabindex="-1" role="" aria-labelledby="myModalLabel"
+                    aria-hidden="">
+                    <div class="" role="">
+                        <div class="modal-content">
+                            @if (session('status'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+                            <form method="POST" action="{{ route('password.email') }}"
+                                aria-label="{{ __('Reset Password') }}">
+                                <div class="modal-header text-center">
+                                    <div class="card-header">
+                                        <h3>{{ __('Reset Password') }}</h3>
+                                    </div>
+                                </div>
+                                <div class="modal-body mx-3">
+                                    <div class="md-form mb-5">
+                                        <label data-error="wrong" data-success="right"
+                                            for="defaultForm-email">{{ __('E-Mail Address') }}</label>
+                                        <i class="fa fa-envelope prefix grey-text"></i>
+                                        <input id="email defaultForm-email" type="email"
+                                            class="validate form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                            name="email" value="{{ old('email') }}" required>
+
+                                        @if ($errors->has('email'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('email') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                @csrf
+                                <div class="modal-footer d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Send Password Reset Link') }}
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                    @endif
-                    <form method="POST" action="{{ route('password.email') }}" aria-label="{{ __('Reset Password') }}">
-                      <div class="modal-header text-center">
-                          <div class="card-header"><h3>{{ __('Reset Password') }}</h3></div>
-                      </div>
-                      <div class="modal-body mx-3">
-                          <div class="md-form mb-5">
-                          <label data-error="wrong" data-success="right" for="defaultForm-email">{{ __('E-Mail Address') }}</label>
-                              <i class="fa fa-envelope prefix grey-text"></i>
-                              <input id="email defaultForm-email" type="email" class="validate form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+                    </div>
+                </div>
 
-                              @if ($errors->has('email'))
-                                  <span class="invalid-feedback" role="alert">
-                                      <strong>{{ $errors->first('email') }}</strong>
-                                  </span>
-                              @endif
-                          </div>
-                      </div>
-                      @csrf
-                      <div class="modal-footer d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary">
-                            {{ __('Send Password Reset Link') }}
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-              </div>
-          </div>
-
-            <!--div class="panel-body"-->
+                <!--div class="panel-body"-->
 
 
                 <!--div class="mar-ver pad-btm">
-                    <h1 class="h3">Recover Password {{ route('recover.reset',['selector'=>'selec', 'token'=>'tok'])}} </h1>
+                    <h1 class="h3">Recover Password {{ route('recover.reset', ['selector' => 'selec', 'token' => 'tok']) }} </h1>
                 </div>
-                <form action="{{route('recover')}}" method="POST">
+                <form action="{{ route('recover') }}" method="POST">
                 @csrf
                     <div class="row">
                         <div class="mar-ver col-md-12">
@@ -149,11 +157,11 @@
                         <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">
                         <label for="demo-form-checkbox">I agree with the <a href="pages-register.html#" class="btn-link text-bold">Terms and Conditions</a></label>
                     </div>-->
-                    <!--button class="btn btn-primary btn-lg" type="submit">Send Password Reset Link</button>
+                <!--button class="btn btn-primary btn-lg" type="submit">Send Password Reset Link</button>
                 </form-->
             </div>
             <!--div class="pad-all">
-                Have you remebered your password ? <a href="{{route('login')}}" class="btn-link mar-rgt text-bold">Sign In</a>
+                Have you remebered your password ? <a href="{{ route('login') }}" class="btn-link mar-rgt text-bold">Sign In</a>
             </div-->
         </div>
     </div>
@@ -206,4 +214,5 @@
     <script src="{{ URL::asset('js/demo/bg-images.js') }}"></script>
 
 </body>
+
 </html>

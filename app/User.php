@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','branchname','branchcode','address','isadmin', 'city', 'state', 'country', 'currency',
+        'name', 'email', 'password', 'branchname', 'branchcode', 'address', 'isadmin', 'city', 'state', 'country', 'currency',
     ];
 
     /**
@@ -32,91 +32,109 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function isAdmin(){
+    public function isAdmin()
+    {
 
         return $this->isadmin;
     }
 
-    public function getName(){
-      return "$this->branchname";
+    public function getName()
+    {
+        return "$this->branchname";
     }
 
-    public static function getCurrency(){
-      $curObj;
-      $currency = auth()->user()->currency;
-      foreach (Countries::all() as $value) {
-        if ($value->currency_symbol == $currency) {
-          $curObj = $value;
-          break;
+    public static function getCurrency()
+    {
+        $curObj;
+        $currency = auth()->user()->currency;
+        foreach (Countries::all() as $value) {
+            if ($value->currency_symbol == $currency) {
+                $curObj = $value;
+                break;
+            }
         }
-      }
-      return $curObj;
+        return $curObj;
     }
 
-    public static function toMoney($number){
-      $currency = self::getCurrency();
-      return $currency->currency_symbol.number_format((float) $number);
+    public static function toMoney($number)
+    {
+        $currency = self::getCurrency();
+        return $currency->currency_symbol . number_format((float) $number);
     }
 
-    public function getCurrencySymbol(){
-      return self::getCurrency();
+    public function getCurrencySymbol()
+    {
+        return self::getCurrency();
     }
 
-    public function getServiceTypes(){
-      return ServiceType::getTypes();
+    public function getServiceTypes()
+    {
+        return ServiceType::getTypes();
     }
 
-    public function getCollectionTypes(){
-      return CollectionsType::getTypes();
+    public function getCollectionTypes()
+    {
+        return CollectionsType::getTypes();
     }
 
     public function isOnline()
     {
-      return Cache::has('user-is-online-' . $this->id);
+        return Cache::has('user-is-online-' . $this->id);
     }
 
-    public function getUserById($id){
-      return \App\User::find($id);
+    public function getUserById($id)
+    {
+        return \App\User::find($id);
     }
 
-    public function creation(){
+    public function creation()
+    {
 
-      return ;
+        return;
     }
 
-    public function group(){
-      return $this->hasMany(Group::class);
+    public function group()
+    {
+        return $this->hasMany(Group::class);
     }
 
-    public function members(){
-      return $this->hasMany(Member::class, 'branch_id');
+    public function members()
+    {
+        return $this->hasMany(Member::class, 'branch_id');
     }
 
-    public function option(){
-      return $this->hasMany(Options::class);
+    public function option()
+    {
+        return $this->hasMany(Options::class);
     }
 
-    public function collections_types(){
-      return $this->hasMany(CollectionsType::class);
+    public function collections_types()
+    {
+        return $this->hasMany(CollectionsType::class);
     }
 
-    public function service_type(){
-      return $this->hasMany(ServiceType::class);
+    public function service_type()
+    {
+        return $this->hasMany(ServiceType::class);
     }
 
-    public function collections(){
-      return $this->hasMany(Collection::class, 'branch_id');
+    public function collections()
+    {
+        return $this->hasMany(Collection::class, 'branch_id');
     }
 
-    public function MemberSavings(){
-      return $this->hasMany(MemberSavings::class);
+    public function MemberSavings()
+    {
+        return $this->hasMany(MemberSavings::class);
     }
 
-    public function collections_commissions(){
-      return $this->hasMany(CollectionCommission::class, 'branch_id');
+    public function collections_commissions()
+    {
+        return $this->hasMany(CollectionCommission::class, 'branch_id');
     }
 
-    public function payments(){
-      return $this->hasMany(Payment::class, 'branch_id');
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'branch_id');
     }
 }

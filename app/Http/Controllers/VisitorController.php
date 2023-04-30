@@ -11,7 +11,8 @@ use \App\Setting;
 class VisitorController extends Controller
 {
     //
-    public function ip_info($ip = NULL, $purpose = "location", $deep_detect = TRUE) {
+    public function ip_info($ip = NULL, $purpose = "location", $deep_detect = TRUE)
+    {
         $output = NULL;
         if (filter_var($ip, FILTER_VALIDATE_IP) === FALSE) {
             $ip = $_SERVER["REMOTE_ADDR"];
@@ -80,58 +81,59 @@ class VisitorController extends Controller
     {
         // Get real visitor IP behind CloudFlare network
         if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
-                  $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
-                  $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+            $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+            $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
         }
         $client  = @$_SERVER['HTTP_CLIENT_IP'];
         $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
         $remote  = $_SERVER['REMOTE_ADDR'];
 
-        if(filter_var($client, FILTER_VALIDATE_IP))
-        {
+        if (filter_var($client, FILTER_VALIDATE_IP)) {
             $ip = $client;
-        }
-        elseif(filter_var($forward, FILTER_VALIDATE_IP))
-        {
+        } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
             $ip = $forward;
-        }
-        else
-        {
+        } else {
             $ip = $remote;
         }
 
         return $ip;
     }
 
-    public function setupUser(){
-      // check if user exist in table and redirect to home
-      if(User::first()){
-        return Redirect()->route('dashboard');
-      } else {
-        // show register view
-        $currencies = Countries::all();
-        return view('auth.register', compact('currencies'));
-      }
-      return;
+    public function setupUser()
+    {
+        // check if user exist in table and redirect to home
+        if (User::first()) {
+            return Redirect()->route('dashboard');
+        } else {
+            // show register view
+            $currencies = Countries::all();
+            return view('auth.register', compact('currencies'));
+        }
+        return;
     }
 
-    public function register(Request $request){
-      return Branch::register($request);
+    public function register(Request $request)
+    {
+        return Branch::register($request);
     }
 
-    public function setupApp(){
-      return view('setup');
+    public function setupApp()
+    {
+        return view('setup');
     }
 
-    public function saveApp(Request $request){
-      return ;
+    public function saveApp(Request $request)
+    {
+        return;
     }
 
-    public function uploadLogo(Request $request){
-      return Setting::uploadLogo($request);
+    public function uploadLogo(Request $request)
+    {
+        return Setting::uploadLogo($request);
     }
 
-    public function saveAppName(Request $request){
-      return Setting::saveAppName($request);
+    public function saveAppName(Request $request)
+    {
+        return Setting::saveAppName($request);
     }
 }

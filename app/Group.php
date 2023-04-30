@@ -13,16 +13,18 @@ class Group extends Model
     ];
 
 
-    public function getNumberOfMembers($branch_id){
-
+    public function getNumberOfMembers($branch_id)
+    {
         return GroupMember::where('group_id', $this->id)->get()->count();
     }
 
-    public function groupMember(){
-      return $this->hasMany(GroupMember::class);
+    public function groupMember()
+    {
+        return $this->hasMany(GroupMember::class);
     }
 
-    public function user(){
-      return $this->belongsTo(User::class, 'branch_id');
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'branch_id');
     }
 }

@@ -39,15 +39,16 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function showLoginForm(){
-      if(User::first()){
-        if (Setting::notSet()) {
-          return view('setup');
+    public function showLoginForm()
+    {
+        if (User::first()) {
+            if (Setting::notSet()) {
+                return view('setup');
+            } else {
+                return view('auth.login');
+            }
         } else {
-          return view('auth.login');
+            return Redirect()->route('setupUser');
         }
-      } else {
-        return Redirect()->route('setupUser');
-      }
     }
 }

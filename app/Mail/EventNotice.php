@@ -18,7 +18,7 @@ class EventNotice extends Mailable
      *
      * @return void
      */
-     public $request;
+    public $request;
     public function __construct($request)
     {
         //
@@ -30,10 +30,10 @@ class EventNotice extends Mailable
      *
      * @return $this
      */
-     public function build()
-     {
-         return $this->from('noreply@cms.hoffenheimtechnologies.tech')
-                     ->subject($this->request->subject)
-                     ->view('mails.eventnotice');
-     }
+    public function build()
+    {
+        return $this->from('noreply@cms.hoffenheimtechnologies.tech')
+            ->subject($this->request->subject)
+            ->view('mails.eventnotice');
+    }
 }

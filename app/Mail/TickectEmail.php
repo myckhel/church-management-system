@@ -18,11 +18,11 @@ class TickectEmail extends Mailable
      *
      * @return void
      */
-     public $request;
-     public function __construct(Request $request)
-     {
-         $this->request = $request;
-     }
+    public $request;
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
     /**
      * Build the message.
@@ -30,12 +30,12 @@ class TickectEmail extends Mailable
      * @return $this
      */
 
-     public function build()
-     {
-       return $this->from($this->request->email)
-                   ->subject($this->request->subject)
-                   ->view('email');
-     }
+    public function build()
+    {
+        return $this->from($this->request->email)
+            ->subject($this->request->subject)
+            ->view('email');
+    }
     /*public function build()
     {
       return $this->from('sender@example.com')

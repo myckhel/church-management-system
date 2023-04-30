@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Login - {{config('app.name')}}</title>
+    <title>Login - {{ config('app.name') }}</title>
 
 
     <!--STYLESHEET-->
@@ -67,12 +67,13 @@
     Detailed information and more samples can be found in the document.
 
     =================================================-->
-    <style type="text/css"> .cls-container {
-   background-image: url("{{ URL::asset('img/Banff2.jpg') }}");
-   background-color: #cccccc;
-        background-size: cover;
-}
-</style>
+    <style type="text/css">
+        .cls-container {
+            background-image: url("{{ URL::asset('img/Banff2.jpg') }}");
+            background-color: #cccccc;
+            background-size: cover;
+        }
+    </style>
 
 
 </head>
@@ -83,84 +84,89 @@
 <body>
     <div id="container" class="cls-container">
 
-		<!-- BACKGROUND IMAGE -->
-		<!--===================================================-->
-		<div id="bg-overlay"></div>
+        <!-- BACKGROUND IMAGE -->
+        <!--===================================================-->
+        <div id="bg-overlay"></div>
 
 
-		<!-- LOGIN FORM -->
-		<!--===================================================-->
-		<div class="cls-content">
-		    <div class="cls-content-sm panel">
-		        <div class="panel-body  bg-warning shadow-lg p-3 mb-5 rounded">
-		            <div class="mar-ver pad-btm">
-		                <h1 class="h3">Account Login</h1>
-		                <p>Sign In to your account</p>
-		            </div>
-		            <form method="POST"  action="{{ route('login') }}">
-                    @csrf
-		                <div class="form-group">
-		                    <input id="email" type="email" Placeholder="Email " class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
-							@if ($errors->has('email'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-		                </div>
-		                <div class="form-group">
-                            <input id="password" type="password" Placeholder="Password "  class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+        <!-- LOGIN FORM -->
+        <!--===================================================-->
+        <div class="cls-content">
+            <div class="cls-content-sm panel">
+                <div class="panel-body  bg-warning shadow-lg p-3 mb-5 rounded">
+                    <div class="mar-ver pad-btm">
+                        <h1 class="h3">Account Login</h1>
+                        <p>Sign In to your account</p>
+                    </div>
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div class="form-group">
+                            <input id="email" type="email" Placeholder="Email "
+                                class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
+                                value="{{ old('email') }}" required autofocus>
+                            @if ($errors->has('email'))
+                                <span class="invalid-feedback">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <input id="password" type="password" Placeholder="Password "
+                                class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
+                                required>
 
-							@if ($errors->has('password'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-		                </div>
-		                <div class="checkbox pad-btm text-left">
-		                    <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }} >
-		                    <label class="font-weight-bold" for="demo-form-checkbox" style="">Remember me</label>
-		                </div>
-		                <button class="btn btn-primary btn-lg btn-block" type="submit">Sign In</button>
-		            </form>
+                            @if ($errors->has('password'))
+                                <span class="invalid-feedback">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="checkbox pad-btm text-left">
+                            <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox" name="remember"
+                                {{ old('remember') ? 'checked' : '' }}>
+                            <label class="font-weight-bold" for="demo-form-checkbox" style="">Remember me</label>
+                        </div>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Sign In</button>
+                    </form>
 
-                <div class="pad-all">
-    		            <a href="{{route('recover')}}" class="btn-link mar-rgt">Forgot password ?</a>
-    		            <!--a href="register" class="btn-link mar-lft">Create a new account</a-->
+                    <div class="pad-all">
+                        <a href="{{ route('recover') }}" class="btn-link mar-rgt">Forgot password ?</a>
+                        <!--a href="register" class="btn-link mar-lft">Create a new account</a-->
 
-    		            <!--<div class="media pad-top bord-top">
-    		                <div class="pull-right">
-    		                    <a href="pages-login.html#" class="pad-rgt"><i class="demo-psi-facebook icon-lg text-primary"></i></a>
-    		                    <a href="pages-login.html#" class="pad-rgt"><i class="demo-psi-twitter icon-lg text-info"></i></a>
-    		                    <a href="pages-login.html#" class="pad-rgt"><i class="demo-psi-google-plus icon-lg text-danger"></i></a>
-    		                </div>
-    		                <div class="media-body text-left text-bold text-main">
-    		                    Login with
-    		                </div>
-    		            </div>-->
-    		        </div>
+                        <!--<div class="media pad-top bord-top">
+    <div class="pull-right">
+    <a href="pages-login.html#" class="pad-rgt"><i class="demo-psi-facebook icon-lg text-primary"></i></a>
+    <a href="pages-login.html#" class="pad-rgt"><i class="demo-psi-twitter icon-lg text-info"></i></a>
+    <a href="pages-login.html#" class="pad-rgt"><i class="demo-psi-google-plus icon-lg text-danger"></i></a>
+    </div>
+    <div class="media-body text-left text-bold text-main">
+    Login with
+    </div>
+    </div>-->
+                    </div>
 
-		        </div>
-		    </div>
-		</div>
-		<!--===================================================-->
+                </div>
+            </div>
+        </div>
+        <!--===================================================-->
 
 
-		<!-- DEMO PURPOSE ONLY -->
-		<!--===================================================-->
-		<!--<div class="demo-bg">
-		    <div id="demo-bg-list">
-		        <div class="demo-loading"><i class="psi-repeat-2"></i></div>
-		        <img class="demo-chg-bg bg-trans active" src="img/bg-img/thumbs/bg-trns.jpg" alt="Background Image">
-		        <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-1.jpg" alt="Background Image">
-		        <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-2.jpg" alt="Background Image">
-		        <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-3.jpg" alt="Background Image">
-		        <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-4.jpg" alt="Background Image">
-		        <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-5.jpg" alt="Background Image">
-		        <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-6.jpg" alt="Background Image">
-		        <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-7.jpg" alt="Background Image">
-		    </div>
-		</div>-->
-		<!--===================================================-->
+        <!-- DEMO PURPOSE ONLY -->
+        <!--===================================================-->
+        <!--<div class="demo-bg">
+  <div id="demo-bg-list">
+  <div class="demo-loading"><i class="psi-repeat-2"></i></div>
+  <img class="demo-chg-bg bg-trans active" src="img/bg-img/thumbs/bg-trns.jpg" alt="Background Image">
+  <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-1.jpg" alt="Background Image">
+  <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-2.jpg" alt="Background Image">
+  <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-3.jpg" alt="Background Image">
+  <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-4.jpg" alt="Background Image">
+  <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-5.jpg" alt="Background Image">
+  <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-6.jpg" alt="Background Image">
+  <img class="demo-chg-bg" src="img/bg-img/thumbs/bg-img-7.jpg" alt="Background Image">
+  </div>
+  </div>-->
+        <!--===================================================-->
 
 
 
@@ -193,4 +199,5 @@
     <script src="{{ URL::asset('js/demo/bg-images.js') }}"></script>
 
 </body>
+
 </html>
