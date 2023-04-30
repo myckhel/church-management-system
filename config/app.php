@@ -214,7 +214,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Carbon' => 'Carbon\Carbon',
         'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
-        'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
 
     ],
 
