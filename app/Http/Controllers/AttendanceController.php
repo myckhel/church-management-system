@@ -98,7 +98,7 @@ class AttendanceController extends Controller
         if ($attendance) {
             return response()->json(['status' => true, 'attendance' => $attendance]);
         } else {
-	    	    return response()->json(['status' => false, 'text' => "No attendance data for {$this->get_date_in_words($request->get('date'))}"]);
+	    	return response()->json(['status' => false, 'text' => "No attendance data for {$this->get_date_in_words($request->get('date'))}"]);
         }
     }
 
