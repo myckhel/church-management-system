@@ -44,8 +44,8 @@
                 </div>
                 <div class="panel-body">
                     <!--div style="height:100px;border:1px solid green">
-                    Sort by Newest Members, Gender
-                  </div-->
+                                                                                                                        Sort by Newest Members, Gender
+                                                                                                                      </div-->
                     <form id="users-form" onsubmit="return false;">
                         <div class="table-responsive">
                             <table id="users-table" class="table table-striped table-bordered" cellspacing="0"
@@ -116,7 +116,7 @@
                         data: 'photo',
                         render: (photo) => (
                             `<img src="{{ url('images/') }}/${photo}"  class="img-md img-circle" alt="Profile Picture">`
-                            ),
+                        ),
                         name: 'photo'
                     },
                     {
@@ -222,13 +222,13 @@
                 id = $(this).attr('data-id')
                 let i = 0;
                 columns = $(this).parent().closest('tr').find('td').each(function() {
-                    if (i == 3) {
+                    if (i == 2) {
                         fullname = $(this).text().split(' ');
                         fname = fullname[0]
                         lname = fullname[1]
                         $(this).html('FirstName<input value="' + fname + '" />')
                         $(this).append('LastName<input value="' + lname + '" />')
-                    } else if (i == 4) {
+                    } else if (i == 7) {
                         $(this).html(`
               <select name="occupation" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-9" data-style="btn-success" required="" tabindex="-98">
                 <option value="${$(this).text()}">${$(this).text()}</option>
@@ -245,39 +245,39 @@
                 <option value="Other">Other</option>
               </select>
             `)
-                    } else if (i == 5) {
-                        value = ($(this).text() === 'Member') ? 'old' : 'new';
+                    } else if (i == 3) {
+                        value = ($(this).text().includes('Full Member')) ? 'old' : 'new';
+
                         $(this).html(`
               <select id="member_status" name="member_status" class="selectpicker col-xs-6 col-sm-4 col-md-6 col-lg-9" data-style="btn-info" tabindex="-98">
-                <option value="${value}">${$(this).text()}</option>
-                <option value="old">Member</option>
-                <option value="new">First Timer</option>
+                <option ${value === 'old' && 'selected'} value="old">Member</option>
+                <option ${value === 'new' && 'selected'} value="new">First Timer</option>
               </select>
             `)
-                    } else if (i == 6) {
+                    } else if (i == 69) {
                         option = ($(this).text() === 'single') ? 'old' : 'new';
                         $(this).html(`
-              <div class="col-md-9">
-                    <input id="demo-inline-form-radio" class="magic-radio" value="single" type="radio" name="marital_status" ${($(this).text() === 'single') ? 'checked=""' : ''}>
-                    <label for="demo-inline-form-radio">Single</label>
+                      <div class="col-md-9">
+                            <input id="demo-inline-form-radio" class="magic-radio" value="single" type="radio" name="marital_status" ${($(this).text() === 'single') ? 'checked=""' : ''}>
+                            <label for="demo-inline-form-radio">Single</label>
 
-                    <input id="demo-inline-form-radio-2" class="magic-radio" value="married" ${($(this).text() === 'married') ? 'checked=""' : ''} type="radio" name="marital_status">
-                    <label for="demo-inline-form-radio-2">Married</label>
-              </div>
-            `)
-                    } else if (i == 7) {
+                            <input id="demo-inline-form-radio-2" class="magic-radio" value="married" ${($(this).text() === 'married') ? 'checked=""' : ''} type="radio" name="marital_status">
+                            <label for="demo-inline-form-radio-2">Married</label>
+                      </div>
+                    `)
+                    } else if (i == 4) {
                         $(this).html(`
               <div class="col-md-9">
                 <input type="number" class="form-control" value="${$(this).text()}" name="phone" placeholder="Enter your phone number" required="">
               </div>
             `)
-                    } else if (i == 8) {
+                    } else if (i == 5) {
                         $(this).html(`
               <div class="col-md-9">
                 <input type="email" id="demo-email-input" value="${$(this).text()}" class="form-control" name="email" placeholder="Enter your email" required="">
               </div>
             `)
-                    } else if (i == 9) {
+                    } else if (i == 6) {
                         $(this).html(`
               <div class="col-md-9">
                 <input id="demo-form-radio" class="magic-radio" value="male" type="radio" name="sex" ${($(this).text() === 'male') ? 'checked=""' : ''}>
@@ -324,7 +324,7 @@
                 <input type="hidden" value="${id}" name="id" />
               </div>
             `)
-                    } else if (i == 13) {
+                    } else if (i == 8) {
                         $(this).html(`
               <div class="col-md-9">
                 <textarea id="demo-textarea-input" value="${$(this).text()}" name="address" rows="5" class="form-control" placeholder="Address I" required>${$(this).text()}</textarea>
@@ -360,7 +360,7 @@
                 <input id="anniversary" value="${$(this).text()}" type="text" placeholder="Wedding Anniversary" name="wedding_anniversary" class="datepicker form-control"/>
               </div>
             `)
-                    } else if (i == 19) {
+                    } else if (i == 9) {
                         $(this).html(`
               <button type="button" class="restore btn btn-sm btn-warning" style="float: left;">Cancel</button><div>
               <button type="submit" class="save btn btn-sm btn-success" style="float: right;">Save</button>
@@ -377,6 +377,11 @@
                 e.preventDefault()
                 data = {}
                 data = $(this).serializeArray()
+                data.push({
+                    name: 'id',
+                    value: id
+                })
+
                 url = "{{ route('member.update') }}"
                 poster({
                     url,
