@@ -2,19 +2,26 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Cache;
+use App\ServiceType;
+use App\CollectionsType;
+use Dcblogdev\Countries\Facades\Countries;
 
 class Branch extends Authenticatable
 {
-    protected $guarded = ['id'];
+    use Notifiable;
 
-    protected $guard = 'branch';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'email', 'password', 'branchname', 'branchcode', 'address', 'isadmin', 'city', 'state', 'country', 'currency',
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -25,63 +32,109 @@ class Branch extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public static function register(Request $request)
+    public function isAdmin()
     {
-        $data = [];
-        $data['branchname'] = $request->branchname;
-        $data['branchcode'] = $request->branchcode;
-        $data['address'] = $request->address;
-        $data['email'] = $request->email;
-        $data['country'] = $request->country;
-        $data['state'] = $request->state;
-        $data['city'] = $request->city;
-        if (!User::first()) {
-            $data['isadmin'] = true;
-        }
-        $data['currency'] = $request->currency;
-        $data['password'] = $request->password;
-        $data['password_confirmation'] = $request->password_confirmation;
 
-        $validate = self::validator($data);
-        if ($validate->fails()) {
-            return redirect()->back()->withErrors($validate)->withInput();
-        }
-        $creation = self::creator($data);
-        //
-        $s = 'Successfully Registered';
-        return redirect()->back()->with('s');
+        return $this->isadmin;
     }
 
-    protected static function validator(array $data)
+    public function getName()
     {
-        return Validator::make($data, [
-            'branchname' => 'bail|required|string|max:255',
-            'branchcode' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'country' => 'required|string|max:255',
-            'state' =>  'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'currency' => 'required',
-        ]);
+        return "$this->branchname";
     }
 
-    protected static function creator(array $data)
+    public static function getCurrency()
     {
-        $branch = User::create([
-            'branchname' => $data['branchname'],
-            'branchcode' => $data['branchcode'],
-            'address' => $data['address'],
-            'email' => $data['email'],
-            'isadmin' => $data['isadmin'] ? $data['isadmin'] : false,
-            'password' => Hash::make($data['password']),
-            'country' => $data['country'],
-            'state' => $data['state'],
-            'city' => $data['city'],
-            'currency' => $data['currency'],
-        ]);
+        $curObj;
+        $currency = auth()->user()->currency;
+        foreach (Countries::all() as $value) {
+            if ($value->currency_symbol == $currency) {
+                $curObj = $value;
+                break;
+            }
+        }
+        return $curObj;
+    }
 
-        return $branch;
+    public static function toMoney($number)
+    {
+        $currency = self::getCurrency();
+        return $currency->currency_symbol . number_format((float) $number);
+    }
+
+    public function getCurrencySymbol()
+    {
+        return self::getCurrency();
+    }
+
+    public function getServiceTypes()
+    {
+        return ServiceType::getTypes();
+    }
+
+    public function getCollectionTypes()
+    {
+        return CollectionsType::getTypes();
+    }
+
+    public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
+    }
+
+    public function getUserById($id)
+    {
+        return \App\User::find($id);
+    }
+
+    public function creation()
+    {
+
+        return;
+    }
+
+    public function group()
+    {
+        return $this->hasMany(Group::class);
+    }
+
+    public function members()
+    {
+        return $this->hasMany(Member::class, 'branch_id');
+    }
+
+    public function option()
+    {
+        return $this->hasMany(Options::class);
+    }
+
+    public function collections_types()
+    {
+        return $this->hasMany(CollectionsType::class);
+    }
+
+    public function service_type()
+    {
+        return $this->hasMany(ServiceType::class);
+    }
+
+    public function collections()
+    {
+        return $this->hasMany(Collection::class, 'branch_id');
+    }
+
+    public function MemberSavings()
+    {
+        return $this->hasMany(MemberSavings::class);
+    }
+
+    public function collections_commissions()
+    {
+        return $this->hasMany(CollectionCommission::class, 'branch_id');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'branch_id');
     }
 }
