@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Dcblogdev\Countries\Facades\Countries;
 use \App\User;
-use \App\Branch;
+use \App\BranchCreator;
 use \App\Setting;
 
 class VisitorController extends Controller
@@ -114,7 +114,7 @@ class VisitorController extends Controller
 
     public function register(Request $request)
     {
-        return Branch::register($request);
+        return BranchCreator::register($request);
     }
 
     public function setupApp()
