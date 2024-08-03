@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\User;
+use App\Branch;
 
 class ServiceType extends Model
 {
@@ -19,7 +19,7 @@ class ServiceType extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class);
+        $this->belongsTo(Branch::class);
     }
 
     public function savings()

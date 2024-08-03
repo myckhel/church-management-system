@@ -51,8 +51,8 @@
                     @endif
                 </div>
                 <!-- {{ print_r($reports) }} -->
-                <?php $currency = \Auth::user()->getCurrencySymbol()->currency_symbol; ?>
-                <?php $name = \Auth::user()->getName() . ' ' . \Auth::user()->branchcode; ?>
+                <?php $currency = \Auth::user()->branch->getCurrencySymbol()->currency_symbol; ?>
+                <?php $name = \Auth::user()->branch->getName() . ' ' . \Auth::user()->branch->branchcode; ?>
                 <?php $collects = ['offering', 'tithe', 'special_offering', 'seed_offering', 'donation', 'first_fruit', 'covenant_seed', 'love_seed', 'sacrifice', 'thanksgiving', 'thanksgiving_seed', 'other'];
                 function sumRow($reports, $types)
                 {
@@ -135,11 +135,11 @@
                                             <td>
                                                 <?php $name = $collect->name; ?>
                                                 <span class="badge badge-primary badge-pill">{{ $currency }}
-                                                    {{ number_format($reports->total_single_collections->$name) }}</span>
+                                                    {{ isset($reports->total_single_collections->$name) ? number_format($reports->total_single_collections->$name) : 0 }}</span>
                                             </td>
                                             <td>
                                                 <span class="badge badge-primary badge-pill">{{ $currency }}
-                                                    {{ number_format($reports->todays_single_collections->$name) }}</span>
+                                                    {{ isset($reports->todays_single_collections->$name) ? number_format($reports->todays_single_collections->$name) : 0 }}</span>
                                             </td>
                                         </tr>
                                     @endforeach

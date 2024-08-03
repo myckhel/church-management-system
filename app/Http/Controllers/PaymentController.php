@@ -17,7 +17,7 @@ class PaymentController extends Controller
     public function index()
     {
         //
-        return DataTables::of(Payment::with('users')->get())->make(true);
+        return DataTables::of(Payment::with('branches')->get())->make(true);
     }
 
     /**
@@ -27,13 +27,13 @@ class PaymentController extends Controller
     public function redirectToGateway(Request $request)
     {
         // get the order ids
-        $order_ids =  (array)(\App\CollectionCommission::getUserUnsettled(auth()->user()))->pluck('id');
+        $order_ids =  (array)(\App\CollectionCommission::getUserUnsettled(auth()->user()->branch))->pluck('id');
         // get the first element
         $order_ids = array_shift($order_ids);
         // convert request ids to array
         $request_order_ids = explode(',', $request->order_ids);
         // calculate the branchs total due commision
-        $totalCommissionFloated = \App\CollectionCommission::savingsPercentage(\App\CollectionCommission::dueSavings(auth()->user())[auth()->user()->id]);
+        $totalCommissionFloated = \App\CollectionCommission::savingsPercentage(\App\CollectionCommission::dueSavings(auth()->user()->branch)[auth()->user()->branch_id]);
         $totalCommission = str_replace('.', '', $totalCommissionFloated);
         // validate incase of form manipulation
         // sort and check if has same values
@@ -46,7 +46,7 @@ class PaymentController extends Controller
         Payment::create([
             'order_ids' => $request->order_ids,
             'status' => 'pending',
-            'branch_id' => auth()->user()->id,
+            'branch_id' => auth()->user()->branch_id,
             'amount' => $totalCommissionFloated,
             'order_type' => 'collection_commission',
         ]);
@@ -79,7 +79,7 @@ class PaymentController extends Controller
 
         if ($paymentDetails['status'] == 'success') {
             // code...
-            $payment = Payment::where('status', 'pending')->where('branch_id', auth()->user()->id)->latest();
+            $payment = Payment::where('status', 'pending')->where('branch_id', auth()->user()->branch_id)->latest();
 
             $payment->update([
                 'status' => $paymentDetails['status'],

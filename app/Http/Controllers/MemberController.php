@@ -105,7 +105,7 @@ class MemberController extends Controller
         }
 
         $member = new Member(array(
-            'branch_id' => $user->id,
+            'branch_id' => $user->branch_id,
             'title' => $request->get('title'),
             'firstname' => $request->get('firstname'),
             'lastname' => $request->get('lastname'),
@@ -259,7 +259,7 @@ class MemberController extends Controller
 
         $user = \Auth::user();
 
-        $sql = "SELECT * from members WHERE branch_id = '$user->id' AND  MATCH (firstname,lastname)
+        $sql = "SELECT * from members WHERE branch_id = '$user->branch_id' AND  MATCH (firstname,lastname)
       AGAINST ('$search_term')";
         $members = \DB::select($sql);
         return response()->json(['success' => true, "result" => sizeof($members) > 0 ? $members : ['message' => 'no result found']]);
@@ -268,7 +268,7 @@ class MemberController extends Controller
     public function modify($id)
     {
         $user = \Auth::user();
-        $member = Member::whereId($id)->where('branch_id', $user->id)->first();
+        $member = Member::whereId($id)->where('branch_id', $user->branch_id)->first();
         if (!$member) {
             return 'Member Not exists';
         }
@@ -345,7 +345,7 @@ class MemberController extends Controller
     {
         $member = Member::find($id);
         if ($member) {
-            $member = $member->attendances()->with(['service_types'])->get();
+            $member = $member->attendances()->with(['service_type'])->get();
         }
         // dd($member);
         return DataTables::of($member)->make(true);
@@ -355,7 +355,7 @@ class MemberController extends Controller
     {
         $user = \Auth::user();
         $c_types = \App\CollectionsType::getTypes();
-        $savings = \App\MemberCollection::rowToColumn(\App\MemberCollection::where('branch_id', $user->id)->where('member_id', $request->id)->get());
+        $savings = \App\MemberCollection::rowToColumn(\App\MemberCollection::where('branch_id', $user->branch_id)->where('member_id', $request->id)->get());
         $interval = $request->interval;
         $group = $request->group;
         $months = [];
@@ -469,7 +469,7 @@ class MemberController extends Controller
     {
         $user = \Auth::user();
         $members = Member::selectRaw("COUNT(id) as total, SUM(CASE WHEN sex='male' THEN 1 ELSE 0 END) AS male, SUM(CASE WHEN sex='female' THEN 1 ELSE 0 END) AS female,
-    MONTH(member_since) AS month")->whereRaw("member_since > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->id)->groupBy("month")->get();
+    MONTH(member_since) AS month")->whereRaw("member_since > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->branch_id)->groupBy("month")->get();
         // dd($members);
         $group = 'month';
         $months = [];

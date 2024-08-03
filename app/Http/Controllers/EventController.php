@@ -20,8 +20,8 @@ class EventController extends Controller
     {
         $user = \Auth::user();
         $pastors = Member::whereIn('position', ['senior pastor', 'pastor'])
-            ->where('branch_id', $user->id)->get();
-        $events = Event::where('events.branch_id', $user->id)->get();
+            ->where('branch_id', $user->branch_id)->get();
+        $events = Event::where('events.branch_id', $user->branch_id)->get();
         return view('calendar.index', compact('events', 'pastors'));
     }
     //->where('events.assign_to', 'like', '%members.id,%')
@@ -60,7 +60,7 @@ class EventController extends Controller
             'assign_to' => $assign_to,
             'by_who' => $request->get('by_who'),
             'details' => $request->get('details'),
-            'branch_id' => $user = \Auth::user()->id,
+            'branch_id' => \Auth::user()->branch_id,
 
             // convert date to acceptable mysql format
             'date' => date('Y-m-d', strtotime($request->get('date'))),
@@ -127,9 +127,9 @@ class EventController extends Controller
     public function news()
     {
         $user = \Auth::user();
-        //$contact =  \App\User::get();
+        //$contact =  \App\Branch::get();
 
-        $contact =  \App\User::where('id', '!=', $user->id)->get();
+        $contact =  \App\Branch::where('id', '!=', $user->branch_id)->get();
         return view('notification.index', compact('contact'));
     }
 
@@ -160,7 +160,7 @@ class EventController extends Controller
             $sdate = date('Y-m-d', strtotime($request->get('sdate')));
             $date = date('Y-m-d', strtotime($request->get('date')));
             $announcement = Announcement::create([
-                'branch_id'  => auth()->user()->id,
+                'branch_id'  => auth()->user()->branch_id,
                 'details'    => $request->get('message'),
                 'by_who'     => $request->get('by_who'),
                 'start_date' => $date,

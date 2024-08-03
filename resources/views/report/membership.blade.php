@@ -46,7 +46,7 @@
             <!--===================================================-->
             <div class="panel" style="background-color: #e8ddd3;">
                 <div class="panel-heading">
-                    <h3 class="panel-title">List of Members In {{ \Auth::user()->branchname }}</h3>
+                    <h3 class="panel-title">List of Members In {{ \Auth::user()->branch->branchname }}</h3>
                 </div>
                 @if (session('status'))
                     <div class="col-lg-10 col-lg-offset-2">

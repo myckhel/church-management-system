@@ -12,8 +12,8 @@ class MessagingController extends Controller
     public function indexEmail()
     {
         $user = \Auth::user();
-        $groups = \App\Group::where('branch_id', $user->id)->get();
-        $members = \App\Member::where('branch_id', $user->id)->get(); //$user->isAdmin() ? \App\Member::all() :
+        $groups = \App\Group::where('branch_id', $user->branch_id)->get();
+        $members = \App\Member::where('branch_id', $user->branch_id)->get(); //$user->isAdmin() ? \App\Member::all() :
         $group = collect(new \App\Group);
         $group->name = 'First Timers Group';
         $group->id = 1000;
@@ -25,14 +25,14 @@ class MessagingController extends Controller
     public function indexSMS()
     {
         $user = \Auth::user();
-        $groups = \App\Group::where('branch_id', $user->id)->get();
-        $members = \App\Member::where('branch_id', $user->id)->get(); //$user->isAdmin() ? \App\Member::all() :
+        $groups = \App\Group::where('branch_id', $user->branch_id)->get();
+        $members = \App\Member::where('branch_id', $user->branch_id)->get(); //$user->isAdmin() ? \App\Member::all() :
         $group = collect(new \App\Group);
         $group->name = 'First Timers Group';
         $group->id = 1000;
         $default_groups = [];
         // get the sms api
-        $smsapi = \App\Options::getOneBranchOption('smsapi', $user);
+        $smsapi = \App\Options::getOneBranchOption('smsapi', $user->branch);
         array_push($default_groups, $group);
         return view('messaging.sms', compact('members', 'groups', 'default_groups', 'smsapi'));
     }
@@ -58,7 +58,7 @@ class MessagingController extends Controller
         //print_r($_POST);exit();
         $result = array('pass' => array('status' => [], 'count' => 0), 'fail' => array('status' => [], 'count' => 0, 'numbers' => []), 'total' => sizeof($request->to));
         $sender = config('app.name');
-        $smsapi = \App\Options::getOneBranchOption('smsapi', $user);
+        $smsapi = \App\Options::getOneBranchOption('smsapi', $user->branch);
         // dd($smsapi);
 
 
@@ -99,12 +99,12 @@ class MessagingController extends Controller
 
     public function inbox()
     {
-        $users = \Auth::user();
         $user = \Auth::user();
-        $members = \App\User::where('id', '!=', $users->id)->get();
-        $msg_user = \App\User::selectRaw('SUM(case when messaging.seen = 0 then 1 else 0 end) as count, users.branchname, users.id')->leftjoin('messaging', 'messaging.msg_from', '=', 'users.id')->where('messaging.msg_to', '>', '0')->where('messaging.msg_to', '=', $users->id)->where('messaging.msg_from', '!=', $users->id)->groupby('users.branchname', 'users.id')->get();
+        $branches = $user->branch;
+        $members = \App\Branch::where('id', '!=', $user->branch_id)->get();
+        $msg_user = \App\Branch::selectRaw('SUM(case when messaging.seen = 0 then 1 else 0 end) as count, branches.branchname, branches.id')->leftjoin('messaging', 'messaging.msg_from', '=', 'branches.id')->where('messaging.msg_to', '>', '0')->where('messaging.msg_to', '=', $user->branch_id)->where('messaging.msg_from', '!=', $user->branch_id)->groupby('branches.branchname', 'branches.id')->get();
 
-        return view('messaging.inbox', compact('members', 'users', 'msg_user'));
+        return view('messaging.inbox', compact('members', 'branches', 'msg_user'));
     }
 
     public function sendMessage(Request $request)
@@ -125,7 +125,7 @@ class MessagingController extends Controller
         $from = $request->from;
         $to = $request->to;
 
-        $chat = \App\User::selectRaw('messaging.*, users.branchname')->leftjoin('messaging', 'messaging.msg_from', '=', 'users.id')->where('messaging.msg_to', '=', $from)->where('messaging.msg_from', '=', $to)->orWhere('messaging.msg_from', '=', $from)->where('messaging.msg_to', '=', $to)->groupby('users.branchname', 'users.id', 'messaging.id', 'messaging.updated_at', 'messaging.created_at', 'messaging.subject', 'messaging.msg_to', 'messaging.msg_from', 'messaging.msg', 'messaging.date', 'messaging.seen')->orderby('messaging.date')->get();
+        $chat = \App\Branch::selectRaw('messaging.*, branches.branchname')->leftjoin('messaging', 'messaging.msg_from', '=', 'branches.id')->where('messaging.msg_to', '=', $from)->where('messaging.msg_from', '=', $to)->orWhere('messaging.msg_from', '=', $from)->where('messaging.msg_to', '=', $to)->groupby('branches.branchname', 'branches.id', 'messaging.id', 'messaging.updated_at', 'messaging.created_at', 'messaging.subject', 'messaging.msg_to', 'messaging.msg_from', 'messaging.msg', 'messaging.date', 'messaging.seen')->orderby('messaging.date')->get();
 
 
         return response()->json(['success' => true, 'chats' => $chat]);
@@ -143,19 +143,19 @@ class MessagingController extends Controller
 
     public function get_inbox()
     {
-        $users = \Auth::user();
-        //$members = \App\User::where('id', '!=', $users->id)->get();
+        $user = \Auth::user();
+        //$members = \App\Branch::where('id', '!=', $branches->id)->get();
 
-        $msg_user = \App\User::selectRaw('count(messaging.id) as count, users.branchname, users.id')->leftjoin('messaging', 'messaging.msg_from', '=', 'users.id')->where('messaging.id', '>', '0')->where('messaging.msg_to', '=', $users->id)->where('messaging.msg_from', '!=', $users->id)->groupby('users.branchname', 'users.id')->get();
+        $msg_user = \App\Branch::selectRaw('count(messaging.id) as count, branches.branchname, branches.id')->leftjoin('messaging', 'messaging.msg_from', '=', 'branches.id')->where('messaging.id', '>', '0')->where('messaging.msg_to', '=', $user->branch_id)->where('messaging.msg_from', '!=', $user->branch_id)->groupby('branches.branchname', 'branches.id')->get();
 
         return response()->json(['success' => true, 'chats' => $msg_user]);
-        //view('messaging.inbox', compact('members', 'users', 'msg_user'));
+        //view('messaging.inbox', compact('members', 'branches', 'msg_user'));
     }
 
     public function get_users()
     {
         $user = \Auth::user();
-        $branches = \App\User::select('branchname', 'id')->where('id', '!=', $user->id)->get();
+        $branches = \App\Branch::select('branchname', 'id')->where('id', '!=', $user->branch_id)->get();
         return response()->json(['success' => true, 'chats' => $branches]);
     }
 

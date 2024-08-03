@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Branch;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Validator;
@@ -31,15 +31,15 @@ class BranchController extends Controller
         }
         //$members = Member::all();
         if ($request->draw) {
-            return DataTables::of(User::all())->make(true);
+            return DataTables::of(Branch::all())->make(true);
         } else {
             return view('branch.all');
         }
     }
 
-    public function users()
+    public function branches()
     {
-        return DataTables::of(User::all())->make(true);
+        return DataTables::of(Branch::all())->make(true);
     }
 
     /**
@@ -53,7 +53,7 @@ class BranchController extends Controller
         //
         $id = $request->id;
         $user = \Auth::user();
-        DB::table('users')->where('id', '=', $id)->delete();
+        DB::table('branches')->where('id', '=', $id)->delete();
         return response()->json(['success' => true,]);
     }
 
@@ -70,64 +70,7 @@ class BranchController extends Controller
 
     public function register(Request $request)
     {
-        $data = [];
-        $data['branchname'] = $request->branchname;
-        $data['branchcode'] = $request->branchcode;
-        $data['address'] = $request->address;
-        $data['email'] = $request->email;
-        $data['country'] = $request->country;
-        $data['state'] = $request->state;
-        $data['city'] = $request->city;
-        if (!User::first()) {
-            $data['isadmin'] = true;
-        }
-        $data['currency'] = $request->currency;
-        $data['password'] = $request->password;
-        $data['password_confirmation'] = $request->password_confirmation;
-
-        $validate = self::validator($data);
-        if ($validate->fails()) {
-            return redirect()->back()->withErrors($validate)->withInput();
-        }
-        $creation = self::creator($data);
-        //
-        $success = 'Successfully Registered';
-        return redirect()->back()->with('status', $success);
-    }
-
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'branchname' => 'bail|required|string|max:255',
-            'branchcode' => 'required|string|max:255|unique:users',
-            'address' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'country' => 'required|string|max:255',
-            'state' =>  'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'currency' => 'required',
-        ]);
-    }
-
-    protected function creator(array $data)
-    {
-        $branch = User::create([
-            'branchname' => $data['branchname'],
-            'branchcode' => $data['branchcode'],
-            'address' => $data['address'],
-            'email' => $data['email'],
-            'isadmin' => isset($data['isadmin']) ? $data['isadmin'] : 'false',
-            'password' => Hash::make($data['password']),
-            'country' => $data['country'],
-            'state' => $data['state'],
-            'city' => $data['city'],
-            'currency' => $data['currency'],
-        ]);
-
-        if (!$branch) {
-            return $branch;
-        }
+        return Branch::register($request);
     }
 
     public function ho(Request $request)
@@ -143,7 +86,7 @@ class BranchController extends Controller
         $failed = 0;
         $text = "All selected branches were deleted successfully";
         foreach ($request->id as $key => $value) {
-            $branch = User::whereId($value)->first();
+            $branch = Branch::whereId($value)->first();
             if ($branch) {
                 $branch->delete();
             } else {
@@ -166,7 +109,7 @@ class BranchController extends Controller
 
     public function updateBranch(Request $request)
     {
-        $branch = User::whereId($request->id)->first();
+        $branch = Branch::whereId($request->id)->first();
         // dd($request);
         if ($branch) {
             $errors = [];
@@ -197,7 +140,7 @@ class BranchController extends Controller
         $dueSavings = \App\CollectionCommission::dueSavings($user);
         // if nothing found for the branch
         // redirect back withErrors
-        if (!isset($dueSavings[$user->id])) return back()->withErrors(['message' => 'Nothing to pay']);
+        if (!isset($dueSavings[$user->branch_id])) return back()->withErrors(['message' => 'Nothing to pay']);
         // get the commission percentage
         $percentage = (int)(\App\Options::getLatestCommission())?->value;
         // dd($dueSavings);

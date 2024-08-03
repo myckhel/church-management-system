@@ -142,24 +142,24 @@
                                             </td>
                                         </tr>
                                         <!-- <tr>
-                                     <td>Commission Account Number</td>
-                                     <td><a href="#" id="commission_account_number" data-type="number" data-pk="1" data-placement="right"
-                                                                    data-placeholder="e.g, 01100000001" data-title="Account Number"></a></td>
-                                     </tr>
-                                                              <tr>
-                                     <td width="35%">Commission Account Name</td>
-                                     <td width="65%"><a href="#" id="commission_account_name" data-title="Account Name"></a></td>
-                                     </tr> -->
+                                         <td>Commission Account Number</td>
+                                         <td><a href="#" id="commission_account_number" data-type="number" data-pk="1" data-placement="right"
+                                                                        data-placeholder="e.g, 01100000001" data-title="Account Number"></a></td>
+                                         </tr>
+                                                                  <tr>
+                                         <td width="35%">Commission Account Name</td>
+                                         <td width="65%"><a href="#" id="commission_account_name" data-title="Account Name"></a></td>
+                                         </tr> -->
                                         <!-- <tr>
-                                     <td width="35%">Commission Account Bank</td>
-                                                                  <td>
-                                                                    <a href="#" id="commission_account_bank" data-type="select" data-pk="1"
-                                                                    data-source="{{ route('banks') }}"
-                                                                      data-title="Choose Bank">
-                                                                    </a> -->
+                                         <td width="35%">Commission Account Bank</td>
+                                                                      <td>
+                                                                        <a href="#" id="commission_account_bank" data-type="select" data-pk="1"
+                                                                        data-source="{{ route('banks') }}"
+                                                                          data-title="Choose Bank">
+                                                                        </a> -->
                                         <!-- data-source="{{ url('https://api.paystack.co/bank') }}" -->
                                         <!-- </td>
-                                     </tr> -->
+                                         </tr> -->
                                     @endif
                                 </tbody>
                             </table>
@@ -210,7 +210,7 @@
             })
             // fetch banks for select drop down
             $.get("{{ route('banks') }}", {
-                    country: "{{ Auth::user()->country }}"
+                    country: "{{ Auth::user()->branch->country }}"
                 })
                 .done((res) => {
                     const res_ = res

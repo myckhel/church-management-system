@@ -12,9 +12,9 @@ class Collection extends Model
         'branch_id', 'collections_types_id', 'service_types_id', 'amount', 'date'
     ];
 
-    public static function getByDate(User $user, $date)
+    public static function getByDate(Member $user, $date)
     {
-        return self::where('date', date('Y-m-d', strtotime($date)))->where('branch_id', $user->id)->get(['id'])->count();
+        return self::where('date', date('Y-m-d', strtotime($date)))->where('branch_id', $user->branch_id)->get(['id'])->count();
     }
 
     // function to turn multiple table row to a single row of the same date column
@@ -28,7 +28,7 @@ class Collection extends Model
             // we have a date and collection's date is date we have
             if (isset($dates[$i - 1]) && $v->date == $dates[$i - 1]) {
                 // insert collection with same date to the $row
-                $row[$v->date]->amounts[$v->collections_types->name] = $v->amount;
+                $row[$v->date]->amounts[$v->collections_type->name] = $v->amount;
                 $row[$v->date]->total += $v->amount;
             } else {
                 $obj = new \stdClass();
@@ -37,14 +37,17 @@ class Collection extends Model
                     $obj->$key = $value;
                 }
                 // give $obj some of the collection property's name
-                $obj->service_types = $v->service_types->name;
+                $obj->service_type = $v->service_type?->name;
+                // print($obj->service_type);
                 if ($type == 'branch') {
-                    $obj->branch_name = $v->users->branchname;
+                    $obj->branch_name = $v->branches->branchname;
                 }
                 $obj->date_collected = $v->date;
                 $obj->updated_at = $v['updated_at']->toDateTimeString();
                 $obj->amounts = [];
-                $obj->amounts[$v->collections_types->name] = $v->amount;
+
+                $collectionType = $v->collections_type;
+                $obj->amounts[$collectionType?->name] = $v->amount;
                 $obj->total = $v->amount;
                 $row[$v->date] = $obj;
             }
@@ -59,10 +62,10 @@ class Collection extends Model
     {
         $row = [];
         foreach ($data as $index => $v) {
-            $name =  $v->users->branchname;
+            $name =  $v->branches->branchname;
             $amount = $v->amount;
-            $collectionName = $v->collections_types->name;
-            $serviceName = $v->service_types->name;
+            $collectionName = $v->collections_type->name;
+            $serviceName = $v->service_type->name;
             $date_collected = $v->date;
 
             if (!isset($row[$name])) {
@@ -84,19 +87,19 @@ class Collection extends Model
         return $row;
     }
 
-    public function service_types()
+    public function service_type()
     {
-        return $this->belongsTo(ServiceType::class);
+        return $this->belongsTo(ServiceType::class, 'service_types_id');
     }
 
-    public function collections_types()
+    public function collections_type()
     {
-        return $this->belongsTo(CollectionsType::class);
+        return $this->belongsTo(CollectionsType::class, 'collections_types_id');
     }
 
-    public function users()
+    public function branches()
     {
-        return $this->belongsTo(User::class, 'branch_id');
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 
     public function collections_commissions()

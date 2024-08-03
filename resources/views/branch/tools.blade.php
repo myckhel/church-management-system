@@ -45,8 +45,10 @@
                             <form id="collection_type_form" method="POST" action="{{ route('branch.toolsPost') }}">
                                 @csrf
                                 <label>Create Collection Type</label>
-                                <input type=text name=branch_id value="{{ \Auth::user()->branchcode }}" hidden=hidden />
-                                <input type=text name=c_type_c value="{{ \Auth::user()->branchcode }}" hidden=hidden />
+                                <input type=text name=branch_id value="{{ \Auth::user()->branch->branchcode }}"
+                                    hidden=hidden />
+                                <input type=text name=c_type_c value="{{ \Auth::user()->branch->branchcode }}"
+                                    hidden=hidden />
                                 <input style="border:1px solid #ddd; padding:7px;outline:none" name="name" type=text
                                     pattern="[a-zA-Z0-9_ -]+" title="Only letters, numbers, _ and - accepted"
                                     Placeholder="Collection Name" required />
@@ -69,8 +71,10 @@
                             <form id="service_type_form" method="POST" action="{{ route('branch.toolsPost') }}">
                                 @csrf
                                 <label>Create Service Type</label>
-                                <input type=text name=branch_id value="{{ \Auth::user()->branchcode }}" hidden=hidden />
-                                <input type=text name=s_type_c value="{{ \Auth::user()->branchcode }}" hidden=hidden />
+                                <input type=text name=branch_id value="{{ \Auth::user()->branch->branchcode }}"
+                                    hidden=hidden />
+                                <input type=text name=s_type_c value="{{ \Auth::user()->branch->branchcode }}"
+                                    hidden=hidden />
                                 <input style="border:1px solid #ddd; padding:7px;outline:none" name="name" type=text
                                     Placeholder="Service Name" type=text pattern="[a-zA-Z0-9_ -]+"
                                     title="Only letters, numbers, _ and - accepted" required />

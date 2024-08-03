@@ -2,11 +2,39 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Dcblogdev\Countries\Facades\Countries;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
-class Member extends Model
+class Member extends Authenticatable
 {
     protected $guarded = ['id'];
+
+    // protected $fillable = ['password', 'isadmin', 'remember_token'];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    static function cloneBranch(Branch $branch)
+    {
+        $names = explode(' ', $branch->branchname);
+
+        return $branch->members()->create([
+            'firstname' => $names[0],
+            'lastname' => $names[1] ?? '',
+            'address' => $branch->address,
+            'email' => $branch->email,
+            'isadmin' => true,
+            'photo' => '',
+            'password' => $branch->password,
+        ]);
+    }
 
     public function getFullname()
     {
@@ -50,6 +78,42 @@ class Member extends Model
         return $this->getFullname();
     }
 
+    public static function getCurrency()
+    {
+        $curObj;
+        $currency = auth()->user()->branch->currency;
+        // $currency = self::user()->currency;
+        foreach (Countries::all() as $value) {
+            if ($value->currency_symbol == $currency) {
+                $curObj = $value;
+                break;
+            }
+        }
+        return $curObj;
+    }
+
+    public function isAdmin()
+    {
+
+        return $this->isadmin;
+    }
+
+    public function getName()
+    {
+        return "$this->firstname $this->lastname";
+    }
+
+    public static function toMoney($number)
+    {
+        $currency = self::getCurrency();
+        return $currency->currency_symbol . number_format((float) $number);
+    }
+
+    public function getCurrencySymbol()
+    {
+        return self::getCurrency();
+    }
+
     public function profile()
     {
         return route('member.profile', ['id' => $this->id]); //../member/profile/${id}
@@ -62,7 +126,12 @@ class Member extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 
     public function member_savings()
@@ -73,5 +142,65 @@ class Member extends Model
     public function attendances()
     {
         return $this->hasMany(MemberAttendance::class);
+    }
+
+    public function getBranchById($id)
+    {
+        return \App\Branch::find($id);
+    }
+
+    public function getServiceTypes()
+    {
+        return ServiceType::getTypes();
+    }
+
+    public function getCollectionTypes()
+    {
+        return CollectionsType::getTypes();
+    }
+
+    public function group()
+    {
+        return $this->hasMany(Group::class, 'branch_id', 'branch_id');
+    }
+
+    public function members()
+    {
+        return $this->hasMany(Member::class, 'branch_id', 'branch_id');
+    }
+
+    public function option()
+    {
+        return $this->hasMany(Options::class, 'branch_id', 'branch_id');
+    }
+
+    public function collections_types()
+    {
+        return $this->hasMany(CollectionsType::class, 'branch_id', 'branch_id');
+    }
+
+    public function service_type()
+    {
+        return $this->hasMany(ServiceType::class, 'branch_id', 'branch_id');
+    }
+
+    public function collections()
+    {
+        return $this->hasMany(Collection::class, 'branch_id', 'branch_id');
+    }
+
+    public function MemberSavings()
+    {
+        return $this->hasMany(MemberSavings::class, 'branch_id', 'branch_id');
+    }
+
+    public function collections_commissions()
+    {
+        return $this->hasMany(CollectionCommission::class, 'branch_id', 'branch_id');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'branch_id', 'branch_id');
     }
 }

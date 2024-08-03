@@ -40,6 +40,11 @@ class Setting extends Model
                 $setting->name = 'logo';
             }
 
+            if (Member::count() == 1) {
+                $member = Member::first();
+                $member->update(['photo' => $image_name]);
+            }
+
             $setting->value = $image_name;
             $setting->save();
             return response()->json(['status' => true,]);

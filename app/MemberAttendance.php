@@ -11,9 +11,9 @@ class MemberAttendance extends Model
         'member_id', 'attendance', 'date', 'branch_id', 'service_types_id'
     ];
 
-    public function service_types()
+    public function service_type()
     {
-        return $this->belongsTo(ServiceType::class);
+        return $this->belongsTo(ServiceType::class, 'service_types_id');
     }
 
     public function member()

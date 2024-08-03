@@ -53,7 +53,7 @@
                         @endforeach
                     @endif
                 </div>
-                <?php $name = \Auth::user()->getName() . ' ' . \Auth::user()->branchcode; ?>
+                <?php $name = \Auth::user()->branch->getName() . ' ' . \Auth::user()->branch->branchcode; ?>
                 <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
                     <div class="panel" style="background-color: #e8ddd3;">
                         <div class="panel-heading">

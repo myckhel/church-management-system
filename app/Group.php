@@ -25,6 +25,6 @@ class Group extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'branch_id');
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 }

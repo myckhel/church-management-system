@@ -58,7 +58,7 @@ class CollectionsType extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class);
+        $this->belongsTo(Branch::class);
     }
 
     public static function getTypes()

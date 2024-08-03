@@ -101,7 +101,7 @@
                                                 Code</label>
                                             <div class="col-md-9">
                                                 <input type="text" id="demo-readonly-input"
-                                                    value="{{ \Auth::user()->branchcode }}" class="form-control"
+                                                    value="{{ \Auth::user()->branch->branchcode }}" class="form-control"
                                                     placeholder="Readonly input here..." readonly>
                                             </div>
                                         </div>

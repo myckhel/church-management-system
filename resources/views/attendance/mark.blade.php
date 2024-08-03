@@ -43,8 +43,10 @@
             <div class="col-md-12 col-md-offset-0 col-lg-8 col-lg-offset-1" style="margin-bottom:20px">
                 <div class="panel rounded-top" style="background-color: #e8ddd3;">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">Mark Attendnace for <strong>{{ \Auth::user()->branchname }}
-                                <i>{{ \Auth::user()->branchcode }}</i></strong></h3>
+                        <h3 class="panel-title text-center">Mark Attendnace for
+                            <strong>{{ \Auth::user()->branch->branchname }}
+                                <i>{{ \Auth::user()->branch->branchcode }}</i></strong>
+                        </h3>
                     </div>
                     <!-- if service types not exists -->
                     @if (!count($services) > 0)
@@ -127,8 +129,10 @@
             <div class="col-md-12 col-md-offset-0 col-lg-8 col-lg-offset-1" style="margin-bottom:20px">
                 <div class="panel bg-warning rounded-top" style="overflow:scroll; background-color: #e8ddd3;">
                     <div class="panel-heading">
-                        <h3 class="panel-title text-center">Mark Attendnace for <strong>{{ \Auth::user()->branchname }}
-                                <i>{{ \Auth::user()->branchcode }}</i></strong></h3>
+                        <h3 class="panel-title text-center">Mark Attendnace for
+                            <strong>{{ \Auth::user()->branch->branchname }}
+                                <i>{{ \Auth::user()->branch->branchcode }}</i></strong>
+                        </h3>
                     </div>
 
                     @if (!count($services) > 0)
