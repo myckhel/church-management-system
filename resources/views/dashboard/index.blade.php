@@ -33,7 +33,7 @@
         <div id="page-head">
             <hr class="new-section-sm bord-no">
             <div class="text-center">
-                <h3>Welcome to <strong>{{ strtoupper($user->branchname) }}</strong> Dashboard.</h3>
+                <h3>Welcome to <strong>{{ strtoupper($user->branch->branchname) }}</strong> Dashboard.</h3>
                 <!--<p>Check out your past searches and the content you’ve browsed in. <a href="dashboard" class="btn-link">View last results</a></p>-->
             </div>
             <!-- <hr class="new-section-md bord-no"> -->
@@ -60,7 +60,7 @@
                         <!--===================================================-->
                         <div class=" panel-primary panel-colorful col-md-3 col-xs-6">
                             <div class="pad-all text-center">
-                                <span class="text-3x text-thin">{{ \App\User::all()->count() }}</span>
+                                <span class="text-3x text-thin">{{ \App\Branch::all()->count() }}</span>
                                 <p>Parishes</p>
                                 <i class="icofont icofont-building-alt text-success"></i>
                             </div>
@@ -188,9 +188,7 @@
                                 </div>
                             </div>
                         </div>
-                        <?php $isAdmin = auth()
-                            ->user()
-                            ->isAdmin(); ?>
+                        <?php $isAdmin = auth()->user()->isAdmin(); ?>
                         <div class="col-md-8">
                             <div class="row">
                                 @if ($isAdmin)
@@ -470,12 +468,12 @@
                                         <?php $i = 0;
                                         $totalCommission = 0;
                                         $amount = 0;
-                                        $branch_id = $user->id; ?>
+                                        $branch_id = $user->branch_id; ?>
                                         @if (isset($dueSavings[$branch_id]))
                                             @foreach ($dueSavings[$branch_id] as $savings)
                                                 <tr>
                                                     <td>{{ $savings->date_collected }}</td>
-                                                    <td>{{ $savings->service_types }}</td>
+                                                    <td>{{ $savings->service_type }}</td>
                                                     <td>{{ $money($savings->total) }}</td>
                                                     <?php $i++;
                                                     $commission = (float) ($savings->total * ($percentage / 100));
@@ -513,7 +511,7 @@
                                             <?php $totalCommission = 0; ?>
                                             @foreach ($allDueSavings as $branch_id => $commission)
                                                 <tr>
-                                                    <td>{{ ucwords($user->getUserById($branch_id)->branchname) }}</td>
+                                                    <td>{{ ucwords($user->getBranchById($branch_id)->branchname) }}</td>
                                                     <?php $totalCommission += $commission; ?>
                                                     <td>{{ $money($commission) }}</td>
                                                 </tr>
@@ -544,7 +542,8 @@
                 <div class="col-md-6">
                     <div class="panel">
                         <div class="panel-heading">
-                            <h1 class="text-bold text-center ji">Upcoming Events for {{ strtoupper($user->branchname) }}
+                            <h1 class="text-bold text-center ji">Upcoming Events for
+                                {{ strtoupper($user->branch->branchname) }}
                             </h1>
                         </div>
                         @foreach ($eventss as $event)
@@ -620,9 +619,9 @@
                                                 <label class="label label-danger">By <i class="icofont-user"></i>
                                                     {{ ucwords($event->by_who) }}</label>
                                                 <!-- <label class="label label-primary">Start Date <i class="icofont-stop-watch"></i> {{ $event->start_date }}</label>
-                                          <label class="label label-primary">Start Time <i class="icofont-stop-watch"></i> {{ $event->start_time }}</label>
-                                          <label class="label label-info">End Date <i class="icofont-wall-clock icon-fw text-main"></i> {{ $event->stop_date }}</label>
-                                          <label class="label label-info">End Time <i class="icofont-wall-clock icon-fw text-main"></i> {{ $event->stop_time }}</label> -->
+                                                      <label class="label label-primary">Start Time <i class="icofont-stop-watch"></i> {{ $event->start_time }}</label>
+                                                      <label class="label label-info">End Date <i class="icofont-wall-clock icon-fw text-main"></i> {{ $event->stop_date }}</label>
+                                                      <label class="label label-info">End Time <i class="icofont-wall-clock icon-fw text-main"></i> {{ $event->stop_time }}</label> -->
                                             </span>
                                         </a>
                                     </div>
@@ -676,10 +675,10 @@
                                 <!-- Striped Table -->
                                 <!--===================================================-->
                                 <!-- <div class="panel-body">
-                            <div class="" style="width: 100%; height: 500px;" id="map-area">
-                              { !  ! Mapper::render() !!}
-                            </div>
-                          </div> -->
+                                        <div class="" style="width: 100%; height: 500px;" id="map-area">
+                                          { !  ! Mapper::render() !!}
+                                        </div>
+                                      </div> -->
                                 <!--===================================================-->
                                 <!-- End Striped Table -->
                             </div>

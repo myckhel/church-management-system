@@ -88,7 +88,7 @@
                                                 Code</label>
                                             <div class="col-md-9">
                                                 <input type="text" id="demo-readonly-input"
-                                                    value="{{ \Auth::user()->branchcode }}" class="form-control"
+                                                    value="{{ \Auth::user()->branch->branchcode }}" class="form-control"
                                                     placeholder="Readonly input here..." readonly>
                                             </div>
                                         </div>
@@ -605,9 +605,9 @@
                                                         name="photo" style="display: none">
                                                 </div>
                                                 <!-- <span class="pull-left btn btn-primary btn-file">
-               Select...
-               <input id="img-input" type="file" accept="image/*" capture name="photo">
-              </span> -->
+                   Select...
+                   <input id="img-input" type="file" accept="image/*" capture name="photo">
+                  </span> -->
                                                 <!-- <input type="file" accept="image/*" capture="camera"> -->
                                             </div>
                                         </div>
@@ -627,10 +627,10 @@
                                             </div>
                                         </div>
                                         <!--div class="row">
-             <div class="col-md-3" style="">
-              <button class="btn btn-info pull-center" type="submit">REGISTER MEMBER</button>
-             </div>
-            </div-->
+                 <div class="col-md-3" style="">
+                  <button class="btn btn-info pull-center" type="submit">REGISTER MEMBER</button>
+                 </div>
+                </div-->
                                         <div class="form-group" style="padding-top:50px">
                                             <div class="col-md-9">
                                                 <span class=" pull-right">
@@ -704,13 +704,13 @@
                                         </div>
                                         <div class="modal-body">
                                             <!-- <h1>Take a snapshot of the current video stream</h1>
-        Click on the Start WebCam button.
-        <p>
-        <button onclick="startWebcam();">Start WebCam</button>
-        <button onclick="stopWebcam();">Stop WebCam</button>
-         <button onclick="snapshot();">Take Snapshot</button>
-        </p>
-        <video onclick="snapshot(this);" width=400 height=400 id="video" controls autoplay></video> -->
+            Click on the Start WebCam button.
+            <p>
+            <button onclick="startWebcam();">Start WebCam</button>
+            <button onclick="stopWebcam();">Stop WebCam</button>
+             <button onclick="snapshot();">Take Snapshot</button>
+            </p>
+            <video onclick="snapshot(this);" width=400 height=400 id="video" controls autoplay></video> -->
                                             <div id="captured" class="" style="display:none">
                                                 <h3 class="text-primary"> Screenshots : <h3>
                                                         <canvas id="myCanvas" width="400" height="350"></canvas>

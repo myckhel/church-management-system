@@ -2,17 +2,17 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
 use Cache;
 use App\ServiceType;
 use App\CollectionsType;
 use Dcblogdev\Countries\Facades\Countries;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Branch extends Authenticatable
 {
-    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -46,7 +46,8 @@ class Branch extends Authenticatable
     public static function getCurrency()
     {
         $curObj;
-        $currency = auth()->user()->currency;
+        $currency = auth()->user()->branch->currency;
+        // $currency = self::user()->currency;
         foreach (Countries::all() as $value) {
             if ($value->currency_symbol == $currency) {
                 $curObj = $value;
@@ -54,12 +55,6 @@ class Branch extends Authenticatable
             }
         }
         return $curObj;
-    }
-
-    public static function toMoney($number)
-    {
-        $currency = self::getCurrency();
-        return $currency->currency_symbol . number_format((float) $number);
     }
 
     public function getCurrencySymbol()
@@ -82,15 +77,93 @@ class Branch extends Authenticatable
         return Cache::has('user-is-online-' . $this->id);
     }
 
-    public function getUserById($id)
-    {
-        return \App\User::find($id);
-    }
-
     public function creation()
     {
 
         return;
+    }
+
+    public static function register(Request $request)
+    {
+        $data = [];
+        $data['branchname'] = $request->branchname;
+        $data['branchcode'] = $request->branchcode;
+        $data['address'] = $request->address;
+        $data['email'] = $request->email;
+        $data['country'] = $request->country;
+        $data['state'] = $request->state;
+        $data['city'] = $request->city;
+        if (!Branch::first()) {
+            $data['isadmin'] = 'true';
+        }
+        $data['currency'] = $request->currency;
+        $data['password'] = $request->password;
+        $data['password_confirmation'] = $request->password_confirmation;
+
+        $validate = self::validator($data);
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate)->withInput();
+        }
+        $branch = self::creator($data);
+
+        self::createMember($branch, $data);
+        //
+        $success = 'Successfully Registered';
+        return redirect()->back()->with('status', $success);
+    }
+
+    static function createMember(Branch $branch, $data)
+    {
+        @[$firstname, $lastname] = explode(' ', $data['branchname']);
+
+        return $branch->members()->create([
+            'email' => $data['email'],
+            'isadmin' =>  true,
+            'password' => Hash::make($data['password']),
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'photo' => '',
+            'title' => 'Mr',
+            'position' => 'senior pastor',
+            'sex' => 'male',
+            'country' => $data['country'],
+            'state' => $data['state'],
+            'city' => $data['city'],
+            'currency' => $data['currency'],
+        ]);
+    }
+
+    protected static function validator(array $data)
+    {
+        return Validator::make($data, [
+            'branchname' => 'bail|required|string|max:255',
+            'branchcode' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:branches',
+            'password' => 'required|string|min:6|confirmed',
+            'country' => 'required|string|max:255',
+            'state' =>  'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'currency' => 'required',
+        ]);
+    }
+
+    protected static function creator(array $data)
+    {
+        $branch = Branch::create([
+            'branchname' => $data['branchname'],
+            'branchcode' => $data['branchcode'],
+            'address' => $data['address'],
+            'email' => $data['email'],
+            'isadmin' => isset($data['isadmin']) ? $data['isadmin'] : 'false',
+            'password' => '',
+            'country' => $data['country'],
+            'state' => $data['state'],
+            'city' => $data['city'],
+            'currency' => $data['currency'],
+        ]);
+
+        return $branch;
     }
 
     public function group()
@@ -113,7 +186,7 @@ class Branch extends Authenticatable
         return $this->hasMany(CollectionsType::class);
     }
 
-    public function service_type()
+    public function service_types()
     {
         return $this->hasMany(ServiceType::class);
     }

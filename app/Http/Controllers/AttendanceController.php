@@ -18,7 +18,7 @@ class AttendanceController extends Controller
     {
         // $user = \Auth::user();
         // $date = $request->date;
-        // return view('attendance.mark', compact('members', 'date', 'users'));
+        // return view('attendance.mark', compact('members', 'date', 'branches'));
     }
 
     /**
@@ -47,7 +47,7 @@ class AttendanceController extends Controller
         }
 
         // check if attendnace has already been marked for that date
-        $attendance = Attendance::where('attendance_date', date('Y-m-d', strtotime($request->get('date'))))->where('branch_id', $user->id)->get(['id'])->count();
+        $attendance = Attendance::where('attendance_date', date('Y-m-d', strtotime($request->get('date'))))->where('branch_id', $user->branch_id)->get(['id'])->count();
         if ($attendance > 0) {
             return response()->json(['status' => false, 'text' => "**Attendance for {$this->get_date_in_words($request->get('date'))} has been saved before!"]);
         }
@@ -55,7 +55,7 @@ class AttendanceController extends Controller
         $dateToSave = date('Y-m-d', strtotime($request->get('date')));
         // register attendance
         $attendance = new Attendance(array(
-            'branch_id' => $user->id,
+            'branch_id' => $user->branch_id,
             'male' => $request->get('male'),
             'female' => $request->get('female'),
             'children' => $request->get('children'),
@@ -76,7 +76,7 @@ class AttendanceController extends Controller
     {
 
         $user = \Auth::user();
-        $attendance = Attendance::where('attendance_date', $date)->where('branch_id', $user->id)->first();
+        $attendance = Attendance::where('attendance_date', $date)->where('branch_id', $user->branch_id)->first();
         if ($attendance) {
             $addedVariables = ['formatted_date' => $request->get('date'), 'date_in_words' => "{$this->get_date_in_words($attendance->attendance_date)}", 'request_date' => $request->date];
             return view('attendance.view', compact('attendance', 'addedVariables'));
@@ -94,11 +94,11 @@ class AttendanceController extends Controller
     public function show(Attendance $attendance, Request $request)
     {
         $user = \Auth::user();
-        $attendance = Attendance::where('attendance_date', $request->get('date'))->where('branch_id', $user->id)->first();
+        $attendance = Attendance::where('attendance_date', $request->get('date'))->where('branch_id', $user->branch_id)->first();
         if ($attendance) {
             return response()->json(['status' => true, 'attendance' => $attendance]);
         } else {
-	    	return response()->json(['status' => false, 'text' => "No attendance data for {$this->get_date_in_words($request->get('date'))}"]);
+            return response()->json(['status' => false, 'text' => "No attendance data for {$this->get_date_in_words($request->get('date'))}"]);
         }
     }
 
@@ -142,21 +142,21 @@ class AttendanceController extends Controller
 
         $user = \Auth::user();
         $sql = "SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-        MONTH(attendance_date) AS month FROM `attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND branch_id = '$user->id' GROUP BY month";
+        MONTH(attendance_date) AS month FROM `attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND branch_id = '$user->branch_id' GROUP BY month";
         $attendances = \DB::select($sql);
         //day
         $sql = "SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-        DAYOFWEEK(attendance_date) AS day FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 7 DAY) AND WEEK(attendance_date) = WEEK(DATE(NOW())) AND branch_id = '$user->id' GROUP BY day";
+        DAYOFWEEK(attendance_date) AS day FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 7 DAY) AND WEEK(attendance_date) = WEEK(DATE(NOW())) AND branch_id = '$user->branch_id' GROUP BY day";
         $attendances2 = \DB::select($sql);
 
         //Week
         $sql = "SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-        WEEK(attendance_date) AS week FROM `attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND attendance_date >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = '$user->id' GROUP BY week";
+        WEEK(attendance_date) AS week FROM `attendances` WHERE YEAR(attendance_date) = YEAR(CURDATE()) AND attendance_date >= DATE(NOW() + INTERVAL - 10 WEEK) AND branch_id = '$user->branch_id' GROUP BY week";
         $attendances3 = \DB::select($sql);
 
         //Year
         $sql = "SELECT SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-        YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->id' GROUP BY year";
+        YEAR(attendance_date) AS year FROM `attendances` WHERE attendance_date >= DATE(NOW() + INTERVAL - 10 YEAR) AND branch_id = '$user->branch_id' GROUP BY year";
         $attendances4 = \DB::select($sql);
 
         return view('attendance.analysis', compact('attendances', 'attendances2', 'attendances3', 'attendances4'));
@@ -166,8 +166,8 @@ class AttendanceController extends Controller
     {
         $user = \Auth::user();
         $members = $user->members()->get();
-        $attendance = Attendance::where('branch_id', $user->id)->with('service_types')->orderBy('attendance_date', 'DESC')->get();
-        // $attendances = $user->members()->with('member_attendances.service_types')->get();
+        $attendance = Attendance::where('branch_id', $user->branch_id)->with('service_type')->orderBy('attendance_date', 'DESC')->get();
+        // $attendances = $user->members()->with('member_attendances.service_type')->get();
         return view('attendance.view', compact('attendance', 'members'));
     }
 
@@ -175,7 +175,7 @@ class AttendanceController extends Controller
     {
         $user = \Auth::user();
         $services = $user->getServiceTypes();
-        $members = \App\Member::where('branch_id', $user->id)->get();
+        $members = \App\Member::where('branch_id', $user->branch_id)->get();
         return view('attendance.mark', compact('members', 'services'));
     }
 
@@ -207,7 +207,7 @@ class AttendanceController extends Controller
     {
         $user = \Auth::user();
         $attendances = Attendance::selectRaw("COUNT(id) as total, SUM(male) AS male, SUM(female) AS female, SUM(children) AS children,
-      MONTH(attendance_date) AS month")->whereRaw("attendance_date > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->id)->groupBy("month")->get();
+      MONTH(attendance_date) AS month")->whereRaw("attendance_date > DATE(now() + INTERVAL - 12 MONTH)")->where("branch_id", $user->branch_id)->groupBy("month")->get();
 
         $group = 'month';
         $months = [];

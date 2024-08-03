@@ -9,8 +9,8 @@ class Payment extends Model
     //
     protected $guarded = [];
 
-    public function users()
+    public function branches()
     {
-        return $this->belongsTo(User::class, 'branch_id');
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 }

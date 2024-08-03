@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ \Auth::user()->branchname }}{{ \Auth::user()->branchcode }}: Attendance Report
+    {{ \Auth::user()->branch->branchname }}{{ \Auth::user()->branch->branchcode }}: Attendance Report
 @endsection
 
 @section('link')
@@ -9,12 +9,12 @@
 @endsection
 @section('content')
     <?php
-    
+
     // extract addedVariables value to variable
     if (isset($addedVariables)) {
         extract($addedVariables);
     }
-    
+
     ?>
     <!--CONTENT CONTAINER-->
     <!--===================================================-->
@@ -135,22 +135,22 @@
                         </div>
                         <br />
                         <!-- <form id="viewByDate" method="POST" action="{{ route('attendance.view') }}">
-                            @csrf
-                            <input name="branch_id" value="3" type="text" hidden="hidden"/>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label class="control-label">Choose Specific Date</label>
-                                            <input id="yearDate" type="date" name="date" class="form-control" required>
+                                    @csrf
+                                    <input name="branch_id" value="3" type="text" hidden="hidden"/>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Choose Specific Date</label>
+                                                    <input id="yearDate" type="date" name="date" class="form-control" required>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="panel-footer text-right bg-dark">
-                                <button class="btn btn-success" type="submit">VIEW ATTENDANCE</button>
-                            </div>
-                        </form> -->
+                                    <div class="panel-footer text-right bg-dark">
+                                        <button class="btn btn-success" type="submit">VIEW ATTENDANCE</button>
+                                    </div>
+                                </form> -->
                         <!--===================================================-->
                         <!--End Block Styled Form -->
 
@@ -188,7 +188,7 @@
                                         ?>
                                         <tr>
                                             <td><strong>{{ $count }}</strong></td>
-                                            <td>{{ $list->service_types->name }}</td>
+                                            <td>{{ $list->service_type->name }}</td>
                                             <td>{{ $list->male }}</td>
                                             <td>{{ $list->female }}</td>
                                             <td>{{ $list->children }}</td>
@@ -392,8 +392,8 @@
                 ajax: `../member/attendance/${id}`,
                 columns: [{
                         title: "Service type",
-                        data: 'service_types.name',
-                        name: 'service_types.name'
+                        data: 'service_type.name',
+                        name: 'service_type.name'
                     },
                     {
                         title: "Attendance",

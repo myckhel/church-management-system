@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Dcblogdev\Countries\Facades\Countries;
-use \App\User;
-use \App\BranchCreator;
+use \App\Branch;
 use \App\Setting;
 
 class VisitorController extends Controller
@@ -102,7 +101,7 @@ class VisitorController extends Controller
     public function setupUser()
     {
         // check if user exist in table and redirect to home
-        if (User::first()) {
+        if (Branch::first()) {
             return Redirect()->route('dashboard');
         } else {
             // show register view
@@ -114,7 +113,7 @@ class VisitorController extends Controller
 
     public function register(Request $request)
     {
-        return BranchCreator::register($request);
+        return Branch::register($request);
     }
 
     public function setupApp()

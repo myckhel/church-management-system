@@ -37,9 +37,9 @@
                     <h3 class="panel-title">List of All Branches</h3>
                 </div>
                 <div class="panel-body">
-                    <form id="users-form" onsubmit="return false;">
-                        <table id="users-table" class="table table-striped table-bordered" cellpadding="10" cellspacing="0"
-                            width="100%">
+                    <form id="branches-form" onsubmit="return false;">
+                        <table id="branches-table" class="table table-striped table-bordered" cellpadding="10"
+                            cellspacing="0" width="100%">
                             <thead>
                             </thead>
                             <tbody>
@@ -102,7 +102,7 @@
         })()
         $(document).ready(function() {
             var i = 1
-            users_table = $('#users-table').DataTable({
+            users_table = $('#branches-table').DataTable({
                 processing: true,
                 serverSide: true,
                 "columnDefs": [{
@@ -208,7 +208,7 @@
             });
 
             // members edit table row
-            $('#users-table').on('click', 'tbody tr td .edit ', function(e) {
+            $('#branches-table').on('click', 'tbody tr td .edit ', function(e) {
                 id = $(this).attr('data-id')
                 let i = 0;
                 columns = $(this).parent().closest('tr').find('td').each(function() {
@@ -305,8 +305,8 @@
             });
 
             //for save user
-            // $('#users-table').on( 'click', 'tbody tr td .save', function (e) {
-            $('#users-form').on('submit', function(e) {
+            // $('#branches-table').on( 'click', 'tbody tr td .save', function (e) {
+            $('#branches-form').on('submit', function(e) {
                 e.preventDefault()
                 data = {}
                 data = $(this).serializeArray()
@@ -321,7 +321,7 @@
             })
 
             //for cancel user edit
-            $('#users-table').on('click', 'tbody tr td .restore', function(e) {
+            $('#branches-table').on('click', 'tbody tr td .restore', function(e) {
                 users_table.ajax.reload(null, false)
             })
 

@@ -134,13 +134,13 @@
                 columns: ((types) => {
                     let cols = []
                     cols.push({
-                        data: 'service_types'
+                        data: 'service_type'
                     })
                     types.forEach((v) => (
                         cols.push({
                             data: 'amounts.' + v.name,
                             render: (data) => (
-                                `{{ \Auth::user()->getCurrencySymbol()->currency_symbol }}${data ? data : 0}`
+                                `{{ \Auth::user()->branch->getCurrencySymbol()->currency_symbol }}${data ? data : 0}`
                             )
                         })
                     ))
@@ -188,13 +188,13 @@
                         data: 'name'
                     })
                     cols.push({
-                        data: 'service_types'
+                        data: 'service_type'
                     })
                     types.forEach((v) => (
                         cols.push({
                             data: 'amounts.' + v.name,
                             render: (data) => (
-                                `{{ \Auth::user()->getCurrencySymbol()->currency_symbol }}${data ? data : 0}`
+                                `{{ \Auth::user()->branch->getCurrencySymbol()->currency_symbol }}${data ? data : 0}`
                             )
                         })
                     ))

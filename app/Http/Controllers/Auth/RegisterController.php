@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Branch;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -52,7 +52,7 @@ class RegisterController extends Controller
             'branchname' => 'bail|required|string|max:255',
             'branchcode' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:branches',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -61,11 +61,11 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Branch
      */
     protected function create(array $data)
     {
-        return User::create([
+        return Branch::create([
             'branchname' => $data['branchname'],
             'branchcode' => $data['branchcode'],
             'address' => $data['address'],

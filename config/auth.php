@@ -41,9 +41,14 @@ return [
             'provider' => 'members',
         ],
 
+        'web:branch' => [
+            'driver' => 'session',
+            'provider' => 'branches',
+        ],
+
         'api' => [
             'driver' => 'token',
-            'provider' => 'users',
+            'provider' => 'members',
         ],
     ],
 
@@ -68,6 +73,11 @@ return [
         'members' => [
             'driver' => 'eloquent',
             'model' => App\Member::class,
+        ],
+
+        'branches' => [
+            'driver' => 'eloquent',
+            'model' => App\Branch::class,
         ],
 
         // 'users' => [

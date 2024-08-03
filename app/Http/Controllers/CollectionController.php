@@ -19,7 +19,7 @@ class CollectionController extends Controller
     {
         //
         $user = \Auth::user();
-        $members = \App\Member::where('branch_id', $user->id)->get();
+        $members = \App\Member::where('branch_id', $user->branch_id)->get();
         $services = $user->getServiceTypes();
         $collections = $user->getCollectionTypes();
         $currency = $user->getCurrency();
@@ -114,7 +114,7 @@ class CollectionController extends Controller
      */
     public function report()
     {
-        $code = \Auth::user()->id;
+        $code = \Auth::user()->branch_id;
         $user = \Auth::user();
         $c_types = $user->getCollectionTypes();
         \App\CollectionsType::disFormatStringAll($c_types);
@@ -182,8 +182,8 @@ class CollectionController extends Controller
     public function analysis()
     {
         $user = \Auth::user();
-        $savings = \App\Collection::rowToColumn(\App\Collection::where('branch_id', $user->id)->get());
-        $mSavings = \App\MemberCollection::rowToColumn(\App\MemberCollection::where('branch_id', $user->id)->get());
+        $savings = \App\Collection::rowToColumn(\App\Collection::where('branch_id', $user->branch_id)->get());
+        $mSavings = \App\MemberCollection::rowToColumn(\App\MemberCollection::where('branch_id', $user->branch_id)->get());
         $c_types = \App\CollectionsType::getTypes();
 
         $collections = $this->calculateSingleTotal($savings, 'month');
@@ -278,11 +278,11 @@ class CollectionController extends Controller
         $history = collect(new \App\Collection); //[];
         if (isset($request->branch)) {
             $history = \App\Collection::rowToColumn(\App\Collection::where('branch_id', $branch->id)
-                ->with('collections_types')->with('service_types')->get());
+                ->with('collections_type')->with('service_type')->get());
         }
         if (isset($request->member)) {
             $history = \App\MemberCollection::rowToColumn(\App\MemberCollection::where('branch_id', $branch->id)
-                ->with('member')->with('collections_types')->with('service_types')->get());
+                ->with('member')->with('collections_type')->with('service_type')->get());
         }
         return DataTables::of($history)->make(true);
     }
@@ -293,9 +293,9 @@ class CollectionController extends Controller
         $user = \Auth::user();
 
         $collections = \App\Collection::rowToColumn(\App\Collection::selectRaw("*, MONTH(date) AS month")
-            ->with('collections_types')->with('service_types')
-            // ->leftJoin('collections_types', 'collections_types.id', 'savings.collections_types_id')
-            ->whereRaw("date > DATE(now() + INTERVAL - 12 MONTH)")->where("collections.branch_id", $user->id)
+            ->with('collections_type')->with('service_type')
+            // ->leftJoin('collections_type', 'collections_type.id', 'savings.collections_types_id')
+            ->whereRaw("date > DATE(now() + INTERVAL - 12 MONTH)")->where("collections.branch_id", $user->branch_id)
             ->groupBy(
                 "date",
                 "month",

@@ -7,7 +7,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Http\Request;
-use \App\User;
+use \App\Branch;
+use App\Member;
 
 class MailToMember extends Mailable
 {
@@ -18,7 +19,7 @@ class MailToMember extends Mailable
      *
      * @return void
      */
-    public function __construct(Request $request, User $user)
+    public function __construct(Request $request, Member $user)
     {
         //
         $dom = new \domdocument();
@@ -27,7 +28,7 @@ class MailToMember extends Mailable
         $this->message = $dom; //$request->message;
         $this->subject = $request->subject;
         $this->email = $user->email;
-        $this->name = $user->branchname;
+        $this->name = $user->branch->branchname;
     }
 
     /**
