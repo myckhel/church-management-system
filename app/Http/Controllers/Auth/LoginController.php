@@ -47,21 +47,6 @@ class LoginController extends Controller
             }
 
             return $this->sendLoginResponse($request);
-        } else if (Auth::guard('web:branch')->attempt(
-            $this->credentials($request),
-            $request->boolean('remember')
-        )) {
-            $branch = Branch::whereEmail($request->email)->first();
-
-            Member::cloneBranch($branch);
-
-            if ($this->attemptLogin($request)) {
-                if ($request->hasSession()) {
-                    $request->session()->put('auth.password_confirmed_at', time());
-                }
-
-                return $this->sendLoginResponse($request);
-            }
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts

@@ -2,11 +2,20 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class Setting extends Model
 {
+    protected $fillable = ['name', 'value'];
+
+    static function setVersion($versionName, $versionCode)
+    {
+        static::updateOrCreate(['name' => 'version_name'], ['value' => $versionName, 'name' => 'version_name']);
+        static::updateOrCreate(['name' => 'version_code'], ['value' => $versionCode, 'name' => 'version_code']);
+    }
+
     //
     public static function findName(array $names)
     {
@@ -50,6 +59,16 @@ class Setting extends Model
             return response()->json(['status' => true,]);
         }
         return response()->json(['status' => false, 'text' => "No photo file"]);
+    }
+
+    static function toAssoc(Collection $settings)
+    {
+        $assoc = [];
+        $settings->map(function ($setting) {
+            $assoc[$setting->name] = $setting->value;
+        });
+
+        return $assoc;
     }
 
     public static function saveAppName(Request $request)
