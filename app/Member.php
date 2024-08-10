@@ -4,9 +4,12 @@ namespace App;
 
 use Dcblogdev\Countries\Facades\Countries;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class Member extends Authenticatable
 {
+    use HasRoles;
+
     protected $guarded = ['id'];
 
     // protected $fillable = ['password', 'isadmin', 'remember_token'];

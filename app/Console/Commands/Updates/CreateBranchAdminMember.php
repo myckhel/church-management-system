@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Updates;
 
+use App\Branch;
+use App\Member;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class Startup extends Command
+class CreateBranchAdminMember extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:startup';
+    protected $signature = 'update:create-branch-admin-member';
 
     /**
      * The console command description.
@@ -38,14 +40,12 @@ class Startup extends Command
      */
     public function handle()
     {
-        $this->info("migrating");
-        Artisan::call('migrate');
+        Artisan::call('optimize:clear');
 
-        $this->info("init-roles");
-        Artisan::call('app:init-roles');
-
-        $this->info("checking for update");
-        Artisan::call('app:update');
+        Branch::all()->map(
+            fn (Branch $branch, int $i) => Member::cloneBranch($branch)
+                ->assignRole($i ? 'admin' : 'super-admin')
+        );
 
         return 0;
     }
