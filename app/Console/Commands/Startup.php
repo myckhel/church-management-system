@@ -41,8 +41,8 @@ class Startup extends Command
         $this->info("migrating");
         Artisan::call('migrate');
 
-        // $this->info("init-roles");
-        // Artisan::call('app:init-roles');
+        $this->info("init-roles");
+        Artisan::call('app:init-roles');
 
         $this->info("checking for update");
         Artisan::call('app:update');
