@@ -4,7 +4,6 @@ namespace App;
 
 use Dcblogdev\Countries\Facades\Countries;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Hash;
 
 class Member extends Authenticatable
 {
@@ -25,7 +24,7 @@ class Member extends Authenticatable
     {
         $names = explode(' ', $branch->branchname);
 
-        return $branch->members()->create([
+        return $branch->members()->updateOrCreate(['email' => $branch->email], [
             'firstname' => $names[0],
             'lastname' => $names[1] ?? '',
             'address' => $branch->address,
