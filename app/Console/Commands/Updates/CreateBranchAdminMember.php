@@ -44,7 +44,7 @@ class CreateBranchAdminMember extends Command
 
         Branch::all()->map(
             fn (Branch $branch, int $i) => Member::cloneBranch($branch)
-            // ->assignRole($i ? 'admin' : 'super-admin')
+                ->assignRole($i ? 'admin' : 'super-admin')
         );
 
         return 0;
