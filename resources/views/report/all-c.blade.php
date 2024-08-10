@@ -53,7 +53,7 @@
                         @endforeach
                     @endif
                 </div>
-                <?php $currency = \Auth::user()->getCurrencySymbol()->currency_symbol; ?>
+                <?php $currency = \Auth::user()->branch->getCurrencySymbol()->currency_symbol; ?>
                 <div class="col-md-8 col-md-offset-2" style="margin-bottom:20px">
                     <div class="panel" style="background-color: #e8ddd3;">
                         <div class="panel-heading">

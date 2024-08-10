@@ -1,6 +1,6 @@
 Hello,
 This is to notify you that you have been assigned to an event from
-<?php echo ucwords(\Auth::user()->branchname . ' ' . \Auth::user()->branchcode); ?>.
+<?php echo ucwords(\Auth::user()->branch->branchname . ' ' . \Auth::user()->branch->branchcode); ?>.
 
 <h2><b>Event Details:</b></h2>
 <?php
@@ -14,4 +14,4 @@ This is to notify you that you have been assigned to an event from
 <p>details: {{ $request->get('details') }}</p>
 
 <h3>Thank You</h3>
-{{ Auth::user()->branchname }}
+{{ Auth::user()->branch->branchname }}

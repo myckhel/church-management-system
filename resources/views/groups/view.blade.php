@@ -73,8 +73,9 @@
                     <form method="POST" action="<?php echo route('group.add.member', $group->id); ?>">
                         @csrf
                         <input type="text" name="group_id" value="{{ $group->id }}" hidden=hidden />
-                        <p>Members of <strong>{{ \Auth::user()->branchname }}</strong> that are not in
-                            <strong>{{ strtoupper($group->name) }}</strong> Group</p>
+                        <p>Members of <strong>{{ \Auth::user()->branch->branchname }}</strong> that are not in
+                            <strong>{{ strtoupper($group->name) }}</strong> Group
+                        </p>
                         <select class="selectpicker" name="member_id" style="outline:none;height:33px">
                             @foreach ($members_in_branch as $member)
                                 @if (!$member->InGroup($group->id))
@@ -83,7 +84,8 @@
                             @endforeach
 
                         </select>
-                        <input class="" type="hidden" value="{{ \Auth::user()->branchcode }}" name="branch_id" />
+                        <input class="" type="hidden" value="{{ \Auth::user()->branch->branchcode }}"
+                            name="branch_id" />
                         <button type="submit" class="btn btn-success btn-md"><i class="fa fa-plus"></i> Add Member</button>
                     </form>
                 </div>

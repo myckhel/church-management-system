@@ -31,18 +31,18 @@ class HomeController extends Controller
         }
         $user = \Auth::user();
         $c_types = \App\CollectionsType::getTypes();
-        $eventsall =  \App\Announcement::leftjoin('users', "announcements.branch_id", '=', 'users.id')->where('announcements.branch_id', $user->id)->orWhere('announcements.branch_id', $user->id)->orderBy('announcements.id', 'desc')->get();
-        $members = \App\Member::where('branch_id', $user->id)->get();
-        $events = Event::where('branch_id', $user->id)->orderBy('date', 'asc')->get();
+        $eventsall =  \App\Announcement::leftjoin('branches', "announcements.branch_id", '=', 'branches.id')->where('announcements.branch_id', $user->branch_id)->orWhere('announcements.branch_id', $user->branch_id)->orderBy('announcements.id', 'desc')->get();
+        $members = \App\Member::where('branch_id', $user->branch_id)->get();
+        $events = Event::where('branch_id', $user->branch_id)->orderBy('date', 'asc')->get();
         // dd($options);
-        $num_members = $user->isAdmin() ? DB::table('members')->count() : DB::table('members')->where('branch_id', \Auth::user()->id)->count();
-        $num_pastors = $user->isAdmin() ? DB::table('members')->where('position', 'pastor')->orWhere('position', 'senior pastor')->count() : DB::table('members')->where('position', 'pastor')->orWhere('position', 'senior pastor')->where('branch_id', \Auth::user()->id)->count();
-        $num_workers = $user->isAdmin() ? DB::table('members')->where('position', 'worker')->count() : DB::table('members')->where('position', 'worker')->where('branch_id', \Auth::user()->id)->count();
+        $num_members = $user->isAdmin() ? DB::table('members')->count() : DB::table('members')->where('branch_id', \Auth::user()->branch_id)->count();
+        $num_pastors = $user->isAdmin() ? DB::table('members')->where('position', 'pastor')->orWhere('position', 'senior pastor')->count() : DB::table('members')->where('position', 'pastor')->orWhere('position', 'senior pastor')->where('branch_id', \Auth::user()->branch_id)->count();
+        $num_workers = $user->isAdmin() ? DB::table('members')->where('position', 'worker')->count() : DB::table('members')->where('position', 'worker')->where('branch_id', \Auth::user()->branch_id)->count();
         $total = ['workers' => $num_workers, 'pastors' => $num_pastors, 'members' => $num_members];
         $currencies = Countries::all();
         $options = Setting::findName(['logo', 'name']);
         // $currencies = findName(['logo', 'name'], $options);
-        $currency = auth()->user()->getCurrency();
+        $currency = auth()->user()->branch->getCurrency();
         // get due savings
         $dueSavings = \App\CollectionCommission::dueSavings($user);
         // get the commission percentage
@@ -51,7 +51,7 @@ class HomeController extends Controller
         //
         $allDueSavings = \App\CollectionCommission::calculateUnsettledCommission(true);
 
-        $branches = \App\User::all();
+        $branches = \App\Branch::all();
 
 
         // Mapper::map(6.5437548, 3.5859518, ['center' => [6.5437548, 3.8859518], 'title' => "$user->branchname", 'eventClick' => 'console.log("left click");'])

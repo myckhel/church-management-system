@@ -11,7 +11,7 @@ class Options extends Model
         'branch_id', 'name', 'value',
     ];
     //
-    public static function getOneBranchOption($name, User $branch)
+    public static function getOneBranchOption($name, Branch $branch)
     {
         return Options::where('branch_id', $branch->id)->where('name', $name)->first();
     }
@@ -21,7 +21,7 @@ class Options extends Model
         return Options::where('name', $name)->first();
     }
 
-    public static function getBranchOption(User $branch)
+    public static function getBranchOption(Branch $branch)
     {
 
         $options = Options::where('branch_id', $branch->id)->get();
@@ -36,7 +36,7 @@ class Options extends Model
         return $options;
     }
 
-    public static function putBranchOption($request, User $branch)
+    public static function putBranchOption($request, Branch $branch)
     {
         if ($request->name == 'sub_account') {
             $options = ['commission_account_name', 'commission_account_bank', 'commission_account_number', 'subaccount_code'];
@@ -150,6 +150,6 @@ class Options extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class);
+        $this->belongsTo(Branch::class);
     }
 }

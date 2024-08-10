@@ -44,8 +44,8 @@
             <div class="col-sm-10 col-md-10 col-md-offset-1">
                 <div class="panel" style="background-color: #e8ddd3;">
                     <!-- <div class="panel-heading">
-                <h1 class="text-center panel-title">Collection Commission Invoice</h1>
-            </div> -->
+                            <h1 class="text-center panel-title">Collection Commission Invoice</h1>
+                        </div> -->
                     <div class="panel-body demo-nifty-btn table-responsive">
                         <!-- <div id="page-wrap"> -->
 
@@ -55,7 +55,7 @@
 
                             <div id="address">
                                 <b>
-                                    <p>{{ ucwords($user->branchname) }}</p>
+                                    <p>{{ ucwords($user->branch->branchname) }}</p>
                                 </b>
                                 <p>{{ ucwords($user->address) }}</p>
                                 <p>{{ ucwords($user->state) }}, {{ ucwords($user->country) }}</p>
@@ -65,17 +65,17 @@
                             <div id="logo">
 
                                 <!-- <div id="logoctr">
-                    <a href="javascript:;" id="change-logo" title="Change logo">Change Logo</a>
-                    <a href="javascript:;" id="save-logo" title="Save changes">Save</a>
-                    |
-                    <a href="javascript:;" id="delete-logo" title="Delete logo">Delete Logo</a>
-                    <a href="javascript:;" id="cancel-logo" title="Cancel changes">Cancel</a>
-                  </div> -->
+                                <a href="javascript:;" id="change-logo" title="Change logo">Change Logo</a>
+                                <a href="javascript:;" id="save-logo" title="Save changes">Save</a>
+                                |
+                                <a href="javascript:;" id="delete-logo" title="Delete logo">Delete Logo</a>
+                                <a href="javascript:;" id="cancel-logo" title="Cancel changes">Cancel</a>
+                              </div> -->
 
                                 <!-- <div id="logohelp">
-                    <input id="imageloc" type="text" size="50" value="" /><br />
-                    (max width: 540px, max height: 100px)
-                  </div> -->
+                                <input id="imageloc" type="text" size="50" value="" /><br />
+                                (max width: 540px, max height: 100px)
+                              </div> -->
                                 <img id="image" style="width:100%; height:100%;"
                                     src="{{ URL::asset('images/' . $logo['logo']) }}" alt="logo" />
                             </div>
@@ -126,7 +126,7 @@
                                 <th>Commission {{ $percentage }}%</th>
                             </tr>
                             <?php $i = 0;
-                            $branch_id = $user->id;
+                            $branch_id = $user->branch_id;
                             $order_ids = []; ?>
                             @if (isset($dueSavings[$branch_id]))
                                 <?php $totalCommission = \App\CollectionCommission::savingsPercentage($dueSavings[$branch_id]); ?>
@@ -140,7 +140,7 @@
                                             </div>
                                         </td>
                                         <td class="description">
-                                            <div>{{ $savings->service_types }}</div>
+                                            <div>{{ $savings->service_type }}</div>
                                         </td>
                                         <td>
                                             <div class="cost">{{ $money($savings->total) }}</div>
@@ -157,25 +157,25 @@
                             @endif
                             <!-- { {dd($order_ids)}} -->
                             <!-- <tr class="item-row">
-          <td class="item-name"><div class="delete-wpr"><div>SSL Renewals</div><a class="delete" href="javascript:;" title="Remove row">X</a></div></td>
+                      <td class="item-name"><div class="delete-wpr"><div>SSL Renewals</div><a class="delete" href="javascript:;" title="Remove row">X</a></div></td>
 
-          <td class="description"><div>Yearly renewals of SSL certificates on main domain and several subdomains</div></td>
-          <td><div class="cost">$75.00</div></td>
-          <td><div class="qty">3</div></td>
-          <td><span class="price">$225.00</span></td>
-          </tr> -->
+                      <td class="description"><div>Yearly renewals of SSL certificates on main domain and several subdomains</div></td>
+                      <td><div class="cost">$75.00</div></td>
+                      <td><div class="qty">3</div></td>
+                      <td><span class="price">$225.00</span></td>
+                      </tr> -->
 
                             <!-- <tr id="hiderow">
-          <td colspan="5">
-                    <a id="addrow" href="javascript:;" title="Add a row">Add a row</a>
-                  </td>
-          </tr> -->
+                      <td colspan="5">
+                                <a id="addrow" href="javascript:;" title="Add a row">Add a row</a>
+                              </td>
+                      </tr> -->
 
                             <!-- <tr>
-          <td colspan="2" class="blank"> </td>
-          <td colspan="2" class="total-line">Subtotal</td>
-          <td class="total-value"><div id="subtotal">$875.00</div></td>
-          </tr> -->
+                      <td colspan="2" class="blank"> </td>
+                      <td colspan="2" class="total-line">Subtotal</td>
+                      <td class="total-value"><div id="subtotal">$875.00</div></td>
+                      </tr> -->
                             <tr>
                                 <td colspan="2" class="blank"> </td>
                                 <td colspan="2" class="total-line">Total</td>
@@ -184,16 +184,16 @@
                                 </td>
                             </tr>
                             <!-- <tr>
-          <td colspan="2" class="blank"> </td>
-          <td colspan="2" class="total-line">Amount Paid</td>
+                      <td colspan="2" class="blank"> </td>
+                      <td colspan="2" class="total-line">Amount Paid</td>
 
-          <td class="total-value"><div id="paid">$0.00</div></td>
-          </tr> -->
+                      <td class="total-value"><div id="paid">$0.00</div></td>
+                      </tr> -->
                             <!-- <tr>
-          <td colspan="2" class="blank"> </td>
-          <td colspan="2" class="total-line balance">Balance Due</td>
-          <td class="total-value balance"><div class="due">$875.00</div></td>
-          </tr> -->
+                      <td colspan="2" class="blank"> </td>
+                      <td colspan="2" class="total-line balance">Balance Due</td>
+                      <td class="total-value balance"><div class="due">$875.00</div></td>
+                      </tr> -->
 
                         </table>
 

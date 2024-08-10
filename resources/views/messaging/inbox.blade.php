@@ -68,19 +68,19 @@
                                 <div data-toggle="tab" data-target="#online,#welcome-box" onclick="clr_msg_box();"> Active
                                     Branches </div>
                                 <!--div data-toggle="tab" data-target="#sent"> Sent </div>
-                                    <div data-toggle="tab" data-target="#marked"> Marked </div>
-                                    <div data-toggle="tab" data-target="#drafts"> Drafts </div-->
+                                        <div data-toggle="tab" data-target="#marked"> Marked </div>
+                                        <div data-toggle="tab" data-target="#drafts"> Drafts </div-->
                             </div>
                             <div class="tab-content" style="background-color:#afbfd8">
                                 <div id="inbox" class="contacts-outter-wrapper tab-pane active">
                                     <!--form class="panel-search-form info form-group has-feedback no-margin-bottom">
-                                            <input type="text" class="form-control" name="search" placeholder="Search">
-                                            <span class="fa fa-search form-control-feedback"></span>
-                                        </form-->
+                                                <input type="text" class="form-control" name="search" placeholder="Search">
+                                                <span class="fa fa-search form-control-feedback"></span>
+                                            </form-->
                                     <div class="contacts-outter">
                                         <ul class="list-unstyled contacts">
-                                            <?php $user = \Auth::user()->branchcode;
-                                            $username = \Auth::user()->branchname; ?>
+                                            <?php $user = \Auth::user()->branch->branchcode;
+                                            $username = \Auth::user()->branch->branchname; ?>
                                             @foreach ($msg_user as $branch)
                                                 <li data-toggle="tab" data-target="#inbox-message" class=""
                                                     onclick="get_msg('{{ $user }}','{{ $branch->branchcode }}')">
@@ -96,7 +96,7 @@
                                                     <div class="contacts-add">
                                                         <span class="message-time"> <?php /* echo $branch->MaxDate == NOW() ? date('H:i',strtotime($branch->MaxDate)) : date('m/d',strtotime($branch->MaxDate)); */ ?> <sup></sup></span>
                                                         <!--i class="fa fa-trash-o"></i>
-                                                        <i class="fa fa-paperclip"></i-->
+                                                            <i class="fa fa-paperclip"></i-->
                                                     </div>
                                                 </li>
                                             @endforeach
@@ -105,9 +105,9 @@
                                 </div>
                                 <div id="online" class="contacts-outter-wrapper tab-pane">
                                     <!--form class="panel-search-form success form-group has-feedback no-margin-bottom">
-                                            <input type="text" class="form-control" name="search" placeholder="Search">
-                                            <span class="fa fa-search form-control-feedback"></span>
-                                        </form-->
+                                                <input type="text" class="form-control" name="search" placeholder="Search">
+                                                <span class="fa fa-search form-control-feedback"></span>
+                                            </form-->
                                     <div class="contacts-outter">
                                         <ul class="list-unstyled contacts success">
                                             @foreach ($members as $branch)
@@ -131,10 +131,10 @@
 
                                                         </div>
                                                         <!--div class="contacts-add">
-                                                        <span class="message-time"> 2:24 {{ $branch->isOnline() }}<sup>AM</sup></span>
-                                                        <i class="fa fa-trash-o"></i>
-                                                        <i class="fa fa-paperclip"></i>
-                                                    </div-->
+                                                            <span class="message-time"> 2:24 {{ $branch->isOnline() }}<sup>AM</sup></span>
+                                                            <i class="fa fa-trash-o"></i>
+                                                            <i class="fa fa-paperclip"></i>
+                                                        </div-->
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -155,10 +155,10 @@
                                                             </h5>
                                                         </div>
                                                         <!--div class="contacts-add">
-                                                          <span class="message-time"> 2:24 <sup>AM</sup></span>
-                                                          <i class="fa fa-trash-o"></i>
-                                                          <i class="fa fa-paperclip"></i>
-                                                      </div-->
+                                                              <span class="message-time"> 2:24 <sup>AM</sup></span>
+                                                              <i class="fa fa-trash-o"></i>
+                                                              <i class="fa fa-paperclip"></i>
+                                                          </div-->
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -245,9 +245,9 @@
                                             @csrf
                                             <textarea id="reply-text" name="message" class="send-message-text"></textarea>
                                             <!--label class="upload-file">
-                                                  <input name="file" type="file">
-                                                  <i class="fa fa-paperclip"></i>
-                                              </label-->
+                                                      <input name="file" type="file">
+                                                      <i class="fa fa-paperclip"></i>
+                                                  </label-->
                                             <button id="reply-btn" type="button" class="send-message-button btn-info">
                                                 <i class="fa fa-send"></i> </button>
                                         </form>

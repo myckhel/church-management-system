@@ -17,10 +17,10 @@ class GroupController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        //$members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->id)->get();
-        $groups = Group::where('branch_id', $user->id)->get(); //all();
+        //$members = $user->isAdmin() ? \App\Member::all() : \App\Member::where('branch_id', $user->branch_id)->get();
+        $groups = Group::where('branch_id', $user->branch_id)->get(); //all();
         //default groups
-        $firstimer_numbers = Member::where('branch_id', $user->id)->where('member_status', 'new')->get(['id'])->count();
+        $firstimer_numbers = Member::where('branch_id', $user->branch_id)->where('member_status', 'new')->get(['id'])->count();
 
         return view('groups.all', compact('groups', 'firstimer_numbers'));
     }
@@ -45,7 +45,7 @@ class GroupController extends Controller
     {
         $group = Group::create([
             'name' => $request->name,
-            'branch_id' => auth()->user()->id
+            'branch_id' => auth()->user()->branch_id
         ]);
 
         return redirect()->back()->with('status', 'Group created Successfully!');
@@ -60,7 +60,7 @@ class GroupController extends Controller
     public function show($id)
     {
         $user = \Auth::user();
-        $members_in_branch = \App\Member::where('branch_id', $user->id)->get();
+        $members_in_branch = \App\Member::where('branch_id', $user->branch_id)->get();
 
         $members_in_group = [];
         $group = Group::find($id);
@@ -158,7 +158,7 @@ class GroupController extends Controller
             $group = new \App\Group();
             $group->name = 'First Timers Group';
             // $group->save();
-            $members_in_group = Member::where('branch_id', $user->id)->where('member_status', 'new')->get();
+            $members_in_group = Member::where('branch_id', $user->branch_id)->where('member_status', 'new')->get();
             return view('groups.view', compact('members_in_group', 'group'));
         }
         return;
@@ -166,7 +166,7 @@ class GroupController extends Controller
 
     public function members(Request $request)
     {
-        $user = \Auth::user()->id;
+        $user = \Auth::user()->branch_id;
         $names = $request->group;
         $groupMember = [];
         foreach ($names as $key => $value) {

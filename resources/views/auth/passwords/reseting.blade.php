@@ -35,7 +35,7 @@ if (hash_equals($calc, $auth_token->token)) {
 
     // Update password
     $update = $this->db->update(
-        'users',
+        'branches',
         [
             'password' => password_hash($password, PASSWORD_DEFAULT),
         ],
@@ -76,7 +76,7 @@ if (hash_equals($calc, $auth_token->token)) {
 
     // Update password
     $update = $this->db->update(
-        'users',
+        'branches',
         [
             'password' => password_hash($password, PASSWORD_DEFAULT),
         ],
