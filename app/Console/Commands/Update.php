@@ -52,7 +52,6 @@ class Update extends Command
         $serverVersionCode = (int) ($assocSetting['version_code'] ?? 0);
 
         if ($versionCode > $serverVersionCode) {
-
             DB::transaction(function () use ($versionCode, $versionName) {
                 Artisan::call('migrate');
 
@@ -67,8 +66,6 @@ class Update extends Command
 
     function v1()
     {
-        Branch::all()->map(
-            fn (Branch $branch) => Member::cloneBranch($branch)
-        );
+        Artisan::call('update:create-branch-admin-member');
     }
 }

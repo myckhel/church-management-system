@@ -14,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Artisan::call('app:startup');
+        $this->app->booted(
+            fn () => Artisan::call('app:startup')
+        );
     }
 
     /**
