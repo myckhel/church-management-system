@@ -78,7 +78,9 @@
                                         required />
                                 </div>
 
-                                <button class="btn btn-block btn-purple btn-lg">Add New Event</button>
+                                <button @isAdmin() @else disabled @endisAdmin
+                                    class="btn btn-block btn-purple btn-lg">Add New Event</button>
+
 
                                 <hr>
                         </div>
