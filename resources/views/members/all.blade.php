@@ -45,8 +45,8 @@
                 </div>
                 <div class="panel-body">
                     <!--div style="height:100px;border:1px solid green">
-                                                                                                                            Sort by Newest Members, Gender
-                                                                                                                          </div-->
+                                                                                                                                                                                            Sort by Newest Members, Gender
+                                                                                                                                                                                          </div-->
                     <form id="users-form" onsubmit="return false;">
                         <div class="table-responsive">
                             <table id="users-table" class="table table-striped table-bordered" cellspacing="0"
@@ -56,11 +56,13 @@
                                 <tbody>
                                 </tbody>
                             </table>
-                            <select id="action" name="action">
-                                <option>with selected</option>
-                                <option value="delete">delete</option>
-                            </select>
-                            <input class="btn-danger" id="apply" type="button" value="apply">
+                            @isAdmin
+                                <select id="action" name="action">
+                                    <option>with selected</option>
+                                    <option value="delete">delete</option>
+                                </select>
+                                <input class="btn-danger" id="apply" type="button" value="apply">
+                            @endisAdmin
                         </div>
                     </form>
                 </div>
@@ -91,6 +93,11 @@
 
     <script>
         var users_table = null
+        const isAdmin = @isAdmin
+        1
+        @else
+        0
+        @endisAdmin
         $('.datepicker').datepicker();
         $(document).ready(function() {
             var i = 1
@@ -182,9 +189,10 @@
                         name: 'action',
                         render: (id) => (`
               <div class="btn-group">
-                <button style="background-color:orange" class="btn text-light edit" data-id="${id}"><i class="fa fa-edit"></i></button>
-                <a style="background-color:green" class="btn text-light" href="../member/profile/${id}"><i class="fa fa-eye"></i></a>
-                <a id="${id}" style="background-color:#8c0e0e" class="d-member btn text-light"><i class="fa fa-trash"></i></a>
+                ${isAdmin ? `<button style="background-color:orange" class="btn text-light edit" data-id="${id}"><i class="fa fa-edit"></i></button>
+                                                                                <a style="background-color:green" class="btn text-light" href="../member/profile/${id}"><i class="fa fa-eye"></i></a>
+                                                                                <a id="${id}" style="background-color:#8c0e0e" class="d-member btn text-light"><i class="fa fa-trash"></i></a>`
+                                                                    :`<a style="background-color:green" class="btn text-light" href="../member/profile/${id}"><i class="fa fa-eye"></i></a>`}
               </div>
               `)
                     },

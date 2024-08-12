@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->booted(
             fn () => Artisan::call('app:startup')
         );
+
+        Blade::if('isAdmin', function () {
+            $adminRoles = 'super-admin|admin';
+            return Auth::check() && Auth::user()->hasRole($adminRoles);  // Adjust this condition to match your logic
+        });
     }
 
     /**
