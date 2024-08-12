@@ -295,11 +295,13 @@
                                                 <a href="{{ route('members.all') }}"><i class="fa fa-list"></i> All
                                                     Members</a>
                                             </li>
-                                            <li
-                                                class="{{ Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : '' }}">
-                                                <a href="{{ route('member.register.form') }}"><i
-                                                        class="fa fa-registered"></i> Registration</a>
-                                            </li>
+                                            @isAdmin
+                                                <li
+                                                    class="{{ Route::currentRouteName() === 'member.register.form' ? 'active-sub active' : '' }}">
+                                                    <a href="{{ route('member.register.form') }}"><i
+                                                            class="fa fa-registered"></i> Registration</a>
+                                                </li>
+                                            @endisAdmin
                                         </ul>
                                     </li>
                                     <!--Menu list item-->
@@ -312,11 +314,13 @@
                                             <i class="arrow"></i>
                                         </a>
                                         <ul class="collapse">
-                                            <li
-                                                class="{{ Route::currentRouteName() === 'attendance' ? 'active-sub active' : '' }}">
-                                                <a href="{{ route('attendance') }}"><i class="fa fa-save"></i> Mark
-                                                    Attendance</a>
-                                            </li>
+                                            @isAdmin
+                                                <li
+                                                    class="{{ Route::currentRouteName() === 'attendance' ? 'active-sub active' : '' }}">
+                                                    <a href="{{ route('attendance') }}"><i class="fa fa-save"></i> Mark
+                                                        Attendance</a>
+                                                </li>
+                                            @endisAdmin
                                             <li
                                                 class="{{ Route::currentRouteName() === 'attendance.view.form' ? 'active-sub active' : '' }}">
                                                 <a href="{{ route('attendance.view.form') }}"><i
@@ -330,101 +334,104 @@
                                         </ul>
                                     </li>
                                     <!--Menu list item-->
-                                    <li
-                                        class="{{ Route::currentRouteName() === 'collection.offering' || Route::currentRouteName() === 'collection.report' || Route::currentRouteName() === 'collection.analysis' ? 'active-sub active' : '' }}">
-                                        <a href="#">
-                                            <i class="fa fa-money"></i>
-                                            <span class="menu-title">Collection</span>
-                                            <i class="arrow"></i>
-                                        </a>
-                                        <ul class="collapse">
-                                            <li
-                                                class="{{ Route::currentRouteName() === 'collection.offering' ? 'active-sub active' : '' }}">
-                                                <a href="{{ route('collection.offering') }}"><i
-                                                        class="fa fa-save"></i> Save Collection</a>
-                                            </li>
-                                            <li
-                                                class="{{ Route::currentRouteName() === 'collection.report' ? 'active-sub active' : '' }}">
-                                                <a href="{{ route('collection.report') }}"><i class="fa fa-eye"></i>
-                                                    View Collection</a>
-                                            </li>
-                                            <li
-                                                class="{{ Route::currentRouteName() === 'collection.analysis' ? 'active-sub active' : '' }}">
-                                                <a href="{{ route('collection.analysis') }}"><i
-                                                        class="fa fa-signal"></i> Analysis</a>
-                                            </li>
-
-                                        </ul>
-
-                                    </li>
-                                    <li
-                                        class="{{ Route::currentRouteName() === 'groups' || Route::currentRouteName() === 'group.view' ? 'active-sub' : '' }}">
-                                        <a href="{{ route('groups') }}">
-                                            <i class="fa fa-users"></i>
-                                            <span class="menu-title">Small Groups</span>
-
-                                        </a>
-                                    </li>
-                                    <li
-                                        class="{{ Route::currentRouteName() === 'email' || Route::currentRouteName() === 'sms' || Route::currentRouteName() === 'inbox' ? 'active-sub active' : '' }}">
-                                        <a href="#">
-                                            <i class="fa fa-comments-o"></i>
-                                            <span class="menu-title">Messaging</span>
-                                            <i class="arrow"></i>
-                                        </a>
-                                        <ul class="collapse">
-                                            <li
-                                                class="{{ Route::currentRouteName() === 'email' ? 'active-sub active' : '' }}">
-                                                <a href="{{ route('email') }}"><i class="fa fa-envelope"></i>
-                                                    Email</a>
-                                            </li>
-                                            <li
-                                                class="{{ Route::currentRouteName() === 'sms' ? 'active-sub active' : '' }}">
-                                                <a href="{{ route('sms') }}"><i class="fa fa-mobile"></i> Bulk
-                                                    SMS</a>
-                                            </li>
-                                            <li
-                                                class="{{ Route::currentRouteName() === 'inbox' ? 'active-sub active' : '' }}">
-                                                <a href="{{ route('inbox') }}"><i class="fa fa-comments"></i>
-                                                    Communicator</a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <!-- @ if (\Auth::user()->isAdmin()) -->
-                                    <li
-                                        class="{{ Route::currentRouteName() === 'branch.tools' || Route::currentRouteName() === 'branch.options' || Route::currentRouteName() === 'branch.register' || Route::currentRouteName() === 'branches' ? 'active-sub active' : '' }}">
-                                        <a href="#">
-                                            <i class="fa fa-building-o"></i>
-                                            <span class="menu-title">Admin Tools</span>
-                                            <i class="arrow"></i>
-                                        </a>
-                                        <ul class="collapse">
-                                            @if (\Auth::user()->isAdmin())
+                                    @isAdmin
+                                        <li
+                                            class="{{ Route::currentRouteName() === 'collection.offering' || Route::currentRouteName() === 'collection.report' || Route::currentRouteName() === 'collection.analysis' ? 'active-sub active' : '' }}">
+                                            <a href="#">
+                                                <i class="fa fa-money"></i>
+                                                <span class="menu-title">Collection</span>
+                                                <i class="arrow"></i>
+                                            </a>
+                                            <ul class="collapse">
                                                 <li
-                                                    class="{{ Route::currentRouteName() === 'branches' ? 'active-sub' : '' }}">
-                                                    <a href="{{ route('branches') }}"><i class="fa fa-tree"></i>
-                                                        Branches</a>
+                                                    class="{{ Route::currentRouteName() === 'collection.offering' ? 'active-sub active' : '' }}">
+                                                    <a href="{{ route('collection.offering') }}"><i
+                                                            class="fa fa-save"></i> Save Collection</a>
                                                 </li>
                                                 <li
-                                                    class="{{ Route::currentRouteName() === 'branch.register' ? 'active-sub' : '' }}">
-                                                    <a href="{{ route('branch.register') }}"><i
-                                                            class="fa fa-plus"></i> Add New Branch</a>
+                                                    class="{{ Route::currentRouteName() === 'collection.report' ? 'active-sub active' : '' }}">
+                                                    <a href="{{ route('collection.report') }}"><i class="fa fa-eye"></i>
+                                                        View Collection</a>
                                                 </li>
                                                 <li
-                                                    class="{{ Route::currentRouteName() === 'branch.tools' ? 'active-sub' : '' }}">
-                                                    <a href="{{ route('branch.tools') }}"><i
-                                                            class="fa fa-wrench"></i> Tools</a>
+                                                    class="{{ Route::currentRouteName() === 'collection.analysis' ? 'active-sub active' : '' }}">
+                                                    <a href="{{ route('collection.analysis') }}"><i
+                                                            class="fa fa-signal"></i> Analysis</a>
                                                 </li>
-                                            @endif
-                                            <li
-                                                class="{{ Route::currentRouteName() === 'branch.options' ? 'active-sub' : '' }}">
-                                                <a href="{{ route('branch.options') }}"><i class="fa fa-cog"></i>
-                                                    Options</a>
-                                            </li>
 
-                                        </ul>
-                                    </li>
+                                            </ul>
+
+                                        </li>
+
+                                        <li
+                                            class="{{ Route::currentRouteName() === 'groups' || Route::currentRouteName() === 'group.view' ? 'active-sub' : '' }}">
+                                            <a href="{{ route('groups') }}">
+                                                <i class="fa fa-users"></i>
+                                                <span class="menu-title">Small Groups</span>
+
+                                            </a>
+                                        </li>
+                                        <li
+                                            class="{{ Route::currentRouteName() === 'email' || Route::currentRouteName() === 'sms' || Route::currentRouteName() === 'inbox' ? 'active-sub active' : '' }}">
+                                            <a href="#">
+                                                <i class="fa fa-comments-o"></i>
+                                                <span class="menu-title">Messaging</span>
+                                                <i class="arrow"></i>
+                                            </a>
+                                            <ul class="collapse">
+                                                <li
+                                                    class="{{ Route::currentRouteName() === 'email' ? 'active-sub active' : '' }}">
+                                                    <a href="{{ route('email') }}"><i class="fa fa-envelope"></i>
+                                                        Email</a>
+                                                </li>
+                                                <li
+                                                    class="{{ Route::currentRouteName() === 'sms' ? 'active-sub active' : '' }}">
+                                                    <a href="{{ route('sms') }}"><i class="fa fa-mobile"></i> Bulk
+                                                        SMS</a>
+                                                </li>
+                                                <li
+                                                    class="{{ Route::currentRouteName() === 'inbox' ? 'active-sub active' : '' }}">
+                                                    <a href="{{ route('inbox') }}"><i class="fa fa-comments"></i>
+                                                        Communicator</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                        <!-- @ if (\Auth::user()->isAdmin()) -->
+                                        <li
+                                            class="{{ Route::currentRouteName() === 'branch.tools' || Route::currentRouteName() === 'branch.options' || Route::currentRouteName() === 'branch.register' || Route::currentRouteName() === 'branches' ? 'active-sub active' : '' }}">
+                                            <a href="#">
+                                                <i class="fa fa-building-o"></i>
+                                                <span class="menu-title">Admin Tools</span>
+                                                <i class="arrow"></i>
+                                            </a>
+                                            <ul class="collapse">
+                                                @if (\Auth::user()->isAdmin())
+                                                    <li
+                                                        class="{{ Route::currentRouteName() === 'branches' ? 'active-sub' : '' }}">
+                                                        <a href="{{ route('branches') }}"><i class="fa fa-tree"></i>
+                                                            Branches</a>
+                                                    </li>
+                                                    <li
+                                                        class="{{ Route::currentRouteName() === 'branch.register' ? 'active-sub' : '' }}">
+                                                        <a href="{{ route('branch.register') }}"><i
+                                                                class="fa fa-plus"></i> Add New Branch</a>
+                                                    </li>
+                                                    <li
+                                                        class="{{ Route::currentRouteName() === 'branch.tools' ? 'active-sub' : '' }}">
+                                                        <a href="{{ route('branch.tools') }}"><i
+                                                                class="fa fa-wrench"></i> Tools</a>
+                                                    </li>
+                                                @endif
+                                                <li
+                                                    class="{{ Route::currentRouteName() === 'branch.options' ? 'active-sub' : '' }}">
+                                                    <a href="{{ route('branch.options') }}"><i class="fa fa-cog"></i>
+                                                        Options</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                    @endisAdmin
                                     <!-- @ endif -->
                                     <li class="{{ Route::currentRouteName() === 'calendar' ? 'active-sub' : '' }}">
                                         <a href="{{ route('calendar') }}">
@@ -446,10 +453,12 @@
                                                     class="{{ Route::currentRouteName() === 'report.membership' ? 'active-sub active' : '' }}">
                                                     <a href="{{ route('report.membership') }}">Membership</a>
                                                 </li>
-                                                <li
-                                                    class="{{ Route::currentRouteName() === 'report.collections' ? 'active-sub active' : '' }}">
-                                                    <a href="{{ route('report.collections') }}">Collections</a>
-                                                </li>
+                                                @isAdmin
+                                                    <li
+                                                        class="{{ Route::currentRouteName() === 'report.collections' ? 'active-sub active' : '' }}">
+                                                        <a href="{{ route('report.collections') }}">Collections</a>
+                                                    </li>
+                                                @endisAdmin
                                                 <li
                                                     class="{{ Route::currentRouteName() === 'report.attendance' ? 'active-sub active' : '' }}">
                                                     <a href="{{ route('report.attendance') }}">Attendance</a>
