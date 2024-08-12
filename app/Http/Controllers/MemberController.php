@@ -53,19 +53,13 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+        $user = \Auth::user();
         // validate email
         $member = Member::where('email', $request->email)->get(['id'])->first();
         if ($member) {
             return response()->json(['status' => false, 'text' => "The email ($request->email) already exists for a member."]);
             // return redirect()->back()->with('status', "The email ($request->email) already exists for a member.");
         }
-        // validate Phone
-        $member = Member::where('phone', $request->phone)->get(['id'])->first();
-        if ($member) {
-            return response()->json(['status' => false, 'text' => "The phone ($request->phone) already exists for a member."]);
-        }
-
-        $user = \Auth::user();
 
         $relatives = null;
 
@@ -104,7 +98,7 @@ class MemberController extends Controller
             $image_name = $input['imagename'];
         }
 
-        $member = new Member(array(
+        $member = new Member([
             'branch_id' => $user->branch_id,
             'title' => $request->get('title'),
             'firstname' => $request->get('firstname'),
@@ -126,11 +120,11 @@ class MemberController extends Controller
             'wedding_anniversary' => date('Y-m-d', strtotime($request->get('wedding_anniversary'))),
             'photo' => $image_name,
             'relative' => $relatives,
-            'member_status' => $request->member_status
-        ));
+            'member_status' => $request->member_status,
+            'password' => '',
+        ]);
         $member->save();
         return response()->json(['status' => true, 'text' => "Member Successfully registered"]);
-        // return redirect()->route('member.register.form')->with('status', 'Member Successfully registered');
     }
 
     /**

@@ -4,11 +4,12 @@ namespace App;
 
 use Dcblogdev\Countries\Facades\Countries;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 class Member extends Authenticatable
 {
-    use HasRoles;
+    use HasRoles, Notifiable;
 
     protected $guarded = ['id'];
 

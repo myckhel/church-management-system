@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -47,6 +48,15 @@ class LoginController extends Controller
             }
 
             return $this->sendLoginResponse($request);
+        } else {
+            $member = Member::whereEmail($request->email)->first();
+
+
+            if ($member?->password == '') {
+                throw ValidationException::withMessages([
+                    'password' => ['Please reset your password to login'],
+                ]);
+            }
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
