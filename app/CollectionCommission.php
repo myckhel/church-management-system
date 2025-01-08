@@ -10,7 +10,9 @@ class CollectionCommission extends Model
 {
     //
     protected $fillable = [
-        'branch_id', 'settled', 'collection_date'
+        'branch_id',
+        'settled',
+        'collection_date'
     ];
     protected $table = 'collections_commissions';
 
@@ -51,6 +53,7 @@ class CollectionCommission extends Model
             ->leftJoin('collections', 'collections.date', 'collection_date')
             ->leftJoin('branches', 'branches.id', 'collections.branch_id')
             ->where(isset($user) ? 'collections.branch_id' : [], isset($user) ? $user->branch_id : [])
+            ->whereNotNull('branches.id')
             ->get();
     }
 
