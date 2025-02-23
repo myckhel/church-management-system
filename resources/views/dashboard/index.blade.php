@@ -627,9 +627,9 @@
                                                 <label class="label label-danger">By <i class="icofont-user"></i>
                                                     {{ ucwords($event->by_who) }}</label>
                                                 <!-- <label class="label label-primary">Start Date <i class="icofont-stop-watch"></i> {{ $event->start_date }}</label>
-                                                                                      <label class="label label-primary">Start Time <i class="icofont-stop-watch"></i> {{ $event->start_time }}</label>
-                                                                                      <label class="label label-info">End Date <i class="icofont-wall-clock icon-fw text-main"></i> {{ $event->stop_date }}</label>
-                                                                                      <label class="label label-info">End Time <i class="icofont-wall-clock icon-fw text-main"></i> {{ $event->stop_time }}</label> -->
+                                                                                          <label class="label label-primary">Start Time <i class="icofont-stop-watch"></i> {{ $event->start_time }}</label>
+                                                                                          <label class="label label-info">End Date <i class="icofont-wall-clock icon-fw text-main"></i> {{ $event->stop_date }}</label>
+                                                                                          <label class="label label-info">End Time <i class="icofont-wall-clock icon-fw text-main"></i> {{ $event->stop_time }}</label> -->
                                             </span>
                                         </a>
                                     </div>
@@ -685,10 +685,10 @@
                                 <!-- Striped Table -->
                                 <!--===================================================-->
                                 <!-- <div class="panel-body">
-                                                                        <div class="" style="width: 100%; height: 500px;" id="map-area">
-                                                                          { !  ! Mapper::render() !!}
-                                                                        </div>
-                                                                      </div> -->
+                                                                            <div class="" style="width: 100%; height: 500px;" id="map-area">
+                                                                              { !  ! Mapper::render() !!}
+                                                                            </div>
+                                                                          </div> -->
                                 <!--===================================================-->
                                 <!-- End Striped Table -->
                             </div>
@@ -987,7 +987,7 @@
                     },
                     {
                         title: 'Branch',
-                        data: 'users.branchname',
+                        data: 'branches.branchname',
                         name: 'branchname'
                     },
                     {
