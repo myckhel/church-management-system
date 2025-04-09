@@ -42,7 +42,7 @@ class HomeController extends Controller
         $currencies = Countries::all();
         $options = Setting::findName(['logo', 'name']);
         // $currencies = findName(['logo', 'name'], $options);
-        $currency = auth()->user()->branch->getCurrency();
+        $currency = auth()->user()->branch?->getCurrency();
         // get due savings
         $dueSavings = \App\CollectionCommission::dueSavings($user);
         // get the commission percentage
