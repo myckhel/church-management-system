@@ -64,7 +64,7 @@ class Setting extends Model
     static function toAssoc(Collection $settings)
     {
         $assoc = [];
-        $settings->map(function ($setting) {
+        $settings->map(function ($setting) use (&$assoc) {
             $assoc[$setting->name] = $setting->value;
         });
 
